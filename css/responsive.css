@@ -1,0 +1,47 @@
+/**
+ * Responsive Refinements
+ * Theme: Pacto 25
+ * Mobile-first media query adjustments for specific sections
+ */
+
+/* Small Devices (phones < 640px) */
+@media (max-width: 639px) {
+  .section-curved-red {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    border-radius: 36px;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .site-footer {
+    padding-top: 3.5rem;
+  }
+
+  .circle-frame {
+    max-width: 320px;
+  }
+
+  .slider-controls {
+    justify-content: center;
+  }
+}
+
+/* Tablets (640px to 1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .testimonials-stage {
+    padding: 1.5rem 0;
+  }
+}
+
+/* Reduced Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

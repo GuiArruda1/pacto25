@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.6
+    container_name: pacto-25-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: pacto25_db
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - pacto_db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    container_name: pacto-25-wordpress
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8095:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress_password
+      WORDPRESS_DB_NAME: pacto25_db
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - pacto_wp_data:/var/www/html
+      - .:/var/www/html/wp-content/themes/pacto-25
+
+volumes:
+  pacto_db_data:
+  pacto_wp_data:

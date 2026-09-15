@@ -1,0 +1,24 @@
+/*
+Theme Name: Pacto 25
+Theme URI: https://pactoseguro.pt
+Author: Sanzza
+Author URI: https://sanzza.pt
+Description: Custom WordPress theme for Pacto Seguro 25 Anos. Built following modern agency standards with zero bloated frameworks, fluid typography, pure Vanilla CSS/JS, and full ACF decoupling.
+Version: 1.3.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: pacto-25
+Tags: custom, agency, performance, responsive, acf
+*/
+
+/*
+ * The styles are organized modularly in the /css directory and enqueued via inc/setup.php:
+ * - css/variables.css (Design tokens, colors, clamp typography)
+ * - css/typography.css (Font families, scale, line-heights)
+ * - css/layout.css (CSS Grid/Flex containers, sections, spacers)
+ * - css/components.css (Buttons, sliders, cards, bubble accents, badges)
+ * - css/responsive.css (Mobile-first media queries and layout adjustments)
+ */

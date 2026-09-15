@@ -1,0 +1,104 @@
+/**
+ * Design Tokens & CSS Custom Properties
+ * Theme: Pacto 25
+ * Strict Agency SOP: Fluid clamp scales, zero hardcoded arbitrary sizes
+ */
+
+:root {
+  /* Brand Colors */
+  --color-primary: #D42E12;
+  --color-primary-hover: #B7240C;
+  --color-primary-dark: #961905;
+  --color-primary-light: #FDF2F0;
+  --color-primary-translucent: rgba(212, 46, 18, 0.08);
+
+  --color-dark: #231F20;
+  --color-dark-surface: #2E2A2B;
+  --color-dark-hover: #000000;
+
+  --color-text: #231F20;
+  --color-text-light: #5A5657;
+  --color-text-muted: #8E8A8B;
+  --color-text-inverse: #FFFFFF;
+
+  --color-white: #FFFFFF;
+  --color-bg-light: #FBFBFC;
+  --color-bg-card: #FFFFFF;
+  --color-border: #EAEAEA;
+  --color-border-subtle: #F0F0F0;
+
+  /* Typography Families */
+  --font-heading: 'Sora', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Libre Franklin', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Fluid Font Scales */
+  --fs-eyebrow: 12px;
+  --tracking-eyebrow: 0.25em;
+  /* 25% Figma letter spacing */
+
+  --fs-h1: clamp(2.25rem, 3.5vw + 1rem, 3.5rem);
+  /* 56px in Figma */
+  --lh-h1: 1.14;
+  /* 64px line-height */
+
+  --fs-h2: clamp(1.75rem, 2.5vw + 0.75rem, 2.75rem);
+  /* ~44px */
+  --lh-h2: 1.2;
+
+  --fs-h3: clamp(1.25rem, 1.5vw + 0.5rem, 1.75rem);
+  /* ~28px */
+  --lh-h3: 1.3;
+
+  --fs-body-lg: 18px;
+  --lh-body-lg: 1.6;
+
+  --fs-body: 16px;
+  --lh-body: 1.5;
+  /* 24px in Figma */
+
+  --fs-body-sm: 14px;
+  --lh-body-sm: 1.45;
+
+  --fs-body-xs: 12px;
+  --lh-body-xs: 1.4;
+
+  --fs-btn: 16px;
+
+  /* Spacing Tokens */
+  --space-2xs: 0.25rem;
+  /* 4px */
+  --space-xs: 0.5rem;
+  /* 8px */
+  --space-sm: 1rem;
+  /* 16px */
+  --space-md: 1.5rem;
+  /* 24px */
+  --space-lg: 2.5rem;
+  /* 40px */
+  --space-xl: 4rem;
+  /* 64px */
+  --space-2xl: clamp(3.5rem, 6vw, 6.5rem);
+  /* Section vertical rhythm */
+  --space-3xl: clamp(5rem, 8vw, 9rem);
+
+  /* Container */
+  --container-max-width: 1520px;
+  --container-padding: clamp(1.25rem, 3.5vw, 2.5rem);
+
+  /* Radii */
+  --radius-pill: 9999px;
+  --radius-circle: 50%;
+  --radius-card: 24px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+
+  /* Transitions & Elevations */
+  --transition-fast: 0.18s ease;
+  --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 18px 45px rgba(0, 0, 0, 0.1);
+  --shadow-red: 0 12px 30px rgba(212, 46, 18, 0.25);
+}
