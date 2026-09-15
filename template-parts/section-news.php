@@ -10,9 +10,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $eyebrow     = pacto_get_field( 'news_eyebrow', false, 'NOTÍCIAS MAIS RECENTES' );
+if ( empty( $eyebrow ) || $eyebrow === 'NOTÍCIAS & EVENTOS' ) {
+    $eyebrow = 'NOTÍCIAS MAIS RECENTES';
+}
+
 $title       = pacto_get_field( 'news_title', false, 'Presença de Teresinha Pereira, CEO da Pacto Seguro no MAE Summit' );
+if ( empty( $title ) || strpos( $title, 'Rosalina' ) !== false || strpos( $title, 'MAG Summit' ) !== false ) {
+    $title = 'Presença de Teresinha Pereira, CEO da Pacto Seguro no MAE Summit';
+}
+
 $description = pacto_get_field( 'news_description', false, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
+if ( empty( $description ) || strpos( $description, 'A CEO da Pacto Seguro' ) !== false ) {
+    $description = 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.';
+}
+
 $btn_text    = pacto_get_field( 'news_btn_text', false, 'ver todas as notícias' );
+if ( empty( $btn_text ) || $btn_text === 'LER MAIS NOTÍCIAS' ) {
+    $btn_text = 'ver todas as notícias';
+}
+
 $btn_url     = pacto_get_field( 'news_btn_url', false, '#noticias' );
 $image       = pacto_get_field( 'news_image' );
 $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png';
