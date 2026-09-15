@@ -20,6 +20,49 @@ if (document.readyState === 'loading') {
   initApp();
 }
 
+function initMobileNav() {
+  const toggle = document.querySelector('.site-header__mobile-toggle');
+  const navWrapper = document.querySelector('.site-header__nav-wrapper');
+  if (!toggle || !navWrapper) return;
+
+  toggle.addEventListener('click', () => {
+    const isOpen = navWrapper.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggle.classList.toggle('is-active', isOpen);
+  });
+}
+
+function initStickyHeader() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
+    }
+  }, { passive: true });
+}
+
+function initScrollToTop() {
+  const btn = document.querySelector('.scroll-to-top');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      btn.classList.add('is-visible');
+    } else {
+      btn.classList.remove('is-visible');
+    }
+  }, { passive: true });
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 /**
  * Hero Multi-Slide Carousel with Native Transitions, Touch Swipe, and Keyboard Nav
  */
@@ -119,7 +162,7 @@ function initHeroSlider() {
 }
 
 /**
- * 8000x8000 Arc Testimonial Carousel
+ * Infinite 3D Arc Testimonial Carousel with Auto-Play & Touch Drag
  */
 function initSliders() {
   const stage = document.querySelector('.testimonials-stage');
@@ -128,102 +171,193 @@ function initSliders() {
   const prevBtn = document.querySelector('[data-testimonials-nav="prev"]');
   const nextBtn = document.querySelector('[data-testimonials-nav="next"]');
 
-  if (!track || !stage) return;
+  if (!track || !arcWrapper) return;
 
-  const cards = Array.from(track.querySelectorAll('.testimonial-card'));
-  if (cards.length === 0) return;
+  const originalCards = Array.from(track.querySelectorAll('.testimonial-card'));
+  const originalCount = originalCards.length;
+  if (originalCount === 0) return;
 
-  let activeIndex = Math.min(2, Math.floor(cards.length / 2));
+  // Clone cards to enable seamless infinite wrapping
+  // Set 1 (clones before) -> Set 2 (originals) -> Set 3 (clones after)
+  originalCards.forEach((card) => {
+    const cloneBefore = card.cloneNode(true);
+    cloneBefore.classList.add('is-clone');
+    cloneBefore.setAttribute('aria-hidden', 'true');
+    track.insertBefore(cloneBefore, originalCards[0]);
 
-  function updateSlider() {
-    const isDesktop = window.innerWidth >= 1200;
+    const cloneAfter = card.cloneNode(true);
+    cloneAfter.classList.add('is-clone');
+    cloneAfter.setAttribute('aria-hidden', 'true');
+    track.appendChild(cloneAfter);
+  });
 
-    cards.forEach((card, i) => {
-      if (i === activeIndex) {
+  const allCards = Array.from(track.querySelectorAll('.testimonial-card'));
+  const middleOffset = Math.floor(originalCount / 2);
+  let currentIndex = originalCount + middleOffset; // Start centered on middle card (Maria do Carmo)
+  let isTransitioning = false;
+  let autoplayTimer = null;
+
+  function getCardCenter(index) {
+    const card = allCards[index];
+    if (!card) return 0;
+    return card.offsetLeft + card.offsetWidth / 2;
+  }
+
+  function updatePosition(animate = true) {
+    if (!allCards[currentIndex]) return;
+
+    if (!animate) {
+      track.style.transition = 'none';
+    } else {
+      track.style.transition = 'transform 0.55s cubic-bezier(0.25, 1, 0.5, 1)';
+    }
+
+    const containerWidth = arcWrapper.offsetWidth;
+    const cardCenter = getCardCenter(currentIndex);
+    const targetX = (containerWidth / 2) - cardCenter;
+
+    track.style.transform = `translate3d(${targetX}px, 0, 0)`;
+
+    allCards.forEach((card, idx) => {
+      if (idx === currentIndex) {
         card.classList.add('is-active');
       } else {
         card.classList.remove('is-active');
       }
-      // Reset any legacy transform overrides
-      card.style.transform = '';
     });
-
-    if (arcWrapper && cards[activeIndex]) {
-      const containerWidth = arcWrapper.offsetWidth;
-      const trackWidth = track.scrollWidth;
-
-      if (isDesktop && trackWidth <= containerWidth + 20) {
-        track.style.transform = 'none';
-      } else {
-        const wrapperCenter = containerWidth / 2;
-        const cardCenter = cards[activeIndex].offsetLeft + cards[activeIndex].offsetWidth / 2;
-        const targetX = wrapperCenter - cardCenter;
-        track.style.transform = `translateX(${targetX}px)`;
-      }
-    }
   }
 
-  function setActive(newIndex) {
-    if (newIndex < 0) {
-      activeIndex = cards.length - 1;
-    } else if (newIndex >= cards.length) {
-      activeIndex = 0;
-    } else {
-      activeIndex = newIndex;
+  function goToIndex(index) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentIndex = index;
+    updatePosition(true);
+  }
+
+  function nextSlide() {
+    goToIndex(currentIndex + 1);
+  }
+
+  function prevSlide() {
+    goToIndex(currentIndex - 1);
+  }
+
+  // Handle seamless infinite wrap on transition end
+  track.addEventListener('transitionend', (e) => {
+    if (e.target !== track || e.propertyName !== 'transform') return;
+    isTransitioning = false;
+
+    // If we passed beyond the original set to the clones on the right:
+    if (currentIndex >= originalCount * 2) {
+      currentIndex = currentIndex - originalCount;
+      updatePosition(false);
+      void track.offsetHeight; // Force reflow
+      track.style.transition = 'transform 0.55s cubic-bezier(0.25, 1, 0.5, 1)';
     }
-    updateSlider();
+    // If we moved before the original set to the clones on the left:
+    else if (currentIndex < originalCount) {
+      currentIndex = currentIndex + originalCount;
+      updatePosition(false);
+      void track.offsetHeight; // Force reflow
+      track.style.transition = 'transform 0.55s cubic-bezier(0.25, 1, 0.5, 1)';
+    }
+  });
+
+  // Navigation buttons
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      resetAutoplay();
+      nextSlide();
+    });
   }
 
   if (prevBtn) {
     prevBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      setActive(activeIndex - 1);
+      resetAutoplay();
+      prevSlide();
     });
   }
 
-  if (nextBtn) {
-    nextBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      setActive(activeIndex + 1);
-    });
-  }
-
-  // Clicking any card makes it active
-  cards.forEach((card, idx) => {
-    card.addEventListener('click', () => {
-      if (activeIndex !== idx) {
-        setActive(idx);
-      }
-    });
+  // Card click to center
+  track.addEventListener('click', (e) => {
+    const card = e.target.closest('.testimonial-card');
+    if (!card) return;
+    const clickedIndex = allCards.indexOf(card);
+    if (clickedIndex !== -1 && clickedIndex !== currentIndex) {
+      resetAutoplay();
+      goToIndex(clickedIndex);
+    }
   });
 
-  // Touch swipe support
+  // Autoplay
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => {
+      nextSlide();
+    }, 3800);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  function resetAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  // Pause on hover
+  if (stage) {
+    stage.addEventListener('mouseenter', stopAutoplay);
+    stage.addEventListener('mouseleave', startAutoplay);
+  }
+  const navContainer = document.querySelector('.testimonials-nav');
+  if (navContainer) {
+    navContainer.addEventListener('mouseenter', stopAutoplay);
+    navContainer.addEventListener('mouseleave', startAutoplay);
+  }
+
+  // Touch Swipe Support
   let touchStartX = 0;
   let touchEndX = 0;
-  if (arcWrapper) {
-    arcWrapper.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
 
-    arcWrapper.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchEndX - touchStartX;
-      if (Math.abs(diff) > 40) {
-        if (diff < 0) {
-          setActive(activeIndex + 1);
-        } else {
-          setActive(activeIndex - 1);
-        }
+  arcWrapper.addEventListener('touchstart', (e) => {
+    stopAutoplay();
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  arcWrapper.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > 40) {
+      if (diff < 0) {
+        nextSlide();
+      } else {
+        prevSlide();
       }
-    }, { passive: true });
-  }
+    }
+    startAutoplay();
+  }, { passive: true });
 
+  // Handle window resize
+  let resizeTimeout;
   window.addEventListener('resize', () => {
-    updateSlider();
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      updatePosition(false);
+    }, 100);
   });
 
-  // Initialize
-  updateSlider();
+  // Initial layout positioning without animation
+  requestAnimationFrame(() => {
+    updatePosition(false);
+    startAutoplay();
+  });
 }
 
 /**
