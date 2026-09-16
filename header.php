@@ -102,6 +102,8 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
     </div>
+    <!-- Mobile Backdrop Overlay -->
+    <div class="site-header__backdrop" aria-hidden="true"></div>
 </header>
 
 <main id="primary-content" class="site-main">

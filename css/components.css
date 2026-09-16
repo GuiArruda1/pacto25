@@ -235,11 +235,25 @@
 .bubble-cluster {
   position: relative;
   width: 100%;
-  max-width: clamp(400px, 44vw, 680px);
+  max-width: clamp(380px, 32vw, 520px);
   aspect-ratio: 780 / 740;
   margin-left: auto;
   margin-right: auto;
   isolation: isolate;
+}
+
+/* Laptops & Notebooks (992px to 1440px): 30% scale */
+@media (min-width: 992px) and (max-width: 1440px) {
+  .bubble-cluster {
+    max-width: clamp(320px, 30vw, 425px);
+  }
+}
+
+/* Mobile & Small Tablets */
+@media (max-width: 991px) {
+  .bubble-cluster {
+    max-width: min(100%, 350px);
+  }
 }
 
 /* Individual Bubble Base Styling */

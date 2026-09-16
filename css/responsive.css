@@ -6,14 +6,6 @@
 
 /* Small Devices (phones < 640px) */
 @media (max-width: 639px) {
-  .section-curved-red {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    border-radius: 36px;
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
-  }
-
   .site-footer {
     padding-top: 3.5rem;
   }
