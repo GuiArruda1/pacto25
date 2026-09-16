@@ -642,8 +642,15 @@ function pacto_25_register_acf_fields() {
             // --- TAB: NEWSLETTER ---
             array(
                 'key' => 'field_tab_newsletter',
-                'label' => __( 'Newsletter', 'pacto-25' ),
+                'label' => __( 'Newsletter / Ebook', 'pacto-25' ),
                 'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_newsletter_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'newsletter_eyebrow',
+                'type' => 'text',
+                'default_value' => 'FAÇA DOWNLOAD DO NOSSO EBOOK',
             ),
             array(
                 'key' => 'field_newsletter_title',
@@ -658,14 +665,28 @@ function pacto_25_register_acf_fields() {
                 'name' => 'newsletter_description',
                 'type' => 'textarea',
                 'rows' => 2,
-                'default_value' => 'Subscreva a nossa newsletter e receba mensalmente as melhores dicas e informações sobre o setor segurador.',
+                'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+            ),
+            array(
+                'key' => 'field_newsletter_btn_text',
+                'label' => __( 'Texto do Botão', 'pacto-25' ),
+                'name' => 'newsletter_btn_text',
+                'type' => 'text',
+                'default_value' => 'receber ebook gratuito',
             ),
             array(
                 'key' => 'field_newsletter_consent',
                 'label' => __( 'Texto de Consentimento', 'pacto-25' ),
                 'name' => 'newsletter_consent',
                 'type' => 'text',
-                'default_value' => 'Concordo com os termos e a política de privacidade',
+                'default_value' => 'Li e aceito a Política de Privacidade.',
+            ),
+            array(
+                'key' => 'field_newsletter_image',
+                'label' => __( 'Imagem do Ebook / Bolha Esquerda', 'pacto-25' ),
+                'name' => 'newsletter_image',
+                'type' => 'image',
+                'return_format' => 'array',
             ),
         ),
         'location' => array(
