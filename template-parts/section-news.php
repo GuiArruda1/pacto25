@@ -82,15 +82,15 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
                 <div class="news-nav" aria-label="<?php esc_attr_e('Navegação de notícias', 'pacto-25'); ?>">
                     <button type="button" class="news-nav__btn" data-news-nav="prev"
                         aria-label="<?php esc_attr_e('Notícia Anterior', 'pacto-25'); ?>">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M15 18l-6-6 6-6" />
                         </svg>
                     </button>
                     <button type="button" class="news-nav__btn" data-news-nav="next"
                         aria-label="<?php esc_attr_e('Notícia Seguinte', 'pacto-25'); ?>">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M9 18l6-6-6-6" />
                         </svg>
                     </button>

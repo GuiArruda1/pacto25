@@ -49,9 +49,9 @@ function pacto_get_svg( $icon_name, $args = array() ) {
     $aria_label  = isset( $args['aria-label'] ) ? 'role="img" aria-label="' . esc_attr( $args['aria-label'] ) . '"' : '';
 
     $icons = array(
-        'arrow-left' => '<svg class="' . $class . '" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' . $aria_hidden . ' ' . $aria_label . '><polyline points="15 18 9 12 15 6"></polyline></svg>',
+        'arrow-left' => '<svg class="' . $class . '" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' . $aria_hidden . ' ' . $aria_label . '><polyline points="15 18 9 12 15 6"></polyline></svg>',
         
-        'arrow-right' => '<svg class="' . $class . '" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' . $aria_hidden . ' ' . $aria_label . '><polyline points="9 18 15 12 9 6"></polyline></svg>',
+        'arrow-right' => '<svg class="' . $class . '" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' . $aria_hidden . ' ' . $aria_label . '><polyline points="9 18 15 12 9 6"></polyline></svg>',
         
         'chevron-up' => '<svg class="' . $class . '" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' . $aria_hidden . ' ' . $aria_label . '><polyline points="18 15 12 9 6 15"></polyline></svg>',
         

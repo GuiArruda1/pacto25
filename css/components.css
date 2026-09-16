@@ -164,8 +164,8 @@
 }
 
 .slider-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 34px;
+  height: 34px;
   stroke-width: 2;
 }
 
@@ -577,8 +577,8 @@
 }
 
 .testimonials-nav__btn svg {
-  width: 20px;
-  height: 20px;
+  width: 34px;
+  height: 34px;
   stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
@@ -885,8 +885,23 @@
 }
 
 .news-nav__btn svg {
-  width: 18px;
-  height: 18px;
+  width: 34px;
+  height: 34px;
+  stroke-width: 2;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Universal Consistent Slider Arrow Sizing across all slides */
+.slider-btn svg,
+.hero-slider-btn svg,
+.testimonials-nav__btn svg,
+.news-nav__btn svg,
+.slider-controls svg {
+  width: 34px !important;
+  height: 34px !important;
+  stroke-width: 2 !important;
 }
 
 /* CTA Pill Button (ver todas as notícias) */

@@ -70,12 +70,12 @@ $testimonials = pacto_get_testimonials_list();
     <!-- Centered Navigation Chevrons (< and >) -->
     <div class="testimonials-nav">
         <button type="button" class="testimonials-nav__btn" data-testimonials-nav="prev" aria-label="<?php esc_attr_e( 'Testemunho Anterior', 'pacto-25' ); ?>">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M15 18l-6-6 6-6"/>
             </svg>
         </button>
         <button type="button" class="testimonials-nav__btn" data-testimonials-nav="next" aria-label="<?php esc_attr_e( 'Testemunho Seguinte', 'pacto-25' ); ?>">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M9 18l6-6-6-6"/>
             </svg>
         </button>
