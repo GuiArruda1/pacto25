@@ -1,0 +1,1070 @@
+/**
+ * Single Seguro Particular Page Styles
+ * Theme: Pacto 25
+ * Strict Agency SOP: Modular Vanilla CSS, fluid clamp() sizing, responsive CSS Grid / Flexbox, zero bloat.
+ */
+
+body.single-seguro_particular,
+.single-seguro_particular .site-main {
+  overflow-x: clip;
+}
+
+/* ==========================================================================
+   1. Hero Section (Right Large Circle Bleed Visual)
+   ========================================================================== */
+.section-single-seguro-hero {
+  position: relative;
+  overflow: visible;
+  padding-top: clamp(3.5rem, 6vw, 6rem);
+  padding-bottom: clamp(4rem, 7vw, 7.5rem);
+  background-color: transparent;
+}
+
+.section-single-seguro-hero__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .section-single-seguro-hero__layout {
+    grid-template-columns: 1fr 1.15fr;
+  }
+}
+
+.section-single-seguro-hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(0.85rem, 1.35vw, 1.35rem);
+  position: relative;
+  z-index: 3;
+}
+
+.section-single-seguro-hero__content .eyebrow {
+  margin-bottom: clamp(0.25rem, 0.5vw, 0.5rem);
+}
+
+.section-single-seguro-hero__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.35rem, 4.2vw, 4.15rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-dark, #231F20);
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 520px;
+}
+
+.section-single-seguro-hero__lead {
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  line-height: 1.65;
+  color: #555555;
+  margin: 0;
+  max-width: 490px;
+}
+
+.section-single-seguro-hero__btn-wrap {
+  margin-top: clamp(0.5rem, 1vw, 1rem);
+}
+
+/* Right Visual Column with Circular Frame */
+.section-single-seguro-hero__visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .section-single-seguro-hero__visual {
+    justify-content: flex-end;
+    margin-right: clamp(-60px, -6vw, -120px);
+  }
+}
+
+.seguro-hero-circle-wrap {
+  position: relative;
+  width: clamp(320px, 44vw, 640px);
+  height: clamp(320px, 44vw, 640px);
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.seguro-hero-circle-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: clamp(12px, 1.6vw, 24px) solid var(--color-primary);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  background-color: #f7f7f7;
+}
+
+.seguro-hero-circle-frame img,
+.seguro-hero-circle-frame .seguro-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Ambient Floating Red Dot on Hero Visual */
+.seguro-hero-dot {
+  position: absolute;
+  width: clamp(24px, 2.6vw, 36px);
+  height: clamp(24px, 2.6vw, 36px);
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  top: 41%;
+  left: 44%;
+  z-index: 5;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   2. "O que é o Seguro?" Section (Left Large Circle Bleed Visual)
+   ========================================================================== */
+.section-single-seguro-about {
+  position: relative;
+  overflow: visible;
+  padding-top: clamp(4rem, 7vw, 7.5rem);
+  padding-bottom: clamp(4rem, 7vw, 7.5rem);
+  background-color: transparent;
+}
+
+.section-single-seguro-about__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .section-single-seguro-about__layout {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+}
+
+/* Left Visual Column with Clean Full Circular Frame */
+.section-single-seguro-about__visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .section-single-seguro-about__visual {
+    justify-content: center;
+  }
+}
+
+.seguro-about-circle-wrap {
+  position: relative;
+  width: clamp(340px, 38vw, 540px);
+  height: clamp(340px, 38vw, 540px);
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.seguro-about-circle-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: clamp(16px, 1.8vw, 28px) solid var(--color-primary);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+  background-color: #f7f7f7;
+}
+
+.seguro-about-circle-frame img,
+.seguro-about-circle-frame .seguro-about-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right Content Column */
+.section-single-seguro-about__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(0.85rem, 1.35vw, 1.35rem);
+  position: relative;
+  z-index: 3;
+}
+
+.section-single-seguro-about__content .eyebrow {
+  margin-bottom: clamp(0.25rem, 0.5vw, 0.5rem);
+}
+
+.section-single-seguro-about__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 3.8vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-dark, #231F20);
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.section-single-seguro-about__paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.section-single-seguro-about__paragraphs p {
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  line-height: 1.65;
+  color: #555555;
+  margin: 0;
+  max-width: 520px;
+}
+
+.section-single-seguro-about__btn-wrap {
+  margin-top: clamp(0.5rem, 1vw, 1rem);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .section-single-seguro-about__layout {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
+/* ==========================================================================
+   3. "Vantagens, Coberturas e Serviços" Section (Giant Right Red Circle)
+   ========================================================================== */
+.section-single-seguro-features {
+  position: relative;
+  overflow: visible;
+  padding: clamp(6rem, 9.5vw, 10rem) 0;
+  margin-top: clamp(3rem, 5vw, 6rem);
+  margin-bottom: clamp(3rem, 5vw, 6rem);
+  background-color: transparent;
+  z-index: 4;
+}
+
+/* Giant Organic Right Red Ball Canopy */
+.seguro-features-canopy {
+  position: absolute;
+  top: 50%;
+  right: clamp(-320px, -18vw, -120px);
+  transform: translateY(-50%);
+  width: clamp(1000px, 75vw, 1300px);
+  height: clamp(1000px, 75vw, 1300px);
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.seguro-features-container {
+  position: relative;
+  z-index: 2;
+}
+
+.section-single-seguro-features__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(3rem, 6vw, 6.5rem);
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .section-single-seguro-features__layout {
+    grid-template-columns: 0.88fr 1.12fr;
+  }
+}
+
+.section-single-seguro-features__narrative {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+  max-width: 480px;
+}
+
+.section-single-seguro-features__narrative .eyebrow {
+  margin-bottom: clamp(0.75rem, 1.2vw, 1.25rem);
+}
+
+.section-single-seguro-features__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.35rem, 4.2vw, 3.85rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-dark, #231F20);
+  letter-spacing: -0.03em;
+  margin: 0 0 clamp(1.25rem, 2vw, 2rem) 0;
+}
+
+.section-single-seguro-features__paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.section-single-seguro-features__paragraphs p {
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.05vw, 1.02rem);
+  line-height: 1.7;
+  color: #555555;
+  margin: 0;
+  max-width: 480px;
+}
+
+.section-single-seguro-features__btn-wrap {
+  margin-top: clamp(1.25rem, 2vw, 2rem);
+}
+
+/* Feature Cards Grid inside Giant Red Circle */
+.section-single-seguro-features__cards-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+  padding-left: clamp(2.5rem, 5vw, 5.5rem);
+  padding-right: clamp(1rem, 2vw, 2rem);
+}
+
+.seguro-features-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.5rem, 2.8vw, 3rem);
+  width: 100%;
+}
+
+.seguro-feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #FFFFFF;
+  gap: 8px;
+}
+
+.seguro-feature-card__icon {
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.seguro-feature-card__icon svg {
+  width: clamp(30px, 3.5vw, 38px);
+  height: clamp(30px, 3.5vw, 38px);
+  stroke: #FFFFFF;
+}
+
+.seguro-feature-card__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.seguro-feature-card__desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.82rem, 0.95vw, 0.92rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0;
+}
+
+/* Navigation Arrows */
+.seguro-features-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: clamp(1.25rem, 2vw, 2rem);
+}
+
+.seguro-features-nav__btn {
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.seguro-features-nav__btn:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.seguro-features-nav__btn svg {
+  width: 26px;
+  height: 26px;
+  stroke: #FFFFFF;
+}
+
+/* Ambient Floating Red Dots */
+.seguro-features-dot {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Top Dots cluster (between Section 2 and 3) */
+.seguro-features-dot--top-1 {
+  width: clamp(16px, 1.8vw, 24px);
+  height: clamp(16px, 1.8vw, 24px);
+  left: 14.5%;
+  top: 1%;
+}
+
+.seguro-features-dot--top-2 {
+  width: clamp(34px, 3.8vw, 50px);
+  height: clamp(34px, 3.8vw, 50px);
+  left: 22%;
+  top: -5%;
+}
+
+.seguro-features-dot--top-3 {
+  width: clamp(52px, 5.5vw, 76px);
+  height: clamp(52px, 5.5vw, 76px);
+  left: 30%;
+  top: -2%;
+}
+
+/* Bottom Dots cluster (under narrative) */
+.seguro-features-dot--bot-1 {
+  width: clamp(18px, 2vw, 26px);
+  height: clamp(18px, 2vw, 26px);
+  left: 6.8%;
+  bottom: 8%;
+}
+
+.seguro-features-dot--bot-2 {
+  width: clamp(34px, 3.8vw, 50px);
+  height: clamp(34px, 3.8vw, 50px);
+  left: 25%;
+  bottom: 2%;
+}
+
+.seguro-features-dot--bot-3 {
+  width: clamp(16px, 1.8vw, 22px);
+  height: clamp(16px, 1.8vw, 22px);
+  left: 43%;
+  bottom: -4%;
+}
+
+@media (max-width: 991px) {
+  .seguro-features-canopy {
+    position: relative;
+    top: 0;
+    right: auto;
+    transform: none;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card, 32px);
+    padding: 3rem 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .section-single-seguro-features__cards-wrap {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .seguro-features-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ==========================================================================
+   4. "Passos para Subscrição" Section (3 Columns with Red Backdrop Bubbles)
+   ========================================================================== */
+.section-single-seguro-steps {
+  position: relative;
+  overflow: visible;
+  padding-top: clamp(4.5rem, 8vw, 8.5rem);
+  padding-bottom: clamp(5rem, 9vw, 9.5rem);
+  background-color: transparent;
+  z-index: 5;
+}
+
+.seguro-steps-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(3rem, 5vw, 5rem);
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 768px) {
+  .seguro-steps-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.seguro-step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.seguro-step-item__photo-wrap {
+  position: relative;
+  width: clamp(140px, 15vw, 195px);
+  height: clamp(140px, 15vw, 195px);
+  margin-bottom: clamp(1.25rem, 2vw, 2rem);
+}
+
+.seguro-step-item__photo-circle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  background-color: #f7f7f7;
+}
+
+.seguro-step-item__photo-circle img,
+.seguro-step-item__photo-circle .seguro-step-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Red Backdrop Accent Bubbles */
+.seguro-step-item__backdrop-dot {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Step 1: Big Bubble on Top-Left */
+.seguro-step-item__backdrop-dot--top-left {
+  width: 90%;
+  height: 90%;
+  top: -18%;
+  left: -24%;
+}
+
+/* Step 2: Medium Bubble on Top-Right */
+.seguro-step-item__backdrop-dot--top-right {
+  width: 72%;
+  height: 72%;
+  top: -14%;
+  right: -18%;
+}
+
+/* Step 3: Small Bubble on Bottom-Left */
+.seguro-step-item__backdrop-dot--bottom-left {
+  width: 62%;
+  height: 62%;
+  bottom: -10%;
+  left: -16%;
+}
+
+.seguro-step-item__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.seguro-step-item__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.18rem, 1.4vw, 1.45rem);
+  font-weight: 700;
+  color: var(--color-dark, #231F20);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.seguro-step-item__desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 0.95vw, 0.92rem);
+  line-height: 1.6;
+  color: #555555;
+  margin: 0;
+  max-width: 270px;
+}
+
+/* Ambient Floating Red Dots */
+.seguro-steps-dot {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.seguro-steps-dot--top-left {
+  width: clamp(18px, 2vw, 26px);
+  height: clamp(18px, 2vw, 26px);
+  left: 8.5%;
+  top: 6%;
+}
+
+.seguro-steps-dot--top-mid {
+  width: clamp(34px, 3.8vw, 50px);
+  height: clamp(34px, 3.8vw, 50px);
+  left: 27.5%;
+  top: 13%;
+}
+
+.seguro-steps-dot--center {
+  width: clamp(16px, 1.8vw, 22px);
+  height: clamp(16px, 1.8vw, 22px);
+  left: 45%;
+  top: 28%;
+}
+
+.seguro-steps-dot--right-mid {
+  width: clamp(16px, 1.8vw, 22px);
+  height: clamp(16px, 1.8vw, 22px);
+  right: 12%;
+  bottom: 38%;
+}
+
+.seguro-steps-dot--right-bot {
+  width: clamp(34px, 3.8vw, 50px);
+  height: clamp(34px, 3.8vw, 50px);
+  right: 15%;
+  bottom: 14%;
+}
+
+/* ==========================================================================
+   5. "Formulário de Simulação" Section (Left Form + Right Clean Red Circle)
+   ========================================================================== */
+.section-single-seguro-form {
+  position: relative;
+  overflow: visible;
+  padding-top: clamp(4.5rem, 8vw, 8.5rem);
+  padding-bottom: clamp(5rem, 9vw, 9.5rem);
+  background-color: transparent;
+  z-index: 5;
+}
+
+.section-single-seguro-form__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .section-single-seguro-form__layout {
+    grid-template-columns: 0.95fr 1.05fr;
+  }
+}
+
+/* Left Narrative & Form */
+.section-single-seguro-form__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 1.25vw, 1.25rem);
+  max-width: 480px;
+}
+
+.section-single-seguro-form__content .eyebrow {
+  margin-bottom: clamp(0.25rem, 0.5vw, 0.5rem);
+}
+
+.section-single-seguro-form__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-dark, #231F20);
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.section-single-seguro-form__desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  line-height: 1.65;
+  color: #555555;
+  margin: 0;
+}
+
+.seguro-simulacao-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.seguro-form-group {
+  width: 100%;
+}
+
+.seguro-form-input {
+  width: 100%;
+  border: 1.5px solid #231F20;
+  border-radius: 9999px;
+  padding: 13px 24px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: transparent;
+  color: #231F20;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.seguro-form-input::placeholder,
+.seguro-form-textarea::placeholder {
+  color: #777777;
+  text-transform: lowercase;
+}
+
+.seguro-form-input:focus,
+.seguro-form-textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(232, 78, 56, 0.15);
+}
+
+.seguro-form-textarea {
+  width: 100%;
+  border: 1.5px solid #231F20;
+  border-radius: 20px;
+  padding: 14px 24px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: transparent;
+  color: #231F20;
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.seguro-form-consent {
+  margin-top: 0.25rem;
+}
+
+.seguro-consent-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: #555555;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.seguro-consent-label a {
+  color: #231F20;
+  text-decoration: underline;
+  transition: color var(--transition-fast);
+}
+
+.seguro-consent-label a:hover {
+  color: var(--color-primary);
+}
+
+.seguro-consent-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.seguro-form-submit-wrap {
+  margin-top: 0.5rem;
+}
+
+.seguro-form-submit-btn {
+  background-color: #1a1a1a;
+  color: #FFFFFF !important;
+  padding: 13px 34px;
+  border-radius: 9999px;
+  font-family: var(--font-heading);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-transform: lowercase;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.seguro-form-submit-btn:hover {
+  background-color: #000000;
+  transform: translateY(-2px);
+}
+
+/* Right Visual Column with Clean Full Circular Frame */
+.section-single-seguro-form__visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .section-single-seguro-form__visual {
+    justify-content: center;
+  }
+}
+
+.seguro-form-circle-wrap {
+  position: relative;
+  width: clamp(340px, 38vw, 540px);
+  height: clamp(340px, 38vw, 540px);
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.seguro-form-circle-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: clamp(16px, 1.8vw, 28px) solid var(--color-primary);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+  background-color: #f7f7f7;
+}
+
+.seguro-form-circle-frame img,
+.seguro-form-circle-frame .seguro-form-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ==========================================================================
+   6. "Documentos Legais" Section (PDF Downloads Grid + Offset Circle)
+   ========================================================================== */
+.section-single-seguro-docs {
+  position: relative;
+  overflow: visible;
+  padding-top: clamp(4.5rem, 8vw, 8.5rem);
+  padding-bottom: clamp(5rem, 9vw, 9.5rem);
+  background-color: transparent;
+  z-index: 5;
+}
+
+.section-single-seguro-docs__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(3rem, 6vw, 6.5rem);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .section-single-seguro-docs__layout {
+    grid-template-columns: 0.95fr 1.05fr;
+  }
+}
+
+/* Left Visual with Offset Red Bubble */
+.section-single-seguro-docs__visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.seguro-docs-photo-wrap {
+  position: relative;
+  width: clamp(260px, 28vw, 380px);
+  height: clamp(260px, 28vw, 380px);
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.seguro-docs-backdrop-bubble {
+  position: absolute;
+  width: 88%;
+  height: 88%;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  top: -20%;
+  left: -24%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.seguro-docs-photo-circle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  background-color: #f7f7f7;
+}
+
+.seguro-docs-photo-circle img,
+.seguro-docs-photo-circle .seguro-docs-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right Content Column */
+.section-single-seguro-docs__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 1.25vw, 1.25rem);
+  max-width: 520px;
+}
+
+.section-single-seguro-docs__content .eyebrow {
+  margin-bottom: clamp(0.25rem, 0.5vw, 0.5rem);
+}
+
+.section-single-seguro-docs__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-dark, #231F20);
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.section-single-seguro-docs__desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  line-height: 1.65;
+  color: #555555;
+  margin: 0;
+}
+
+/* 2x2 Documents Download Grid */
+.seguro-docs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem 2.5rem;
+  width: 100%;
+  margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+@media (min-width: 520px) {
+  .seguro-docs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.seguro-doc-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  text-decoration: none;
+  transition: transform var(--transition-fast);
+}
+
+.seguro-doc-card:hover {
+  transform: translateY(-3px);
+}
+
+.seguro-doc-card__icon {
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seguro-doc-card__icon svg {
+  width: 30px;
+  height: 30px;
+  color: var(--color-primary);
+}
+
+.seguro-doc-card__name {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 0.95vw, 0.92rem);
+  font-weight: 500;
+  color: var(--color-dark, #231F20);
+  line-height: 1.4;
+  transition: color var(--transition-fast);
+}
+
+.seguro-doc-card:hover .seguro-doc-card__name {
+  color: var(--color-primary);
+}
+
+/* Ambient Floating Rings */
+.seguro-docs-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.seguro-docs-ring--left-small {
+  width: clamp(20px, 2.2vw, 28px);
+  height: clamp(20px, 2.2vw, 28px);
+  left: 8%;
+  bottom: 38%;
+  border: 4px solid var(--color-primary);
+}
+
+.seguro-docs-ring--left-medium {
+  width: clamp(44px, 4.8vw, 64px);
+  height: clamp(44px, 4.8vw, 64px);
+  left: 14%;
+  bottom: 12%;
+  border: 8px solid var(--color-primary);
+}
+
+.seguro-docs-ring--right-large {
+  width: clamp(68px, 7vw, 96px);
+  height: clamp(68px, 7vw, 96px);
+  right: 0;
+  transform: translateX(50%);
+  bottom: 20%;
+  border: clamp(9px, 1.1vw, 12px) solid var(--color-primary);
+}

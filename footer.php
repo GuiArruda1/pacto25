@@ -17,12 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 </main><!-- #primary-content -->
 
 <footer class="site-footer" role="contentinfo">
-    <!-- Exact 2560x1280 Ellipse Canopy Background from Figma -->
-    <div class="site-footer__ellipse" aria-hidden="true"></div>
-
     <div class="site-container site-footer__container">
         <!-- Top Row: Centered White Brand Logo & Social Links -->
         <div class="site-footer__top">
+            <div class="site-footer__top-spacer" aria-hidden="true"></div>
             <div class="site-footer__brand">
                 <?php pacto_render_footer_logo(); ?>
             </div>
@@ -46,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
 
-        <!-- Middle Row: Navigation Links (Left) + Phone Info & Scroll to top (Right) -->
+        <!-- Middle Row: Navigation Links (Left) + Phone Info (Right) -->
         <div class="site-footer__middle">
             <nav class="site-footer__nav" aria-label="<?php esc_attr_e( 'Menu Rodapé', 'pacto-25' ); ?>">
                 <ul class="site-footer__nav-row site-footer__nav-row--primary">
@@ -84,20 +82,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <span><?php esc_html_e( 'Dias úteis: 09h00 as 18h00', 'pacto-25' ); ?></span>
                     </div>
                 </div>
-
-                <!-- Stacked Action Buttons: Scroll to Top & WhatsApp -->
-                <div class="site-footer__actions">
-                    <button type="button" class="site-footer__action-btn site-footer__scroll-top scroll-to-top" aria-label="<?php esc_attr_e( 'Voltar ao topo', 'pacto-25' ); ?>">
-                        <?php echo pacto_get_svg( 'chevron-up' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                    </button>
-                    <?php
-                    $whatsapp_phone = pacto_get_field( 'whatsapp_number', false, '351212946630' );
-                    $whatsapp_clean = preg_replace( '/[^0-9]/', '', $whatsapp_phone );
-                    ?>
-                    <a href="https://wa.me/<?php echo esc_attr( $whatsapp_clean ); ?>" class="site-footer__action-btn site-footer__whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'WhatsApp', 'pacto-25' ); ?>">
-                        <?php echo pacto_get_svg( 'whatsapp' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                    </a>
-                </div>
             </div>
         </div>
 
@@ -117,6 +101,20 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <span>&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php esc_html_e( 'Pacto Seguro · Designed by', 'pacto-25' ); ?> <a href="https://sanzza.pt" target="_blank" rel="noopener noreferrer">Sanzza</a></span>
             </div>
         </div>
+    </div>
+
+    <!-- Floating Action Buttons: Scroll to Top & WhatsApp (accompany scroll together) -->
+    <div class="floating-actions site-footer__actions" role="region" aria-label="<?php esc_attr_e( 'Ações rápidas', 'pacto-25' ); ?>">
+        <button type="button" class="floating-actions__btn site-footer__action-btn site-footer__scroll-top scroll-to-top" aria-label="<?php esc_attr_e( 'Voltar ao topo', 'pacto-25' ); ?>">
+            <?php echo pacto_get_svg( 'chevron-up' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        </button>
+        <?php
+        $whatsapp_phone = pacto_get_field( 'whatsapp_number', false, '351212946630' );
+        $whatsapp_clean = preg_replace( '/[^0-9]/', '', $whatsapp_phone );
+        ?>
+        <a href="https://wa.me/<?php echo esc_attr( $whatsapp_clean ); ?>" class="floating-actions__btn site-footer__action-btn site-footer__whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'WhatsApp', 'pacto-25' ); ?>">
+            <?php echo pacto_get_svg( 'whatsapp' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        </a>
     </div>
 </footer>
 

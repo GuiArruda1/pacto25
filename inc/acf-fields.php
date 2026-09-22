@@ -428,7 +428,7 @@ function pacto_25_register_acf_fields() {
                 'label' => __( 'Título', 'pacto-25' ),
                 'name' => 'testimonials_title',
                 'type' => 'text',
-                'default_value' => "O que dizem sobre a\nPacto Seguro",
+                'default_value' => 'O que dizem sobre a Pacto Seguro',
             ),
             array(
                 'key' => 'field_testimonials_description',
@@ -789,6 +789,1042 @@ function pacto_25_register_acf_fields() {
             ),
         ),
         'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+    ) );
+
+    // =========================================================================
+    // FIELD GROUP: QUEM SOMOS / INSTITUCIONAL PAGE
+    // =========================================================================
+    acf_add_local_field_group( array(
+        'key' => 'group_pacto_quem_somos',
+        'title' => __( 'Quem Somos - Configuração da Página', 'pacto-25' ),
+        'fields' => array(
+            // --- TAB 1: HERO ---
+            array(
+                'key' => 'field_tab_qs_hero',
+                'label' => __( '1. Apresentação (Hero)', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_qs_hero_eyebrow',
+                'label' => __( 'Subtítulo Superior (Eyebrow)', 'pacto-25' ),
+                'name' => 'qs_hero_eyebrow',
+                'type' => 'text',
+                'default_value' => 'INSTITUCIONAL — PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_qs_hero_title',
+                'label' => __( 'Título Principal', 'pacto-25' ),
+                'name' => 'qs_hero_title',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => "Quem Somos\nSeguros à Medida",
+            ),
+            array(
+                'key' => 'field_qs_hero_description',
+                'label' => __( 'Descrição / Lead', 'pacto-25' ),
+                'name' => 'qs_hero_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Com mais de duas décadas de experiência no mercado segurador, temos vindo a consolidar o nosso papel como mediador de seguros de confiança para famílias e empresas.',
+            ),
+            array(
+                'key' => 'field_qs_hero_image',
+                'label' => __( 'Foto da Equipa (Círculo)', 'pacto-25' ),
+                'name' => 'qs_hero_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB 2: PORQUE O FAZEMOS ---
+            array(
+                'key' => 'field_tab_qs_why',
+                'label' => __( '2. Porque o Fazemos?', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_qs_why_eyebrow',
+                'label' => __( 'Subtítulo', 'pacto-25' ),
+                'name' => 'qs_why_eyebrow',
+                'type' => 'text',
+                'default_value' => 'PORQUE O FAZEMOS?',
+            ),
+            array(
+                'key' => 'field_qs_why_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'qs_why_title',
+                'type' => 'text',
+                'default_value' => 'Porque o fazemos?',
+            ),
+            array(
+                'key' => 'field_qs_why_description',
+                'label' => __( 'Parágrafo 1', 'pacto-25' ),
+                'name' => 'qs_why_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'O nosso propósito nasce da paixão por proteger o que mais importa. Num mundo em constante mudança, acreditamos que a segurança financeira e o bem-estar das pessoas e empresas devem ser construídos com base na confiança, na transparência e no acompanhamento próximo.',
+            ),
+            array(
+                'key' => 'field_qs_why_desc_secondary',
+                'label' => __( 'Parágrafo 2', 'pacto-25' ),
+                'name' => 'qs_why_desc_secondary',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Não nos limitamos a mediar seguros: estamos ao seu lado nos momentos decisivos, simplificando processos e garantindo que tem sempre a proteção certa à medida das suas necessidades reais.',
+            ),
+            array(
+                'key' => 'field_qs_why_image',
+                'label' => __( 'Foto Circular', 'pacto-25' ),
+                'name' => 'qs_why_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB 3: MISSÃO, VISÃO E VALORES ---
+            array(
+                'key' => 'field_tab_qs_mission',
+                'label' => __( '3. Missão, Visão e Valores', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_qs_mission_eyebrow',
+                'label' => __( 'Subtítulo', 'pacto-25' ),
+                'name' => 'qs_mission_eyebrow',
+                'type' => 'text',
+                'default_value' => 'MISSÃO, VISÃO E VALORES',
+            ),
+            array(
+                'key' => 'field_qs_mission_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'qs_mission_title',
+                'type' => 'text',
+                'default_value' => 'Missão, Visão e Valores',
+            ),
+            array(
+                'key' => 'field_qs_mission_desc_1',
+                'label' => __( 'Texto Missão', 'pacto-25' ),
+                'name' => 'qs_mission_desc_1',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'A nossa missão é proporcionar tranquilidade e segurança através de soluções de seguros rigorosas, personalizadas e transparentes, adaptadas à realidade de cada cliente.',
+            ),
+            array(
+                'key' => 'field_qs_mission_desc_2',
+                'label' => __( 'Texto Visão e Valores', 'pacto-25' ),
+                'name' => 'qs_mission_desc_2',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Aspiramos a ser a referência de confiança no setor da mediação de seguros, pautando a nossa atuação pelo rigor ético, proximidade humana e inovação constante na resposta aos desafios dos nossos clientes.',
+            ),
+            array(
+                'key' => 'field_qs_mission_btn_text',
+                'label' => __( 'Texto do Botão', 'pacto-25' ),
+                'name' => 'qs_mission_btn_text',
+                'type' => 'text',
+                'default_value' => 'FALE COM A NOSSA EQUIPA',
+            ),
+            array(
+                'key' => 'field_qs_mission_btn_link',
+                'label' => __( 'Link do Botão', 'pacto-25' ),
+                'name' => 'qs_mission_btn_link',
+                'type' => 'text',
+                'default_value' => '#contactos',
+            ),
+            array(
+                'key' => 'field_qs_mission_image',
+                'label' => __( 'Foto da Equipa (Círculo)', 'pacto-25' ),
+                'name' => 'qs_mission_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB 4: PORQUÊ ESCOLHER-NOS ---
+            array(
+                'key' => 'field_tab_qs_reasons',
+                'label' => __( '4. Porquê Escolher-nos', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_qs_reasons_eyebrow',
+                'label' => __( 'Subtítulo', 'pacto-25' ),
+                'name' => 'qs_reasons_eyebrow',
+                'type' => 'text',
+                'default_value' => 'PORQUÊ ESCOLHER-NOS',
+            ),
+            array(
+                'key' => 'field_qs_reasons_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'qs_reasons_title',
+                'type' => 'text',
+                'default_value' => 'Porquê escolher-nos',
+            ),
+            array(
+                'key' => 'field_qs_reasons_p1',
+                'label' => __( 'Parágrafo 1', 'pacto-25' ),
+                'name' => 'qs_reasons_p1',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Compreendemos que a escolha de um mediador de seguros é uma decisão de confiança. Por isso, aliamos mais de 25 anos de experiência prática a um atendimento genuinamente personalizado e humanizado.',
+            ),
+            array(
+                'key' => 'field_qs_reasons_p2',
+                'label' => __( 'Parágrafo 2', 'pacto-25' ),
+                'name' => 'qs_reasons_p2',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Analisamos minuciosamente o mercado segurador para lhe apresentar as melhores soluções, negociando coberturas robustas e condições vantajosas para que nunca pague mais do que o estritamente necessário.',
+            ),
+            array(
+                'key' => 'field_qs_reasons_p3',
+                'label' => __( 'Parágrafo 3', 'pacto-25' ),
+                'name' => 'qs_reasons_p3',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Em caso de sinistro ou dúvida, assumimos toda a gestão burocrática por si. A nossa equipa assegura uma resposta célere e eficaz, defendendo sempre e em primeiro lugar os seus legítimos interesses.',
+            ),
+
+            // --- TAB 5: A NOSSA EQUIPA ---
+            array(
+                'key' => 'field_tab_qs_team',
+                'label' => __( '5. A Nossa Equipa', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_qs_team_eyebrow',
+                'label' => __( 'Subtítulo', 'pacto-25' ),
+                'name' => 'qs_team_eyebrow',
+                'type' => 'text',
+                'default_value' => 'A NOSSA EQUIPA',
+            ),
+            array(
+                'key' => 'field_qs_team_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'qs_team_title',
+                'type' => 'text',
+                'default_value' => 'Profissionais dedicados ao seu lado',
+            ),
+
+            // --- TAB 6: BANNER CTA ---
+            array(
+                'key' => 'field_tab_qs_cta',
+                'label' => __( '6. Banner CTA', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_qs_cta_eyebrow',
+                'label' => __( 'Subtítulo', 'pacto-25' ),
+                'name' => 'qs_cta_eyebrow',
+                'type' => 'text',
+                'default_value' => 'FALE CONNOSCO',
+            ),
+            array(
+                'key' => 'field_qs_cta_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'qs_cta_title',
+                'type' => 'text',
+                'default_value' => 'Temos uma equipa preparada para responder a todas as suas dúvidas.',
+            ),
+            array(
+                'key' => 'field_qs_cta_subtitle',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'qs_cta_subtitle',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Descubra a solução ideal para si ou para a sua empresa. Estamos disponíveis para o apoiar em todas as etapas.',
+            ),
+            array(
+                'key' => 'field_qs_cta_btn_text',
+                'label' => __( 'Texto do Botão', 'pacto-25' ),
+                'name' => 'qs_cta_btn_text',
+                'type' => 'text',
+                'default_value' => 'CONTACTE-NOS',
+            ),
+            array(
+                'key' => 'field_qs_cta_btn_link',
+                'label' => __( 'Link do Botão', 'pacto-25' ),
+                'name' => 'qs_cta_btn_link',
+                'type' => 'text',
+                'default_value' => '#contactos',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'page-quem-somos.php',
+                ),
+            ),
+        ),
+        'menu_order' => 1,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ) );
+
+    // =========================================================================
+    // FIELD GROUP: PARTICULARES
+    // =========================================================================
+    acf_add_local_field_group( array(
+        'key' => 'group_pacto_particulares',
+        'title' => __( 'Particulares - Configuração de Secções', 'pacto-25' ),
+        'fields' => array(
+            // --- TAB: HERO ---
+            array(
+                'key' => 'field_tab_particulares_hero',
+                'label' => __( 'Secção 1: Hero', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_particulares_hero_eyebrow',
+                'label' => __( 'Eyebrow / Subtítulo Superior', 'pacto-25' ),
+                'name' => 'particulares_hero_eyebrow',
+                'type' => 'text',
+                'default_value' => 'PARTICULARES — PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_particulares_hero_title',
+                'label' => __( 'Título Principal (H1)', 'pacto-25' ),
+                'name' => 'particulares_hero_title',
+                'type' => 'text',
+                'default_value' => 'Seguros para Particulares',
+            ),
+            array(
+                'key' => 'field_particulares_hero_description',
+                'label' => __( 'Texto Introdutório / Descrição', 'pacto-25' ),
+                'name' => 'particulares_hero_description',
+                'type' => 'textarea',
+                'rows' => 4,
+                'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+            ),
+            array(
+                'key' => 'field_particulares_hero_image',
+                'label' => __( 'Imagem do Hero (Família à Mesa Redonda)', 'pacto-25' ),
+                'name' => 'particulares_hero_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+            array(
+                'key' => 'field_tab_particulares_seguros',
+                'label' => __( 'Secção 2: Lista de Seguros', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_particulares_seguros_per_page',
+                'label' => __( 'Seguros por Página', 'pacto-25' ),
+                'name' => 'particulares_seguros_per_page',
+                'type' => 'number',
+                'default_value' => 8,
+                'min' => 1,
+                'max' => 40,
+            ),
+            array(
+                'key' => 'field_tab_particulares_cta',
+                'label' => __( 'Secção 3: Banner CTA', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_particulares_cta_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'particulares_cta_eyebrow',
+                'type' => 'text',
+                'default_value' => 'EXPERIMENTE-NOS!',
+            ),
+            array(
+                'key' => 'field_particulares_cta_title',
+                'label' => __( 'Título Principal', 'pacto-25' ),
+                'name' => 'particulares_cta_title',
+                'type' => 'text',
+                'default_value' => 'Temos uma equipa preparada para responder a todas as suas dúvidas.',
+            ),
+            array(
+                'key' => 'field_particulares_cta_subtitle',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'particulares_cta_subtitle',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Convidamo-lo a partilhar as suas experiências para que possamos melhorar produtos e serviços. Faça-nos chegar a sua história.',
+            ),
+            array(
+                'key' => 'field_particulares_cta_btn_text',
+                'label' => __( 'Texto do Botão', 'pacto-25' ),
+                'name' => 'particulares_cta_btn_text',
+                'type' => 'text',
+                'default_value' => 'pedir simulação',
+            ),
+            array(
+                'key' => 'field_particulares_cta_btn_link',
+                'label' => __( 'Link do Botão', 'pacto-25' ),
+                'name' => 'particulares_cta_btn_link',
+                'type' => 'text',
+                'default_value' => '#contactos',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'page-particulares.php',
+                ),
+            ),
+        ),
+        'menu_order' => 2,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ) );
+
+    /* ==========================================================================
+       Field Group: Detalhes do Seguro Particular (CPT seguro_particular)
+       ========================================================================== */
+    acf_add_local_field_group( array(
+        'key' => 'group_pacto_seguro_particular_cpt',
+        'title' => __( 'Configuração do Seguro Particular (Single Page)', 'pacto-25' ),
+        'fields' => array(
+            // --- TAB: CARD / LISTAGEM ---
+            array(
+                'key' => 'field_tab_seguro_card',
+                'label' => __( 'Listagem / Card', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_seguro_btn_text',
+                'label' => __( 'Texto do Link no Card', 'pacto-25' ),
+                'name' => 'seguro_btn_text',
+                'type' => 'text',
+                'default_value' => 'saber mais',
+                'placeholder' => 'saber mais',
+            ),
+            array(
+                'key' => 'field_seguro_btn_url',
+                'label' => __( 'Link Personalizado no Card (Opcional)', 'pacto-25' ),
+                'name' => 'seguro_btn_url',
+                'type' => 'text',
+                'placeholder' => 'https://... ou # ou /contatos/',
+                'instructions' => __( 'Se vazio, utilizará o link direto para esta página.', 'pacto-25' ),
+            ),
+
+            // --- TAB: SECÇÃO 1 - HERO ---
+            array(
+                'key' => 'field_tab_seguro_hero',
+                'label' => __( 'Secção 1: Hero', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_seguro_hero_eyebrow',
+                'label' => __( 'Eyebrow do Hero', 'pacto-25' ),
+                'name' => 'seguro_hero_eyebrow',
+                'type' => 'text',
+                'placeholder' => 'SEGURO MULTIRRISCOS CASA — PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_seguro_hero_title',
+                'label' => __( 'Título Principal (H1)', 'pacto-25' ),
+                'name' => 'seguro_hero_title',
+                'type' => 'text',
+                'placeholder' => 'Encontre o melhor Seguro Multirriscos para a sua casa.',
+            ),
+            array(
+                'key' => 'field_seguro_hero_description',
+                'label' => __( 'Texto do Hero', 'pacto-25' ),
+                'name' => 'seguro_hero_description',
+                'type' => 'textarea',
+                'rows' => 4,
+            ),
+            array(
+                'key' => 'field_seguro_hero_btn_text',
+                'label' => __( 'Texto do Botão Hero', 'pacto-25' ),
+                'name' => 'seguro_hero_btn_text',
+                'type' => 'text',
+                'default_value' => 'pedir simulação',
+            ),
+            array(
+                'key' => 'field_seguro_hero_btn_link',
+                'label' => __( 'Link do Botão Hero', 'pacto-25' ),
+                'name' => 'seguro_hero_btn_link',
+                'type' => 'text',
+                'default_value' => '#simulacao',
+            ),
+            array(
+                'key' => 'field_seguro_hero_image',
+                'label' => __( 'Imagem Circular Hero (Direita)', 'pacto-25' ),
+                'name' => 'seguro_hero_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB: SECÇÃO 2 - O QUE É O SEGURO ---
+            array(
+                'key' => 'field_tab_seguro_about',
+                'label' => __( 'Secção 2: O que é o Seguro?', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_seguro_about_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'seguro_about_eyebrow',
+                'type' => 'text',
+                'placeholder' => 'SEGURO MULTIRRISCOS CASA — PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_seguro_about_title',
+                'label' => __( 'Título (H2)', 'pacto-25' ),
+                'name' => 'seguro_about_title',
+                'type' => 'text',
+                'default_value' => 'O que é o Seguro?',
+            ),
+            array(
+                'key' => 'field_seguro_about_p1',
+                'label' => __( 'Parágrafo 1', 'pacto-25' ),
+                'name' => 'seguro_about_p1',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Um Seguro Multirriscos para a casa é uma opção muito completa de seguro que cobre vários riscos que podem afetar o seu imóvel e o seu recheio. Inclui cobertura para incêndios, inundações, danos por água, roubo, atos de vandalismo e danos causados por tempestades entre muitas outras coberturas.',
+            ),
+            array(
+                'key' => 'field_seguro_about_p2',
+                'label' => __( 'Parágrafo 2', 'pacto-25' ),
+                'name' => 'seguro_about_p2',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Além disso, também pode incluir cobertura para responsabilidade civil, o que significa que se alguém se magoar em sua propriedade, você estará protegido contra possíveis processos.',
+            ),
+            array(
+                'key' => 'field_seguro_about_btn_text',
+                'label' => __( 'Texto do Botão', 'pacto-25' ),
+                'name' => 'seguro_about_btn_text',
+                'type' => 'text',
+                'default_value' => 'pedir simulação',
+            ),
+            array(
+                'key' => 'field_seguro_about_btn_link',
+                'label' => __( 'Link do Botão', 'pacto-25' ),
+                'name' => 'seguro_about_btn_link',
+                'type' => 'text',
+                'default_value' => '#simulacao',
+            ),
+            array(
+                'key' => 'field_seguro_about_image',
+                'label' => __( 'Imagem Circular Esquerda', 'pacto-25' ),
+                'name' => 'seguro_about_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB: SECÇÃO 3 - VANTAGENS, COBERTURAS E SERVIÇOS ---
+            array(
+                'key' => 'field_tab_seguro_features',
+                'label' => __( 'Secção 3: Vantagens e Coberturas', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_seguro_features_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'seguro_features_eyebrow',
+                'type' => 'text',
+                'placeholder' => 'SEGURO MULTIRRISCOS CASA — PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_seguro_features_title',
+                'label' => __( 'Título (H2)', 'pacto-25' ),
+                'name' => 'seguro_features_title',
+                'type' => 'text',
+                'default_value' => 'Vantagens, Coberturas e Serviços',
+            ),
+            array(
+                'key' => 'field_seguro_features_p1',
+                'label' => __( 'Parágrafo 1', 'pacto-25' ),
+                'name' => 'seguro_features_p1',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_seguro_features_p2',
+                'label' => __( 'Parágrafo 2', 'pacto-25' ),
+                'name' => 'seguro_features_p2',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_seguro_features_p3',
+                'label' => __( 'Parágrafo 3', 'pacto-25' ),
+                'name' => 'seguro_features_p3',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_seguro_features_btn_text',
+                'label' => __( 'Texto do Botão', 'pacto-25' ),
+                'name' => 'seguro_features_btn_text',
+                'type' => 'text',
+                'default_value' => 'pedir simulação',
+            ),
+            array(
+                'key' => 'field_seguro_features_btn_link',
+                'label' => __( 'Link do Botão', 'pacto-25' ),
+                'name' => 'seguro_features_btn_link',
+                'type' => 'text',
+                'default_value' => '#simulacao',
+            ),
+
+            // --- TAB: SECÇÃO 4 - PASSOS PARA SUBSCRIÇÃO ---
+            array(
+                'key' => 'field_tab_seguro_steps',
+                'label' => __( 'Secção 4: Passos para Subscrição', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            // Passo 1
+            array(
+                'key' => 'field_seguro_step_1_title',
+                'label' => __( 'Título Passo 1', 'pacto-25' ),
+                'name' => 'seguro_step_1_title',
+                'type' => 'text',
+                'default_value' => '1º Passo',
+            ),
+            array(
+                'key' => 'field_seguro_step_1_desc',
+                'label' => __( 'Descrição Passo 1', 'pacto-25' ),
+                'name' => 'seguro_step_1_desc',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+            ),
+            array(
+                'key' => 'field_seguro_step_1_image',
+                'label' => __( 'Foto Passo 1', 'pacto-25' ),
+                'name' => 'seguro_step_1_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'thumbnail',
+            ),
+            // Passo 2
+            array(
+                'key' => 'field_seguro_step_2_title',
+                'label' => __( 'Título Passo 2', 'pacto-25' ),
+                'name' => 'seguro_step_2_title',
+                'type' => 'text',
+                'default_value' => '2º Passo',
+            ),
+            array(
+                'key' => 'field_seguro_step_2_desc',
+                'label' => __( 'Descrição Passo 2', 'pacto-25' ),
+                'name' => 'seguro_step_2_desc',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+            ),
+            array(
+                'key' => 'field_seguro_step_2_image',
+                'label' => __( 'Foto Passo 2', 'pacto-25' ),
+                'name' => 'seguro_step_2_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'thumbnail',
+            ),
+            // Passo 3
+            array(
+                'key' => 'field_seguro_step_3_title',
+                'label' => __( 'Título Passo 3', 'pacto-25' ),
+                'name' => 'seguro_step_3_title',
+                'type' => 'text',
+                'default_value' => '3º Passo',
+            ),
+            array(
+                'key' => 'field_seguro_step_3_desc',
+                'label' => __( 'Descrição Passo 3', 'pacto-25' ),
+                'name' => 'seguro_step_3_desc',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+            ),
+            array(
+                'key' => 'field_seguro_step_3_image',
+                'label' => __( 'Foto Passo 3', 'pacto-25' ),
+                'name' => 'seguro_step_3_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'thumbnail',
+            ),
+
+            // --- TAB: SECÇÃO 5 - FORMULÁRIO DE SIMULAÇÃO ---
+            array(
+                'key' => 'field_tab_seguro_form',
+                'label' => __( 'Secção 5: Formulário de Simulação', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_seguro_form_eyebrow',
+                'label' => __( 'Eyebrow do Formulário', 'pacto-25' ),
+                'name' => 'seguro_form_eyebrow',
+                'type' => 'text',
+                'default_value' => 'ALIQUET EU PROIN NON NETUS',
+            ),
+            array(
+                'key' => 'field_seguro_form_title',
+                'label' => __( 'Título Principal (H2)', 'pacto-25' ),
+                'name' => 'seguro_form_title',
+                'type' => 'text',
+                'default_value' => 'Enim amet nullam dui?',
+            ),
+            array(
+                'key' => 'field_seguro_form_description',
+                'label' => __( 'Texto Descritivo do Formulário', 'pacto-25' ),
+                'name' => 'seguro_form_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_seguro_form_image',
+                'label' => __( 'Imagem Circular do Formulário (Direita)', 'pacto-25' ),
+                'name' => 'seguro_form_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB: SECÇÃO 6 - DOCUMENTOS LEGAIS ---
+            array(
+                'key' => 'field_tab_seguro_docs',
+                'label' => __( 'Secção 6: Documentos Legais', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_seguro_docs_eyebrow',
+                'label' => __( 'Eyebrow dos Documentos', 'pacto-25' ),
+                'name' => 'seguro_docs_eyebrow',
+                'type' => 'text',
+                'default_value' => 'LOREM IPSUM DOLOR SIT AMET',
+            ),
+            array(
+                'key' => 'field_seguro_docs_title',
+                'label' => __( 'Título Principal (H2)', 'pacto-25' ),
+                'name' => 'seguro_docs_title',
+                'type' => 'text',
+                'default_value' => 'Documentos Legais',
+            ),
+            array(
+                'key' => 'field_seguro_docs_description',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'seguro_docs_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+            ),
+            array(
+                'key' => 'field_seguro_docs_image',
+                'label' => __( 'Imagem Circular com Bolha Vermelha (Esquerda)', 'pacto-25' ),
+                'name' => 'seguro_docs_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+            array(
+                'key' => 'field_seguro_docs_list',
+                'label' => __( 'Lista de Documentos PDF', 'pacto-25' ),
+                'name' => 'seguro_docs_list',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => __( 'Adicionar Documento', 'pacto-25' ),
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_seguro_doc_name',
+                        'label' => __( 'Nome do Documento', 'pacto-25' ),
+                        'name' => 'name',
+                        'type' => 'text',
+                        'default_value' => 'Nome do Documento (2010-2023)',
+                    ),
+                    array(
+                        'key' => 'field_seguro_doc_file',
+                        'label' => __( 'Ficheiro PDF', 'pacto-25' ),
+                        'name' => 'file',
+                        'type' => 'file',
+                        'return_format' => 'array',
+                    ),
+                ),
+            ),
+
+            // --- TAB: SECÇÃO 7 - QUESTÕES MAIS FREQUENTES (FAQS) ---
+            array(
+                'key' => 'field_tab_seguro_faq',
+                'label' => __( 'Secção 7: Questões Frequentes (FAQs)', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_seguro_faq_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'seguro_faq_eyebrow',
+                'type' => 'text',
+                'default_value' => '• FAQS',
+            ),
+            array(
+                'key' => 'field_seguro_faq_title',
+                'label' => __( 'Título Principal (H2)', 'pacto-25' ),
+                'name' => 'seguro_faq_title',
+                'type' => 'text',
+                'default_value' => 'Questões Mais Frequentes',
+            ),
+            array(
+                'key' => 'field_seguro_faq_description',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'seguro_faq_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_seguro_faq_list',
+                'label' => __( 'Lista de Questões e Respostas', 'pacto-25' ),
+                'name' => 'seguro_faq_list',
+                'type' => 'repeater',
+                'layout' => 'row',
+                'button_label' => __( 'Adicionar Pergunta', 'pacto-25' ),
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_seguro_faq_question',
+                        'label' => __( 'Pergunta / Questão', 'pacto-25' ),
+                        'name' => 'question',
+                        'type' => 'text',
+                        'placeholder' => 'ex: Que elementos terei de apresentar para subscrever...',
+                    ),
+                    array(
+                        'key' => 'field_seguro_faq_answer',
+                        'label' => __( 'Resposta', 'pacto-25' ),
+                        'name' => 'answer',
+                        'type' => 'textarea',
+                        'rows' => 3,
+                        'placeholder' => 'ex: Para subscrever o seguro multirriscos...',
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'seguro_particular',
+                ),
+            ),
+        ),
+        'menu_order' => 1,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ) );
+
+    // =========================================================================
+    // FIELD GROUP: EM CASO DE SINISTRO (PAGE TEMPLATE)
+    // =========================================================================
+    acf_add_local_field_group( array(
+        'key' => 'group_pacto_sinistro',
+        'title' => __( 'Página Em Caso de Sinistro - Configuração', 'pacto-25' ),
+        'fields' => array(
+            // --- TAB: HERO ---
+            array(
+                'key' => 'field_tab_sinistro_hero',
+                'label' => __( 'Secção 1: Hero', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_sinistro_hero_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'sinistro_hero_eyebrow',
+                'type' => 'text',
+                'default_value' => 'INSTITUCIONAL — PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_sinistro_hero_title',
+                'label' => __( 'Título Principal (H1)', 'pacto-25' ),
+                'name' => 'sinistro_hero_title',
+                'type' => 'text',
+                'default_value' => 'Em Caso de Sinistro',
+            ),
+            array(
+                'key' => 'field_sinistro_hero_description',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'sinistro_hero_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_sinistro_hero_image',
+                'label' => __( 'Imagem do Hero (Mala do Carro / Família)', 'pacto-25' ),
+                'name' => 'sinistro_hero_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB: COMO PARTICIPAR ---
+            array(
+                'key' => 'field_tab_sinistro_steps',
+                'label' => __( 'Secção 2: Como Participar', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_sinistro_steps_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'sinistro_steps_eyebrow',
+                'type' => 'text',
+                'default_value' => 'PARTICULARES — PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_sinistro_steps_title',
+                'label' => __( 'Título (H2)', 'pacto-25' ),
+                'name' => 'sinistro_steps_title',
+                'type' => 'text',
+                'default_value' => 'Como Participar um Sinistro',
+            ),
+            array(
+                'key' => 'field_sinistro_steps_image',
+                'label' => __( 'Foto Circular Esquerda', 'pacto-25' ),
+                'name' => 'sinistro_steps_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+            array(
+                'key' => 'field_sinistro_steps_list',
+                'label' => __( 'Passos / Checklist', 'pacto-25' ),
+                'name' => 'sinistro_steps_list',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => __( 'Adicionar Passo', 'pacto-25' ),
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_sinistro_step_text',
+                        'label' => __( 'Texto do Passo', 'pacto-25' ),
+                        'name' => 'text',
+                        'type' => 'text',
+                    ),
+                ),
+            ),
+
+            // --- TAB: FORMULÁRIO ---
+            array(
+                'key' => 'field_tab_sinistro_form',
+                'label' => __( 'Secção 3: Formulário (Círculo Vermelho)', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_sinistro_form_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'sinistro_form_eyebrow',
+                'type' => 'text',
+                'default_value' => '• PARTICIPAR',
+            ),
+            array(
+                'key' => 'field_sinistro_form_title',
+                'label' => __( 'Título Principal (H2)', 'pacto-25' ),
+                'name' => 'sinistro_form_title',
+                'type' => 'text',
+                'default_value' => 'Participar Sinistro',
+            ),
+            array(
+                'key' => 'field_sinistro_form_description',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'sinistro_form_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_sinistro_form_image',
+                'label' => __( 'Foto Circular Direita', 'pacto-25' ),
+                'name' => 'sinistro_form_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB: DOCUMENTOS ---
+            array(
+                'key' => 'field_tab_sinistro_docs',
+                'label' => __( 'Secção 4: Documentos Necessários', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_sinistro_docs_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'sinistro_docs_eyebrow',
+                'type' => 'text',
+                'default_value' => 'LEGAL — PACTO SEGURO 25 ANOS',
+            ),
+            array(
+                'key' => 'field_sinistro_docs_title',
+                'label' => __( 'Título Principal (H2)', 'pacto-25' ),
+                'name' => 'sinistro_docs_title',
+                'type' => 'text',
+                'default_value' => 'Documentos Necessários',
+            ),
+            array(
+                'key' => 'field_sinistro_docs_description',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'sinistro_docs_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_sinistro_docs_image',
+                'label' => __( 'Foto Circular Esquerda', 'pacto-25' ),
+                'name' => 'sinistro_docs_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+            array(
+                'key' => 'field_sinistro_docs_list',
+                'label' => __( 'Lista de Documentos PDF', 'pacto-25' ),
+                'name' => 'sinistro_docs_list',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => __( 'Adicionar Documento', 'pacto-25' ),
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_sinistro_doc_name',
+                        'label' => __( 'Nome do Documento', 'pacto-25' ),
+                        'name' => 'name',
+                        'type' => 'text',
+                        'default_value' => 'Nome do Documento (2010-2023)',
+                    ),
+                    array(
+                        'key' => 'field_sinistro_doc_file',
+                        'label' => __( 'Ficheiro PDF', 'pacto-25' ),
+                        'name' => 'file',
+                        'type' => 'file',
+                        'return_format' => 'array',
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'page-sinistro.php',
+                ),
+            ),
+        ),
+        'menu_order' => 2,
         'position' => 'normal',
         'style' => 'default',
         'label_placement' => 'top',

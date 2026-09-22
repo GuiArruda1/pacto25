@@ -12,6 +12,7 @@ function initApp() {
   initSliders();
   initHeroSlider();
   initNewsletterValidation();
+  initFaqAccordion();
 }
 
 if (document.readyState === 'loading') {
@@ -112,13 +113,16 @@ function initScrollToTop() {
   const btn = document.querySelector('.scroll-to-top');
   if (!btn) return;
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) {
+  const toggleVisibility = () => {
+    if (window.scrollY > 300) {
       btn.classList.add('is-visible');
     } else {
       btn.classList.remove('is-visible');
     }
-  }, { passive: true });
+  };
+
+  window.addEventListener('scroll', toggleVisibility, { passive: true });
+  toggleVisibility();
 
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -345,6 +349,11 @@ function initSliders() {
 
   // Card click to center
   track.addEventListener('click', (e) => {
+    if (isDragging) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     const card = e.target.closest('.testimonial-card');
     if (!card) return;
     const clickedIndex = allCards.indexOf(card);
@@ -385,27 +394,107 @@ function initSliders() {
     navContainer.addEventListener('mouseleave', startAutoplay);
   }
 
-  // Touch Swipe Support
-  let touchStartX = 0;
-  let touchEndX = 0;
+  // Unified Pointer & Touch Dragging (Mouse Drag & Touch Swipe)
+  let isPointerDown = false;
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let startTranslateX = 0;
+  let currentTranslateX = 0;
+  let startTime = 0;
+  const dragThreshold = 5;
 
-  arcWrapper.addEventListener('touchstart', (e) => {
+  function getCurrentTranslateX() {
+    const containerWidth = arcWrapper.offsetWidth;
+    const cardCenter = getCardCenter(currentIndex);
+    return (containerWidth / 2) - cardCenter;
+  }
+
+  function onPointerDown(e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+    isPointerDown = true;
+    isDragging = false;
+    startX = e.clientX;
+    startY = e.clientY;
+    startTime = Date.now();
+    startTranslateX = getCurrentTranslateX();
+    currentTranslateX = startTranslateX;
+
     stopAutoplay();
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
+  }
 
-  arcWrapper.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    const diff = touchEndX - touchStartX;
-    if (Math.abs(diff) > 40) {
-      if (diff < 0) {
-        nextSlide();
-      } else {
-        prevSlide();
+  function onPointerMove(e) {
+    if (!isPointerDown) return;
+
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+
+    if (!isDragging) {
+      if (Math.abs(deltaX) > dragThreshold && Math.abs(deltaX) > Math.abs(deltaY)) {
+        isDragging = true;
+        arcWrapper.classList.add('is-dragging');
+        stage.classList.add('is-dragging');
+        track.style.transition = 'none';
       }
     }
+
+    if (isDragging) {
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+      currentTranslateX = startTranslateX + deltaX;
+      track.style.transform = `translate3d(${currentTranslateX}px, 0, 0)`;
+    }
+  }
+
+  function onPointerUp(e) {
+    if (!isPointerDown) return;
+    isPointerDown = false;
+
+    if (isDragging) {
+      arcWrapper.classList.remove('is-dragging');
+      stage.classList.remove('is-dragging');
+      const deltaX = e.clientX - startX;
+      const timeElapsed = Date.now() - startTime;
+      const velocity = Math.abs(deltaX) / (timeElapsed || 1);
+
+      if (Math.abs(deltaX) > 40 || (Math.abs(deltaX) > 15 && velocity > 0.25)) {
+        if (deltaX < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      } else {
+        updatePosition(true);
+      }
+
+      setTimeout(() => {
+        isDragging = false;
+      }, 50);
+    }
+
     startAutoplay();
-  }, { passive: true });
+  }
+
+  function onPointerCancel() {
+    if (!isPointerDown) return;
+    isPointerDown = false;
+    if (isDragging) {
+      arcWrapper.classList.remove('is-dragging');
+      stage.classList.remove('is-dragging');
+      updatePosition(true);
+      setTimeout(() => {
+        isDragging = false;
+      }, 50);
+    }
+    startAutoplay();
+  }
+
+  arcWrapper.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('pointermove', onPointerMove, { passive: false });
+  window.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('pointercancel', onPointerCancel);
 
   // Handle window resize
   let resizeTimeout;
@@ -493,3 +582,57 @@ function initMegaMenu() {
     });
   });
 }
+
+/**
+ * Accessible FAQ Accordion Handler
+ */
+function initFaqAccordion() {
+  const accordions = document.querySelectorAll('.faq-accordion');
+  if (!accordions.length) return;
+
+  accordions.forEach((acc) => {
+    const items = acc.querySelectorAll('.faq-item');
+
+    items.forEach((item) => {
+      const trigger = item.querySelector('.faq-trigger');
+      const collapse = item.querySelector('.faq-collapse');
+      if (!trigger || !collapse) return;
+
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isOpen = item.classList.contains('is-open');
+
+        if (isOpen) {
+          item.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+          setTimeout(() => {
+            if (!item.classList.contains('is-open')) {
+              collapse.setAttribute('hidden', '');
+            }
+          }, 350);
+        } else {
+          // Close sibling items for clean accordion UX
+          items.forEach((sibling) => {
+            if (sibling !== item && sibling.classList.contains('is-open')) {
+              sibling.classList.remove('is-open');
+              const sTrigger = sibling.querySelector('.faq-trigger');
+              const sCollapse = sibling.querySelector('.faq-collapse');
+              if (sTrigger) sTrigger.setAttribute('aria-expanded', 'false');
+              setTimeout(() => {
+                if (!sibling.classList.contains('is-open') && sCollapse) {
+                  sCollapse.setAttribute('hidden', '');
+                }
+              }, 350);
+            }
+          });
+
+          collapse.removeAttribute('hidden');
+          void collapse.offsetHeight; // Force reflow
+          item.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  });
+}
+

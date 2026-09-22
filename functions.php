@@ -26,4 +26,5 @@ require_once PACTO_THEME_DIR . '/inc/acf-fields.php';
 require_once PACTO_THEME_DIR . '/inc/svg-support.php';
 require_once PACTO_THEME_DIR . '/inc/hero-slider-meta.php';
 require_once PACTO_THEME_DIR . '/inc/cpt-testimonials.php';
+require_once PACTO_THEME_DIR . '/inc/cpt-seguros-particulares.php';
 

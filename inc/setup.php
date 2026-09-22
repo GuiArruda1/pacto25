@@ -66,6 +66,26 @@ function pacto_25_scripts() {
     // Theme root stylesheet
     wp_enqueue_style( 'pacto-style', get_stylesheet_uri(), array( 'pacto-responsive' ), $theme_version );
 
+    // Quem Somos page styles
+    if ( is_page_template( 'page-quem-somos.php' ) || is_page( 'quem-somos' ) ) {
+        wp_enqueue_style( 'pacto-quem-somos', $theme_uri . '/css/quem-somos.css', array( 'pacto-style' ), $theme_version );
+    }
+
+    // Particulares page styles
+    if ( is_page_template( 'page-particulares.php' ) || is_page( 'particulares' ) ) {
+        wp_enqueue_style( 'pacto-particulares', $theme_uri . '/css/particulares.css', array( 'pacto-style' ), $theme_version );
+    }
+
+    // Single Seguro Particular styles
+    if ( is_singular( 'seguro_particular' ) ) {
+        wp_enqueue_style( 'pacto-single-seguro', $theme_uri . '/css/single-seguro.css', array( 'pacto-style' ), $theme_version );
+    }
+
+    // Sinistro page styles
+    if ( is_page_template( 'page-sinistro.php' ) || is_page( 'sinistro' ) || is_page( 'em-caso-de-sinistro' ) ) {
+        wp_enqueue_style( 'pacto-sinistro', $theme_uri . '/css/sinistro.css', array( 'pacto-style' ), $theme_version );
+    }
+
     // Vanilla JavaScript (loaded in footer, deferred for optimal First Contentful Paint)
     wp_enqueue_script( 'pacto-main', $theme_uri . '/js/main.js', array(), $theme_version, array( 'strategy' => 'defer', 'in_footer' => true ) );
 }

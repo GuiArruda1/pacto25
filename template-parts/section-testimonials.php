@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $eyebrow     = pacto_get_field( 'testimonials_eyebrow', false, 'PORQUÊ ESCOLHER-NOS' );
-$title       = pacto_get_field( 'testimonials_title', false, "O que dizem sobre a\nPacto Seguro" );
+$title       = pacto_get_field( 'testimonials_title', false, 'O que dizem sobre a Pacto Seguro' );
 $description = pacto_get_field( 'testimonials_description', false, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
 
 $testimonials = pacto_get_testimonials_list();

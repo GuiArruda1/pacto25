@@ -1,8 +1,9 @@
 <?php
 /**
  * Template Name: Quem Somos
- * Description: Page template for the Quem Somos / Institucional page.
+ * Description: Template for Quem Somos / Institucional page matching Figma design.
  * Theme: Pacto 25
+ * Strict Agency SOP: Modular sections, fully decoupled ACF fields, zero bloated dependencies.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,17 +13,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 ?>
 
-<!-- 1. Banner Principal Quem Somos -->
-<?php get_template_part( 'template-parts/section', 'banner-quem-somos' ); ?>
+<!-- 1. Hero: Quem Somos Seguros à Medida -->
+<?php get_template_part( 'template-parts/section', 'qs-hero' ); ?>
 
-<!-- 2. Secção Sobre / História -->
-<?php get_template_part( 'template-parts/section', 'about' ); ?>
+<!-- 2. Porque o fazemos? -->
+<?php get_template_part( 'template-parts/section', 'qs-why' ); ?>
 
-<!-- 3. Testemunhos de Clientes -->
-<?php get_template_part( 'template-parts/section', 'testimonials' ); ?>
+<!-- 3. Missão, Visão e Valores (Red Canopy Section) -->
+<?php get_template_part( 'template-parts/section', 'qs-mission' ); ?>
 
-<!-- 4. Subscrição Newsletter -->
-<?php get_template_part( 'template-parts/section', 'newsletter' ); ?>
+<!-- 4. Porquê escolher-nos (Narrative & Red Circle Features Grid) -->
+<?php get_template_part( 'template-parts/section', 'qs-reasons' ); ?>
+
+<!-- 5. A Nossa Equipa (Staggered Constellation) -->
+<?php get_template_part( 'template-parts/section', 'qs-team' ); ?>
+
+<!-- 6. Banner CTA Final -->
+<?php get_template_part( 'template-parts/section', 'qs-cta' ); ?>
 
 <?php
 get_footer();

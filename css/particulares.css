@@ -1,0 +1,298 @@
+/**
+ * Particulares Page Styles
+ * Theme: Pacto 25
+ * Strict Agency SOP: Modular Vanilla CSS, fluid clamp() sizing, responsive CSS Grid / Flexbox, zero bloat.
+ */
+
+body.page-template-page-particulares,
+body.page-particulares,
+.page-template-page-particulares .site-main {
+  overflow-x: clip;
+}
+
+/* ==========================================================================
+   1. Hero Section (Seguros para Particulares)
+   ========================================================================== */
+.section-particulares-hero {
+  position: relative;
+  overflow: visible;
+  padding-top: clamp(3.5rem, 6.5vw, 6.5rem);
+  padding-bottom: clamp(4rem, 8vw, 8rem);
+  background-color: transparent;
+}
+
+.section-particulares-hero__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .section-particulares-hero__layout {
+    grid-template-columns: 0.95fr 1.05fr;
+  }
+}
+
+.section-particulares-hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 1.25vw, 1.25rem);
+  position: relative;
+  z-index: 3;
+}
+
+.section-particulares-hero__content .eyebrow {
+  margin-bottom: clamp(0.25rem, 0.5vw, 0.5rem);
+}
+
+.section-particulares-hero__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 4.4vw, 4.15rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-dark, #231F20);
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 520px;
+}
+
+.section-particulares-hero__lead {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+  line-height: 1.65;
+  color: #555555;
+  margin: 0;
+  max-width: 520px;
+}
+
+.section-particulares-hero__visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+.particulares-hero-image-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.particulares-hero-image-wrap img,
+.particulares-hero-image-wrap .particulares-hero-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Ambient Floating Red Dots */
+.particulares-dot {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particulares-dot--top-left {
+  width: clamp(38px, 4vw, 54px);
+  height: clamp(38px, 4vw, 54px);
+  top: 18%;
+  left: 33%;
+}
+
+.particulares-dot--mid-bottom {
+  width: clamp(38px, 4vw, 54px);
+  height: clamp(38px, 4vw, 54px);
+  bottom: 22%;
+  left: 46%;
+}
+
+.particulares-dot--center-bottom {
+  width: clamp(20px, 2vw, 26px);
+  height: clamp(20px, 2vw, 26px);
+  bottom: 12%;
+  left: 35.5%;
+}
+
+.particulares-dot--table-bottom {
+  width: clamp(16px, 1.6vw, 22px);
+  height: clamp(16px, 1.6vw, 22px);
+  bottom: 19%;
+  left: 60%;
+}
+
+.particulares-dot--right-large {
+  width: clamp(38px, 4vw, 54px);
+  height: clamp(38px, 4vw, 54px);
+  bottom: 18%;
+  right: 18%;
+}
+
+.particulares-dot--right-edge {
+  width: clamp(16px, 1.6vw, 22px);
+  height: clamp(16px, 1.6vw, 22px);
+  bottom: 20%;
+  right: 9.5%;
+}
+
+@media (max-width: 991px) {
+  .particulares-dot--top-left,
+  .particulares-dot--mid-bottom,
+  .particulares-dot--center-bottom,
+  .particulares-dot--table-bottom,
+  .particulares-dot--right-large,
+  .particulares-dot--right-edge {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   2. Seguros Particulares List Grid Section
+   ========================================================================== */
+.section-particulares-seguros {
+  position: relative;
+  padding-top: clamp(2rem, 4vw, 4rem);
+  padding-bottom: clamp(5rem, 8vw, 8rem);
+  background-color: transparent;
+}
+
+.particulares-seguros__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: clamp(2.5rem, 4.5vw, 4.5rem);
+  column-gap: clamp(2rem, 4vw, 4.5rem);
+}
+
+@media (min-width: 860px) {
+  .particulares-seguros__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Single Seguro Card */
+.seguro-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(1.25rem, 2vw, 2rem);
+  position: relative;
+}
+
+.seguro-card__image-wrap {
+  width: clamp(130px, 13vw, 172px);
+  height: clamp(130px, 13vw, 172px);
+  flex-shrink: 0;
+  border-radius: clamp(22px, 2.2vw, 32px);
+  overflow: hidden;
+  background-color: #f4f4f4;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.seguro-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.seguro-card:hover .seguro-card__image {
+  transform: scale(1.04);
+}
+
+.seguro-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.seguro-card__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 1.35vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-dark, #231F20);
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.seguro-card__desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 0.95vw, 0.92rem);
+  line-height: 1.55;
+  color: #555555;
+  margin: 0;
+}
+
+.seguro-card__link {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: clamp(0.88rem, 0.95vw, 0.92rem);
+  font-weight: 600;
+  color: var(--color-primary, #E84E38);
+  text-decoration: none;
+  margin-top: 0.25rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.seguro-card__link:hover {
+  color: #d03a25;
+  transform: translateX(3px);
+}
+
+/* Pagination */
+.particulares-pagination {
+  margin-top: clamp(3rem, 5.5vw, 5.5rem);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.particulares-pagination ul.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.particulares-pagination .page-numbers {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #555555;
+  text-decoration: none;
+  padding: 0.25rem 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.particulares-pagination a.page-numbers:hover {
+  color: var(--color-primary, #E84E38);
+}
+
+.particulares-pagination .page-numbers.current {
+  color: var(--color-primary, #E84E38);
+  font-weight: 700;
+}
+
+.particulares-pagination .prev.page-numbers,
+.particulares-pagination .next.page-numbers {
+  font-size: 1.1rem;
+  color: #555555;
+}

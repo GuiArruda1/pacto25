@@ -55,10 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <ul class="site-header__nav-list">
                             <li class="site-header__nav-item"><a href="#institucional"><?php esc_html_e( 'institucional', 'pacto-25' ); ?></a></li>
                             <li class="site-header__nav-item site-header__nav-item--mega" data-mega-id="mega-menu-particulares">
-                                <a href="#particulares" class="mega-menu-trigger" aria-haspopup="true" aria-expanded="false">
-                                    <span class="nav-dot" aria-hidden="true"></span>
-                                    <span><?php esc_html_e( 'particulares', 'pacto-25' ); ?></span>
-                                </a>
+                                <a href="#particulares" class="mega-menu-trigger" aria-haspopup="true" aria-expanded="false"><?php esc_html_e( 'particulares', 'pacto-25' ); ?></a>
                                 <?php get_template_part( 'template-parts/header', 'mega-menu' ); ?>
                             </li>
                             <li class="site-header__nav-item"><a href="#empresas"><?php esc_html_e( 'empresas', 'pacto-25' ); ?></a></li>
@@ -95,7 +92,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <?php if ( ! empty( $header_cta_text ) && ! empty( $header_cta_url ) ) : ?>
                         <a href="<?php echo esc_url( $header_cta_url ); ?>" class="btn btn--primary btn--sm">
-                            <?php echo esc_html( $header_cta_text ); ?>
+                            <span><?php echo esc_html( $header_cta_text ); ?></span>
                         </a>
                     <?php endif; ?>
                 </div>

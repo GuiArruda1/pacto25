@@ -19,12 +19,6 @@
   }
 }
 
-/* Tablets (640px to 1024px) */
-@media (min-width: 640px) and (max-width: 1024px) {
-  .testimonials-stage {
-    padding: 1.5rem 0;
-  }
-}
 
 /* Reduced Motion preferences */
 @media (prefers-reduced-motion: reduce) {

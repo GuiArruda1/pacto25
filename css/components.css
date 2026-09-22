@@ -12,7 +12,7 @@
   gap: 8px;
   font-family: var(--font-heading);
   font-size: var(--fs-btn);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1;
   text-decoration: none;
   padding: 14px 30px;
@@ -133,40 +133,53 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  padding: 4px;
   background: transparent;
   border: none;
-  border-radius: 50%;
   color: var(--color-dark);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: color 0.2s ease, transform 0.2s ease;
+  line-height: 1;
 }
 
 .slider-btn * {
   pointer-events: none;
 }
 
-.slider-btn:hover {
-  background-color: var(--color-dark);
-  color: var(--color-white);
+.slider-btn:hover,
+.hero-slider-btn:hover {
+  background: transparent;
+  background-color: transparent;
+  color: var(--color-primary);
+  transform: scale(1.18);
+}
+
+.slider-btn:active,
+.hero-slider-btn:active {
+  transform: scale(0.92);
+}
+
+.slider-btn:focus-visible,
+.hero-slider-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .slider-btn--white {
-  border-color: rgba(255, 255, 255, 0.5);
   color: var(--color-white);
+  background: transparent;
 }
 
 .slider-btn--white:hover {
-  background-color: var(--color-white);
+  background: transparent;
   color: var(--color-primary);
-  border-color: var(--color-white);
 }
 
 .slider-btn svg {
   width: 34px;
   height: 34px;
   stroke-width: 2;
+  stroke: currentColor;
 }
 
 /* Circular Masks & Frames */
@@ -235,24 +248,24 @@
 .bubble-cluster {
   position: relative;
   width: 100%;
-  max-width: clamp(380px, 32vw, 520px);
-  aspect-ratio: 780 / 740;
+  max-width: clamp(330px, 28vw, 440px);
+  aspect-ratio: 345 / 315;
   margin-left: auto;
   margin-right: auto;
   isolation: isolate;
 }
 
-/* Laptops & Notebooks (992px to 1440px): 30% scale */
+/* Laptops & Notebooks (992px to 1440px) */
 @media (min-width: 992px) and (max-width: 1440px) {
   .bubble-cluster {
-    max-width: clamp(320px, 30vw, 425px);
+    max-width: clamp(290px, 25vw, 380px);
   }
 }
 
 /* Mobile & Small Tablets */
 @media (max-width: 991px) {
   .bubble-cluster {
-    max-width: min(100%, 350px);
+    max-width: min(100%, 330px);
   }
 }
 
@@ -261,9 +274,9 @@
   position: absolute;
   border-radius: 50%;
   overflow: hidden;
-  border: clamp(3px, 0.35vw, 6px) solid #FFFFFF;
+  border: clamp(3px, 0.35vw, 5px) solid #FFFFFF;
   cursor: pointer;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.20);
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.45s ease,
               border-color 0.3s ease;
@@ -284,15 +297,15 @@
 /* Interactive Hover Effect */
 .bubble-cluster__bubble:hover,
 .bubble-cluster__bubble:focus-visible {
-  transform: scale(1.09);
+  transform: scale(1.08);
   z-index: 15 !important;
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.42),
+  box-shadow: 0 22px 46px rgba(0, 0, 0, 0.40),
               0 0 0 3px rgba(255, 255, 255, 0.85);
 }
 
 .bubble-cluster__bubble:hover img,
 .bubble-cluster__bubble:focus-visible img {
-  transform: scale(1.14);
+  transform: scale(1.12);
 }
 
 /* Subtle focus dimming on other bubbles during hover */
@@ -302,49 +315,49 @@
   transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
-/* 1. Center Bubble: Meeting (Soluções Globais) */
+/* 1. Center Bubble: Reunião / Empresas (Hero Center Circle - Overlaps Dog, Lawyer, Car) */
 .bubble-cluster__bubble--center {
-  top: 22%;
-  left: 21%;
-  width: 63%;
+  top: 21.6%;
+  left: 17.4%;
+  width: 63.7%;
+  aspect-ratio: 1 / 1;
+  z-index: 5;
+}
+
+/* 2. Top-Left Bubble: Animal / Pet */
+.bubble-cluster__bubble--top-left {
+  top: 1.2%;
+  left: 0%;
+  width: 36.0%;
   aspect-ratio: 1 / 1;
   z-index: 3;
 }
 
-/* 2. Top-Left Bubble: Pet / Animal */
-.bubble-cluster__bubble--top-left {
-  top: 3%;
-  left: 1%;
-  width: 33%;
-  aspect-ratio: 1 / 1;
-  z-index: 4;
-}
-
-/* 3. Top-Right Bubble: Businessman / Profissional */
+/* 3. Top-Right Bubble: Advogado / Profissional */
 .bubble-cluster__bubble--top-right {
-  top: 25%;
-  right: 1%;
-  width: 31%;
+  top: 23.5%;
+  left: 70.5%;
+  width: 29.5%;
   aspect-ratio: 1 / 1;
-  z-index: 4;
+  z-index: 3;
 }
 
-/* 4. Bottom-Left Bubble: Couple / Família */
+/* 4. Bottom-Left Bubble: Reforma / Casal */
 .bubble-cluster__bubble--bottom-left {
-  bottom: 0%;
-  left: 1%;
-  width: 24%;
+  top: 72.2%;
+  left: 1.6%;
+  width: 25.3%;
   aspect-ratio: 1 / 1;
   z-index: 4;
 }
 
-/* 5. Bottom-Right Bubble: Car / Viagem */
+/* 5. Bottom-Right Bubble: Viatura / Auto */
 .bubble-cluster__bubble--bottom-right {
-  bottom: 12%;
-  right: 2%;
-  width: 25%;
+  top: 56.8%;
+  left: 74.4%;
+  width: 25.1%;
   aspect-ratio: 1 / 1;
-  z-index: 4;
+  z-index: 3;
 }
 
 /* Floating White Rings with gentle organic float animation */
@@ -369,7 +382,7 @@
 .bubble-cluster__ring {
   position: absolute;
   border-radius: 50%;
-  border: clamp(4px, 0.4vw, 6px) solid #FFFFFF;
+  border: clamp(3px, 0.35vw, 5px) solid #FFFFFF;
   background-color: transparent;
   pointer-events: none;
   z-index: 2;
@@ -377,17 +390,17 @@
 }
 
 .bubble-cluster__ring--top {
-  top: 6%;
-  left: 38%;
-  width: 7.5%;
+  top: 0%;
+  left: 42.1%;
+  width: 6.4%;
   aspect-ratio: 1 / 1;
   animation: floatRingTop 4.5s ease-in-out infinite;
 }
 
 .bubble-cluster__ring--bottom {
-  bottom: 5%;
-  right: 25%;
-  width: 8%;
+  top: 92.1%;
+  left: 72.4%;
+  width: 6.5%;
   aspect-ratio: 1 / 1;
   animation: floatRingBottom 5s ease-in-out infinite 1.5s;
 }
@@ -399,8 +412,8 @@
 .section-testimonials {
   position: relative;
   background-color: var(--color-white);
-  padding-top: clamp(2.5rem, 5vw, 4.5rem);
-  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  padding-top: clamp(2rem, 3.5vw, 3.5rem);
+  padding-bottom: clamp(2rem, 3.5vw, 3.5rem);
   overflow: hidden;
 }
 
@@ -417,7 +430,7 @@
   max-width: 680px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  margin-bottom: clamp(1rem, 2vw, 1.75rem);
 }
 
 .testimonials-header .eyebrow {
@@ -428,7 +441,7 @@
 .testimonials-title {
   font-family: var(--font-heading);
   font-size: clamp(2rem, 3.2vw, 2.75rem);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.18;
   color: #231F20;
   margin-bottom: var(--space-sm);
@@ -449,7 +462,16 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  padding: clamp(0.5rem, 1.5vw, 1.5rem) 0;
+  padding: 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+}
+
+.testimonials-stage.is-dragging,
+.testimonials-arc-wrapper.is-dragging {
+  cursor: grabbing;
 }
 
 .testimonials-arc-wrapper {
@@ -461,6 +483,7 @@
   clip-path: url(#testimonials-arc-clip);
   -webkit-clip-path: url(#testimonials-arc-clip);
   overflow: hidden;
+  cursor: grab;
 }
 
 .testimonials-track {
@@ -490,11 +513,17 @@
   box-shadow: 0 8px 24px rgba(212, 46, 18, 0.18);
   transition: filter 0.3s ease, background-color 0.3s ease;
   user-select: none;
-  cursor: pointer;
+  -webkit-user-select: none;
+  cursor: grab;
 }
 
 .testimonial-card:hover {
   filter: brightness(1.06);
+}
+
+.testimonial-card img {
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 .testimonial-card__avatar {
@@ -551,7 +580,7 @@
   justify-content: center;
   align-items: center;
   gap: 16px;
-  margin-top: clamp(1.5rem, 2.5vw, 2.5rem);
+  margin-top: clamp(0.25rem, 0.8vw, 0.75rem);
 }
 
 .testimonials-nav__btn {
@@ -806,77 +835,77 @@
   transform: scale(1.05);
 }
 
-/* 2. Small Ring Top-Left */
+/* 1. Small Ring Top-Left (above couple on raft) */
 .newsletter-bubble--ring-tl {
-  width: 32px;
-  height: 32px;
-  border: 4px solid var(--color-primary);
-  top: 13%;
-  left: clamp(12%, 18vw, 22%);
+  width: clamp(20px, 2vw, 28px);
+  height: clamp(20px, 2vw, 28px);
+  border: 3px solid var(--color-primary);
+  top: 14%;
+  left: clamp(18%, 23vw, 25%);
   animation: bubbleFloatBounce2 4.8s ease-in-out infinite 0.4s;
 }
 
-/* 3. Medium Ring Far-Left */
+/* 2. Thick Ring Far-Left */
 .newsletter-bubble--ring-fl {
   width: clamp(48px, 4.8vw, 68px);
   height: clamp(48px, 4.8vw, 68px);
-  border: 8px solid var(--color-primary);
-  top: 42%;
-  left: clamp(-20px, 1.5vw, 35px);
+  border: clamp(11px, 1.2vw, 16px) solid var(--color-primary);
+  top: 40%;
+  left: clamp(2%, 6vw, 9.5%);
   animation: bubbleFloatBounce3 5.4s ease-in-out infinite 1.1s;
 }
 
-/* 4. Thick Ring Bottom-Left */
+/* 3. Thick Ring Bottom-Left (below couple on raft) */
 .newsletter-bubble--ring-bl {
-  width: clamp(64px, 6.2vw, 88px);
-  height: clamp(64px, 6.2vw, 88px);
-  border: clamp(8px, 0.9vw, 12px) solid var(--color-primary);
-  bottom: 22%;
-  left: clamp(2%, 8vw, 14%);
+  width: clamp(60px, 6vw, 84px);
+  height: clamp(60px, 6vw, 84px);
+  border: clamp(14px, 1.5vw, 20px) solid var(--color-primary);
+  top: 65%;
+  left: clamp(10%, 17vw, 21%);
   animation: bubbleFloatBounce1 5.2s ease-in-out infinite 0.7s;
 }
 
-/* 5. Large Ring Top-Right */
+/* 4. Thick Ring Top-Right */
 .newsletter-bubble--ring-tr {
-  width: clamp(70px, 7vw, 100px);
-  height: clamp(70px, 7vw, 100px);
-  border: clamp(10px, 1vw, 14px) solid var(--color-primary);
-  top: 10%;
-  right: clamp(-15px, 2vw, 45px);
+  width: clamp(62px, 6.2vw, 88px);
+  height: clamp(62px, 6.2vw, 88px);
+  border: clamp(14px, 1.5vw, 20px) solid var(--color-primary);
+  top: 14%;
+  right: clamp(2%, 7vw, 10%);
   animation: bubbleFloatBounce2 6.2s ease-in-out infinite 0.3s;
 }
 
-/* 6. Small Ring Middle-Right */
+/* 5. Small Ring Middle-Right (to right of title) */
 .newsletter-bubble--ring-mr {
-  width: 28px;
-  height: 28px;
-  border: 5px solid var(--color-primary);
-  top: 39%;
-  right: clamp(5%, 12vw, 16%);
+  width: clamp(20px, 2vw, 28px);
+  height: clamp(20px, 2vw, 28px);
+  border: 3px solid var(--color-primary);
+  top: 44%;
+  right: clamp(12%, 18vw, 20%);
   animation: bubbleFloatBounce3 4.4s ease-in-out infinite 1.6s;
 }
 
-/* 7. Large Ring Bottom-Right */
+/* 6. Thick Ring Bottom-Right (far lower right) */
 .newsletter-bubble--ring-br {
   width: clamp(70px, 7vw, 98px);
   height: clamp(70px, 7vw, 98px);
-  border: clamp(10px, 1vw, 14px) solid var(--color-primary);
-  bottom: 24%;
-  right: clamp(1%, 5vw, 8%);
+  border: clamp(16px, 1.8vw, 24px) solid var(--color-primary);
+  top: 68%;
+  right: clamp(4%, 11vw, 14%);
   animation: bubbleFloatBounce1 5.8s ease-in-out infinite 1.2s;
 }
 
-/* 8. Small Ring Bottom-Center-Right */
+/* 7. Small Ring Bottom-Center-Right (below button right side) */
 .newsletter-bubble--ring-bcr {
-  width: 26px;
-  height: 26px;
-  border: 4px solid var(--color-primary);
-  bottom: 16%;
-  right: clamp(12%, 20vw, 24%);
+  width: clamp(18px, 1.8vw, 24px);
+  height: clamp(18px, 1.8vw, 24px);
+  border: 3px solid var(--color-primary);
+  top: 78%;
+  right: clamp(18%, 25vw, 28%);
   animation: bubbleFloatBounce2 5s ease-in-out infinite 2s;
 }
 
-@media (max-width: 639px) {
+@media (max-width: 991px) {
   .newsletter-bubble--ring-tl,
   .newsletter-bubble--ring-bcr {
     display: none;
@@ -885,8 +914,8 @@
   .newsletter-bubble--ring-bl,
   .newsletter-bubble--ring-tr,
   .newsletter-bubble--ring-br {
-    opacity: 0.45;
-    transform: scale(0.65);
+    opacity: 0.35;
+    transform: scale(0.7);
   }
 }
 
@@ -896,37 +925,20 @@
   }
 }
 
-/* Scroll To Top Button */
+/* Scroll To Top Button (Inside .floating-actions) */
 .scroll-to-top {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: var(--color-dark);
-  color: var(--color-white);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
   opacity: 0;
   visibility: hidden;
-  transition: all var(--transition-fast);
-  box-shadow: var(--shadow-card);
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease, background-color var(--transition-fast);
 }
 
 .scroll-to-top.is-visible {
   opacity: 1;
   visibility: visible;
-}
-
-.scroll-to-top:hover {
-  background-color: var(--color-primary);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-red);
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 /* ==========================================================================
@@ -1081,7 +1093,7 @@
 .news-title {
   font-family: var(--font-heading);
   font-size: clamp(1.75rem, 2.3vw, 2.35rem);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.22;
   color: #231F20;
   margin-bottom: var(--space-sm);
@@ -1166,4 +1178,395 @@
   background-color: var(--color-primary);
   color: #FFFFFF;
   transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Reusable Banner CTA Component ("Temos uma equipa preparada...")
+   ========================================================================== */
+.section-banner-cta,
+.section-qs-cta {
+  position: relative;
+  overflow: visible;
+  padding: clamp(5.5rem, 9vw, 9.5rem) 0;
+  background-color: transparent;
+  text-align: center;
+  z-index: 5;
+}
+
+.section-banner-cta__content,
+.section-qs-cta__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 760px;
+  margin: 0 auto;
+  gap: clamp(0.85rem, 1.5vw, 1.25rem);
+  position: relative;
+  z-index: 2;
+}
+
+.section-banner-cta__content .eyebrow,
+.section-qs-cta__content .eyebrow {
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+}
+
+.section-banner-cta__title,
+.section-qs-cta__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-dark, #231F20);
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.section-banner-cta__subtitle,
+.section-qs-cta__subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+  line-height: 1.7;
+  color: #555555;
+  margin: 0;
+  max-width: 580px;
+}
+
+.section-banner-cta__btn-wrap,
+.section-qs-cta__btn-wrap {
+  margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.section-banner-cta__btn,
+.section-qs-cta__btn {
+  background-color: #1a1a1a;
+  color: #FFFFFF !important;
+  padding: 13px 32px;
+  border-radius: 9999px;
+  font-family: var(--font-heading);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-transform: lowercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.section-banner-cta__btn:hover,
+.section-qs-cta__btn:hover {
+  background-color: #000000;
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+}
+
+/* CTA Floating Rings & Dots */
+.banner-cta-ring,
+.qs-cta-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.banner-cta-ring--bleed-left,
+.qs-cta-ring--bleed-left {
+  width: clamp(75px, 8vw, 105px);
+  height: clamp(75px, 8vw, 105px);
+  left: 0;
+  transform: translateX(-50%);
+  bottom: 12%;
+  border: clamp(8px, 1vw, 12px) solid var(--color-primary);
+}
+
+.banner-cta-ring--left-mid,
+.qs-cta-ring--left-mid {
+  width: clamp(55px, 6vw, 75px);
+  height: clamp(55px, 6vw, 75px);
+  left: 12%;
+  bottom: 8%;
+  border: clamp(6px, 0.8vw, 9px) solid var(--color-primary);
+}
+
+.banner-cta-ring--right-large,
+.qs-cta-ring--right-large {
+  width: clamp(70px, 7vw, 95px);
+  height: clamp(70px, 7vw, 95px);
+  right: 14%;
+  bottom: 8%;
+  border: clamp(8px, 1vw, 11px) solid var(--color-primary);
+}
+
+.banner-cta-ring--right-small,
+.qs-cta-ring--right-small {
+  width: clamp(18px, 2vw, 24px);
+  height: clamp(18px, 2vw, 24px);
+  right: 24%;
+  bottom: 4%;
+  border: 3px solid var(--color-primary);
+}
+
+.banner-cta-ring--top-right,
+.qs-cta-ring--top-right {
+  width: clamp(20px, 2vw, 26px);
+  height: clamp(20px, 2vw, 26px);
+  right: 18%;
+  top: 10%;
+  border: 3px solid var(--color-primary);
+}
+
+.banner-cta-dot,
+.qs-cta-dot {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.banner-cta-dot--center-left,
+.qs-cta-dot--center-left {
+  width: clamp(14px, 1.8vw, 22px);
+  height: clamp(14px, 1.8vw, 22px);
+  left: 20%;
+  bottom: 24%;
+}
+
+/* ==========================================================================
+   Section: FAQ / Questões Mais Frequentes (Reusable Component)
+   Matching Figma Design & Accordion Pill Layout
+   ========================================================================== */
+.section-faq {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(4.5rem, 7vw, 7.5rem) 0;
+  background-color: var(--color-white, #FFFFFF);
+}
+
+.faq-container {
+  position: relative;
+  z-index: 2;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.faq-header {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.faq-header .eyebrow {
+  margin-bottom: var(--space-xs);
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+}
+
+.faq-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.18;
+  color: #231F20;
+  margin-bottom: var(--space-sm);
+}
+
+.faq-desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.875rem, 0.95vw, 1rem);
+  line-height: 1.6;
+  color: #737373;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Accordion Pill Items */
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.faq-item {
+  border: 1.5px solid #231F20;
+  border-radius: 9999px;
+  background-color: #FFFFFF;
+  transition: border-radius 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.faq-item:hover {
+  border-color: var(--color-primary);
+}
+
+.faq-item.is-open {
+  border-radius: 24px;
+  border-color: #231F20;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.faq-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 28px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-heading);
+  font-size: clamp(0.875rem, 0.98vw, 1.05rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: #231F20;
+  transition: color 0.2s ease;
+  outline: none;
+}
+
+.faq-trigger:hover {
+  color: var(--color-primary);
+}
+
+.faq-trigger:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.faq-question {
+  flex: 1;
+}
+
+.faq-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  color: #231F20;
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s ease;
+}
+
+.faq-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.faq-trigger:hover .faq-icon {
+  color: var(--color-primary);
+}
+
+.faq-item.is-open .faq-icon {
+  transform: rotate(180deg);
+  color: var(--color-primary);
+}
+
+/* Accordion Content Collapse */
+.faq-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.faq-collapse[hidden] {
+  display: none;
+}
+
+.faq-collapse:not([hidden]) {
+  display: grid;
+}
+
+.faq-item.is-open .faq-collapse {
+  grid-template-rows: 1fr;
+}
+
+.faq-collapse > div {
+  overflow: hidden;
+}
+
+.faq-content {
+  padding: 0 28px 22px 28px;
+}
+
+.faq-content p {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 0.9vw, 0.95rem);
+  line-height: 1.65;
+  color: #666666;
+  margin: 0;
+}
+
+/* Floating Ambient Red Rings */
+.faq-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.faq-ring--bleed-left {
+  left: 0;
+  transform: translateX(-50%);
+  top: 10%;
+  width: clamp(75px, 8vw, 105px);
+  aspect-ratio: 1 / 1;
+  border: clamp(8px, 1vw, 12px) solid var(--color-primary);
+}
+
+.faq-ring--left-mid {
+  left: 8%;
+  bottom: 15%;
+  width: clamp(55px, 6vw, 75px);
+  aspect-ratio: 1 / 1;
+  border: clamp(6px, 0.8vw, 9px) solid var(--color-primary);
+}
+
+.faq-ring--right-top {
+  right: 14%;
+  top: 12%;
+  width: clamp(20px, 2.2vw, 28px);
+  aspect-ratio: 1 / 1;
+  border: 4px solid var(--color-primary);
+}
+
+.faq-ring--right-large {
+  right: 6%;
+  bottom: 22%;
+  width: clamp(70px, 7.5vw, 95px);
+  aspect-ratio: 1 / 1;
+  border: clamp(8px, 1vw, 11px) solid var(--color-primary);
+}
+
+.faq-ring--right-bottom {
+  right: 16%;
+  bottom: 8%;
+  width: clamp(18px, 2vw, 24px);
+  aspect-ratio: 1 / 1;
+  border: 3px solid var(--color-primary);
+}
+
+@media (max-width: 767px) {
+  .faq-trigger {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+  .faq-content {
+    padding: 0 20px 18px 20px;
+  }
+  .faq-item.is-open {
+    border-radius: 20px;
+  }
 }

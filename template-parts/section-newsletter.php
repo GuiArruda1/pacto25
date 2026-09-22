@@ -75,7 +75,7 @@ $privacy_url = function_exists( 'get_privacy_policy_url' ) && get_privacy_policy
                         required
                     />
                     <button type="submit" class="btn btn--dark newsletter-form__btn">
-                        <?php echo esc_html( $btn_text ); ?>
+                        <span><?php echo esc_html( $btn_text ); ?></span>
                     </button>
                 </div>
 

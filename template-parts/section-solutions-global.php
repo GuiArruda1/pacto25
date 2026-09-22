@@ -22,11 +22,11 @@ $img_tr     = pacto_get_field( 'solutions_bubble_top_right' );
 $img_bl     = pacto_get_field( 'solutions_bubble_bottom_left' );
 $img_br     = pacto_get_field( 'solutions_bubble_bottom_right' );
 
-$src_center = $img_center ? ( is_array( $img_center ) ? $img_center['url'] : $img_center ) : get_template_directory_uri() . '/assets/bubble-center.jpg';
-$src_tl     = $img_tl ? ( is_array( $img_tl ) ? $img_tl['url'] : $img_tl ) : get_template_directory_uri() . '/assets/bubble-dog.jpg';
-$src_tr     = $img_tr ? ( is_array( $img_tr ) ? $img_tr['url'] : $img_tr ) : get_template_directory_uri() . '/assets/bubble-businessman.jpg';
-$src_bl     = $img_bl ? ( is_array( $img_bl ) ? $img_bl['url'] : $img_bl ) : get_template_directory_uri() . '/assets/bubble-couple.jpg';
-$src_br     = $img_br ? ( is_array( $img_br ) ? $img_br['url'] : $img_br ) : get_template_directory_uri() . '/assets/bubble-car.jpg';
+$src_center = $img_center ? ( is_array( $img_center ) ? $img_center['url'] : $img_center ) : get_template_directory_uri() . '/assets/home/01-Homepage/home-empresas-pacto-seguro.webp';
+$src_tl     = $img_tl ? ( is_array( $img_tl ) ? $img_tl['url'] : $img_tl ) : get_template_directory_uri() . '/assets/home/01-Homepage/home-animal-pacto-seguro.webp';
+$src_tr     = $img_tr ? ( is_array( $img_tr ) ? $img_tr['url'] : $img_tr ) : get_template_directory_uri() . '/assets/home/01-Homepage/home-advogado-pacto-seguro.webp';
+$src_bl     = $img_bl ? ( is_array( $img_bl ) ? $img_bl['url'] : $img_bl ) : get_template_directory_uri() . '/assets/home/01-Homepage/home-reforma-pacto-seguro.webp';
+$src_br     = $img_br ? ( is_array( $img_br ) ? $img_br['url'] : $img_br ) : get_template_directory_uri() . '/assets/home/01-Homepage/home-viatura-pacto-seguro.webp';
 ?>
 
 <div class="section-solutions-global" id="solucoes-globais">

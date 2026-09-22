@@ -17,6 +17,15 @@ $image       = pacto_get_field( 'solutions_part_image' );
 ?>
 
 <section class="section section-solutions-personal" id="particulares" aria-label="<?php esc_attr_e( 'Seguros para Particulares', 'pacto-25' ); ?>">
+    <!-- Decorative Red Circles Matching Figma Design -->
+    <div class="particulares-deco particulares-deco--left-bleed" aria-hidden="true"></div>
+    <div class="particulares-deco particulares-deco--tl-sm" aria-hidden="true"></div>
+    <div class="particulares-deco particulares-deco--tl-med" aria-hidden="true"></div>
+    <div class="particulares-deco particulares-deco--mid-dot" aria-hidden="true"></div>
+    <div class="particulares-deco particulares-deco--right-bleed" aria-hidden="true"></div>
+    <div class="particulares-deco particulares-deco--bl-med" aria-hidden="true"></div>
+    <div class="particulares-deco particulares-deco--br-sm" aria-hidden="true"></div>
+
     <div class="site-container">
         <div class="split-layout">
             <!-- Content Column (Left) -->
@@ -34,9 +43,9 @@ $image       = pacto_get_field( 'solutions_part_image' );
                 <?php endif; ?>
 
                 <?php if ( $btn_text && $btn_url ) : ?>
-                    <div style="margin-top: var(--space-md);">
+                    <div class="section-solutions-personal__btn-wrap">
                         <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn--dark">
-                            <?php echo esc_html( $btn_text ); ?>
+                            <span><?php echo esc_html( $btn_text ); ?></span>
                         </a>
                     </div>
                 <?php endif; ?>
@@ -44,10 +53,6 @@ $image       = pacto_get_field( 'solutions_part_image' );
 
             <!-- Visual Column (Right) -->
             <div class="section-solutions-personal__visual">
-                <!-- Decorative Red Bubbles -->
-                <div class="decorative-dot" style="width: 24px; height: 24px; top: 20%; left: 0;"></div>
-                <div class="decorative-dot" style="width: 14px; height: 14px; bottom: 8%; right: 10%;"></div>
-
                 <div class="solutions-personal__visual-wrap">
                     <?php
                     $default_img = get_template_directory_uri() . '/assets/home/01-Homepage/home-seguros-particulares-pacto-seguro.webp';

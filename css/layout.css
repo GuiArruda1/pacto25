@@ -328,6 +328,7 @@
 .section-about {
   position: relative;
   background-color: transparent;
+  margin-top: clamp(2.5rem, 5vw, 6rem);
   padding-top: clamp(0.75rem, 2vw, 2rem);
   padding-bottom: clamp(2rem, 3.5vw, 4rem);
   overflow: visible;
@@ -387,7 +388,7 @@
 .section-about__title {
   font-family: var(--font-heading);
   font-size: clamp(32px, 3.2vw, 48px);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.15;
   color: #231F20;
   letter-spacing: -0.02em;
@@ -469,22 +470,21 @@
   background-color: transparent;
   color: var(--color-white);
   margin-top: clamp(2.5rem, 4vw, 4.5rem);
-  padding-top: clamp(9rem, 13vw, 14.5rem);
+  padding-top: clamp(10rem, 14vw, 15.5rem);
   padding-bottom: clamp(8rem, 12vw, 14rem);
   overflow-x: clip;
   overflow-y: visible;
-  z-index: 2;
+  z-index: 3;
 }
 
-/* The Giant Full Ellipse bleeding out of the container with a broad, elegant canopy arc */
+/* The Giant Full Circle bleeding out of the container with a circular, organic arc matching Figma */
 .curved-red-bg-circle {
   position: absolute;
-  top: clamp(-45px, -3vw, -20px);
-  bottom: clamp(-45px, -3vw, -20px);
+  top: clamp(-75px, -5vw, -35px);
   left: 50%;
   transform: translateX(-50%);
-  width: max(140vw, clamp(2600px, 180vw, 3600px));
-  height: calc(100% + clamp(40px, 6vw, 90px));
+  width: clamp(1750px, 128vw, 2400px);
+  height: calc(100% + clamp(35px, 5vw, 75px));
   border-radius: 50%;
   background-color: var(--color-primary);
   pointer-events: none;
@@ -515,24 +515,26 @@
   aspect-ratio: 1;
 }
 
-/* Attached satellite bulge bottom */
+/* Attached satellite bulge bottom right - connected seamlessly with main red circle */
 .curved-red-deco--bottom {
-  bottom: -3%;
-  left: 61%;
-  width: clamp(120px, 14vw, 260px);
+  display: block;
+  bottom: -3.5%;
+  left: 60%;
+  transform: translateX(-50%);
+  width: clamp(80px, 8.5vw, 150px);
   aspect-ratio: 1;
 }
 
 /* Floating dots bottom left */
 .curved-red-deco--dot-bl1 {
-  bottom: 1.5%;
+  bottom: 4%;
   left: 20%;
   width: clamp(34px, 4vw, 75px);
   aspect-ratio: 1;
 }
 
 .curved-red-deco--dot-bl2 {
-  bottom: -2.5%;
+  bottom: 2%;
   left: 8.5%;
   width: clamp(20px, 2.4vw, 45px);
   aspect-ratio: 1;
@@ -612,6 +614,11 @@
   display: flex;
   flex-direction: column;
   gap: clamp(5rem, 8vw, 9rem);
+  max-width: min(100%, 1280px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.5rem, 4vw, 3.5rem);
+  padding-right: clamp(1.5rem, 4vw, 3.5rem);
 }
 
 /* Headings and descriptions */
@@ -621,7 +628,7 @@
 .section-curved-red__heading {
   font-family: var(--font-heading);
   font-size: clamp(30px, 3.3vw, 46px);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.15;
   color: #FFFFFF;
   letter-spacing: -0.02em;
@@ -673,8 +680,13 @@
 }
 
 .section-curved-red__btn-wrap .btn--dark:hover {
-  background-color: #000000;
-  border-color: #000000;
+  background-color: #FFFFFF;
+  border-color: #FFFFFF;
+  color: var(--color-primary);
+}
+
+.section-curved-red__btn-wrap .btn--dark:hover > * {
+  color: var(--color-primary);
 }
 
 /* Row 1: Soluções Globais */
@@ -706,6 +718,12 @@
   margin: 0;
   padding: 0;
   z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .section-solutions-global__content {
+    padding-left: clamp(1rem, 2.5vw, 2.5rem);
+  }
 }
 
 .section-solutions-global__visual {
@@ -774,7 +792,8 @@
 
 @media (min-width: 992px) {
   .section-solutions-business__content {
-    padding-left: clamp(0.5rem, 2vw, 2.5rem);
+    padding-left: clamp(0.5rem, 2vw, 2rem);
+    padding-right: clamp(1rem, 2.5vw, 2.5rem);
   }
 }
 
@@ -811,6 +830,81 @@
 .section-solutions-personal {
   position: relative;
   overflow: hidden;
+  background-color: var(--color-white);
+  padding-top: clamp(3.5rem, 6vw, 6.5rem);
+  padding-bottom: clamp(3.5rem, 6vw, 6.5rem);
+}
+
+/* 8 Decorative Red Circles Matching Figma Design */
+.particulares-deco {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 1. Left Bleed: large circle cut off by left screen edge */
+.particulares-deco--left-bleed {
+  left: 0;
+  top: 36%;
+  transform: translate(-50%, -50%);
+  width: clamp(70px, 9vw, 115px);
+  height: clamp(70px, 9vw, 115px);
+}
+
+/* 2. Top-Left Small: small dot to the left of the title/eyebrow */
+.particulares-deco--tl-sm {
+  left: 7%;
+  top: 10%;
+  transform: translate(-50%, -50%);
+  width: clamp(14px, 1.8vw, 22px);
+  height: clamp(14px, 1.8vw, 22px);
+}
+
+/* 3. Top-Left Medium: medium circle above title */
+.particulares-deco--tl-med {
+  left: 20%;
+  top: 14%;
+  transform: translate(-50%, -50%);
+  width: clamp(28px, 3.8vw, 44px);
+  height: clamp(28px, 3.8vw, 44px);
+}
+
+/* 4. Mid Dot: medium circle to the left of the workers */
+.particulares-deco--mid-dot {
+  left: 66.3%;
+  top: 28%;
+  transform: translate(-50%, -50%);
+  width: clamp(28px, 3.8vw, 44px);
+  height: clamp(28px, 3.8vw, 44px);
+}
+
+/* 6. Right Bleed: circle cut off by right screen edge */
+.particulares-deco--right-bleed {
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
+  width: clamp(60px, 8vw, 95px);
+  height: clamp(60px, 8vw, 95px);
+}
+
+/* 7. Bottom-Left Medium: medium circle below text & button */
+.particulares-deco--bl-med {
+  left: 46.5%;
+  top: 81%;
+  transform: translate(-50%, -50%);
+  width: clamp(28px, 3.8vw, 44px);
+  height: clamp(28px, 3.8vw, 44px);
+}
+
+/* 8. Bottom-Right Small: small dot below/left of workers */
+.particulares-deco--br-sm {
+  left: 69.5%;
+  top: 92%;
+  transform: translate(-50%, -50%);
+  width: clamp(14px, 1.8vw, 22px);
+  height: clamp(14px, 1.8vw, 22px);
 }
 
 .section-solutions-personal__content {
@@ -821,6 +915,10 @@
   max-width: 620px;
   width: 100%;
   z-index: 2;
+}
+
+.section-solutions-personal__btn-wrap {
+  margin-top: clamp(1.25rem, 2vw, 2rem);
 }
 
 .section-solutions-personal__visual {
@@ -834,7 +932,7 @@
 .solutions-personal__visual-wrap {
   position: relative;
   width: 100%;
-  max-width: 280px;
+  max-width: clamp(280px, 26vw, 360px);
   margin-left: auto;
   margin-right: auto;
   z-index: 2;
@@ -849,7 +947,7 @@
 .solutions-part-image {
   display: block;
   width: 100%;
-  max-width: 280px;
+  max-width: 100%;
   height: auto;
   object-fit: contain;
   margin: 0 auto;
@@ -1012,9 +1110,20 @@
   }
 }
 
-.site-header__nav-item a:hover,
-.site-header__nav-item.current-menu-item a {
-  color: var(--color-primary);
+/* Nav Pulse Effect Animation */
+@keyframes pactoDotPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(212, 46, 18, 0.7);
+  }
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 6px rgba(212, 46, 18, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(212, 46, 18, 0);
+  }
 }
 
 /* Nav Item Dots & Triggers */
@@ -1022,32 +1131,68 @@
   position: static;
 }
 
+/* Hide legacy span nav-dot if present in markup */
 .site-header__nav-item .nav-dot {
+  display: none !important;
+}
+
+/* Red Circle Dot on Hover/Active for all Header Nav Items */
+.site-header__nav-item > a::before,
+.site-header__nav-list > li > a::before {
+  content: '';
   display: inline-block;
-  width: 6px;
+  width: 0;
   height: 6px;
   border-radius: 50%;
   background-color: var(--color-primary);
-  margin-right: 5px;
-  vertical-align: middle;
+  margin-right: 0;
   opacity: 0;
   transform: scale(0);
-  transition: all var(--transition-fast);
+  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              margin-right 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease,
+              transform 0.2s ease;
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
-.site-header__nav-item--mega:hover .nav-dot,
-.site-header__nav-item--mega:focus-within .nav-dot,
-.site-header__nav-item--mega.is-active .nav-dot,
-.site-header__nav-item.current-menu-item .nav-dot {
+/* Colors on Hover and Active */
+.site-header__nav-item:hover > a,
+.site-header__nav-item > a:hover,
+.site-header__nav-item > a:focus-visible,
+.site-header__nav-item--mega.is-active > a,
+.site-header__nav-item.current-menu-item > a,
+.site-header__nav-list > li:hover > a,
+.site-header__nav-list > li > a:hover,
+.site-header__nav-list > li > a:focus-visible,
+.site-header__nav-list > li.current-menu-item > a {
+  color: var(--color-primary);
+}
+
+/* Show Dot on Hover, Focus-Visible, Mega Open, or Current Page */
+.site-header__nav-item:hover > a::before,
+.site-header__nav-item > a:hover::before,
+.site-header__nav-item > a:focus-visible::before,
+.site-header__nav-item--mega.is-active > a::before,
+.site-header__nav-item.current-menu-item > a::before,
+.site-header__nav-list > li:hover > a::before,
+.site-header__nav-list > li > a:hover::before,
+.site-header__nav-list > li > a:focus-visible::before,
+.site-header__nav-list > li.current-menu-item > a::before {
+  width: 6px;
+  margin-right: 6px;
   opacity: 1;
   transform: scale(1);
 }
 
-.site-header__nav-item--mega:hover>a,
-.site-header__nav-item--mega:focus-within>a,
-.site-header__nav-item--mega.is-active>a,
-.site-header__nav-item.current-menu-item>a {
-  color: var(--color-primary);
+/* Pulse Animation strictly on Hover or Keyboard Focus-Visible */
+.site-header__nav-item:hover > a::before,
+.site-header__nav-item > a:hover::before,
+.site-header__nav-item > a:focus-visible::before,
+.site-header__nav-list > li:hover > a::before,
+.site-header__nav-list > li > a:hover::before,
+.site-header__nav-list > li > a:focus-visible::before {
+  animation: pactoDotPulse 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Mega Menu Container */
@@ -1132,13 +1277,56 @@
   color: var(--color-dark);
   text-decoration: none;
   line-height: 1.4;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
   transition: color var(--transition-fast), transform var(--transition-fast);
-  display: inline-block;
 }
 
-.mega-menu__link:hover {
+.mega-menu__link::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  margin-right: 0;
+  opacity: 0;
+  transform: scale(0);
+  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              margin-right 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease,
+              transform 0.2s ease;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.mega-menu__link:hover,
+.mega-menu__link:focus-visible {
   color: var(--color-primary);
-  transform: translateX(4px);
+  transform: translateX(3px);
+}
+
+.mega-menu__link:hover::before,
+.mega-menu__link:focus-visible::before {
+  width: 6px;
+  margin-right: 8px;
+  opacity: 1;
+  transform: scale(1);
+  animation: pactoDotPulse 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__nav-item:hover > a::before,
+  .site-header__nav-item > a:hover::before,
+  .site-header__nav-item > a:focus-visible::before,
+  .site-header__nav-list > li:hover > a::before,
+  .site-header__nav-list > li > a:hover::before,
+  .site-header__nav-list > li > a:focus-visible::before,
+  .mega-menu__link:hover::before,
+  .mega-menu__link:focus-visible::before {
+    animation: none;
+  }
 }
 
 /* Mobile Drawer Mega Menu adjustments */
@@ -1405,112 +1593,108 @@
 }
 
 /* ==========================================================================
-   Footer 2560x1280 Ellipse Canopy Architecture (Exact Figma Spec)
+   Footer Circular Dome Architecture (Exact Figma Spec)
+   A perfect circle ~170vw wide creates the dramatic half-circle dome.
    ========================================================================== */
 .site-footer {
-  --footer-ellipse-w: max(100vw, 2560px);
-  --footer-ellipse-h: max(50vw, 1280px);
   position: relative;
   background-color: transparent;
   color: #FFFFFF;
   overflow: hidden;
-  padding-top: clamp(80px, 8.5vw, 140px);
-  padding-bottom: clamp(2rem, 3.5vw, 3rem);
-  margin-top: clamp(3.5rem, 6vw, 6.5rem);
+  padding-top: clamp(70px, 11vw, 180px);
+  padding-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
+  margin-top: clamp(4rem, 6vw, 7rem);
 }
 
-/* Exact geometric 2560 x 1280 ellipse from Figma */
-.site-footer__ellipse {
+/* Perfect circle dome — 170vw wide, aspect-ratio 1:1 */
+.site-footer::before {
+  content: '';
   position: absolute;
+  width: 170vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: var(--color-primary);
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: var(--footer-ellipse-w);
-  height: var(--footer-ellipse-h);
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
 }
 
-/* Solid red base in case footer extends beyond ellipse equator */
+/* Solid red fill below the dome's equator */
 .site-footer::after {
   content: '';
   position: absolute;
-  top: calc(var(--footer-ellipse-h) / 2);
+  top: 85vw; /* half of 170vw = equator */
   left: 0;
   right: 0;
   bottom: 0;
   background-color: var(--color-primary);
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
 }
 
-@media (max-width: 1024px) {
-  .site-footer {
-    --footer-ellipse-w: clamp(800px, 160vw, 1600px);
-    --footer-ellipse-h: clamp(400px, 80vw, 800px);
-    padding-top: clamp(60px, 10vw, 100px);
-  }
-}
-
-@media (max-width: 640px) {
-  .site-footer {
-    --footer-ellipse-w: clamp(540px, 170vw, 900px);
-    --footer-ellipse-h: clamp(270px, 85vw, 450px);
-    padding-top: 3.5rem;
-  }
-}
-
 .site-footer__container {
-  max-width: min(94vw, 1380px);
+  max-width: min(82vw, 1060px);
   width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 2;
 }
 
-/* Top Row: Balanced White Brand Logo (Left) & Stacked Social Links (Right) */
+/* Top Row: 3-column layout with centered brand logo and right-aligned social block */
 .site-footer__top {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  max-width: min(100%, 960px);
-  margin: 0 auto clamp(2.5rem, 4vw, 3.5rem);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto clamp(1.25rem, 2vw, 2rem);
 }
 
-@media (max-width: 768px) {
-  .site-footer__top {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    text-align: center;
-  }
+.site-footer__top-spacer {
+  /* Balances right social block in 3-column grid */
 }
 
 .site-footer__brand {
+  grid-column: 2;
   display: flex;
-  align-items: flex-end;
+  justify-content: center;
+  align-items: center;
 }
 
 .site-footer__logo-img {
   width: auto;
-  height: clamp(48px, 4.5vw, 62px);
+  height: clamp(44px, 4vw, 56px);
   max-width: 240px;
   object-fit: contain;
   display: block;
 }
 
 .site-footer__social-block {
+  grid-column: 3;
+  justify-self: end;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 6px;
 }
 
 @media (max-width: 768px) {
+  .site-footer__top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .site-footer__top-spacer {
+    display: none;
+  }
+
   .site-footer__social-block {
     align-items: center;
+    justify-self: center;
   }
 }
 
@@ -1529,17 +1713,25 @@
   gap: 16px;
 }
 
+/* Global protection: Prevent red hover color leak on any link in the red footer canopy */
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  color: #FFFFFF;
+}
+
 .site-footer__social-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #FFFFFF;
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
   padding: 2px;
 }
 
-.site-footer__social-link:hover {
-  opacity: 0.8;
+.site-footer__social-link:hover,
+.site-footer__social-link:focus-visible {
+  color: #000000;
+  opacity: 1;
   transform: translateY(-2px);
 }
 
@@ -1548,16 +1740,17 @@
   height: 22px;
 }
 
-/* Middle Row: Navigation Links (Left) + Phone Info & Scroll to Top (Right) */
+/* Middle Row: Navigation Links (Left) + Phone Info (Right) */
 .site-footer__middle {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
-  margin-bottom: clamp(2.5rem, 4vw, 3.75rem);
+  margin-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
+  width: 100%;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
   .site-footer__middle {
     flex-direction: column;
     align-items: center;
@@ -1569,37 +1762,104 @@
 .site-footer__nav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .site-footer__nav-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: clamp(14px, 1.8vw, 26px);
+  gap: clamp(14px, 1.8vw, 24px);
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-@media (max-width: 1100px) {
+/* Kill any WordPress default bullets */
+.site-footer__nav-row li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer__nav-row li::before,
+.site-footer__nav-row li::after,
+.site-footer__nav-row li::marker {
+  content: none;
+  display: none;
+}
+
+@media (max-width: 1024px) {
   .site-footer__nav-row {
     justify-content: center;
   }
 }
 
 .site-footer__nav-row a {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-body);
-  font-size: clamp(13px, 0.95vw, 15px);
+  font-size: clamp(12.5px, 0.9vw, 14px);
   font-weight: 400;
   color: #FFFFFF;
   text-decoration: none;
-  transition: opacity var(--transition-fast);
   white-space: nowrap;
+  position: relative;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
 }
 
-.site-footer__nav-row a:hover {
-  opacity: 0.8;
+/* White Circle Dot on Hover/Active matching Figma spec */
+.site-footer__nav-row a::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  margin-right: 0;
+  opacity: 0;
+  transform: scale(0);
+  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              margin-right 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease,
+              transform 0.2s ease;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.site-footer__nav-row a:hover,
+.site-footer__nav-row a:focus-visible,
+.site-footer__nav-row li:hover > a,
+.site-footer__nav-row li.current-menu-item > a {
+  opacity: 1;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.site-footer__nav-row a:hover::before,
+.site-footer__nav-row a:focus-visible::before,
+.site-footer__nav-row li:hover > a::before,
+.site-footer__nav-row li.current-menu-item > a::before {
+  width: 5px;
+  margin-right: 6px;
+  opacity: 1;
+  transform: scale(1);
+  animation: pactoFooterDotPulse 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pactoFooterDotPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
 }
 
 .site-footer__contact-block {
@@ -1607,13 +1867,6 @@
   align-items: center;
   gap: 16px;
   flex-shrink: 0;
-}
-
-@media (max-width: 768px) {
-  .site-footer__contact-block {
-    flex-direction: column;
-    gap: 1.25rem;
-  }
 }
 
 .site-footer__phone-wrap {
@@ -1666,46 +1919,53 @@
   }
 }
 
+/* ==========================================================================
+   Floating Action Buttons: Scroll to Top & WhatsApp (Exact Figma Spec)
+   Accompany scroll fixed at the bottom-right corner across all viewports
+   ========================================================================== */
+.floating-actions,
 .site-footer__actions {
+  position: fixed;
+  bottom: clamp(20px, 3vw, 28px);
+  right: clamp(20px, 3vw, 28px);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  flex-shrink: 0;
+  z-index: 999;
+  pointer-events: auto;
 }
 
-@media (max-width: 768px) {
-  .site-footer__actions {
-    flex-direction: row;
-    gap: 12px;
-  }
-}
-
+.floating-actions__btn,
 .site-footer__action-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background-color: var(--color-dark);
+  background-color: var(--color-dark, #231F20);
   color: #FFFFFF;
   border: none;
   cursor: pointer;
   text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   transition: transform var(--transition-fast), background-color var(--transition-fast);
   flex-shrink: 0;
 }
 
+.floating-actions__btn:hover,
 .site-footer__action-btn:hover {
   transform: translateY(-2px);
-  background-color: #111111;
+  background-color: #000000;
   color: #FFFFFF;
 }
 
+.floating-actions__btn svg,
 .site-footer__action-btn svg {
   width: 20px;
   height: 20px;
+  color: #FFFFFF;
 }
 
 /* Bottom Row: Legal Disclaimer & Copyright */
@@ -1713,10 +1973,11 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 2.5rem;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  width: 100%;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
   .site-footer__bottom {
     flex-direction: column;
     align-items: center;
@@ -1727,24 +1988,32 @@
 
 .site-footer__legal-text {
   max-width: 760px;
+  flex: 1 1 auto;
 }
 
 .site-footer__legal-text p {
   font-family: var(--font-body);
-  font-size: clamp(9px, 0.72vw, 10.5px);
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 9.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
   margin: 0;
 }
 
 .site-footer__legal-text a {
   color: inherit;
   text-decoration: underline;
+  transition: opacity var(--transition-fast);
+}
+
+.site-footer__legal-text a:hover,
+.site-footer__legal-text a:focus-visible {
+  color: #FFFFFF;
+  opacity: 0.8;
 }
 
 .site-footer__copyright {
   font-family: var(--font-body);
-  font-size: clamp(10.5px, 0.8vw, 12px);
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.85);
   white-space: nowrap;
   flex-shrink: 0;
@@ -1756,6 +2025,8 @@
   transition: opacity var(--transition-fast);
 }
 
-.site-footer__copyright a:hover {
+.site-footer__copyright a:hover,
+.site-footer__copyright a:focus-visible {
+  color: #FFFFFF;
   opacity: 0.8;
 }
