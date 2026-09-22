@@ -1921,51 +1921,74 @@
 
 /* ==========================================================================
    Floating Action Buttons: Scroll to Top & WhatsApp (Exact Figma Spec)
-   Accompany scroll fixed at the bottom-right corner across all viewports
+   Accompany scroll fixed at the bottom-right corner with red slanted background
    ========================================================================== */
 .floating-actions,
 .site-footer__actions {
   position: fixed;
-  bottom: clamp(20px, 3vw, 28px);
-  right: clamp(20px, 3vw, 28px);
+  bottom: clamp(30px, 4vw, 55px);
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  z-index: 999;
+  justify-content: flex-end;
+  width: clamp(52px, 4vw, 62px);
+  padding: clamp(36px, 3vw, 44px) 0 16px;
+  gap: 12px;
+  z-index: 9999;
   pointer-events: auto;
+}
+
+.floating-actions::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-primary, #E84E38);
+  clip-path: polygon(0 0, 100% 48%, 100% 100%, 0 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .floating-actions__btn,
 .site-footer__action-btn {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
+  width: clamp(40px, 3.2vw, 46px);
+  height: clamp(40px, 3.2vw, 46px);
   border-radius: 50%;
-  background-color: var(--color-dark, #231F20);
+  background-color: #231F20;
   color: #FFFFFF;
   border: none;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-  transition: transform var(--transition-fast), background-color var(--transition-fast);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, background-color 0.2s ease;
   flex-shrink: 0;
+}
+
+.floating-actions .scroll-to-top {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
 }
 
 .floating-actions__btn:hover,
 .site-footer__action-btn:hover {
-  transform: translateY(-2px);
+  transform: scale(1.08);
   background-color: #000000;
   color: #FFFFFF;
 }
 
 .floating-actions__btn svg,
 .site-footer__action-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   color: #FFFFFF;
+  display: block;
 }
 
 /* Bottom Row: Legal Disclaimer & Copyright */
