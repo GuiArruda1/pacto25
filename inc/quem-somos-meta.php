@@ -540,7 +540,7 @@ function pacto_save_quem_somos_meta( $post_id ) {
     if ( isset( $_POST['qs_why_image'] ) ) {
         $img_val = sanitize_text_field( wp_unslash( $_POST['qs_why_image'] ) );
         update_post_meta( $post_id, 'qs_why_image', $img_val );
-        update_post_meta( $post_id, '_qs_why_image', $img_val );
+        delete_post_meta( $post_id, '_qs_why_image' );
         if ( function_exists( 'update_field' ) ) {
             update_field( 'qs_why_image', $img_val, $post_id );
         }
@@ -596,7 +596,7 @@ function pacto_save_quem_somos_meta( $post_id ) {
         }
 
         update_post_meta( $post_id, 'qs_team_members', $sanitized_team );
-        update_post_meta( $post_id, '_qs_team_members', $sanitized_team );
+        delete_post_meta( $post_id, '_qs_team_members' );
         if ( function_exists( 'update_field' ) ) {
             update_field( 'qs_team_members', $sanitized_team, $post_id );
         }

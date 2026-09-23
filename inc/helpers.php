@@ -26,38 +26,43 @@ function pacto_get_field( $field_name, $post_id = false, $default = '' ) {
         }
     }
 
-    if ( function_exists( 'get_field' ) ) {
-        $value = get_field( $field_name, $target_id ?: false );
-        if ( ! empty( $value ) ) {
-            return $value;
-        }
-    }
-
-    // Native post meta fallback (e.g. from native meta boxes or custom fields)
+    // 1. Direct native post meta first (fastest and avoids ACF internal key mismatches)
     if ( $target_id && is_numeric( $target_id ) ) {
         $meta_val = get_post_meta( $target_id, $field_name, true );
         if ( '' !== $meta_val && false !== $meta_val && array() !== $meta_val ) {
             return $meta_val;
         }
-        $meta_val = get_post_meta( $target_id, '_' . $field_name, true );
-        if ( '' !== $meta_val && false !== $meta_val && array() !== $meta_val ) {
-            return $meta_val;
+    }
+
+    // 2. Safe ACF get_field with error protection
+    if ( function_exists( 'get_field' ) ) {
+        try {
+            $value = get_field( $field_name, $target_id ?: false );
+            if ( ! empty( $value ) ) {
+                return $value;
+            }
+        } catch ( \Throwable $e ) {
+            // Silently ignore ACF field-key resolution errors
         }
     }
 
-    // Fallback to front page for global branding/header/footer fields
+    // 3. Fallback to front page for global branding/header/footer fields
     if ( ! $post_id ) {
         $front_id = (int) get_option( 'page_on_front' );
         if ( $front_id && (int) $target_id !== $front_id ) {
-            if ( function_exists( 'get_field' ) ) {
-                $value = get_field( $field_name, $front_id );
-                if ( ! empty( $value ) ) {
-                    return $value;
-                }
-            }
             $meta_val = get_post_meta( $front_id, $field_name, true );
             if ( '' !== $meta_val && false !== $meta_val && array() !== $meta_val ) {
                 return $meta_val;
+            }
+            if ( function_exists( 'get_field' ) ) {
+                try {
+                    $value = get_field( $field_name, $front_id );
+                    if ( ! empty( $value ) ) {
+                        return $value;
+                    }
+                } catch ( \Throwable $e ) {
+                    // Silently ignore ACF field-key resolution errors
+                }
             }
         }
     }
