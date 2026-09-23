@@ -609,14 +609,17 @@ body.page-quem-somos,
   color: #FFFFFF;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 4px;
+  justify-content: flex-start;
+  margin-bottom: clamp(0.5rem, 1vw, 0.85rem);
 }
 
 .qs-reason-card__icon svg {
-  width: clamp(30px, 3.5vw, 38px);
-  height: clamp(30px, 3.5vw, 38px);
-  stroke: #FFFFFF;
+  width: clamp(48px, 4.8vw, 64px);
+  height: auto;
+  max-width: 64px;
+  max-height: 64px;
+  fill: #FFFFFF;
+  color: #FFFFFF;
 }
 
 .qs-reason-card__title {
