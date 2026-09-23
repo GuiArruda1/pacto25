@@ -797,6 +797,32 @@ function pacto_25_register_acf_fields() {
     // =========================================================================
     // FIELD GROUP: QUEM SOMOS / INSTITUCIONAL PAGE
     // =========================================================================
+    $qs_locations = array(
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-quem-somos.php',
+            ),
+        ),
+    );
+    $qs_page = get_page_by_path( 'quem-somos' );
+    if ( ! $qs_page ) {
+        $qs_page = get_page_by_path( 'institucional' );
+    }
+    if ( ! $qs_page ) {
+        $qs_page = get_page_by_path( 'sobre' );
+    }
+    if ( $qs_page ) {
+        $qs_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => $qs_page->ID,
+            ),
+        );
+    }
+
     acf_add_local_field_group( array(
         'key' => 'group_pacto_quem_somos',
         'title' => __( 'Quem Somos - Configuração da Página', 'pacto-25' ),
@@ -877,11 +903,13 @@ function pacto_25_register_acf_fields() {
             ),
             array(
                 'key' => 'field_qs_why_image',
-                'label' => __( 'Foto Circular', 'pacto-25' ),
+                'label' => __( 'Foto Circular — Porque o fazemos? (Telefone / Mulher)', 'pacto-25' ),
                 'name' => 'qs_why_image',
                 'type' => 'image',
+                'instructions' => __( 'Fotografia circular com anel vermelho na secção Porque o fazemos.', 'pacto-25' ),
                 'return_format' => 'array',
                 'preview_size' => 'medium',
+                'library' => 'all',
             ),
 
             // --- TAB 3: MISSÃO, VISÃO E VALORES ---
@@ -1052,15 +1080,7 @@ function pacto_25_register_acf_fields() {
                 'default_value' => '#contactos',
             ),
         ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'page_template',
-                    'operator' => '==',
-                    'value' => 'page-quem-somos.php',
-                ),
-            ),
-        ),
+        'location' => $qs_locations,
         'menu_order' => 1,
         'position' => 'normal',
         'style' => 'default',
