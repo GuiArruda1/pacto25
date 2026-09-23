@@ -195,7 +195,7 @@ body.page-quem-somos,
 @media (min-width: 992px) {
   .section-qs-why__visual {
     justify-content: flex-start;
-    margin-bottom: clamp(-50px, -6vw, -90px);
+    margin-bottom: clamp(-30px, -4vw, -60px);
   }
 }
 
@@ -207,6 +207,7 @@ body.page-quem-somos,
   align-items: center;
   justify-content: center;
   z-index: 6;
+  transform: translateY(-5%);
 }
 
 .qs-why-circle-ring {
