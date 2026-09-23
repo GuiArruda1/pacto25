@@ -48,18 +48,18 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="site-footer__middle">
             <nav class="site-footer__nav" aria-label="<?php esc_attr_e( 'Menu Rodapé', 'pacto-25' ); ?>">
                 <ul class="site-footer__nav-row site-footer__nav-row--primary">
-                    <li><a href="#institucional"><?php esc_html_e( 'institucional', 'pacto-25' ); ?></a></li>
-                    <li><a href="#particulares"><?php esc_html_e( 'particulares', 'pacto-25' ); ?></a></li>
-                    <li><a href="#empresas"><?php esc_html_e( 'empresas', 'pacto-25' ); ?></a></li>
-                    <li><a href="#sinistros"><?php esc_html_e( 'sinistros', 'pacto-25' ); ?></a></li>
-                    <li><a href="#protocolos"><?php esc_html_e( 'protocolos', 'pacto-25' ); ?></a></li>
-                    <li><a href="#contactos"><?php esc_html_e( 'contactos', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( pacto_get_nav_url( 'quem-somos', 'page-quem-somos.php' ) ); ?>"><?php esc_html_e( 'institucional', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( pacto_get_nav_url( 'particulares', 'page-particulares.php' ) ); ?>"><?php esc_html_e( 'particulares', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( pacto_get_nav_url( 'empresas', 'page-empresas.php', '#empresas' ) ); ?>"><?php esc_html_e( 'empresas', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( pacto_get_nav_url( 'sinistro', 'page-sinistro.php' ) ); ?>"><?php esc_html_e( 'sinistros', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( pacto_get_nav_url( 'protocolos', 'page-protocolos.php', '#protocolos' ) ); ?>"><?php esc_html_e( 'protocolos', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( pacto_get_nav_url( 'contactos', 'page-contactos.php', '#contactos' ) ); ?>"><?php esc_html_e( 'contactos', 'pacto-25' ); ?></a></li>
                 </ul>
                 <ul class="site-footer__nav-row site-footer__nav-row--secondary">
-                    <li><a href="#noticias"><?php esc_html_e( 'notícias', 'pacto-25' ); ?></a></li>
-                    <li><a href="#privacidade"><?php esc_html_e( 'política de privacidade', 'pacto-25' ); ?></a></li>
-                    <li><a href="#cookies"><?php esc_html_e( 'cookies', 'pacto-25' ); ?></a></li>
-                    <li><a href="#termos"><?php esc_html_e( 'termos e condições', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/#noticias' ) ); ?>"><?php esc_html_e( 'notícias', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( get_privacy_policy_url() ?: home_url( '/politica-de-privacidade/' ) ); ?>"><?php esc_html_e( 'política de privacidade', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/cookies/' ) ); ?>"><?php esc_html_e( 'cookies', 'pacto-25' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/termos-e-condicoes/' ) ); ?>"><?php esc_html_e( 'termos e condições', 'pacto-25' ); ?></a></li>
                     <li><a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'livro de reclamações', 'pacto-25' ); ?></a></li>
                 </ul>
             </nav>

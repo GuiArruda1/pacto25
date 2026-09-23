@@ -236,7 +236,7 @@ function pacto_get_mega_menu_column( $col_num, $default_links = array() ) {
             if ( ! empty( $title ) ) {
                 $items[] = array(
                     'title' => $title,
-                    'url'   => ! empty( $url ) ? $url : '#',
+                    'url'   => ! empty( $url ) ? $url : pacto_get_seguro_particular_url( sanitize_title( $title ) ),
                 );
             }
         }
@@ -246,5 +246,81 @@ function pacto_get_mega_menu_column( $col_num, $default_links = array() ) {
     }
 
     return $default_links;
+}
+
+/**
+ * Resolves a dynamic URL for navigation items based on template or slug, with fallback.
+ *
+ * @param string $slug      Page slug (e.g., 'quem-somos', 'particulares', 'sinistro', 'empresas', 'contactos')
+ * @param string $template  Page template filename (e.g., 'page-quem-somos.php', 'page-particulares.php', 'page-sinistro.php')
+ * @param string $hash      Optional anchor hash fallback on home page (e.g., '#empresas')
+ * @return string           Resolved URL
+ */
+function pacto_get_nav_url( $slug, $template = '', $hash = '' ) {
+    // 1. Try finding page by template
+    if ( ! empty( $template ) ) {
+        $pages = get_pages( array(
+            'meta_key'   => '_wp_page_template',
+            'meta_value' => $template,
+            'number'     => 1,
+        ) );
+        if ( ! empty( $pages[0] ) ) {
+            return get_permalink( $pages[0]->ID );
+        }
+    }
+
+    // 2. Try finding page by slug (including alternative slugs)
+    $slugs_to_check = array( $slug );
+    if ( $slug === 'quem-somos' ) {
+        $slugs_to_check[] = 'institucional';
+        $slugs_to_check[] = 'sobre';
+    } elseif ( $slug === 'sinistro' ) {
+        $slugs_to_check[] = 'em-caso-de-sinistro';
+        $slugs_to_check[] = 'sinistros';
+    } elseif ( $slug === 'particulares' ) {
+        $slugs_to_check[] = 'seguros-particulares';
+    }
+
+    foreach ( $slugs_to_check as $s ) {
+        $page = get_page_by_path( $s );
+        if ( $page ) {
+            return get_permalink( $page->ID );
+        }
+    }
+
+    // 3. Check if hash fallback is given (prepend home url if not on front page or as absolute path)
+    if ( ! empty( $hash ) ) {
+        return home_url( '/' . ltrim( $hash, '/' ) );
+    }
+
+    // 4. Default to standard pretty permalink
+    return home_url( '/' . trim( $slug, '/' ) . '/' );
+}
+
+/**
+ * Resolves a dynamic URL for a Seguro Particular item.
+ *
+ * @param string $slug  Slug of the seguro (e.g. 'automovel', 'saude', 'seguro-automovel')
+ * @return string       Resolved permalink or anchor
+ */
+function pacto_get_seguro_particular_url( $slug ) {
+    $clean_slug = str_replace( 'seguro-', '', $slug );
+    
+    // Check if CPT post exists
+    $post = get_page_by_path( $slug, OBJECT, 'seguro_particular' );
+    if ( ! $post ) {
+        $post = get_page_by_path( $clean_slug, OBJECT, 'seguro_particular' );
+    }
+    if ( ! $post ) {
+        $post = get_page_by_path( 'seguro-' . $clean_slug, OBJECT, 'seguro_particular' );
+    }
+
+    if ( $post ) {
+        return get_permalink( $post->ID );
+    }
+
+    // Check if Particulares page exists and link to anchor
+    $particulares_url = pacto_get_nav_url( 'particulares', 'page-particulares.php' );
+    return $particulares_url . '#' . $clean_slug;
 }
 

@@ -50,18 +50,45 @@ if ( ! defined( 'ABSPATH' ) ) {
                             'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
                         ) );
                     } else {
-                        // Fallback accessible menu list matching design
+                        // Dynamic Fallback menu list connecting all theme pages
+                        $url_institucional = pacto_get_nav_url( 'quem-somos', 'page-quem-somos.php' );
+                        $is_institucional  = is_page_template( 'page-quem-somos.php' ) || is_page( array( 'quem-somos', 'institucional', 'sobre' ) );
+
+                        $url_particulares  = pacto_get_nav_url( 'particulares', 'page-particulares.php' );
+                        $is_particulares   = is_page_template( 'page-particulares.php' ) || is_page( array( 'particulares', 'seguros-particulares' ) ) || is_singular( 'seguro_particular' );
+
+                        $url_empresas      = pacto_get_nav_url( 'empresas', 'page-empresas.php', '#empresas' );
+                        $is_empresas       = is_page( 'empresas' );
+
+                        $url_sinistros     = pacto_get_nav_url( 'sinistro', 'page-sinistro.php' );
+                        $is_sinistros      = is_page_template( 'page-sinistro.php' ) || is_page( array( 'sinistro', 'sinistros', 'em-caso-de-sinistro' ) );
+
+                        $url_protocolos    = pacto_get_nav_url( 'protocolos', 'page-protocolos.php', '#protocolos' );
+                        $is_protocolos     = is_page( 'protocolos' );
+
+                        $url_contactos     = pacto_get_nav_url( 'contactos', 'page-contactos.php', '#contactos' );
+                        $is_contactos      = is_page( array( 'contactos', 'contacto' ) );
                         ?>
                         <ul class="site-header__nav-list">
-                            <li class="site-header__nav-item"><a href="#institucional"><?php esc_html_e( 'institucional', 'pacto-25' ); ?></a></li>
-                            <li class="site-header__nav-item site-header__nav-item--mega" data-mega-id="mega-menu-particulares">
-                                <a href="#particulares" class="mega-menu-trigger" aria-haspopup="true" aria-expanded="false"><?php esc_html_e( 'particulares', 'pacto-25' ); ?></a>
+                            <li class="site-header__nav-item <?php echo $is_institucional ? 'current-menu-item' : ''; ?>">
+                                <a href="<?php echo esc_url( $url_institucional ); ?>"><?php esc_html_e( 'institucional', 'pacto-25' ); ?></a>
+                            </li>
+                            <li class="site-header__nav-item site-header__nav-item--mega <?php echo $is_particulares ? 'current-menu-item' : ''; ?>" data-mega-id="mega-menu-particulares">
+                                <a href="<?php echo esc_url( $url_particulares ); ?>" class="mega-menu-trigger" aria-haspopup="true" aria-expanded="false"><?php esc_html_e( 'particulares', 'pacto-25' ); ?></a>
                                 <?php get_template_part( 'template-parts/header', 'mega-menu' ); ?>
                             </li>
-                            <li class="site-header__nav-item"><a href="#empresas"><?php esc_html_e( 'empresas', 'pacto-25' ); ?></a></li>
-                            <li class="site-header__nav-item"><a href="#sinistros"><?php esc_html_e( 'sinistros', 'pacto-25' ); ?></a></li>
-                            <li class="site-header__nav-item"><a href="#protocolos"><?php esc_html_e( 'protocolos', 'pacto-25' ); ?></a></li>
-                            <li class="site-header__nav-item"><a href="#contactos"><?php esc_html_e( 'contactos', 'pacto-25' ); ?></a></li>
+                            <li class="site-header__nav-item <?php echo $is_empresas ? 'current-menu-item' : ''; ?>">
+                                <a href="<?php echo esc_url( $url_empresas ); ?>"><?php esc_html_e( 'empresas', 'pacto-25' ); ?></a>
+                            </li>
+                            <li class="site-header__nav-item <?php echo $is_sinistros ? 'current-menu-item' : ''; ?>">
+                                <a href="<?php echo esc_url( $url_sinistros ); ?>"><?php esc_html_e( 'sinistros', 'pacto-25' ); ?></a>
+                            </li>
+                            <li class="site-header__nav-item <?php echo $is_protocolos ? 'current-menu-item' : ''; ?>">
+                                <a href="<?php echo esc_url( $url_protocolos ); ?>"><?php esc_html_e( 'protocolos', 'pacto-25' ); ?></a>
+                            </li>
+                            <li class="site-header__nav-item <?php echo $is_contactos ? 'current-menu-item' : ''; ?>">
+                                <a href="<?php echo esc_url( $url_contactos ); ?>"><?php esc_html_e( 'contactos', 'pacto-25' ); ?></a>
+                            </li>
                         </ul>
                         <?php
                     }
@@ -101,6 +128,23 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
     <!-- Mobile Backdrop Overlay -->
     <div class="site-header__backdrop" aria-hidden="true"></div>
+
+    <!-- Accessible Search Modal Overlay -->
+    <div class="site-search-modal" id="site-search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'Pesquisa no site', 'pacto-25' ); ?>">
+        <div class="site-search-modal__backdrop" aria-hidden="true"></div>
+        <div class="site-search-modal__dialog">
+            <button type="button" class="site-search-modal__close" aria-label="<?php esc_attr_e( 'Fechar Pesquisa', 'pacto-25' ); ?>">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <form role="search" method="get" class="site-search-modal__form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+                <label for="modal-search-input" class="sr-only"><?php esc_html_e( 'Pesquisar', 'pacto-25' ); ?></label>
+                <input type="search" id="modal-search-input" class="site-search-modal__input" placeholder="<?php esc_attr_e( 'O que procura? Ex: Seguro Automóvel, Sinistro...', 'pacto-25' ); ?>" value="<?php echo get_search_query(); ?>" name="s" autocomplete="off" />
+                <button type="submit" class="site-search-modal__submit" aria-label="<?php esc_attr_e( 'Executar pesquisa', 'pacto-25' ); ?>">
+                    <?php echo pacto_get_svg( 'search' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                </button>
+            </form>
+        </div>
+    </div>
 </header>
 
 <main id="primary-content" class="site-main">

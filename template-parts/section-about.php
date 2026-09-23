@@ -20,7 +20,7 @@ $description = pacto_get_field(
     'O privilégio de comemorar 25 anos de uma empresa é de assinalar e onde a Pacto Seguro chegou com talento, proximidade, resiliência, espírito de equipa, liderança e experiência. Hoje somos uma referência na mediação de seguros em Portugal, com uma enorme dedicação junto dos nossos Clientes que os mesmos reconhecem. Para todos os Clientes, Parceiros, Colaboradores e Amigos que participaram na nossa jornada, o nosso profundo agradecimento.'
 );
 $btn_text    = pacto_get_field( 'about_btn_text', false, 'conheça a nossa história' );
-$btn_url     = pacto_get_field( 'about_btn_url', false, '#sobre' );
+$btn_url     = pacto_get_field( 'about_btn_url', false, pacto_get_nav_url( 'quem-somos', 'page-quem-somos.php', '#sobre' ) );
 $image       = pacto_get_field( 'about_image' );
 
 $img_src = get_template_directory_uri() . '/assets/about-circle-woman.png';

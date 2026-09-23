@@ -9,6 +9,7 @@ function initApp() {
   initMegaMenu();
   initStickyHeader();
   initScrollToTop();
+  initSearchModal();
   initSliders();
   initHeroSlider();
   initNewsletterValidation();
@@ -633,6 +634,53 @@ function initFaqAccordion() {
         }
       });
     });
+  });
+}
+
+/**
+ * Accessible Search Modal Toggle
+ */
+function initSearchModal() {
+  const trigger = document.querySelector('.search-trigger');
+  const modal = document.getElementById('site-search-modal');
+  if (!trigger || !modal) return;
+
+  const closeBtn = modal.querySelector('.site-search-modal__close');
+  const backdrop = modal.querySelector('.site-search-modal__backdrop');
+  const input = modal.querySelector('.site-search-modal__input');
+
+  function openSearch(e) {
+    if (e) e.preventDefault();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('search-modal-is-open');
+    setTimeout(() => {
+      if (input) input.focus();
+    }, 150);
+  }
+
+  function closeSearch(e) {
+    if (e) e.preventDefault();
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('search-modal-is-open');
+    trigger.focus();
+  }
+
+  trigger.addEventListener('click', openSearch);
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeSearch);
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', closeSearch);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeSearch();
+    }
   });
 }
 

@@ -13,22 +13,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 ?>
 
-<main id="primary" class="site-main sinistro-main">
-    <!-- 1. Hero: Em Caso de Sinistro (Left Text + Right Visual & Ambient Bubbles) -->
-    <?php get_template_part( 'template-parts/section', 'sinistro-hero' ); ?>
+<!-- 1. Hero: Em Caso de Sinistro (Left Text + Right Visual & Ambient Bubbles) -->
+<?php get_template_part( 'template-parts/section', 'sinistro-hero' ); ?>
 
-    <!-- 2. Como Participar um Sinistro (Left Circular Photo + Right 5-Step Checklist) -->
-    <?php get_template_part( 'template-parts/section', 'sinistro-steps' ); ?>
+<!-- 2. Como Participar um Sinistro (Left Circular Photo + Right 5-Step Checklist) -->
+<?php get_template_part( 'template-parts/section', 'sinistro-steps' ); ?>
 
-    <!-- 3. Participar Sinistro (Left Giant Red Circle Form + Right Circular Photo) -->
-    <?php get_template_part( 'template-parts/section', 'sinistro-form' ); ?>
+<!-- 3. Participar Sinistro (Left Giant Red Circle Form + Right Circular Photo) -->
+<?php get_template_part( 'template-parts/section', 'sinistro-form' ); ?>
 
-    <!-- 4. Documentos Necessários (Left Circular Photo + Right 2x2 PDF Downloads Grid) -->
-    <?php get_template_part( 'template-parts/section', 'sinistro-docs' ); ?>
+<!-- 4. Documentos Necessários (Left Circular Photo + Right 2x2 PDF Downloads Grid) -->
+<?php get_template_part( 'template-parts/section', 'sinistro-docs' ); ?>
 
-    <!-- 5. Questões Mais Frequentes (Reusable FAQs Accordion Component) -->
-    <?php get_template_part( 'template-parts/section', 'faq' ); ?>
-</main>
+<!-- 5. Questões Mais Frequentes (Reusable FAQs Accordion Component) -->
+<?php get_template_part( 'template-parts/section', 'faq' ); ?>
 
 <?php
 get_footer();

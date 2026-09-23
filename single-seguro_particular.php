@@ -13,28 +13,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 ?>
 
-<main id="primary" class="site-main single-seguro-main">
-    <!-- 1. Hero: Encontre o melhor Seguro... (Right Circle Bleed) -->
-    <?php get_template_part( 'template-parts/section', 'single-seguro-hero' ); ?>
+<!-- 1. Hero: Encontre o melhor Seguro... (Right Circle Bleed) -->
+<?php get_template_part( 'template-parts/section', 'single-seguro-hero' ); ?>
 
-    <!-- 2. O que é o Seguro? (Left Circle Bleed) -->
-    <?php get_template_part( 'template-parts/section', 'single-seguro-about' ); ?>
+<!-- 2. O que é o Seguro? (Left Circle Bleed) -->
+<?php get_template_part( 'template-parts/section', 'single-seguro-about' ); ?>
 
-    <!-- 3. Vantagens, Coberturas e Serviços (Right Giant Red Circle) -->
-    <?php get_template_part( 'template-parts/section', 'single-seguro-features' ); ?>
+<!-- 3. Vantagens, Coberturas e Serviços (Right Giant Red Circle) -->
+<?php get_template_part( 'template-parts/section', 'single-seguro-features' ); ?>
 
-    <!-- 4. Passos para Subscrição (3 Columns with Red Backdrop Bubbles) -->
-    <?php get_template_part( 'template-parts/section', 'single-seguro-steps' ); ?>
+<!-- 4. Passos para Subscrição (3 Columns with Red Backdrop Bubbles) -->
+<?php get_template_part( 'template-parts/section', 'single-seguro-steps' ); ?>
 
-    <!-- 5. Formulário de Simulação (Left Form + Right Clean Red Circle) -->
-    <?php get_template_part( 'template-parts/section', 'single-seguro-form' ); ?>
+<!-- 5. Formulário de Simulação (Left Form + Right Clean Red Circle) -->
+<?php get_template_part( 'template-parts/section', 'single-seguro-form' ); ?>
 
-    <!-- 6. Documentos Legais (PDF Downloads Grid + Offset Circle) -->
-    <?php get_template_part( 'template-parts/section', 'single-seguro-docs' ); ?>
+<!-- 6. Documentos Legais (PDF Downloads Grid + Offset Circle) -->
+<?php get_template_part( 'template-parts/section', 'single-seguro-docs' ); ?>
 
-    <!-- 7. Questões Mais Frequentes (Reusable FAQs Accordion Component) -->
-    <?php get_template_part( 'template-parts/section', 'faq' ); ?>
-</main>
+<!-- 7. Questões Mais Frequentes (Reusable FAQs Accordion Component) -->
+<?php get_template_part( 'template-parts/section', 'faq' ); ?>
 
 <?php
 get_footer();

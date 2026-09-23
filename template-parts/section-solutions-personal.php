@@ -12,7 +12,7 @@ $eyebrow     = pacto_get_field( 'solutions_part_eyebrow', false, 'AS MAIS ADEQUA
 $title       = pacto_get_field( 'solutions_part_title', false, 'Soluções de Seguros para Particulares' );
 $description = pacto_get_field( 'solutions_part_description', false, 'A tranquilidade de quem mais ama com seguros de saúde, vida, habitação e automóvel adaptados à realidade da sua família.' );
 $btn_text    = pacto_get_field( 'solutions_part_btn_text', false, 'encontrar a solução ideal' );
-$btn_url     = pacto_get_field( 'solutions_part_btn_url', false, '#particulares' );
+$btn_url     = pacto_get_field( 'solutions_part_btn_url', false, pacto_get_nav_url( 'particulares', 'page-particulares.php', '#particulares' ) );
 $image       = pacto_get_field( 'solutions_part_image' );
 ?>
 
