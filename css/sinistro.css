@@ -1,8 +1,8 @@
-/**
- * Stylesheet: Em Caso de Sinistro Page
- * Theme: Pacto 25
- * Strict Agency Standard: Fluid typography, modular components, responsive layouts
- */
+body.page-template-page-sinistro,
+body.page-sinistro,
+.page-template-page-sinistro .site-main {
+  overflow-x: clip;
+}
 
 /* ==========================================================================
    1. Section: Hero ("Em Caso de Sinistro")
@@ -176,48 +176,9 @@
 .section-sinistro-steps {
   position: relative;
   overflow: visible;
-  padding: clamp(3rem, 5vw, 5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
-  background-color: var(--color-white, #FFFFFF);
-  z-index: 3;
-}
-
-.sinistro-steps-grid {
-  display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  align-items: center;
-  gap: clamp(30px, 5vw, 65px);
-  position: relative;
-  z-index: 2;
-}
-
-.sinistro-steps-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 3;
-}
-
-.sinistro-steps-circle-frame {
-  width: clamp(320px, 36vw, 480px);
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  border: clamp(16px, 1.8vw, 26px) solid var(--color-primary);
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
-  background-color: #f7f7f7;
-}
-
-.sinistro-steps-circle-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.sinistro-steps-content {
-  max-width: 560px;
+  padding: clamp(3.5rem, 6vw, 6rem) 0 0;
+  background-color: transparent;
+  z-index: 5;
 }
 
 .sinistro-steps-eyebrow {
@@ -227,16 +188,6 @@
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
-}
-
-.sinistro-steps-title {
-  font-family: var(--font-heading);
-  font-size: clamp(2.2rem, 3.8vw, 3.5rem);
-  font-weight: 700;
-  line-height: 1.15;
-  color: var(--color-dark, #231F20);
-  letter-spacing: -0.025em;
-  margin-bottom: clamp(1.25rem, 2vw, 1.75rem);
 }
 
 .sinistro-steps-list {
@@ -271,84 +222,46 @@
 }
 
 /* ==========================================================================
-   3. Section: Participar Sinistro (Giant Red Circle Form + Right Circle Visual)
+   3. Section: Participar Sinistro (Left Ball Canopy + Claim Form)
    ========================================================================== */
 .section-sinistro-form {
   position: relative;
   overflow: visible;
-  padding: clamp(2rem, 4vw, 4rem) 0 clamp(4rem, 7vw, 7.5rem);
-  margin-top: clamp(-40px, -4vw, -70px);
-  background-color: var(--color-white, #FFFFFF);
-  z-index: 2;
+  overflow-x: clip;
+  overflow-y: visible;
+  width: 100%;
+  padding: clamp(6rem, 8vw, 9rem) 0;
+  background-color: transparent;
+  color: #ffffff;
+  z-index: 4;
 }
 
-.sinistro-form-layout {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  align-items: center;
-  gap: clamp(30px, 4vw, 60px);
+@media (min-width: 992px) {
+  .section-sinistro-form {
+    margin-top: clamp(-3rem, -4.5vw, -6rem);
+  }
+}
+
+.sinistro-form-container {
   position: relative;
   z-index: 2;
 }
 
-/* Giant Red Circle Canopy */
-.sinistro-form-circle-canopy {
+.sinistro-form-content {
+  flex: 1;
+  max-width: 540px;
   position: relative;
-  width: 100%;
-  max-width: clamp(540px, 48vw, 680px);
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(38px, 4.2vw, 56px);
-  color: #FFFFFF;
-  box-shadow: 0 25px 60px rgba(212, 46, 18, 0.22);
-  margin-left: 0;
+  z-index: 4;
+  color: #ffffff;
 }
 
-.sinistro-form-circle-inner {
-  width: 100%;
-  max-width: 440px;
-  display: flex;
-  flex-direction: column;
-}
-
-.sinistro-form-eyebrow {
-  color: #FFFFFF;
-  opacity: 0.95;
-  font-size: clamp(0.72rem, 0.78vw, 0.84rem);
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.sinistro-form-title {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 3.2vw, 3rem);
-  font-weight: 700;
-  line-height: 1.1;
-  color: #FFFFFF;
-  letter-spacing: -0.025em;
-  margin-bottom: 10px;
-}
-
-.sinistro-form-desc {
-  font-family: var(--font-body);
-  font-size: clamp(0.72rem, 0.76vw, 0.82rem);
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.92);
-  margin-bottom: 14px;
-}
-
-/* Form Styles */
+/* Claim Submission Form Styles */
 .sinistro-claim-form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
+  margin-top: clamp(0.75rem, 1.2vw, 1.25rem);
 }
 
 .sinistro-form-group {
@@ -363,9 +276,9 @@
   background: rgba(0, 0, 0, 0.08);
   color: #FFFFFF;
   border-radius: var(--radius-pill, 9999px);
-  padding: 8px 18px;
+  padding: 10px 20px;
   font-family: var(--font-body);
-  font-size: clamp(0.75rem, 0.8vw, 0.85rem);
+  font-size: clamp(0.8rem, 0.85vw, 0.9rem);
   outline: none;
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
@@ -400,8 +313,8 @@
 .sinistro-form-textarea {
   border-radius: 18px;
   resize: none;
-  padding: 10px 18px;
-  min-height: 75px;
+  padding: 12px 20px;
+  min-height: 80px;
 }
 
 .sinistro-form-consent {
@@ -412,7 +325,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: clamp(0.68rem, 0.72vw, 0.76rem);
+  font-size: clamp(0.72rem, 0.76vw, 0.82rem);
   color: rgba(255, 255, 255, 0.92);
   cursor: pointer;
   line-height: 1.35;
@@ -432,86 +345,15 @@
 }
 
 .sinistro-form-submit-wrap {
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .sinistro-form-btn {
-  padding: 9px 28px;
+  padding: 13px 28px;
   font-family: var(--font-heading);
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 500;
   text-transform: lowercase;
-}
-
-/* Right Circular Photo Visual */
-.sinistro-form-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.sinistro-form-circle-photo {
-  width: clamp(320px, 36vw, 480px);
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  border: clamp(16px, 1.8vw, 26px) solid var(--color-primary);
-  overflow: hidden;
-  position: relative;
-  z-index: 2;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
-  background-color: #f7f7f7;
-}
-
-.sinistro-form-circle-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Floating Bubbles Form Matching Figma */
-.sinistro-form-bubble {
-  position: absolute;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.sinistro-form-bubble--top-left {
-  width: clamp(40px, 4.5vw, 60px);
-  height: clamp(40px, 4.5vw, 60px);
-  top: 10%;
-  right: 42%;
-}
-
-.sinistro-form-bubble--top-right {
-  width: clamp(20px, 2.2vw, 30px);
-  height: clamp(20px, 2.2vw, 30px);
-  top: 6%;
-  right: 32%;
-}
-
-.sinistro-form-bubble--bottom-left {
-  width: clamp(32px, 3.8vw, 50px);
-  height: clamp(32px, 3.8vw, 50px);
-  bottom: 12%;
-  right: 34%;
-}
-
-.sinistro-form-bubble--far-right {
-  width: clamp(18px, 2vw, 26px);
-  height: clamp(18px, 2vw, 26px);
-  top: 46%;
-  right: 6%;
-}
-
-.sinistro-form-bubble--bottom-center {
-  width: clamp(18px, 2.2vw, 26px);
-  height: clamp(18px, 2.2vw, 26px);
-  bottom: 2%;
-  left: 45%;
 }
 
 /* ==========================================================================
@@ -662,7 +504,6 @@
 @media (max-width: 991px) {
   .sinistro-hero-grid,
   .sinistro-steps-grid,
-  .sinistro-form-layout,
   .sinistro-docs-grid {
     grid-template-columns: 1fr;
     text-align: center;
@@ -690,27 +531,10 @@
     margin-top: 0;
   }
 
-  .sinistro-form-circle-canopy {
-    margin: 0 auto;
-    max-width: min(100%, 540px);
-  }
-
-  .sinistro-form-circle-photo {
-    margin: 0 auto;
-  }
-
   .sinistro-docs-list {
     grid-template-columns: 1fr;
     max-width: 360px;
     margin: 0 auto;
     text-align: left;
-  }
-}
-
-@media (max-width: 640px) {
-  .sinistro-form-circle-canopy {
-    border-radius: 36px;
-    aspect-ratio: auto;
-    padding: 32px 20px;
   }
 }

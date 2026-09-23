@@ -1628,3 +1628,351 @@
     border-radius: 20px;
   }
 }
+
+/* ==========================================================================
+   INTERTWINED COMPOSITION: Paired Circle Top + Red Ball Canopy Left Component
+   Shared across Quem Somos, Em Caso de Sinistro, and any paired story pages.
+   ========================================================================== */
+
+/* 1. Top Section (Circular Photo with Ring on Left + Content on Right) */
+.section-paired-top,
+.section-qs-why,
+.section-sinistro-steps {
+  position: relative;
+  overflow: visible;
+  padding: clamp(3.5rem, 6vw, 6rem) 0 0;
+  background-color: transparent;
+  z-index: 5;
+}
+
+.paired-top-layout,
+.section-qs-why__layout,
+.sinistro-steps-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(3rem, 6vw, 6.5rem);
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .paired-top-layout,
+  .section-qs-why__layout,
+  .sinistro-steps-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.paired-top-visual,
+.section-qs-why__visual,
+.sinistro-steps-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 6;
+}
+
+@media (min-width: 992px) {
+  .paired-top-visual,
+  .section-qs-why__visual,
+  .sinistro-steps-visual {
+    justify-content: flex-start;
+    margin-bottom: clamp(-15px, -2vw, -30px);
+  }
+}
+
+.circle-frame--ring,
+.qs-why-circle-frame,
+.sinistro-steps-circle-frame {
+  position: relative;
+  width: min(100%, 460px);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+  border-radius: 50%;
+}
+
+@media (min-width: 992px) {
+  .circle-frame--ring,
+  .qs-why-circle-frame,
+  .sinistro-steps-circle-frame {
+    transform: translateY(-15%);
+  }
+}
+
+.circle-frame__ring,
+.qs-why-circle-ring,
+.sinistro-steps-circle-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: clamp(14px, 1.8vw, 22px) solid var(--color-primary);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.circle-frame__photo,
+.qs-why-circle-photo,
+.sinistro-steps-circle-photo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+}
+
+.circle-frame__photo img,
+.qs-why-circle-photo img,
+.sinistro-steps-circle-frame img,
+.sinistro-steps-circle-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.paired-top-content,
+.section-qs-why__content,
+.sinistro-steps-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  z-index: 6;
+}
+
+.paired-top-content .eyebrow,
+.section-qs-why__content .eyebrow,
+.sinistro-steps-content .eyebrow {
+  margin-bottom: clamp(0.75rem, 1.2vw, 1.25rem);
+}
+
+.paired-top-title,
+.section-qs-why__title,
+.sinistro-steps-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 4.2vw, 3.85rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-dark, #231F20);
+  letter-spacing: -0.03em;
+  margin: 0 0 clamp(1.25rem, 2vw, 2rem) 0;
+}
+
+/* 2. Bottom Section (Giant Organic Left Red Ball Canopy + Right Circular Visual) */
+.section-ball-left,
+.section-quem-somos,
+.missao-visao-section,
+.section-qs-mission,
+.section-sinistro-form {
+  position: relative;
+  overflow: visible;
+  overflow-x: clip;
+  overflow-y: visible;
+  width: 100%;
+  padding: clamp(6rem, 8vw, 9rem) 0;
+  background-color: transparent;
+  color: #ffffff;
+  z-index: 4;
+}
+
+@media (min-width: 992px) {
+  .section-ball-left,
+  .section-qs-mission,
+  .missao-visao-section,
+  .section-sinistro-form {
+    margin-top: clamp(-3rem, -4.5vw, -6rem);
+  }
+}
+
+.ball-left-container,
+.missao-visao-container,
+.sinistro-form-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.ball-left-content,
+.missao-visao-content,
+.section-qs-mission__content,
+.sinistro-form-content {
+  flex: 1;
+  max-width: 540px;
+  position: relative;
+  z-index: 4;
+  color: #ffffff;
+}
+
+.eyebrow--light {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.ball-left-title,
+.section-qs-mission__title,
+.sinistro-form-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 3.8vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #FFFFFF;
+  letter-spacing: -0.025em;
+  margin: 0 0 clamp(0.75rem, 1.2vw, 1.25rem) 0;
+  max-width: 500px;
+}
+
+.ball-left-text,
+.section-qs-mission__text,
+.sinistro-form-desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 clamp(0.6rem, 1vw, 1rem) 0;
+  max-width: 500px;
+}
+
+.ball-left-visual,
+.missao-visao-image,
+.team-circle-wrap,
+.section-qs-mission__visual,
+.sinistro-form-visual {
+  flex-shrink: 0;
+  width: clamp(520px, 45vw, 760px);
+  height: clamp(520px, 45vw, 760px);
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.14);
+}
+
+.ball-left-visual img,
+.missao-visao-image img,
+.team-circle-wrap img,
+.sinistro-form-visual img,
+.ball-left-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.big-orange-ball,
+.circle-bg-orange,
+.ball-left-canopy,
+.qs-mission-canopy {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary, #E84E38);
+  pointer-events: none;
+  z-index: 1;
+  width: clamp(1000px, 85vw, 1500px);
+  height: clamp(1000px, 85vw, 1500px);
+  top: 55%;
+  left: -20vw;
+  transform: translateY(-50%);
+}
+
+/* Ambient Transition Floating Dots between Top & Bottom sections */
+.ball-left-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ball-left-bubble--1 {
+  width: clamp(48px, 4.8vw, 68px);
+  height: clamp(48px, 4.8vw, 68px);
+  top: 14%;
+  right: 22%;
+}
+
+.ball-left-bubble--2 {
+  width: clamp(28px, 2.8vw, 42px);
+  height: clamp(28px, 2.8vw, 42px);
+  top: 24%;
+  right: 14%;
+}
+
+.ball-left-bubble--3 {
+  width: clamp(18px, 1.8vw, 26px);
+  height: clamp(18px, 1.8vw, 26px);
+  top: 36%;
+  right: 18%;
+}
+
+@media (max-width: 1366px) {
+  .big-orange-ball,
+  .circle-bg-orange,
+  .ball-left-canopy,
+  .qs-mission-canopy {
+    width: clamp(800px, 75vw, 1100px);
+    height: clamp(800px, 75vw, 1100px);
+    left: -15vw;
+  }
+
+  .ball-left-visual,
+  .missao-visao-image,
+  .team-circle-wrap,
+  .section-qs-mission__visual,
+  .sinistro-form-visual {
+    width: 480px;
+    height: 480px;
+  }
+}
+
+@media (max-width: 991px) {
+  .ball-left-container,
+  .missao-visao-container,
+  .sinistro-form-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .ball-left-content,
+  .missao-visao-content,
+  .section-qs-mission__content,
+  .sinistro-form-content {
+    max-width: 100%;
+  }
+
+  .ball-left-visual,
+  .missao-visao-image,
+  .team-circle-wrap,
+  .section-qs-mission__visual,
+  .sinistro-form-visual {
+    width: min(85vw, 420px);
+    height: min(85vw, 420px);
+    margin: 0 auto;
+  }
+
+  .big-orange-ball,
+  .circle-bg-orange,
+  .ball-left-canopy,
+  .qs-mission-canopy {
+    width: 140vw;
+    height: 140vw;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .ball-left-bubble {
+    display: none;
+  }
+}

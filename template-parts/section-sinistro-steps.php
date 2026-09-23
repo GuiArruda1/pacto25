@@ -34,12 +34,15 @@ if ( empty( $steps ) || ! is_array( $steps ) ) {
 <section class="section section-sinistro-steps" aria-label="<?php echo esc_attr( $title ); ?>">
     <div class="site-container">
         <div class="sinistro-steps-grid">
-            <!-- Left Circular Photo Frame -->
-            <div class="sinistro-steps-visual">
-                <div class="sinistro-steps-circle-frame">
-                    <img src="<?php echo esc_url( $image_url ); ?>" 
-                         alt="<?php echo esc_attr( $image_alt ); ?>" 
-                         loading="lazy" />
+            <!-- Left Circular Photo Frame with Thick Red Ring -->
+            <div class="paired-top-visual sinistro-steps-visual section-qs-why__visual">
+                <div class="circle-frame--ring qs-why-circle-frame sinistro-steps-circle-frame">
+                    <div class="circle-frame__ring qs-why-circle-ring" aria-hidden="true"></div>
+                    <div class="circle-frame__photo qs-why-circle-photo">
+                        <img src="<?php echo esc_url( $image_url ); ?>" 
+                             alt="<?php echo esc_attr( $image_alt ); ?>" 
+                             loading="lazy" />
+                    </div>
                 </div>
             </div>
 
