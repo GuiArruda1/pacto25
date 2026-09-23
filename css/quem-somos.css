@@ -270,74 +270,53 @@ body.page-quem-somos,
 }
 
 /* ==========================================================================
-   3. "Missão, Visão e Valores" / Left Ball Reusable Component
+   3. Quem Somos / Missão, Visão e Valores - Responsive Organic Circles
    ========================================================================== */
+
+/* 1. Section Container (Hides horizontal bleed) */
+.section-quem-somos,
+.missao-visao-section,
 .section-ball-left,
 .section-qs-mission {
   position: relative;
-  overflow: visible;
-  padding: clamp(6rem, 9vw, 9.5rem) 0;
-  margin-top: clamp(1rem, 2vw, 2.5rem);
-  margin-bottom: clamp(4rem, 7vw, 7rem);
+  overflow: hidden; /* Critical: prevents horizontal scrollbar from the big ball */
+  width: 100%;
+  padding: 100px 0;
   background-color: transparent;
-  color: #FFFFFF;
+  color: #ffffff;
   z-index: 4;
 }
 
 @media (min-width: 992px) {
-  .section-qs-mission {
+  .section-qs-mission,
+  .missao-visao-section {
     margin-top: clamp(-3rem, -4.5vw, -6rem);
   }
 }
 
-/* Organic Left Red Ball Canopy - Generous Sizing to fit full headline */
-.ball-left-canopy,
-.qs-mission-canopy {
-  position: absolute;
-  top: 50%;
-  left: clamp(-300px, -18vw, -120px);
-  transform: translateY(-50%);
-  width: clamp(960px, 72vw, 1250px);
-  height: clamp(960px, 72vw, 1250px);
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  z-index: 1;
-  pointer-events: none;
-}
-
-.ball-left-container,
-.qs-mission-container {
+/* 2. Content Grid / Container */
+.missao-visao-container,
+.ball-left-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
   position: relative;
   z-index: 2;
-}
-
-.ball-left-layout,
-.section-qs-mission__layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(3rem, 6vw, 6.5rem);
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 48px;
 }
 
-@media (min-width: 992px) {
-  .ball-left-layout,
-  .section-qs-mission__layout {
-    grid-template-columns: minmax(360px, 460px) 1fr;
-    gap: clamp(1.5rem, 3vw, 3.5rem);
-    align-items: center;
-  }
-}
-
+/* 3. Text Block (Missão, Visão e Valores) */
+.missao-visao-content,
 .ball-left-content,
 .section-qs-mission__content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: clamp(0.85rem, 1.4vw, 1.25rem);
+  flex: 1;
+  max-width: 540px;
   position: relative;
-  z-index: 3;
-  max-width: 480px;
+  z-index: 4; /* Stays sharply on top of the orange ball */
+  color: #ffffff;
 }
 
 .eyebrow--light {
@@ -352,7 +331,7 @@ body.page-quem-somos,
   line-height: 1.15;
   color: #FFFFFF;
   letter-spacing: -0.025em;
-  margin: 0;
+  margin: 0 0 clamp(0.75rem, 1.2vw, 1.25rem) 0;
   max-width: 480px;
 }
 
@@ -362,8 +341,8 @@ body.page-quem-somos,
   font-size: clamp(0.92rem, 1.05vw, 1rem);
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.92);
-  margin: 0;
-  max-width: 470px;
+  margin: 0 0 clamp(0.6rem, 1vw, 1rem) 0;
+  max-width: 480px;
 }
 
 .ball-left-btn-wrap,
@@ -394,71 +373,118 @@ body.page-quem-somos,
   transform: translateY(-2px);
 }
 
+/* 4. Team Circular Photo */
+.missao-visao-image,
+.team-circle-wrap,
 .ball-left-visual,
 .section-qs-mission__visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 3;
-}
-
-@media (min-width: 992px) {
-  .ball-left-visual,
-  .section-qs-mission__visual {
-    justify-content: flex-end;
-    margin-left: clamp(-40px, -5vw, -80px);
-  }
-}
-
-.ball-left-circle-frame,
-.qs-mission-circle-frame {
-  position: relative;
-  width: min(100%, 560px);
-  max-width: 760px;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (min-width: 1200px) {
-  .ball-left-circle-frame,
-  .qs-mission-circle-frame {
-    width: clamp(560px, 45vw, 760px);
-  }
-}
-
-.ball-left-circle-accent,
-.qs-mission-circle-accent {
-  display: none !important;
-}
-
-.ball-left-circle-photo,
-.qs-mission-circle-photo {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  flex-shrink: 0;
+  width: clamp(520px, 45vw, 760px);
+  height: clamp(520px, 45vw, 760px);
   border-radius: 50%;
   overflow: hidden;
-  z-index: 2;
+  position: relative;
+  z-index: 3; /* Above the big ball, aligned flush with container */
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.14);
 }
 
+.missao-visao-image img,
+.team-circle-wrap img,
 .ball-left-circle-photo img,
-.ball-left-circle-photo .ball-left-photo,
-.qs-mission-circle-photo img,
-.qs-mission-circle-photo .qs-mission-photo {
+.ball-left-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-/* Dots removed per Figma spec */
+/* 5. The Big Orange Ball (Fluid & Responsive) */
+.big-orange-ball,
+.circle-bg-orange,
+.ball-left-canopy,
+.qs-mission-canopy {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary, #E84E38);
+  pointer-events: none;
+  z-index: 1;
+  
+  /* Desktop & Big Screens (MacBook Pro 1440px - 1920px) */
+  width: clamp(1000px, 85vw, 1500px);
+  height: clamp(1000px, 85vw, 1500px);
+  
+  /* Anchored down and left so it doesn't invade the top photo */
+  top: 55%;
+  left: -20vw;
+  transform: translateY(-50%);
+}
+
+/* Dots and accent disc removed per Figma spec */
 .ball-left-dot,
-.qs-mission-dot {
+.qs-mission-dot,
+.ball-left-circle-accent,
+.qs-mission-circle-accent {
   display: none !important;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+/* Laptops / Smaller Desktops (1024px to 1366px) */
+@media (max-width: 1366px) {
+  .big-orange-ball,
+  .circle-bg-orange,
+  .ball-left-canopy,
+  .qs-mission-canopy {
+    width: clamp(800px, 75vw, 1100px);
+    height: clamp(800px, 75vw, 1100px);
+    left: -15vw;
+  }
+  
+  .missao-visao-image,
+  .team-circle-wrap,
+  .ball-left-visual,
+  .section-qs-mission__visual {
+    width: 480px;
+    height: 480px;
+  }
+}
+
+/* Tablets & Mobile (Below 992px) */
+@media (max-width: 991px) {
+  .missao-visao-container,
+  .ball-left-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .missao-visao-content,
+  .ball-left-content,
+  .section-qs-mission__content {
+    max-width: 100%;
+  }
+
+  .missao-visao-image,
+  .team-circle-wrap,
+  .ball-left-visual,
+  .section-qs-mission__visual {
+    width: min(85vw, 420px);
+    height: min(85vw, 420px);
+    margin: 0 auto;
+  }
+
+  .big-orange-ball,
+  .circle-bg-orange,
+  .ball-left-canopy,
+  .qs-mission-canopy {
+    width: 140vw;
+    height: 140vw;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 /* ==========================================================================

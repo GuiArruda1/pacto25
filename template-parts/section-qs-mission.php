@@ -21,47 +21,41 @@ $image       = isset( $args['image'] ) ? $args['image'] : pacto_get_field( $pref
 $default_img = get_template_directory_uri() . '/assets/images/quem-somos/qs-mission-team.png';
 ?>
 
-<section class="section section-ball-left section-qs-mission" aria-label="<?php echo esc_attr( $title ); ?>">
+<section class="section section-ball-left section-qs-mission missao-visao-section section-quem-somos" aria-label="<?php echo esc_attr( $title ); ?>">
     <!-- Self-Contained Left Red Ball Canopy -->
-    <div class="ball-left-canopy" aria-hidden="true"></div>
+    <div class="ball-left-canopy big-orange-ball circle-bg-orange" aria-hidden="true"></div>
 
-    <div class="site-container ball-left-container">
-        <div class="ball-left-layout">
-            <!-- Content Column (Inside Red Ball) -->
-            <div class="ball-left-content">
-                <?php if ( $eyebrow ) : ?>
-                    <span class="eyebrow eyebrow--light"><?php echo esc_html( $eyebrow ); ?></span>
-                <?php endif; ?>
+    <div class="site-container ball-left-container missao-visao-container">
+        <!-- Content Column (Inside Red Ball) -->
+        <div class="ball-left-content missao-visao-content">
+            <?php if ( $eyebrow ) : ?>
+                <span class="eyebrow eyebrow--light"><?php echo esc_html( $eyebrow ); ?></span>
+            <?php endif; ?>
 
-                <?php if ( $title ) : ?>
-                    <h2 class="h2 ball-left-title"><?php echo esc_html( $title ); ?></h2>
-                <?php endif; ?>
+            <?php if ( $title ) : ?>
+                <h2 class="h2 ball-left-title"><?php echo esc_html( $title ); ?></h2>
+            <?php endif; ?>
 
-                <?php if ( $description ) : ?>
-                    <p class="ball-left-text"><?php echo esc_html( $description ); ?></p>
-                <?php endif; ?>
+            <?php if ( $description ) : ?>
+                <p class="ball-left-text"><?php echo esc_html( $description ); ?></p>
+            <?php endif; ?>
 
-                <?php if ( $desc_two ) : ?>
-                    <p class="ball-left-text"><?php echo esc_html( $desc_two ); ?></p>
-                <?php endif; ?>
+            <?php if ( $desc_two ) : ?>
+                <p class="ball-left-text"><?php echo esc_html( $desc_two ); ?></p>
+            <?php endif; ?>
 
-                <?php if ( $btn_text ) : ?>
-                    <div class="ball-left-btn-wrap">
-                        <a href="<?php echo esc_url( $btn_link ); ?>" class="btn ball-left-btn">
-                            <span><?php echo esc_html( $btn_text ); ?></span>
-                        </a>
-                    </div>
-                <?php endif; ?>
-            </div>
-
-            <!-- Visual Column (Right Circular Photo on Burgundy) -->
-            <div class="ball-left-visual">
-                <div class="ball-left-circle-frame">
-                    <div class="ball-left-circle-photo">
-                        <?php pacto_render_image( $image, 'large', 'ball-left-photo', $default_img, false ); ?>
-                    </div>
+            <?php if ( $btn_text ) : ?>
+                <div class="ball-left-btn-wrap">
+                    <a href="<?php echo esc_url( $btn_link ); ?>" class="btn ball-left-btn">
+                        <span><?php echo esc_html( $btn_text ); ?></span>
+                    </a>
                 </div>
-            </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Visual Column (Right Circular Photo on Burgundy) -->
+        <div class="ball-left-visual missao-visao-image team-circle-wrap">
+            <?php pacto_render_image( $image, 'large', 'ball-left-photo', $default_img, false ); ?>
         </div>
     </div>
 </section>
