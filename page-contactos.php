@@ -19,5 +19,8 @@ get_header();
 <!-- 2. Como podemos ajudar? (Left Circular Photo + Right 2-Column Contact Form) -->
 <?php get_template_part( 'template-parts/section', 'contactos-form' ); ?>
 
+<!-- 3. Onde Estamos (Left Circular Map + Right Giant Red Ball with Office Contacts) -->
+<?php get_template_part( 'template-parts/section', 'contactos-map' ); ?>
+
 <?php
 get_footer();

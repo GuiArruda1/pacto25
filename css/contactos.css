@@ -447,17 +447,245 @@ body.page-contactos,
 }
 
 /* ==========================================================================
+   3. Section: Onde Estamos (Left Circular Map + Right Giant Red Ball Canopy)
+   ========================================================================== */
+.section-contactos-locations {
+  position: relative;
+  overflow: visible;
+  padding: clamp(4rem, 6vw, 7.5rem) 0 clamp(5rem, 8vw, 9.5rem);
+  background-color: transparent;
+  z-index: 4;
+}
+
+/* Giant Organic Red Ball Canopy on Right (Matching Quem Somos / Porquê Escolher-nos Red Ball Component) */
+.contactos-loc-canopy {
+  position: absolute;
+  top: 50%;
+  right: clamp(-380px, -22vw, -160px);
+  transform: translateY(-50%);
+  width: clamp(1050px, 82vw, 1500px);
+  height: clamp(1050px, 82vw, 1500px);
+  border-radius: 50%;
+  background-color: var(--color-primary, #E84E38);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Ambient Floating Bubble Dots Matching Figma */
+.contactos-loc-dot {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary, #E84E38);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.contactos-loc-dot--top-1 {
+  top: clamp(-50px, -4vw, -20px);
+  left: 36%;
+  width: clamp(55px, 5.5vw, 85px);
+  aspect-ratio: 1 / 1;
+}
+
+.contactos-loc-dot--top-2 {
+  top: 10%;
+  left: 20%;
+  width: clamp(22px, 2.2vw, 34px);
+  aspect-ratio: 1 / 1;
+}
+
+.contactos-loc-dot--left-bottom {
+  bottom: 12%;
+  left: 6%;
+  width: clamp(22px, 2.2vw, 32px);
+  aspect-ratio: 1 / 1;
+}
+
+.contactos-loc-dot--bottom-center {
+  bottom: 4%;
+  left: 28%;
+  width: clamp(44px, 4.4vw, 64px);
+  aspect-ratio: 1 / 1;
+}
+
+.contactos-loc-container {
+  position: relative;
+  z-index: 3;
+}
+
+.contactos-loc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: clamp(40px, 6vw, 80px);
+}
+
+@media (min-width: 992px) {
+  .contactos-loc-grid {
+    grid-template-columns: 0.95fr 1.05fr;
+  }
+}
+
+/* Left Visual: Circular Map */
+.contactos-loc-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+@media (min-width: 992px) {
+  .contactos-loc-visual {
+    justify-content: flex-start;
+  }
+}
+
+.contactos-map-circle-frame {
+  position: relative;
+  width: clamp(400px, 42vw, 580px);
+  height: clamp(400px, 42vw, 580px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
+  background-color: #e5e3df;
+  z-index: 3;
+}
+
+.contactos-map-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  filter: saturate(1.1) contrast(1.02);
+}
+
+.contactos-map-link-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+/* Right Column: Narrative & Structured Info inside Red Ball Canopy */
+.contactos-loc-content {
+  color: #FFFFFF;
+  position: relative;
+  z-index: 3;
+  max-width: 580px;
+}
+
+@media (min-width: 992px) {
+  .contactos-loc-content {
+    padding-left: clamp(1rem, 2.5vw, 3rem);
+  }
+}
+
+.contactos-loc-eyebrow {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.contactos-loc-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.35rem, 3.8vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #FFFFFF;
+  letter-spacing: -0.03em;
+  margin: 0 0 10px 0;
+}
+
+.contactos-loc-desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.02vw, 1.08rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 clamp(1.75rem, 2.5vw, 2.5rem) 0;
+}
+
+.contactos-loc-blocks-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 2.5vw, 2.75rem);
+}
+
+@media (min-width: 540px) {
+  .contactos-loc-blocks-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.contactos-loc-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 1.8vw, 1.75rem);
+}
+
+.contactos-loc-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.contactos-loc-label {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.contactos-loc-values {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.contactos-loc-text,
+.contactos-loc-link {
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 0.88vw, 0.92rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  transition: opacity 0.2s ease, text-decoration 0.2s ease;
+}
+
+.contactos-loc-link:hover {
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
+.contactos-loc-phone-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 991px) {
   .contactos-hero-grid,
-  .contactos-help-grid {
+  .contactos-help-grid,
+  .contactos-loc-grid {
     text-align: center;
     gap: 40px;
   }
 
   .contactos-hero-content,
-  .contactos-help-content {
+  .contactos-help-content,
+  .contactos-loc-content {
     max-width: 100%;
     margin: 0 auto;
   }
@@ -467,14 +695,16 @@ body.page-contactos,
     max-width: 540px;
   }
 
-  .contactos-hero-blocks {
+  .contactos-hero-blocks,
+  .contactos-loc-blocks-grid {
     text-align: left;
     max-width: 520px;
     margin: 0 auto;
   }
 
   .contactos-hero-circle-wrap,
-  .contactos-help-circle-frame {
+  .contactos-help-circle-frame,
+  .contactos-map-circle-frame {
     margin: 0 auto;
     width: 100%;
     max-width: min(85vw, 440px);
@@ -489,7 +719,16 @@ body.page-contactos,
     right: -25vw;
   }
 
-  .contactos-hero-bubble--center {
+  .contactos-loc-canopy {
+    width: 140vw;
+    height: 140vw;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+  }
+
+  .contactos-hero-bubble--center,
+  .contactos-loc-dot {
     display: none;
   }
 }
