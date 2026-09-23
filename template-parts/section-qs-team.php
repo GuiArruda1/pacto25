@@ -55,7 +55,7 @@ if ( ! is_array( $members ) || empty( $members ) ) {
             <?php foreach ( $members as $idx => $member ) : 
                 $num        = $idx + 1;
                 $name       = ! empty( $member['name'] ) ? $member['name'] : 'Nome Apelido';
-                $role       = ! empty( $member['role'] ) ? $member['role'] : 'Cargo / Função';
+                $role       = ! empty( $member['role'] ) ? ltrim( $member['role'], "•· \t\n\r\0\x0B" ) : 'Cargo / Função';
                 $photo_val  = ! empty( $member['image'] ) ? $member['image'] : ( isset( $default_members[ $idx ]['image'] ) ? $default_members[ $idx ]['image'] : '' );
             ?>
                 <div class="qs-member qs-member--<?php echo esc_attr( $num ); ?>">
