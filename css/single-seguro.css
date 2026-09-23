@@ -15,15 +15,15 @@ body.single-seguro_particular,
 .section-single-seguro-hero {
   position: relative;
   overflow: visible;
-  padding-top: clamp(3.5rem, 6vw, 6rem);
-  padding-bottom: clamp(4rem, 7vw, 7.5rem);
+  padding-top: clamp(2.5rem, 5vw, 5rem);
+  padding-bottom: clamp(3.5rem, 6vw, 6.5rem);
   background-color: transparent;
 }
 
 .section-single-seguro-hero__layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(2.5rem, 5vw, 4.5rem);
+  gap: clamp(2.5rem, 4.5vw, 4.5rem);
   align-items: center;
   position: relative;
   z-index: 2;
@@ -31,7 +31,13 @@ body.single-seguro_particular,
 
 @media (min-width: 992px) {
   .section-single-seguro-hero__layout {
-    grid-template-columns: 1fr 1.15fr;
+    grid-template-columns: minmax(360px, 460px) 1.25fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .section-single-seguro-hero__layout {
+    grid-template-columns: minmax(380px, 480px) 1.35fr;
   }
 }
 
@@ -50,22 +56,22 @@ body.single-seguro_particular,
 
 .section-single-seguro-hero__title {
   font-family: var(--font-heading);
-  font-size: clamp(2.35rem, 4.2vw, 4.15rem);
+  font-size: clamp(2.25rem, 3.8vw, 3.85rem);
   font-weight: 700;
   line-height: 1.1;
   color: var(--color-dark, #231F20);
   letter-spacing: -0.03em;
   margin: 0;
-  max-width: 520px;
+  max-width: 500px;
 }
 
 .section-single-seguro-hero__lead {
   font-family: var(--font-body);
-  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  font-size: clamp(0.92rem, 1.05vw, 1.05rem);
   line-height: 1.65;
   color: #555555;
   margin: 0;
-  max-width: 490px;
+  max-width: 480px;
 }
 
 .section-single-seguro-hero__btn-wrap {
@@ -79,19 +85,26 @@ body.single-seguro_particular,
   align-items: center;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 
 @media (min-width: 992px) {
   .section-single-seguro-hero__visual {
     justify-content: flex-end;
-    margin-right: clamp(-60px, -6vw, -120px);
+    margin-right: clamp(-40px, -5vw, -100px);
+  }
+}
+
+@media (min-width: 1400px) {
+  .section-single-seguro-hero__visual {
+    margin-right: -120px;
   }
 }
 
 .seguro-hero-circle-wrap {
   position: relative;
-  width: clamp(320px, 44vw, 640px);
-  height: clamp(320px, 44vw, 640px);
+  width: clamp(320px, 52vw, 886px);
+  height: clamp(320px, 52vw, 886px);
   max-width: 100%;
   aspect-ratio: 1 / 1;
 }
@@ -100,7 +113,7 @@ body.single-seguro_particular,
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: clamp(12px, 1.6vw, 24px) solid var(--color-primary);
+  border: clamp(16px, 2.5vw, 42px) solid var(--color-primary);
   overflow: hidden;
   position: relative;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
@@ -118,12 +131,13 @@ body.single-seguro_particular,
 /* Ambient Floating Red Dot on Hero Visual */
 .seguro-hero-dot {
   position: absolute;
-  width: clamp(24px, 2.6vw, 36px);
-  height: clamp(24px, 2.6vw, 36px);
+  width: clamp(28px, 3.2vw, 46px);
+  height: clamp(28px, 3.2vw, 46px);
   border-radius: 50%;
   background-color: var(--color-primary);
-  top: 41%;
-  left: 44%;
+  top: 45%;
+  left: 49%;
+  transform: translate(-50%, -50%);
   z-index: 5;
   pointer-events: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
