@@ -91,13 +91,21 @@ body.single-seguro_particular,
 @media (min-width: 992px) {
   .section-single-seguro-hero__visual {
     justify-content: flex-end;
-    margin-right: clamp(-40px, -5vw, -100px);
+    margin-right: clamp(-100px, -12vw, -200px);
+    margin-top: clamp(-20px, -3vw, -50px);
   }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1200px) {
   .section-single-seguro-hero__visual {
-    margin-right: -120px;
+    margin-right: clamp(-160px, -16vw, -280px);
+    margin-top: clamp(-30px, -4vw, -70px);
+  }
+}
+
+@media (min-width: 1440px) {
+  .section-single-seguro-hero__visual {
+    margin-right: clamp(-220px, -19vw, -340px);
   }
 }
 
@@ -105,7 +113,7 @@ body.single-seguro_particular,
   position: relative;
   width: clamp(320px, 52vw, 886px);
   height: clamp(320px, 52vw, 886px);
-  max-width: 100%;
+  flex-shrink: 0;
   aspect-ratio: 1 / 1;
 }
 
