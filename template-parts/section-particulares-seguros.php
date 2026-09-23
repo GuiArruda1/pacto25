@@ -117,15 +117,17 @@ $default_seguros = array(
                     }
                 ?>
                     <article class="seguro-card" id="seguro-<?php echo esc_attr( $post_id ); ?>">
-                        <div class="seguro-card__image-wrap">
+                        <a href="<?php echo esc_url( $btn_url ); ?>" class="seguro-card__image-wrap" aria-label="<?php echo esc_attr( $title ); ?>">
                             <?php if ( has_post_thumbnail( $post_id ) ) : ?>
                                 <?php echo get_the_post_thumbnail( $post_id, 'medium_large', array( 'class' => 'seguro-card__image', 'alt' => esc_attr( $title ), 'loading' => 'lazy' ) ); ?>
                             <?php else : ?>
                                 <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/particulares/seguros/multirriscos-casa.png' ); ?>" class="seguro-card__image" alt="<?php echo esc_attr( $title ); ?>" loading="lazy" />
                             <?php endif; ?>
-                        </div>
+                        </a>
                         <div class="seguro-card__content">
-                            <h2 class="seguro-card__title"><?php echo esc_html( $title ); ?></h2>
+                            <h2 class="seguro-card__title">
+                                <a href="<?php echo esc_url( $btn_url ); ?>"><?php echo esc_html( $title ); ?></a>
+                            </h2>
                             <p class="seguro-card__desc"><?php echo esc_html( $content ); ?></p>
                             <a href="<?php echo esc_url( $btn_url ); ?>" class="seguro-card__link">
                                 <?php echo esc_html( $btn_text ); ?>
@@ -140,11 +142,13 @@ $default_seguros = array(
                     $img_src = get_template_directory_uri() . '/assets/images/particulares/seguros/' . $item['image_file'];
                 ?>
                     <article class="seguro-card">
-                        <div class="seguro-card__image-wrap">
+                        <a href="<?php echo esc_url( $item['btn_url'] ); ?>" class="seguro-card__image-wrap" aria-label="<?php echo esc_attr( $item['title'] ); ?>">
                             <img src="<?php echo esc_url( $img_src ); ?>" class="seguro-card__image" alt="<?php echo esc_attr( $item['title'] ); ?>" loading="lazy" />
-                        </div>
+                        </a>
                         <div class="seguro-card__content">
-                            <h2 class="seguro-card__title"><?php echo esc_html( $item['title'] ); ?></h2>
+                            <h2 class="seguro-card__title">
+                                <a href="<?php echo esc_url( $item['btn_url'] ); ?>"><?php echo esc_html( $item['title'] ); ?></a>
+                            </h2>
                             <p class="seguro-card__desc"><?php echo esc_html( $item['desc'] ); ?></p>
                             <a href="<?php echo esc_url( $item['btn_url'] ); ?>" class="seguro-card__link">
                                 <?php echo esc_html( $item['btn_text'] ); ?>
