@@ -28,7 +28,6 @@ $image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title
     <div class="sinistro-hero-bubble sinistro-hero-bubble--2" aria-hidden="true"></div>
     <div class="sinistro-hero-bubble sinistro-hero-bubble--3" aria-hidden="true"></div>
     <div class="sinistro-hero-bubble sinistro-hero-bubble--4" aria-hidden="true"></div>
-    <div class="sinistro-hero-bubble sinistro-hero-bubble--5" aria-hidden="true"></div>
     <div class="sinistro-hero-bubble sinistro-hero-bubble--6" aria-hidden="true"></div>
     <div class="sinistro-hero-bubble sinistro-hero-bubble--7" aria-hidden="true"></div>
     <div class="sinistro-hero-bubble sinistro-hero-bubble--8" aria-hidden="true"></div>
