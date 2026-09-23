@@ -34,10 +34,16 @@ body.single-seguro_particular,
   gap: clamp(2.5rem, 4.5vw, 4.5rem);
   align-items: center;
   position: relative;
+  z-index: 2;
 }
 
 @media (min-width: 992px) {
+  .section-single-seguro-hero .site-container {
+    position: static;
+  }
+
   .section-single-seguro-hero__layout {
+    position: static;
     grid-template-columns: minmax(360px, 480px) 1fr;
   }
 }
@@ -93,12 +99,21 @@ body.single-seguro_particular,
 @media (min-width: 992px) {
   .section-single-seguro-hero__visual {
     position: absolute;
-    left: clamp(48%, 50vw - 30px, 52%);
-    top: clamp(-80px, -6vw, -40px);
-    width: clamp(560px, 58vw, 886px);
-    height: clamp(560px, 58vw, 886px);
-    justify-content: flex-start;
+    right: clamp(-90px, -6vw, -13px);
+    top: clamp(-110px, -8vw, -60px);
+    width: clamp(520px, 54vw, 886px);
+    height: clamp(520px, 54vw, 886px);
+    justify-content: flex-end;
     margin: 0;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 1360px) {
+  .section-single-seguro-hero__visual {
+    right: clamp(-110px, -7vw, -20px);
+    width: clamp(660px, 56vw, 886px);
+    height: clamp(660px, 56vw, 886px);
   }
 }
 
