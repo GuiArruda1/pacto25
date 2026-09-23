@@ -361,9 +361,11 @@ body.page-sinistro,
    ========================================================================== */
 .section-sinistro-docs {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: clamp(4rem, 6.5vw, 6.5rem) 0;
+  margin-top: clamp(12rem, 20vw, 24rem);
   background-color: var(--color-white, #FFFFFF);
+  z-index: 5;
 }
 
 .sinistro-docs-grid {
@@ -529,6 +531,10 @@ body.page-sinistro,
 
   .section-sinistro-form {
     margin-top: 0;
+  }
+
+  .section-sinistro-docs {
+    margin-top: clamp(6rem, 12vw, 9rem);
   }
 
   .sinistro-docs-list {
