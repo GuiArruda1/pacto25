@@ -99,6 +99,12 @@ function pacto_25_scripts() {
         wp_enqueue_style( 'pacto-sinistro', $theme_uri . '/css/sinistro.css', array( 'pacto-style' ), $sin_ver );
     }
 
+    // Contactos page styles
+    if ( is_page_template( 'page-contactos.php' ) || is_page( 'contactos' ) ) {
+        $contact_ver = file_exists( $theme_dir . '/css/contactos.css' ) ? filemtime( $theme_dir . '/css/contactos.css' ) : $theme_version;
+        wp_enqueue_style( 'pacto-contactos', $theme_uri . '/css/contactos.css', array( 'pacto-style' ), $contact_ver );
+    }
+
     // Vanilla JavaScript (loaded in footer, deferred for optimal First Contentful Paint)
     $js_ver = file_exists( $theme_dir . '/js/main.js' ) ? filemtime( $theme_dir . '/js/main.js' ) : $theme_version;
     wp_enqueue_script( 'pacto-main', $theme_uri . '/js/main.js', array(), $js_ver, array( 'strategy' => 'defer', 'in_footer' => true ) );
