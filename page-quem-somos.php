@@ -28,8 +28,5 @@ get_header();
 <!-- 5. A Nossa Equipa (Staggered Constellation) -->
 <?php get_template_part( 'template-parts/section', 'qs-team' ); ?>
 
-<!-- 6. Banner CTA Final -->
-<?php get_template_part( 'template-parts/section', 'qs-cta' ); ?>
-
 <?php
 get_footer();
