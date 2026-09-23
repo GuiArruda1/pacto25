@@ -91,28 +91,28 @@ body.single-seguro_particular,
 @media (min-width: 992px) {
   .section-single-seguro-hero__visual {
     justify-content: flex-end;
-    margin-right: clamp(-100px, -12vw, -200px);
-    margin-top: clamp(-20px, -3vw, -50px);
+    margin-right: clamp(-120px, -15vw, -240px);
+    margin-top: clamp(-20px, -3vw, -60px);
   }
 }
 
 @media (min-width: 1200px) {
   .section-single-seguro-hero__visual {
-    margin-right: clamp(-160px, -16vw, -280px);
-    margin-top: clamp(-30px, -4vw, -70px);
+    margin-right: clamp(-180px, -18vw, -320px);
+    margin-top: clamp(-30px, -4vw, -80px);
   }
 }
 
 @media (min-width: 1440px) {
   .section-single-seguro-hero__visual {
-    margin-right: clamp(-220px, -19vw, -340px);
+    margin-right: clamp(-240px, -22vw, -400px);
   }
 }
 
 .seguro-hero-circle-wrap {
   position: relative;
-  width: clamp(320px, 52vw, 886px);
-  height: clamp(320px, 52vw, 886px);
+  width: clamp(340px, 56vw, 886px);
+  height: clamp(340px, 56vw, 886px);
   flex-shrink: 0;
   aspect-ratio: 1 / 1;
 }
