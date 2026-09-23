@@ -25,11 +25,6 @@ $default_img = get_template_directory_uri() . '/assets/images/quem-somos/qs-miss
     <!-- Self-Contained Left Red Ball Canopy -->
     <div class="ball-left-canopy" aria-hidden="true"></div>
 
-    <!-- 3 Ambient Red Dots Above Right Visual -->
-    <div class="ball-left-dot ball-left-dot--1" aria-hidden="true"></div>
-    <div class="ball-left-dot ball-left-dot--2" aria-hidden="true"></div>
-    <div class="ball-left-dot ball-left-dot--3" aria-hidden="true"></div>
-
     <div class="site-container ball-left-container">
         <div class="ball-left-layout">
             <!-- Content Column (Inside Red Ball) -->
@@ -62,7 +57,6 @@ $default_img = get_template_directory_uri() . '/assets/images/quem-somos/qs-miss
             <!-- Visual Column (Right Circular Photo on Burgundy) -->
             <div class="ball-left-visual">
                 <div class="ball-left-circle-frame">
-                    <div class="ball-left-circle-accent" aria-hidden="true"></div>
                     <div class="ball-left-circle-photo">
                         <?php pacto_render_image( $image, 'large', 'ball-left-photo', $default_img, false ); ?>
                     </div>
