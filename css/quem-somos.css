@@ -496,10 +496,16 @@ body.page-quem-somos,
   position: relative;
   overflow: visible;
   padding: clamp(6rem, 9vw, 9.5rem) 0;
-  margin-top: clamp(7rem, 14vw, 16rem);
+  margin-top: clamp(14rem, 24vw, 26rem);
   margin-bottom: clamp(4rem, 7vw, 7rem);
   background-color: transparent;
   z-index: 4;
+}
+
+@media (max-width: 991px) {
+  .section-qs-reasons {
+    margin-top: clamp(6rem, 12vw, 9rem);
+  }
 }
 
 /* Organic Right Red Ball Canopy - Generous Sizing to enclose 2x2 cards */
