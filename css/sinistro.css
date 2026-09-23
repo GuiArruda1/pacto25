@@ -436,25 +436,11 @@
 }
 
 .sinistro-form-btn {
-  background-color: #1a1a1a;
-  color: #FFFFFF !important;
   padding: 9px 28px;
-  border-radius: var(--radius-pill, 9999px);
   font-family: var(--font-heading);
   font-size: 13px;
   font-weight: 500;
   text-transform: lowercase;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.sinistro-form-btn:hover {
-  background-color: #000000;
-  transform: translateY(-1px);
 }
 
 /* Right Circular Photo Visual */

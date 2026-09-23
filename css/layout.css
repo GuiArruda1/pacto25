@@ -409,26 +409,11 @@
 }
 
 .section-about__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #231F20;
-  color: #FFFFFF;
   padding: 14px 34px;
-  border-radius: 9999px;
   font-family: var(--font-heading);
   font-size: 14px;
   font-weight: 600;
-  text-decoration: none;
-  transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: 0 4px 14px rgba(35, 31, 32, 0.15);
-}
-
-.section-about__btn:hover {
-  transform: translateY(-2px);
-  background-color: #111111;
-  color: #FFFFFF;
-  box-shadow: 0 6px 20px rgba(35, 31, 32, 0.25);
 }
 
 /* Decorative Red Accent Dots (matching Figma composition) */
@@ -668,25 +653,11 @@
 }
 
 .section-curved-red__btn-wrap .btn--dark {
-  background-color: #231F20;
-  color: #FFFFFF;
-  border-color: #231F20;
   padding: 13px 32px;
   font-size: clamp(13px, 0.9vw, 14px);
   font-weight: 600;
   letter-spacing: 0.01em;
   text-transform: lowercase;
-  border-radius: 9999px;
-}
-
-.section-curved-red__btn-wrap .btn--dark:hover {
-  background-color: #FFFFFF;
-  border-color: #FFFFFF;
-  color: var(--color-primary);
-}
-
-.section-curved-red__btn-wrap .btn--dark:hover > * {
-  color: var(--color-primary);
 }
 
 /* Row 1: Soluções Globais */

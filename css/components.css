@@ -34,16 +34,41 @@
 }
 
 /* Dark Button: left-to-right wipe animation turning into red outline */
-.btn--dark {
-  background-color: var(--color-dark);
-  color: var(--color-white);
-  border-color: var(--color-dark);
-  transition: border-color 0.4s cubic-bezier(0.25, 1, 0.4, 1),
-    color 0.2s ease,
-    box-shadow 0.2s ease;
+.btn--dark,
+.btn-dark,
+.btn--black,
+.section-about__btn,
+.sinistro-form-btn,
+.seguro-form-submit-btn,
+.newsletter-form__btn,
+.news-btn {
+  background-color: var(--color-dark, #231F20);
+  color: var(--color-white, #FFFFFF) !important;
+  border: 2px solid var(--color-dark, #231F20);
+  border-radius: var(--radius-pill, 9999px);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 1;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: border-color 0.35s cubic-bezier(0.25, 1, 0.4, 1),
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.btn--dark::before {
+.btn--dark::before,
+.btn-dark::before,
+.btn--black::before,
+.section-about__btn::before,
+.sinistro-form-btn::before,
+.seguro-form-submit-btn::before,
+.newsletter-form__btn::before,
+.news-btn::before {
   content: '';
   position: absolute;
   top: 0;
@@ -54,20 +79,53 @@
   border-radius: inherit;
   transform: scaleX(0);
   transform-origin: right center;
-  transition: transform .82s cubic-bezier(0.25, 1, 0.35, 1);
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.35, 1);
   z-index: 1;
 }
 
-.btn--dark:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+.btn--dark:hover,
+.btn-dark:hover,
+.btn--black:hover,
+.section-about__btn:hover,
+.sinistro-form-btn:hover,
+.seguro-form-submit-btn:hover,
+.newsletter-form__btn:hover,
+.news-btn:hover {
+  border-color: var(--color-primary, #EE4023);
+  color: var(--color-primary, #EE4023) !important;
 }
 
-.btn--dark:hover>* {
-  color: var(--color-primary);
+.btn--dark:hover > *,
+.btn-dark:hover > *,
+.btn--black:hover > *,
+.section-about__btn:hover > *,
+.sinistro-form-btn:hover > *,
+.seguro-form-submit-btn:hover > *,
+.newsletter-form__btn:hover > *,
+.news-btn:hover > * {
+  color: var(--color-primary, #EE4023) !important;
 }
 
-.btn--dark:hover::before {
+.btn--dark:hover svg,
+.btn-dark:hover svg,
+.btn--black:hover svg,
+.section-about__btn:hover svg,
+.sinistro-form-btn:hover svg,
+.seguro-form-submit-btn:hover svg,
+.newsletter-form__btn:hover svg,
+.news-btn:hover svg {
+  stroke: var(--color-primary, #EE4023);
+  color: var(--color-primary, #EE4023);
+}
+
+.btn--dark:hover::before,
+.btn-dark:hover::before,
+.btn--black:hover::before,
+.section-about__btn:hover::before,
+.sinistro-form-btn:hover::before,
+.seguro-form-submit-btn:hover::before,
+.newsletter-form__btn:hover::before,
+.news-btn:hover::before {
   transform: scaleX(1);
   transform-origin: left center;
 }
