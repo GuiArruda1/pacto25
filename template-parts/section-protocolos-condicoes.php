@@ -10,27 +10,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $page_id = get_the_ID();
 
-$eyebrow   = pacto_get_field( 'protocolos_cond_eyebrow', $page_id, 'COBERTURAS COM ATENDIMENTO PERSONALIZADO' );
+$eyebrow   = pacto_get_field( 'protocolos_cond_eyebrow', $page_id, 'PROTOCOLOS COM ORDENS PROFISSIONAIS E ASSOCIAÇÕES' );
 $title     = pacto_get_field( 'protocolos_cond_title', $page_id, 'Condições Especiais para Membros de Ordens e Associações' );
 $text      = pacto_get_field( 'protocolos_cond_text', $page_id, 'A Pacto Seguro disponibiliza uma vasta oferta de Seguros com Protocolo a desenvolver em colaboração com as Ordens e Associações Profissionais, em particular:' );
 $list      = pacto_get_field( 'protocolos_cond_list', $page_id );
-$btn_text  = pacto_get_field( 'protocolos_cond_btn_text', $page_id, 'Fale com um consultor' );
+$btn_text  = pacto_get_field( 'protocolos_cond_btn_text', $page_id, 'falar com um especialista' );
 $btn_url   = pacto_get_field( 'protocolos_cond_btn_url', $page_id, '/contactos/' );
 
 // Default list if ACF is empty
 if ( empty( $list ) ) {
     $list = array(
-        array( 'item' => 'Ordem dos Médicos, Enfermeiros e Farmacêuticos' ),
-        array( 'item' => 'Ordem dos Engenheiros e Engenheiros Técnicos' ),
-        array( 'item' => 'Ordem dos Advogados' ),
-        array( 'item' => 'Ordem dos Arquitectos' ),
-        array( 'item' => 'Ordem dos Solicitadores' ),
-        array( 'item' => 'Ordem dos Psicólogos' ),
-        array( 'item' => 'Ordem dos Contabilistas Certificados' ),
-        array( 'item' => 'Sindicato dos Jogadores Profissionais de Futebol' ),
-        array( 'item' => 'Sindicato dos Magistrados do Ministério Público' ),
-        array( 'item' => 'Sindicato dos Quadros Técnicos Bancários' ),
-        array( 'item' => 'Associação Sindical dos Juízes Portugueses' ),
+        array( 'item' => 'Ordens dos Médicos, Médicos Dentistas e Enfermeiros;' ),
+        array( 'item' => 'Ordens dos Engenheiros e Engenheiros Técnicos;' ),
+        array( 'item' => 'Ordem dos Biólogos;' ),
+        array( 'item' => 'Ordem dos Arquitetos;' ),
+        array( 'item' => 'Ordem dos Economistas;' ),
+        array( 'item' => 'Ordem dos Farmaceuticos;' ),
+        array( 'item' => 'Ordem dos Psicologos;' ),
+        array( 'item' => 'Ordem dos Ordem dos Solicitadores e Agentes de Execução;' ),
+        array( 'item' => 'Sindicato Nacional dos Médicos Veterinários;' ),
+        array( 'item' => 'Associação Sindical dos Juízes Portugueses.' ),
     );
 }
 
@@ -40,10 +39,10 @@ $vantagens_list  = pacto_get_field( 'protocolos_vantagens_list', $page_id );
 // Default vantagens if ACF is empty
 if ( empty( $vantagens_list ) ) {
     $vantagens_list = array(
-        array( 'item' => 'Condições exclusivas.' ),
-        array( 'item' => 'Coberturas diferenciadas.' ),
-        array( 'item' => 'Preços preferenciais.' ),
-        array( 'item' => 'Acompanhamento especializado.' ),
+        array( 'item' => 'Condições exclusivas;' ),
+        array( 'item' => 'Coberturas diferenciadas;' ),
+        array( 'item' => 'Preços preferenciais;' ),
+        array( 'item' => 'Acompanhamento especializado;' ),
         array( 'item' => 'Soluções adaptadas à profissão.' ),
     );
 }
@@ -55,7 +54,7 @@ if ( empty( $vantagens_list ) ) {
             
             <div class="protocolos-condicoes-content">
                 <?php if ( $eyebrow ) : ?>
-                    <span class="protocolos-condicoes-eyebrow"><?php echo esc_html( $eyebrow ); ?></span>
+                    <span class="protocolos-condicoes-eyebrow"><span class="eyebrow-bullet">•</span> <?php echo esc_html( $eyebrow ); ?></span>
                 <?php endif; ?>
                 
                 <h2 class="h2 protocolos-condicoes-title"><?php echo esc_html( $title ); ?></h2>
@@ -89,10 +88,7 @@ if ( empty( $vantagens_list ) ) {
                 <div class="protocolos-condicoes-red-circle">
                     <div class="protocolos-condicoes-vantagens">
                         <div class="vantagens-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="24" cy="24" r="23" stroke="white" stroke-width="2"/>
-                                <path d="M33 17L21 29L15 23" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/icon-protocolo.svg" alt="Protocolos" width="80" height="80" />
                         </div>
                         <h3 class="vantagens-title"><?php echo esc_html( $vantagens_title ); ?></h3>
                         

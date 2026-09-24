@@ -296,7 +296,7 @@
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  background-image: url('data:image/svg+xml;utf8,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.3334 4L6.00008 11.3333L2.66675 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7.5" stroke="white" stroke-width="1"/><path d="M11.5 5.5L6.5 10.5L4.5 8.5" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>');
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -304,35 +304,35 @@
 /* Bubbles for section 2 */
 .protocolos-cond-bubble-1 {
   position: absolute;
-  top: -20px;
-  left: 20%;
-  width: clamp(15px, 2vw, 25px);
-  height: clamp(15px, 2vw, 25px);
+  top: 10%;
+  left: -5%;
+  width: clamp(20px, 3vw, 40px);
+  height: clamp(20px, 3vw, 40px);
   background-color: var(--color-primary, #D42E12);
   border-radius: 50%;
 }
 .protocolos-cond-bubble-2 {
   position: absolute;
   top: 5%;
-  left: 35%;
-  width: clamp(40px, 5vw, 80px);
-  height: clamp(40px, 5vw, 80px);
+  left: 15%;
+  width: clamp(40px, 6vw, 90px);
+  height: clamp(40px, 6vw, 90px);
   background-color: var(--color-primary, #D42E12);
   border-radius: 50%;
 }
 .protocolos-cond-bubble-3 {
   position: absolute;
-  bottom: 20%;
-  left: 25%;
-  width: clamp(20px, 2.5vw, 40px);
-  height: clamp(20px, 2.5vw, 40px);
+  bottom: 25%;
+  left: 10%;
+  width: clamp(25px, 3vw, 45px);
+  height: clamp(25px, 3vw, 45px);
   background-color: var(--color-primary, #D42E12);
   border-radius: 50%;
 }
 .protocolos-cond-bubble-4 {
   position: absolute;
   bottom: 10%;
-  left: 45%;
+  left: 30%;
   width: clamp(10px, 1.5vw, 20px);
   height: clamp(10px, 1.5vw, 20px);
   background-color: var(--color-primary, #D42E12);
