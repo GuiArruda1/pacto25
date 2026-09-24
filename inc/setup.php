@@ -105,6 +105,12 @@ function pacto_25_scripts() {
         wp_enqueue_style( 'pacto-contactos', $theme_uri . '/css/contactos.css', array( 'pacto-style' ), $contact_ver );
     }
 
+    // Protocolos page styles
+    if ( is_page_template( 'page-protocolos.php' ) || is_page( 'protocolos' ) ) {
+        $protocolos_ver = file_exists( $theme_dir . '/css/protocolos.css' ) ? filemtime( $theme_dir . '/css/protocolos.css' ) : $theme_version;
+        wp_enqueue_style( 'pacto-protocolos', $theme_uri . '/css/protocolos.css', array( 'pacto-style' ), $protocolos_ver );
+    }
+
     // Notícias archive and single post styles
     if ( is_home() || is_archive() || is_singular( 'post' ) || is_page( 'noticias' ) || is_page_template( 'page-noticias.php' ) ) {
         $noticias_ver = file_exists( $theme_dir . '/css/noticias.css' ) ? filemtime( $theme_dir . '/css/noticias.css' ) : $theme_version;
