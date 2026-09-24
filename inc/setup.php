@@ -105,6 +105,12 @@ function pacto_25_scripts() {
         wp_enqueue_style( 'pacto-contactos', $theme_uri . '/css/contactos.css', array( 'pacto-style' ), $contact_ver );
     }
 
+    // Notícias archive and single post styles
+    if ( is_home() || is_archive() || is_singular( 'post' ) || is_page( 'noticias' ) || is_page_template( 'page-noticias.php' ) ) {
+        $noticias_ver = file_exists( $theme_dir . '/css/noticias.css' ) ? filemtime( $theme_dir . '/css/noticias.css' ) : $theme_version;
+        wp_enqueue_style( 'pacto-noticias', $theme_uri . '/css/noticias.css', array( 'pacto-style' ), $noticias_ver );
+    }
+
     // Vanilla JavaScript (loaded in footer, deferred for optimal First Contentful Paint)
     $js_ver = file_exists( $theme_dir . '/js/main.js' ) ? filemtime( $theme_dir . '/js/main.js' ) : $theme_version;
     wp_enqueue_script( 'pacto-main', $theme_uri . '/js/main.js', array(), $js_ver, array( 'strategy' => 'defer', 'in_footer' => true ) );

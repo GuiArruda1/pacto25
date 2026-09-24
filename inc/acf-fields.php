@@ -1850,6 +1850,59 @@ function pacto_25_register_acf_fields() {
         'label_placement' => 'top',
         'instruction_placement' => 'label',
     ) );
+
+    // =========================================================================
+    // FIELD GROUP: ARQUIVO DE NOTÍCIAS (PAGE TEMPLATE & BLOG ARCHIVE)
+    // =========================================================================
+    acf_add_local_field_group( array(
+        'key' => 'group_pacto_noticias_archive',
+        'title' => __( 'Arquivo de Notícias - Configuração', 'pacto-25' ),
+        'fields' => array(
+            array(
+                'key' => 'field_noticias_archive_eyebrow',
+                'label' => __( 'Eyebrow / Pré-título', 'pacto-25' ),
+                'name' => 'noticias_archive_eyebrow',
+                'type' => 'text',
+                'default_value' => '• NOTÍCIAS — PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_noticias_archive_title',
+                'label' => __( 'Título Principal (H1)', 'pacto-25' ),
+                'name' => 'noticias_archive_title',
+                'type' => 'text',
+                'default_value' => 'Fique a par das nossas Notícias',
+            ),
+            array(
+                'key' => 'field_noticias_archive_description',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'noticias_archive_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'page-noticias.php',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'page_type',
+                    'operator' => '==',
+                    'value' => 'posts_page',
+                ),
+            ),
+        ),
+        'menu_order' => 3,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ) );
 }
 add_action( 'acf/init', 'pacto_25_register_acf_fields' );
 
