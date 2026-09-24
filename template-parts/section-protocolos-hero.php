@@ -10,9 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $page_id = get_the_ID();
 
-$eyebrow   = pacto_get_field( 'protocolos_hero_eyebrow', $page_id, 'CONHEÇA AS VANTAGENS' );
+$eyebrow   = pacto_get_field( 'protocolos_hero_eyebrow', $page_id, 'PROTOCOLOS - PACTO SEGURO' );
 $title     = pacto_get_field( 'protocolos_hero_title', $page_id, 'Os Protocolos da Pacto Seguro' );
-$text      = pacto_get_field( 'protocolos_hero_text', $page_id, 'Estamos ao seu lado em cada etapa. Saiba mais sobre as nossas ofertas e veja como podemos fazer a diferença com um acompanhamento próximo e especializado.' );
+$text      = pacto_get_field( 'protocolos_hero_text', $page_id, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
 
 $image_obj = pacto_get_field( 'protocolos_hero_image', $page_id );
 $image_url = ! empty( $image_obj['url'] ) ? $image_obj['url'] : get_template_directory_uri() . '/assets/images/protocolos-hero.png';
@@ -25,7 +25,7 @@ $image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title
             
             <div class="protocolos-hero-content">
                 <?php if ( $eyebrow ) : ?>
-                    <span class="protocolos-hero-eyebrow"><?php echo esc_html( $eyebrow ); ?></span>
+                    <span class="protocolos-hero-eyebrow"><span class="eyebrow-bullet">•</span> <?php echo esc_html( $eyebrow ); ?></span>
                 <?php endif; ?>
                 
                 <h1 class="h1 protocolos-hero-title"><?php echo esc_html( $title ); ?></h1>
@@ -39,11 +39,12 @@ $image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title
             
             <div class="protocolos-hero-visual">
                 <!-- Decorative Elements -->
-                <div class="protocolos-hero-canopy" aria-hidden="true"></div>
                 <div class="protocolos-hero-bubble-1" aria-hidden="true"></div>
                 <div class="protocolos-hero-bubble-2" aria-hidden="true"></div>
+                <div class="protocolos-hero-bubble-3" aria-hidden="true"></div>
+                <div class="protocolos-hero-bubble-4" aria-hidden="true"></div>
                 
-                <!-- Circular Photo -->
+                <!-- Transparent PNG Photo -->
                 <div class="protocolos-hero-photo-wrap">
                     <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="protocolos-hero-photo" loading="eager" fetchpriority="high" />
                 </div>
