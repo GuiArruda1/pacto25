@@ -20,7 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="site-container site-footer__container">
         <!-- Top Row: Centered White Brand Logo & Social Links -->
         <div class="site-footer__top">
-            <div class="site-footer__top-spacer" aria-hidden="true"></div>
             <div class="site-footer__brand">
                 <?php pacto_render_footer_logo(); ?>
             </div>
