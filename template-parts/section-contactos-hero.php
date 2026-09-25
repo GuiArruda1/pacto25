@@ -40,8 +40,8 @@ $hours_2    = pacto_get_field( 'contactos_hero_hours_2', $page_id, 'e das 14h30 
 
 // Visual
 $image_obj  = pacto_get_field( 'contactos_hero_image', $page_id );
-$image_url  = ! empty( $image_obj['url'] ) ? $image_obj['url'] : get_template_directory_uri() . '/assets/images/contactos/contactos-hero-couple.png';
-$image_alt  = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
+$image_url  = pacto_get_image_url( $image_obj, get_template_directory_uri() . '/assets/images/contactos/contactos-hero-couple.png', 'full' );
+$image_alt  = pacto_get_image_alt( $image_obj, $title );
 ?>
 
 <section class="section section-contactos-hero" aria-label="<?php echo esc_attr( $title ); ?>">

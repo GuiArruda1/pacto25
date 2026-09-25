@@ -155,6 +155,57 @@ function pacto_get_svg( $icon_name, $args = array() ) {
 }
 
 /**
+ * Safely extracts a valid image URL from an ACF image value (Array, Attachment ID, or URL string).
+ *
+ * @param mixed  $image    ACF image field value (array, attachment ID int/string, or URL string)
+ * @param string $fallback Fallback URL
+ * @param string $size     WordPress image size
+ * @return string Image URL
+ */
+function pacto_get_image_url( $image, $fallback = '', $size = 'full' ) {
+    if ( empty( $image ) ) {
+        return $fallback;
+    }
+
+    if ( is_array( $image ) && ! empty( $image['url'] ) ) {
+        return $image['url'];
+    }
+
+    if ( is_numeric( $image ) || ( is_string( $image ) && ctype_digit( $image ) ) ) {
+        $url = wp_get_attachment_image_url( (int) $image, $size );
+        return $url ? $url : $fallback;
+    }
+
+    if ( is_string( $image ) ) {
+        if ( filter_var( $image, FILTER_VALIDATE_URL ) || str_starts_with( $image, '/' ) ) {
+            return $image;
+        }
+    }
+
+    return $fallback;
+}
+
+/**
+ * Safely extracts image alt text from an ACF image value.
+ *
+ * @param mixed  $image        ACF image field value
+ * @param string $fallback_alt Fallback alt text
+ * @return string
+ */
+function pacto_get_image_alt( $image, $fallback_alt = '' ) {
+    if ( is_array( $image ) && ! empty( $image['alt'] ) ) {
+        return $image['alt'];
+    }
+
+    if ( is_numeric( $image ) || ( is_string( $image ) && ctype_digit( $image ) ) ) {
+        $alt = get_post_meta( (int) $image, '_wp_attachment_image_alt', true );
+        return ! empty( $alt ) ? $alt : $fallback_alt;
+    }
+
+    return $fallback_alt;
+}
+
+/**
  * Render an image with explicit dimensions and lazy loading for Core Web Vitals.
  *
  * @param mixed  $image     ACF Image array or attachment ID or URL string
@@ -176,8 +227,8 @@ function pacto_render_image( $image, $size = 'large', $class = '', $fallback = '
         return;
     }
 
-    if ( is_numeric( $image ) ) {
-        echo wp_get_attachment_image( $image, $size, false, array(
+    if ( is_numeric( $image ) || ( is_string( $image ) && ctype_digit( $image ) ) ) {
+        echo wp_get_attachment_image( (int) $image, $size, false, array(
             'class'         => esc_attr( $class ),
             'loading'       => $is_lcp ? 'eager' : 'lazy',
             'fetchpriority' => $is_lcp ? 'high' : 'auto',
@@ -186,14 +237,14 @@ function pacto_render_image( $image, $size = 'large', $class = '', $fallback = '
         return;
     }
 
-    $src = is_string( $image ) && ! empty( $image ) ? $image : $fallback;
+    $src = pacto_get_image_url( $image, $fallback, $size );
 
     if ( ! empty( $src ) ) {
         printf(
             '<img src="%s" class="%s" alt="%s" width="600" height="600" %s />',
             esc_url( $src ),
             esc_attr( $class ),
-            esc_attr__( 'Imagem Pacto Seguro', 'pacto-25' ),
+            esc_attr( pacto_get_image_alt( $image, __( 'Imagem Pacto Seguro', 'pacto-25' ) ) ),
             $loading_attr
         );
     }
@@ -210,15 +261,17 @@ function pacto_render_header_logo() {
     $acf_logo      = pacto_get_field( 'header_logo', $front_page_id );
 
     if ( ! empty( $acf_logo ) ) {
-        $logo_url = is_array( $acf_logo ) ? $acf_logo['url'] : $acf_logo;
-        $alt_text = is_array( $acf_logo ) && ! empty( $acf_logo['alt'] ) ? $acf_logo['alt'] : get_bloginfo( 'name' );
-        printf(
-            '<a href="%s" class="site-header__logo-link custom-logo-link" rel="home"><img src="%s" alt="%s" class="site-header__logo-img custom-logo" width="220" height="48" /></a>',
-            esc_url( home_url( '/' ) ),
-            esc_url( $logo_url ),
-            esc_attr( $alt_text )
-        );
-        return;
+        $logo_url = pacto_get_image_url( $acf_logo, '', 'full' );
+        $alt_text = pacto_get_image_alt( $acf_logo, get_bloginfo( 'name' ) );
+        if ( ! empty( $logo_url ) ) {
+            printf(
+                '<a href="%s" class="site-header__logo-link custom-logo-link" rel="home"><img src="%s" alt="%s" class="site-header__logo-img custom-logo" width="220" height="48" /></a>',
+                esc_url( home_url( '/' ) ),
+                esc_url( $logo_url ),
+                esc_attr( $alt_text )
+            );
+            return;
+        }
     }
 
     if ( has_custom_logo() ) {
@@ -245,15 +298,17 @@ function pacto_render_footer_logo() {
     $acf_logo      = pacto_get_field( 'footer_logo', $front_page_id );
 
     if ( ! empty( $acf_logo ) ) {
-        $logo_url = is_array( $acf_logo ) ? $acf_logo['url'] : $acf_logo;
-        $alt_text = is_array( $acf_logo ) && ! empty( $acf_logo['alt'] ) ? $acf_logo['alt'] : get_bloginfo( 'name' );
-        printf(
-            '<a href="%s" class="site-footer__logo-link" rel="home"><img src="%s" alt="%s" class="site-footer__logo-img" width="220" height="48" /></a>',
-            esc_url( home_url( '/' ) ),
-            esc_url( $logo_url ),
-            esc_attr( $alt_text )
-        );
-        return;
+        $logo_url = pacto_get_image_url( $acf_logo, '', 'full' );
+        $alt_text = pacto_get_image_alt( $acf_logo, get_bloginfo( 'name' ) );
+        if ( ! empty( $logo_url ) ) {
+            printf(
+                '<a href="%s" class="site-footer__logo-link" rel="home"><img src="%s" alt="%s" class="site-footer__logo-img" width="220" height="48" /></a>',
+                esc_url( home_url( '/' ) ),
+                esc_url( $logo_url ),
+                esc_attr( $alt_text )
+            );
+            return;
+        }
     }
 
     $white_logo_url = get_template_directory_uri() . '/assets/logo-white.svg';

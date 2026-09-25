@@ -18,8 +18,8 @@ $description = pacto_get_field( 'sinistro_hero_description', false, 'Aliquet eu 
 $image_obj   = pacto_get_field( 'sinistro_hero_image', false );
 
 // Default image fallback
-$image_url = ! empty( $image_obj['url'] ) ? $image_obj['url'] : get_template_directory_uri() . '/assets/images/sinistro/sinistro-hero-family.png';
-$image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
+$image_url = pacto_get_image_url( $image_obj, get_template_directory_uri() . '/assets/images/sinistro/sinistro-hero-family.png', 'full' );
+$image_alt = pacto_get_image_alt( $image_obj, $title );
 ?>
 
 <section class="section section-sinistro-hero" aria-label="<?php echo esc_attr( $title ); ?>">

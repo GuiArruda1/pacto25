@@ -15,8 +15,8 @@ $title     = pacto_get_field( 'protocolos_hero_title', $page_id, 'Os Protocolos 
 $text      = pacto_get_field( 'protocolos_hero_text', $page_id, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
 
 $image_obj = pacto_get_field( 'protocolos_hero_image', $page_id );
-$image_url = ! empty( $image_obj['url'] ) ? $image_obj['url'] : get_template_directory_uri() . '/assets/images/protocolos-hero.png';
-$image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
+$image_url = pacto_get_image_url( $image_obj, get_template_directory_uri() . '/assets/images/protocolos-hero.png', 'full' );
+$image_alt = pacto_get_image_alt( $image_obj, $title );
 ?>
 
 <section class="section section-protocolos-hero" aria-label="<?php echo esc_attr( $title ); ?>">

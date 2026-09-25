@@ -22,11 +22,9 @@ $description = pacto_get_field(
 $btn_text    = pacto_get_field( 'about_btn_text', false, 'conheça a nossa história' );
 $btn_url     = pacto_get_field( 'about_btn_url', false, pacto_get_nav_url( 'quem-somos', 'page-quem-somos.php', '#sobre' ) );
 $image       = pacto_get_field( 'about_image' );
-
-$img_src = get_template_directory_uri() . '/assets/about-circle-woman.png';
-if ( ! empty( $image ) ) {
-    $img_src = is_array( $image ) ? $image['url'] : $image;
-}
+$default_img = get_template_directory_uri() . '/assets/about-circle-woman.png';
+$img_src     = pacto_get_image_url( $image, $default_img, 'large' );
+$img_alt     = pacto_get_image_alt( $image, $title );
 ?>
 
 <section class="section-about" id="sobre" aria-label="<?php esc_attr_e( 'Sobre a Empresa', 'pacto-25' ); ?>">
@@ -35,7 +33,7 @@ if ( ! empty( $image ) ) {
             <!-- Visual Column (Left) -->
             <div class="section-about__visual">
                 <img src="<?php echo esc_url( $img_src ); ?>" 
-                     alt="<?php echo esc_attr( $title ); ?>" 
+                     alt="<?php echo esc_attr( $img_alt ); ?>" 
                      class="section-about__image" 
                      width="760" 
                      height="780" 
