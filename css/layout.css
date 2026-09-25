@@ -1980,6 +1980,12 @@
   flex: 1 1 auto;
 }
 
+@media (min-width: 1024px) {
+  .site-footer__legal-text {
+    max-width: 990px;
+  }
+}
+
 .site-footer__legal-text p {
   font-family: var(--font-body);
   font-size: 9.5px;
