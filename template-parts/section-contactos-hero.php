@@ -45,13 +45,11 @@ $image_alt  = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $titl
 ?>
 
 <section class="section section-contactos-hero" aria-label="<?php echo esc_attr( $title ); ?>">
-    <!-- Top Right Background Red Canopy -->
+    <!-- Top Right Background Red Canopy (1400x1400) -->
     <div class="contactos-hero-canopy" aria-hidden="true"></div>
 
-    <!-- Ambient Floating Red Bubbles Matching Figma -->
-    <div class="contactos-hero-bubble contactos-hero-bubble--top-left" aria-hidden="true"></div>
-    <div class="contactos-hero-bubble contactos-hero-bubble--mid-left" aria-hidden="true"></div>
-    <div class="contactos-hero-bubble contactos-hero-bubble--center" aria-hidden="true"></div>
+    <!-- Ambient Floating Red Bubble Matching Figma -->
+    <div class="contactos-hero-bubble" aria-hidden="true"></div>
 
     <div class="site-container">
         <div class="contactos-hero-grid">
@@ -118,14 +116,12 @@ $image_alt  = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $titl
 
             <!-- Right Column: Circular Photo Visual -->
             <div class="contactos-hero-visual">
-                <div class="circle-frame--ring contactos-hero-circle-wrap">
-                    <div class="circle-frame__ring" aria-hidden="true"></div>
-                    <div class="circle-frame__photo">
-                        <img src="<?php echo esc_url( $image_url ); ?>" 
-                             alt="<?php echo esc_attr( $image_alt ); ?>" 
-                             loading="eager" 
-                             fetchpriority="high" />
-                    </div>
+                <div class="contactos-hero-photo-wrap">
+                    <img src="<?php echo esc_url( $image_url ); ?>" 
+                         alt="<?php echo esc_attr( $image_alt ); ?>" 
+                         class="contactos-hero-photo"
+                         loading="eager" 
+                         fetchpriority="high" />
                 </div>
             </div>
         </div>

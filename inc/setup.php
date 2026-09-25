@@ -93,8 +93,8 @@ function pacto_25_scripts() {
         wp_enqueue_style( 'pacto-empresas', $theme_uri . '/css/empresas.css', array( 'pacto-style' ), $emp_ver );
     }
 
-    // Single Seguro Particular styles
-    if ( is_singular( 'seguro_particular' ) || is_singular( 'seguro_empresa' ) || is_singular() ) {
+    // Single Seguro Particular and Empresa styles
+    if ( is_singular( 'seguro_particular' ) || is_singular( 'seguro_empresa' ) ) {
         $single_ver = file_exists( $theme_dir . '/css/single-seguro.css' ) ? filemtime( $theme_dir . '/css/single-seguro.css' ) : $theme_version;
         wp_enqueue_style( 'pacto-single-seguro', $theme_uri . '/css/single-seguro.css', array( 'pacto-style' ), $single_ver );
     }
@@ -115,6 +115,12 @@ function pacto_25_scripts() {
     if ( is_page_template( 'page-protocolos.php' ) || is_page( 'protocolos' ) ) {
         $protocolos_ver = file_exists( $theme_dir . '/css/protocolos.css' ) ? filemtime( $theme_dir . '/css/protocolos.css' ) : $theme_version;
         wp_enqueue_style( 'pacto-protocolos', $theme_uri . '/css/protocolos.css', array( 'pacto-style' ), $protocolos_ver );
+    }
+
+    // Legal and standard text page styles
+    if ( is_page() || is_privacy_policy() || is_page_template( 'page-legal.php' ) ) {
+        $legal_ver = file_exists( $theme_dir . '/css/legal.css' ) ? filemtime( $theme_dir . '/css/legal.css' ) : $theme_version;
+        wp_enqueue_style( 'pacto-legal', $theme_uri . '/css/legal.css', array( 'pacto-style' ), $legal_ver );
     }
 
     // Notícias archive and single post styles

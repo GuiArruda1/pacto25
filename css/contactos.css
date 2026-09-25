@@ -21,47 +21,40 @@ body.page-contactos,
   z-index: 2;
 }
 
-/* Background Top-Right Red Canopy */
+/* Background Top-Right Red Canopy (1400 x 1400 in Figma) */
 .contactos-hero-canopy {
   position: absolute;
-  top: clamp(-380px, -24vw, -200px);
-  right: clamp(-350px, -20vw, -150px);
-  width: clamp(850px, 72vw, 1300px);
-  height: clamp(850px, 72vw, 1300px);
+  top: clamp(-240px, -18vw, -80px);
+  right: clamp(-360px, -22vw, -120px);
+  width: clamp(720px, 73vw, 1400px);
+  height: clamp(720px, 73vw, 1400px);
   border-radius: 50%;
-  background-color: var(--color-primary, #E84E38);
+  background-color: var(--color-primary, #D42E12);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Ambient Floating Red Bubbles Matching Figma */
+@media (min-width: 1280px) {
+  .contactos-hero-canopy {
+    width: 1400px;
+    height: 1400px;
+    top: -100px;
+    left: calc(50% - 240px);
+    right: auto;
+  }
+}
+
+/* Ambient Floating Red Bubble Matching Figma */
 .contactos-hero-bubble {
   position: absolute;
+  top: clamp(60px, 6.5vw, 105px);
+  left: clamp(28%, 31vw, 34%);
+  width: clamp(36px, 3.2vw, 48px);
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
-  background-color: var(--color-primary, #E84E38);
+  background-color: var(--color-primary, #D42E12);
   pointer-events: none;
   z-index: 2;
-}
-
-.contactos-hero-bubble--mid-left {
-  top: 4%;
-  left: 8%;
-  width: clamp(26px, 2.6vw, 38px);
-  aspect-ratio: 1 / 1;
-}
-
-.contactos-hero-bubble--top-left {
-  top: 14%;
-  left: 20%;
-  width: clamp(38px, 4vw, 56px);
-  aspect-ratio: 1 / 1;
-}
-
-.contactos-hero-bubble--center {
-  top: 50%;
-  left: 45%;
-  width: clamp(65px, 7vw, 105px);
-  aspect-ratio: 1 / 1;
 }
 
 /* Content & Visual Grid */
@@ -184,36 +177,20 @@ body.page-contactos,
   }
 }
 
-.contactos-hero-circle-wrap {
+.contactos-hero-photo-wrap {
   position: relative;
   width: 100%;
   max-width: clamp(380px, 44vw, 560px);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+  background-color: #f7f7f7;
   z-index: 3;
 }
 
-.contactos-hero-circle-wrap .circle-frame__ring {
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: clamp(14px, 1.8vw, 22px) solid var(--color-primary);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.contactos-hero-circle-wrap .circle-frame__photo {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  overflow: hidden;
-  z-index: 1;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
-  background-color: #f7f7f7;
-}
-
-.contactos-hero-circle-wrap img {
+.contactos-hero-photo-wrap img,
+.contactos-hero-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;

@@ -1,0 +1,174 @@
+/**
+ * Stylesheet: Legal & Text Pages (Política de Privacidade, Termos, Cookies, etc.)
+ * Theme: Pacto 25
+ * Strict Agency Standard: Fluid typography, readable max-width, accessible focus states
+ */
+
+.legal-page {
+  position: relative;
+  background-color: var(--color-white, #FFFFFF);
+  padding-top: clamp(3rem, 5vw, 5rem);
+  padding-bottom: clamp(4.5rem, 8vw, 8rem);
+  min-height: 50vh;
+}
+
+.legal-page__container {
+  width: 100%;
+  max-width: var(--container-max-width, 1520px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding, clamp(1.25rem, 3.5vw, 2.5rem));
+  padding-right: var(--container-padding, clamp(1.25rem, 3.5vw, 2.5rem));
+}
+
+.legal-page__inner {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Eyebrow with red bullet */
+.legal-page__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.85rem;
+}
+
+.legal-page__eyebrow-bullet {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary, #D42E12);
+  flex-shrink: 0;
+}
+
+.legal-page__eyebrow-text {
+  font-family: var(--font-heading, 'Sora', sans-serif);
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-primary, #D42E12);
+  line-height: 1;
+}
+
+/* Page H1 Title */
+.legal-page__title {
+  font-family: var(--font-heading, 'Sora', sans-serif);
+  font-size: clamp(2.25rem, 3.6vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-text, #231F20);
+  letter-spacing: -0.015em;
+  margin-top: 0;
+  margin-bottom: clamp(1.75rem, 2.8vw, 2.75rem);
+}
+
+/* Formatted Content Typography */
+.legal-page__content {
+  font-family: var(--font-body, 'Libre Franklin', system-ui, sans-serif);
+  font-size: clamp(15px, 1.05vw, 16px);
+  line-height: 1.7;
+  color: #383435;
+}
+
+.legal-page__content > *:first-child {
+  margin-top: 0;
+}
+
+.legal-page__content > *:last-child {
+  margin-bottom: 0;
+}
+
+.legal-page__content p {
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin-top: 0;
+  margin-bottom: 1.65rem;
+}
+
+.legal-page__content a {
+  color: var(--color-primary, #D42E12);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: color var(--transition-fast, 0.18s ease);
+}
+
+.legal-page__content a:hover,
+.legal-page__content a:focus-visible {
+  color: var(--color-primary-hover, #B7240C);
+}
+
+.legal-page__content h2 {
+  font-family: var(--font-heading, 'Sora', sans-serif);
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
+  font-weight: 600;
+  color: var(--color-dark, #231F20);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.legal-page__content h3 {
+  font-family: var(--font-heading, 'Sora', sans-serif);
+  font-size: clamp(1.15rem, 1.5vw, 1.4rem);
+  font-weight: 600;
+  color: var(--color-dark, #231F20);
+  margin-top: 2rem;
+  margin-bottom: 0.85rem;
+}
+
+.legal-page__content ul,
+.legal-page__content ol {
+  margin-top: 0;
+  margin-bottom: 1.65rem;
+  padding-left: 1.5rem;
+}
+
+.legal-page__content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.65;
+}
+
+.legal-page__content li::marker {
+  color: var(--color-primary, #D42E12);
+}
+
+.legal-page__content strong,
+.legal-page__content b {
+  font-weight: 600;
+  color: var(--color-dark, #231F20);
+}
+
+.legal-page__content blockquote {
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 3px solid var(--color-primary, #D42E12);
+  background-color: var(--color-bg-light, #FBFBFC);
+  border-radius: 0 var(--radius-sm, 8px) var(--radius-sm, 8px) 0;
+  font-style: italic;
+  color: var(--color-text-light, #5A5657);
+}
+
+.legal-page__content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.95em;
+}
+
+.legal-page__content th,
+.legal-page__content td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border, #EAEAEA);
+  text-align: left;
+}
+
+.legal-page__content th {
+  background-color: var(--color-bg-light, #FBFBFC);
+  font-weight: 600;
+  color: var(--color-dark, #231F20);
+}

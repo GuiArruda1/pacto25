@@ -1100,10 +1100,12 @@
     transform: scale(1);
     box-shadow: 0 0 0 0 rgba(212, 46, 18, 0.7);
   }
+
   70% {
     transform: scale(1.15);
     box-shadow: 0 0 0 6px rgba(212, 46, 18, 0);
   }
+
   100% {
     transform: scale(1);
     box-shadow: 0 0 0 0 rgba(212, 46, 18, 0);
@@ -1121,8 +1123,8 @@
 }
 
 /* Red Circle Dot on Hover/Active for all Header Nav Items */
-.site-header__nav-item > a::before,
-.site-header__nav-list > li > a::before {
+.site-header__nav-item>a::before,
+.site-header__nav-list>li>a::before {
   content: '';
   display: inline-block;
   width: 0;
@@ -1133,36 +1135,36 @@
   opacity: 0;
   transform: scale(0);
   transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              margin-right 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.2s ease,
-              transform 0.2s ease;
+    margin-right 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease,
+    transform 0.2s ease;
   flex-shrink: 0;
   pointer-events: none;
 }
 
 /* Colors on Hover and Active */
-.site-header__nav-item:hover > a,
-.site-header__nav-item > a:hover,
-.site-header__nav-item > a:focus-visible,
-.site-header__nav-item--mega.is-active > a,
-.site-header__nav-item.current-menu-item > a,
-.site-header__nav-list > li:hover > a,
-.site-header__nav-list > li > a:hover,
-.site-header__nav-list > li > a:focus-visible,
-.site-header__nav-list > li.current-menu-item > a {
+.site-header__nav-item:hover>a,
+.site-header__nav-item>a:hover,
+.site-header__nav-item>a:focus-visible,
+.site-header__nav-item--mega.is-active>a,
+.site-header__nav-item.current-menu-item>a,
+.site-header__nav-list>li:hover>a,
+.site-header__nav-list>li>a:hover,
+.site-header__nav-list>li>a:focus-visible,
+.site-header__nav-list>li.current-menu-item>a {
   color: var(--color-primary);
 }
 
 /* Show Dot on Hover, Focus-Visible, Mega Open, or Current Page */
-.site-header__nav-item:hover > a::before,
-.site-header__nav-item > a:hover::before,
-.site-header__nav-item > a:focus-visible::before,
-.site-header__nav-item--mega.is-active > a::before,
-.site-header__nav-item.current-menu-item > a::before,
-.site-header__nav-list > li:hover > a::before,
-.site-header__nav-list > li > a:hover::before,
-.site-header__nav-list > li > a:focus-visible::before,
-.site-header__nav-list > li.current-menu-item > a::before {
+.site-header__nav-item:hover>a::before,
+.site-header__nav-item>a:hover::before,
+.site-header__nav-item>a:focus-visible::before,
+.site-header__nav-item--mega.is-active>a::before,
+.site-header__nav-item.current-menu-item>a::before,
+.site-header__nav-list>li:hover>a::before,
+.site-header__nav-list>li>a:hover::before,
+.site-header__nav-list>li>a:focus-visible::before,
+.site-header__nav-list>li.current-menu-item>a::before {
   width: 6px;
   margin-right: 6px;
   opacity: 1;
@@ -1170,12 +1172,12 @@
 }
 
 /* Pulse Animation strictly on Hover or Keyboard Focus-Visible */
-.site-header__nav-item:hover > a::before,
-.site-header__nav-item > a:hover::before,
-.site-header__nav-item > a:focus-visible::before,
-.site-header__nav-list > li:hover > a::before,
-.site-header__nav-list > li > a:hover::before,
-.site-header__nav-list > li > a:focus-visible::before {
+.site-header__nav-item:hover>a::before,
+.site-header__nav-item>a:hover::before,
+.site-header__nav-item>a:focus-visible::before,
+.site-header__nav-list>li:hover>a::before,
+.site-header__nav-list>li>a:hover::before,
+.site-header__nav-list>li>a:focus-visible::before {
   animation: pactoDotPulse 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
@@ -1278,9 +1280,9 @@
   opacity: 0;
   transform: scale(0);
   transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              margin-right 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.2s ease,
-              transform 0.2s ease;
+    margin-right 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease,
+    transform 0.2s ease;
   flex-shrink: 0;
   pointer-events: none;
 }
@@ -1301,12 +1303,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-header__nav-item:hover > a::before,
-  .site-header__nav-item > a:hover::before,
-  .site-header__nav-item > a:focus-visible::before,
-  .site-header__nav-list > li:hover > a::before,
-  .site-header__nav-list > li > a:hover::before,
-  .site-header__nav-list > li > a:focus-visible::before,
+
+  .site-header__nav-item:hover>a::before,
+  .site-header__nav-item>a:hover::before,
+  .site-header__nav-item>a:focus-visible::before,
+  .site-header__nav-list>li:hover>a::before,
+  .site-header__nav-list>li>a:hover::before,
+  .site-header__nav-list>li>a:focus-visible::before,
   .mega-menu__link:hover::before,
   .mega-menu__link:focus-visible::before {
     animation: none;
@@ -1609,7 +1612,8 @@
 .site-footer::after {
   content: '';
   position: absolute;
-  top: 85vw; /* half of 170vw = equator */
+  top: 85vw;
+  /* half of 170vw = equator */
   left: 0;
   right: 0;
   bottom: 0;
@@ -1619,7 +1623,7 @@
 }
 
 .site-footer__container {
-  max-width: min(82vw, 1060px);
+  max-width: min(82vw, 1600px);
   width: 100%;
   margin: 0 auto;
   position: relative;
@@ -1804,17 +1808,17 @@
   opacity: 0;
   transform: scale(0);
   transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              margin-right 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.2s ease,
-              transform 0.2s ease;
+    margin-right 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease,
+    transform 0.2s ease;
   flex-shrink: 0;
   pointer-events: none;
 }
 
 .site-footer__nav-row a:hover,
 .site-footer__nav-row a:focus-visible,
-.site-footer__nav-row li:hover > a,
-.site-footer__nav-row li.current-menu-item > a {
+.site-footer__nav-row li:hover>a,
+.site-footer__nav-row li.current-menu-item>a {
   opacity: 1;
   color: #FFFFFF;
   text-decoration: none;
@@ -1822,8 +1826,8 @@
 
 .site-footer__nav-row a:hover::before,
 .site-footer__nav-row a:focus-visible::before,
-.site-footer__nav-row li:hover > a::before,
-.site-footer__nav-row li.current-menu-item > a::before {
+.site-footer__nav-row li:hover>a::before,
+.site-footer__nav-row li.current-menu-item>a::before {
   width: 5px;
   margin-right: 6px;
   opacity: 1;
@@ -1836,10 +1840,12 @@
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
   }
+
   70% {
     transform: scale(1.1);
     box-shadow: 0 0 0 5px rgba(255, 255, 255, 0);
   }
+
   100% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
