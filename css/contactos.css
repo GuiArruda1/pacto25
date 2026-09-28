@@ -10,51 +10,54 @@ body.page-contactos,
   overflow-x: clip;
 }
 
+/* Transparent Header on Contactos page matching Figma */
+body.page-template-page-contactos .site-header:not(.site-header--scrolled),
+body.page-contactos .site-header:not(.site-header--scrolled) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  border-bottom: none;
+  z-index: 100;
+}
+
 /* ==========================================================================
    1. Section: Contactos Hero ("Entre em Contacto com a Pacto Seguro")
    ========================================================================== */
 .section-contactos-hero {
   position: relative;
-  overflow: visible;
-  padding: clamp(3.5rem, 6vw, 6.5rem) 0 clamp(4rem, 7vw, 7.5rem);
+  overflow: hidden;
+  padding-top: calc(84px + clamp(1.5rem, 3.5vw, 3.5rem));
+  padding-bottom: clamp(5.5rem, 8vw, 8.5rem);
   background-color: var(--color-white, #FFFFFF);
   z-index: 2;
 }
 
-/* Background Top-Right Red Canopy (1400 x 1400 in Figma) */
+/* Background Top-Right Red Canopy (Exact ~960px Circle matching Figma) */
 .contactos-hero-canopy {
   position: absolute;
-  top: clamp(-240px, -18vw, -80px);
-  right: clamp(-360px, -22vw, -120px);
-  width: clamp(720px, 73vw, 1400px);
-  height: clamp(720px, 73vw, 1400px);
+  width: clamp(600px, 66.67vw, 960px);
+  height: clamp(600px, 66.67vw, 960px);
+  top: clamp(-240px, -24.3vw, -350px);
+  left: calc(50% - clamp(60px, 9vw, 130px));
   border-radius: 50%;
   background-color: var(--color-primary, #D42E12);
   pointer-events: none;
   z-index: 1;
 }
 
-@media (min-width: 1280px) {
+@media (max-width: 991px) {
   .contactos-hero-canopy {
-    width: 1400px;
-    height: 1400px;
-    top: -100px;
-    left: calc(50% - 240px);
-    right: auto;
+    width: clamp(520px, 90vw, 760px);
+    height: clamp(520px, 90vw, 760px);
+    top: -200px;
+    left: auto;
+    right: -150px;
   }
-}
-
-/* Ambient Floating Red Bubble Matching Figma */
-.contactos-hero-bubble {
-  position: absolute;
-  top: clamp(60px, 6.5vw, 105px);
-  left: clamp(28%, 31vw, 34%);
-  width: clamp(36px, 3.2vw, 48px);
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background-color: var(--color-primary, #D42E12);
-  pointer-events: none;
-  z-index: 2;
 }
 
 /* Content & Visual Grid */
@@ -62,24 +65,48 @@ body.page-contactos,
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
-  gap: clamp(36px, 5vw, 70px);
+  gap: clamp(32px, 4vw, 64px);
   position: relative;
   z-index: 3;
 }
 
 @media (min-width: 992px) {
   .contactos-hero-grid {
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 }
 
 .contactos-hero-content {
+  position: relative;
   max-width: 580px;
+}
+
+/* Ambient Floating Solid Red Bubble (exact Figma position above 'Contacto') */
+.contactos-hero-bubble {
+  position: absolute;
+  top: -46px;
+  right: clamp(20px, 6vw, 75px);
+  width: clamp(52px, 4.2vw, 66px);
+  height: clamp(52px, 4.2vw, 66px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: var(--color-primary, #D42E12);
+  pointer-events: none;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .contactos-hero-bubble {
+    top: -24px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
 }
 
 .contactos-hero-eyebrow {
   margin-bottom: var(--space-xs);
-  color: var(--color-primary);
+  color: var(--color-primary, #D42E12);
   letter-spacing: 0.08em;
   font-size: 0.85rem;
   font-weight: 600;
@@ -96,26 +123,37 @@ body.page-contactos,
   margin-bottom: clamp(2rem, 3.5vw, 3.25rem);
 }
 
-/* Structured Meta Information Blocks */
+/* Structured Meta Information Blocks (2-Column Grid matching Figma) */
 .contactos-hero-blocks {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(1.5rem, 2.2vw, 2.25rem) clamp(1.5rem, 2.8vw, 3rem);
+  gap: clamp(1.25rem, 2vw, 2rem) clamp(1.5rem, 2.5vw, 2.75rem);
 }
 
 @media (min-width: 540px) {
   .contactos-hero-blocks {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .contactos-meta-block--contactos {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .contactos-meta-block--morada {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .contactos-meta-block--horario {
+    grid-column: 1;
+    grid-row: 2;
   }
 }
 
 .contactos-meta-block {
   display: flex;
   flex-direction: column;
-}
-
-.contactos-meta-block--full {
-  grid-column: 1 / -1;
 }
 
 .contactos-meta-label {
@@ -150,14 +188,15 @@ body.page-contactos,
 }
 
 .contactos-meta-phone-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .contactos-meta-note {
   font-family: var(--font-body);
-  font-size: clamp(0.7rem, 0.76vw, 0.8rem);
+  font-size: clamp(0.72rem, 0.78vw, 0.82rem);
   line-height: 1.35;
   color: #888888;
 }
@@ -179,13 +218,14 @@ body.page-contactos,
 
 .contactos-hero-photo-wrap {
   position: relative;
-  width: 100%;
-  max-width: clamp(380px, 44vw, 560px);
+  width: clamp(400px, 50vw, 720px);
+  height: clamp(400px, 50vw, 720px);
+  max-width: 100%;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
-  background-color: #f7f7f7;
+  box-shadow: none;
+  background-color: transparent;
   z-index: 3;
 }
 
@@ -203,16 +243,16 @@ body.page-contactos,
 .section-contactos-help {
   position: relative;
   overflow: visible;
-  padding: clamp(3rem, 5vw, 5.5rem) 0 clamp(4rem, 6vw, 6.5rem);
-  background-color: var(--color-white, #FFFFFF);
-  z-index: 2;
+  padding: clamp(6.5rem, 10vw, 11rem) 0 clamp(7.5rem, 12vw, 13rem);
+  background-color: transparent;
+  z-index: 5;
 }
 
 .contactos-help-grid {
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
-  gap: clamp(36px, 5vw, 75px);
+  gap: clamp(48px, 6vw, 96px);
 }
 
 @media (min-width: 992px) {
@@ -237,8 +277,8 @@ body.page-contactos,
 
 .contactos-help-circle-frame {
   position: relative;
-  width: clamp(480px, 48vw, 720px);
-  height: clamp(480px, 48vw, 720px);
+  width: clamp(380px, 40vw, 620px);
+  height: clamp(380px, 40vw, 620px);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   z-index: 3;
@@ -246,9 +286,9 @@ body.page-contactos,
 
 .contactos-help-circle-ring {
   position: absolute;
-  inset: -4px;
+  inset: -6px;
   border-radius: 50%;
-  border: clamp(18px, 2vw, 26px) solid var(--color-primary, #E84E38);
+  border: clamp(16px, 1.8vw, 24px) solid var(--color-primary, #D42E12);
   pointer-events: none;
   z-index: 2;
 }
@@ -260,7 +300,7 @@ body.page-contactos,
   border-radius: 50%;
   overflow: hidden;
   z-index: 1;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08);
   background-color: #f7f7f7;
 }
 
@@ -271,27 +311,30 @@ body.page-contactos,
   display: block;
 }
 
-/* Ambient Red Bubble Dot Below 720x720 Circle */
+/* Ambient Red Bubble Dot Below Circle */
 .contactos-help-bubble--bottom {
   position: absolute;
-  bottom: clamp(-20px, -2vw, -30px);
-  left: 48%;
-  width: clamp(28px, 2.8vw, 42px);
+  bottom: clamp(-20px, -2vw, -28px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(26px, 2.5vw, 36px);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  background-color: var(--color-primary, #E84E38);
+  background-color: var(--color-primary, #D42E12);
   pointer-events: none;
-  z-index: 2;
+  z-index: 4;
 }
 
 .contactos-help-content {
-  max-width: 560px;
+  position: relative;
+  max-width: 540px;
   width: 100%;
+  z-index: 6;
 }
 
 .contactos-help-eyebrow {
   margin-bottom: var(--space-xs);
-  color: var(--color-primary);
+  color: var(--color-primary, #D42E12);
   letter-spacing: 0.08em;
   font-size: 0.85rem;
   font-weight: 600;
@@ -305,7 +348,7 @@ body.page-contactos,
   line-height: 1.1;
   color: var(--color-dark, #231F20);
   letter-spacing: -0.03em;
-  margin: 0 0 clamp(0.75rem, 1.2vw, 1.25rem) 0;
+  margin: 0 0 clamp(1rem, 1.5vw, 1.5rem) 0;
 }
 
 .contactos-help-desc {
@@ -313,15 +356,15 @@ body.page-contactos,
   font-size: clamp(0.85rem, 0.95vw, 1rem);
   line-height: 1.6;
   color: #737373;
-  margin: 0 0 clamp(1.25rem, 2vw, 1.75rem) 0;
+  margin: 0 0 clamp(1.75rem, 2.5vw, 2.25rem) 0;
   max-width: 500px;
 }
 
-/* 2-Column Contact Form */
+/* 2-Column Contact Form with Generous Breathing Room */
 .contactos-inquiry-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
   max-width: 540px;
 }
@@ -329,7 +372,13 @@ body.page-contactos,
 .contactos-form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
+}
+
+@media (max-width: 540px) {
+  .contactos-form-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .contactos-form-group {
@@ -344,9 +393,9 @@ body.page-contactos,
   background: transparent;
   color: #231F20;
   border-radius: var(--radius-pill, 9999px);
-  padding: 11px 22px;
+  padding: 13px 24px;
   font-family: var(--font-body);
-  font-size: clamp(0.8rem, 0.85vw, 0.9rem);
+  font-size: clamp(0.82rem, 0.88vw, 0.92rem);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -359,7 +408,7 @@ body.page-contactos,
 
 .contactos-input:focus,
 .contactos-textarea:focus {
-  border-color: var(--color-primary, #E84E38);
+  border-color: var(--color-primary, #D42E12);
 }
 
 .contactos-select {
@@ -378,29 +427,30 @@ body.page-contactos,
 }
 
 .contactos-textarea {
-  border-radius: 18px;
+  border-radius: 20px;
   resize: none;
-  padding: 14px 20px;
-  min-height: 115px;
+  padding: 16px 24px;
+  min-height: 125px;
 }
 
 .contactos-form-consent {
-  margin-top: 2px;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 .contactos-checkbox-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: clamp(0.72rem, 0.76vw, 0.82rem);
+  gap: 10px;
+  font-size: clamp(0.74rem, 0.78vw, 0.84rem);
   color: #737373;
   cursor: pointer;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .contactos-checkbox-label input[type="checkbox"] {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   accent-color: #231F20;
   cursor: pointer;
   flex-shrink: 0;
@@ -412,15 +462,16 @@ body.page-contactos,
 }
 
 .contactos-form-submit-wrap {
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .contactos-form-btn {
-  padding: 13px 30px;
+  padding: 14px 40px;
   font-family: var(--font-heading);
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 500;
   text-transform: lowercase;
+  border-radius: var(--radius-pill, 9999px);
 }
 
 /* ==========================================================================
@@ -429,9 +480,9 @@ body.page-contactos,
 .section-contactos-locations {
   position: relative;
   overflow: visible;
-  padding: clamp(4rem, 6vw, 7.5rem) 0 clamp(5rem, 8vw, 9.5rem);
+  padding: clamp(6rem, 9vw, 10rem) 0 clamp(6rem, 9vw, 10rem);
   background-color: transparent;
-  z-index: 4;
+  z-index: 2;
 }
 
 /* Giant Organic Red Ball Canopy on Right (Matching Quem Somos / Porquê Escolher-nos Red Ball Component) */
@@ -443,7 +494,7 @@ body.page-contactos,
   width: clamp(1050px, 82vw, 1500px);
   height: clamp(1050px, 82vw, 1500px);
   border-radius: 50%;
-  background-color: var(--color-primary, #E84E38);
+  background-color: var(--color-primary, #D42E12);
   z-index: 1;
   pointer-events: none;
 }
@@ -452,7 +503,7 @@ body.page-contactos,
 .contactos-loc-dot {
   position: absolute;
   border-radius: 50%;
-  background-color: var(--color-primary, #E84E38);
+  background-color: var(--color-primary, #D42E12);
   pointer-events: none;
   z-index: 2;
 }

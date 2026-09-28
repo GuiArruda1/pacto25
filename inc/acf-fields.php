@@ -1917,6 +1917,182 @@ function pacto_25_register_acf_fields() {
         'label_placement' => 'top',
         'instruction_placement' => 'label',
     ) );
+
+    // =========================================================================
+    // FIELD GROUP: PÁGINA CONTACTOS
+    // =========================================================================
+    acf_add_local_field_group( array(
+        'key' => 'group_pacto_contactos',
+        'title' => __( 'Página Contactos - Configuração', 'pacto-25' ),
+        'fields' => array(
+            // --- TAB: HERO ---
+            array(
+                'key' => 'field_tab_contactos_hero',
+                'label' => __( 'Secção 1: Hero', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_contactos_hero_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'contactos_hero_eyebrow',
+                'type' => 'text',
+                'default_value' => 'PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_contactos_hero_title',
+                'label' => __( 'Título Principal', 'pacto-25' ),
+                'name' => 'contactos_hero_title',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => "Entre em Contacto\ncom a Pacto Seguro",
+            ),
+            array(
+                'key' => 'field_contactos_hero_email',
+                'label' => __( 'Email de Contacto', 'pacto-25' ),
+                'name' => 'contactos_hero_email',
+                'type' => 'email',
+                'default_value' => 'teresa.sousa@pactoseguro.com',
+            ),
+            array(
+                'key' => 'field_contactos_hero_phone',
+                'label' => __( 'Número de Telefone', 'pacto-25' ),
+                'name' => 'contactos_hero_phone',
+                'type' => 'text',
+                'default_value' => '229 039 777',
+            ),
+            array(
+                'key' => 'field_contactos_hero_phone_note',
+                'label' => __( 'Nota do Telefone', 'pacto-25' ),
+                'name' => 'contactos_hero_phone_note',
+                'type' => 'text',
+                'default_value' => '(Chamada para a rede fixa nacional)',
+            ),
+            array(
+                'key' => 'field_contactos_hero_address_1',
+                'label' => __( 'Morada - Linha 1', 'pacto-25' ),
+                'name' => 'contactos_hero_address_1',
+                'type' => 'text',
+                'default_value' => 'Rua José Coutinho 262,',
+            ),
+            array(
+                'key' => 'field_contactos_hero_address_2',
+                'label' => __( 'Morada - Linha 2 (Código Postal e Cidade)', 'pacto-25' ),
+                'name' => 'contactos_hero_address_2',
+                'type' => 'text',
+                'default_value' => '4465-180 S. Mamede de Infesta, Matosinhos',
+            ),
+            array(
+                'key' => 'field_contactos_hero_hours_1',
+                'label' => __( 'Horário - Linha 1', 'pacto-25' ),
+                'name' => 'contactos_hero_hours_1',
+                'type' => 'text',
+                'default_value' => 'Dias úteis das 09h00 às 12h30',
+            ),
+            array(
+                'key' => 'field_contactos_hero_hours_2',
+                'label' => __( 'Horário - Linha 2', 'pacto-25' ),
+                'name' => 'contactos_hero_hours_2',
+                'type' => 'text',
+                'default_value' => 'e das 14h00 às 17h30',
+            ),
+            array(
+                'key' => 'field_contactos_hero_image',
+                'label' => __( 'Foto Circular do Hero', 'pacto-25' ),
+                'instructions' => __( 'Foto da equipa/casal exibida no círculo à direita.', 'pacto-25' ),
+                'name' => 'contactos_hero_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB: FALE CONNOSCO ---
+            array(
+                'key' => 'field_tab_contactos_form',
+                'label' => __( 'Secção 2: Formulário', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_contactos_form_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'contactos_form_eyebrow',
+                'type' => 'text',
+                'default_value' => 'FALE CONNOSCO',
+            ),
+            array(
+                'key' => 'field_contactos_form_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'contactos_form_title',
+                'type' => 'text',
+                'default_value' => 'Como podemos ajudar?',
+            ),
+            array(
+                'key' => 'field_contactos_form_description',
+                'label' => __( 'Descrição', 'pacto-25' ),
+                'name' => 'contactos_form_description',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Enim amet nullam dictumst dui amet, sit tellus morbi ut auctor.',
+            ),
+            array(
+                'key' => 'field_contactos_form_image',
+                'label' => __( 'Foto Circular com Anel Vermelho', 'pacto-25' ),
+                'name' => 'contactos_form_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB: ONDE ESTAMOS ---
+            array(
+                'key' => 'field_tab_contactos_map',
+                'label' => __( 'Secção 3: Mapa', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_contactos_map_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'contactos_map_eyebrow',
+                'type' => 'text',
+                'default_value' => 'ONDE ESTAMOS',
+            ),
+            array(
+                'key' => 'field_contactos_map_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'contactos_map_title',
+                'type' => 'text',
+                'default_value' => 'Venha Visitar-nos',
+            ),
+            array(
+                'key' => 'field_contactos_map_desc',
+                'label' => __( 'Descrição', 'pacto-25' ),
+                'name' => 'contactos_map_desc',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'As nossas instalações estão abertas ao público durante os dias úteis. Teremos todo o gosto em recebê-lo.',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'page-contactos.php',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'page',
+                    'operator' => '==',
+                    'value' => 'contactos',
+                ),
+            ),
+        ),
+        'menu_order' => 1,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ) );
 }
 add_action( 'acf/init', 'pacto_25_register_acf_fields' );
 

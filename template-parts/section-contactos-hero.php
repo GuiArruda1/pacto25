@@ -4,9 +4,9 @@
  * Theme: Pacto 25
  * 
  * Strict Agency SOP:
- * - Decoupled ACF fields with complete fallback defaults
+ * - Decoupled ACF fields with complete fallback defaults matching Figma
  * - Left narrative & structured contact meta blocks (Contactos, Morada, Horário)
- * - Right circular photo with top-right organic red canopy & ambient bubbles
+ * - Right circular photo with top-right organic red canopy & ambient bubble
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,49 +23,49 @@ if ( ! $page_id ) {
 
 // ACF Fields with fallbacks matching Figma
 $eyebrow    = pacto_get_field( 'contactos_hero_eyebrow', $page_id, 'PACTO SEGURO' );
-$title      = pacto_get_field( 'contactos_hero_title', $page_id, 'Entre em Contacto com a Pacto Seguro' );
+$title      = pacto_get_field( 'contactos_hero_title', $page_id, "Entre em Contacto\ncom a Pacto Seguro" );
 
 // Block 1: Contactos
 $email      = pacto_get_field( 'contactos_hero_email', $page_id, 'teresa.sousa@pactoseguro.com' );
-$phone      = pacto_get_field( 'contactos_hero_phone', $page_id, '229 035 777' );
+$phone      = pacto_get_field( 'contactos_hero_phone', $page_id, '229 039 777' );
 $phone_note = pacto_get_field( 'contactos_hero_phone_note', $page_id, '(Chamada para a rede fixa nacional)' );
 
 // Block 2: Morada
-$address_1  = pacto_get_field( 'contactos_hero_address_1', $page_id, 'Rua José Coutinho 252,' );
+$address_1  = pacto_get_field( 'contactos_hero_address_1', $page_id, 'Rua José Coutinho 262,' );
 $address_2  = pacto_get_field( 'contactos_hero_address_2', $page_id, '4465-180 S. Mamede de Infesta, Matosinhos' );
 
 // Block 3: Horário
-$hours_1    = pacto_get_field( 'contactos_hero_hours_1', $page_id, 'Dias úteis: das 09h00 às 12h30' );
-$hours_2    = pacto_get_field( 'contactos_hero_hours_2', $page_id, 'e das 14h30 às 17h30' );
+$hours_1    = pacto_get_field( 'contactos_hero_hours_1', $page_id, 'Dias úteis das 09h00 às 12h30' );
+$hours_2    = pacto_get_field( 'contactos_hero_hours_2', $page_id, 'e das 14h00 às 17h30' );
 
 // Visual
 $image_obj  = pacto_get_field( 'contactos_hero_image', $page_id );
 $image_url  = pacto_get_image_url( $image_obj, get_template_directory_uri() . '/assets/images/contactos/contactos-hero-couple.png', 'full' );
-$image_alt  = pacto_get_image_alt( $image_obj, $title );
+$image_alt  = pacto_get_image_alt( $image_obj, 'Entre em Contacto com a Pacto Seguro' );
 ?>
 
-<section class="section section-contactos-hero" aria-label="<?php echo esc_attr( $title ); ?>">
-    <!-- Top Right Background Red Canopy (1400x1400) -->
+<section class="section section-contactos-hero" aria-label="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>">
+    <!-- Top Right Background Red Canopy (1400x1400 in Figma) -->
     <div class="contactos-hero-canopy" aria-hidden="true"></div>
-
-    <!-- Ambient Floating Red Bubble Matching Figma -->
-    <div class="contactos-hero-bubble" aria-hidden="true"></div>
 
     <div class="site-container">
         <div class="contactos-hero-grid">
             <!-- Left Column: Title & Structured Information Blocks -->
             <div class="contactos-hero-content">
+                <!-- Ambient Floating Solid Red Bubble (Above Title 'Contacto') -->
+                <div class="contactos-hero-bubble" aria-hidden="true"></div>
+
                 <?php if ( $eyebrow ) : ?>
                     <span class="eyebrow contactos-hero-eyebrow"><?php echo esc_html( $eyebrow ); ?></span>
                 <?php endif; ?>
 
                 <?php if ( $title ) : ?>
-                    <h1 class="h1 contactos-hero-title"><?php echo esc_html( $title ); ?></h1>
+                    <h1 class="h1 contactos-hero-title"><?php echo wp_kses_post( nl2br( $title ) ); ?></h1>
                 <?php endif; ?>
 
                 <div class="contactos-hero-blocks">
-                    <!-- Block 1: Contactos -->
-                    <div class="contactos-meta-block">
+                    <!-- Block 1: Contactos (Col 1, Row 1) -->
+                    <div class="contactos-meta-block contactos-meta-block--contactos">
                         <span class="contactos-meta-label"><?php esc_html_e( 'CONTACTOS', 'pacto-25' ); ?></span>
                         <div class="contactos-meta-values">
                             <?php if ( $email ) : ?>
@@ -86,8 +86,8 @@ $image_alt  = pacto_get_image_alt( $image_obj, $title );
                         </div>
                     </div>
 
-                    <!-- Block 2: Morada -->
-                    <div class="contactos-meta-block">
+                    <!-- Block 2: Morada (Col 2, Row 1) -->
+                    <div class="contactos-meta-block contactos-meta-block--morada">
                         <span class="contactos-meta-label"><?php esc_html_e( 'MORADA', 'pacto-25' ); ?></span>
                         <div class="contactos-meta-values">
                             <?php if ( $address_1 ) : ?>
@@ -99,8 +99,8 @@ $image_alt  = pacto_get_image_alt( $image_obj, $title );
                         </div>
                     </div>
 
-                    <!-- Block 3: Horário -->
-                    <div class="contactos-meta-block contactos-meta-block--full">
+                    <!-- Block 3: Horário (Col 1, Row 2) -->
+                    <div class="contactos-meta-block contactos-meta-block--horario">
                         <span class="contactos-meta-label"><?php esc_html_e( 'HORÁRIO', 'pacto-25' ); ?></span>
                         <div class="contactos-meta-values">
                             <?php if ( $hours_1 ) : ?>
