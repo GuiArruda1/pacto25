@@ -421,13 +421,6 @@
   margin: 0;
 }
 
-.section-about__btn {
-  padding: 14px 34px;
-  font-family: var(--font-heading);
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: 0 4px 14px rgba(35, 31, 32, 0.15);
-}
 
 /* Decorative Red Accent Dots (matching Figma composition) */
 .section-about__deco-circle {
@@ -665,13 +658,6 @@
   margin-top: 0;
 }
 
-.section-curved-red__btn-wrap .btn--dark {
-  padding: 13px 32px;
-  font-size: clamp(13px, 0.9vw, 14px);
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  text-transform: lowercase;
-}
 
 /* Row 1: Soluções Globais */
 .section-solutions-global {
@@ -1372,11 +1358,6 @@
   flex-shrink: 0;
 }
 
-.site-header__phone-btn:hover {
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  transform: translateY(-2px);
-}
 
 /* Mobile Toggle */
 /* Mobile Backdrop Overlay */
@@ -1869,11 +1850,6 @@
   white-space: nowrap;
 }
 
-.site-footer__phone-btn:hover {
-  transform: translateY(-2px);
-  background-color: #111111;
-  color: #FFFFFF;
-}
 
 .site-footer__phone-btn svg {
   width: 16px;

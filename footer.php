@@ -72,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 }
                 ?>
                 <div class="site-footer__phone-wrap">
-                    <a href="<?php echo esc_url( $phone_link ?: 'tel:212946630' ); ?>" class="site-footer__phone-btn">
+                    <a href="<?php echo esc_url( $phone_link ?: 'tel:212946630' ); ?>" class="btn btn--dark site-footer__phone-btn">
                         <?php echo pacto_get_svg( 'phone' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                         <span><?php echo esc_html( $phone ?: '212 946 630' ); ?></span>
                     </a>

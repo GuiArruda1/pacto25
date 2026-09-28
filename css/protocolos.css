@@ -209,26 +209,6 @@
   line-height: 1;
 }
 
-.protocolos-condicoes-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-text, #231F20);
-  color: var(--color-white, #FFFFFF);
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 16px 32px;
-  border-radius: 40px;
-  text-decoration: none;
-  transition: background-color var(--transition-fast);
-}
-
-.protocolos-condicoes-btn:hover {
-  background-color: var(--color-primary, #D42E12);
-}
 
 .protocolos-condicoes-visual {
   position: relative;
@@ -610,26 +590,6 @@
   margin-bottom: 32px;
 }
 
-.protocolos-cta-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-text, #231F20);
-  color: var(--color-white, #FFFFFF);
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 16px 32px;
-  border-radius: 40px;
-  text-decoration: none;
-  transition: background-color var(--transition-fast);
-}
-
-.protocolos-cta-btn:hover {
-  background-color: var(--color-primary, #D42E12);
-}
 
 /* CTA Visual Elements */
 .protocolos-cta-ring-1 {

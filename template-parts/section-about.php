@@ -58,8 +58,8 @@ $img_alt     = pacto_get_image_alt( $image, $title );
 
                 <?php if ( $btn_text && $btn_url ) : ?>
                     <div class="section-about__btn-wrap">
-                        <a href="<?php echo esc_url( $btn_url ); ?>" class="section-about__btn">
-                            <?php echo esc_html( $btn_text ); ?>
+                        <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn--dark section-about__btn">
+                            <span><?php echo esc_html( $btn_text ); ?></span>
                         </a>
                     </div>
                 <?php endif; ?>

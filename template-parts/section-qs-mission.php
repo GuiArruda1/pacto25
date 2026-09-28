@@ -46,7 +46,7 @@ $default_img = get_template_directory_uri() . '/assets/images/quem-somos/qs-miss
 
             <?php if ( $btn_text ) : ?>
                 <div class="ball-left-btn-wrap">
-                    <a href="<?php echo esc_url( $btn_link ); ?>" class="btn ball-left-btn">
+                    <a href="<?php echo esc_url( $btn_link ); ?>" class="btn btn--dark ball-left-btn">
                         <span><?php echo esc_html( $btn_text ); ?></span>
                     </a>
                 </div>

@@ -26,15 +26,7 @@ function pacto_get_field( $field_name, $post_id = false, $default = '' ) {
         }
     }
 
-    // 1. Direct native post meta first (fastest and avoids ACF internal key mismatches)
-    if ( $target_id && is_numeric( $target_id ) ) {
-        $meta_val = get_post_meta( $target_id, $field_name, true );
-        if ( '' !== $meta_val && false !== $meta_val && array() !== $meta_val ) {
-            return $meta_val;
-        }
-    }
-
-    // 2. Safe ACF get_field with error protection
+    // 1. Safe ACF get_field first (handles repeaters, image arrays, and field formatting)
     if ( function_exists( 'get_field' ) ) {
         try {
             $value = get_field( $field_name, $target_id ?: false );
@@ -43,6 +35,14 @@ function pacto_get_field( $field_name, $post_id = false, $default = '' ) {
             }
         } catch ( \Throwable $e ) {
             // Silently ignore ACF field-key resolution errors
+        }
+    }
+
+    // 2. Direct native post meta fallback
+    if ( $target_id && is_numeric( $target_id ) ) {
+        $meta_val = get_post_meta( $target_id, $field_name, true );
+        if ( '' !== $meta_val && false !== $meta_val && array() !== $meta_val ) {
+            return $meta_val;
         }
     }
 

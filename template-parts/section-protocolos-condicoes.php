@@ -74,7 +74,7 @@ if ( empty( $vantagens_list ) ) {
                 <?php endif; ?>
                 
                 <?php if ( $btn_text && $btn_url ) : ?>
-                    <a href="<?php echo esc_url( $btn_url ); ?>" class="protocolos-condicoes-btn"><?php echo esc_html( $btn_text ); ?></a>
+                    <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn--dark protocolos-condicoes-btn"><span><?php echo esc_html( $btn_text ); ?></span></a>
                 <?php endif; ?>
             </div>
             

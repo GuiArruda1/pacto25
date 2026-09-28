@@ -4,19 +4,30 @@
  * Pills, Circular Masks, Bubbles, Slider Controls, Cards & Forms
  */
 
-/* Buttons */
+/* ==========================================================================
+   BUTTON STYLE GUIDE (Guia de Estilos Único de Botões)
+   - Base .btn: Pill geometry (9999px), font-heading 600, lowercase, 14px, padding 13px 30px
+   - Variant .btn--dark (Default theme button):
+     * Normal: #231F20 background, 2px border #231F20, white text
+     * Hover: Left-to-right white wipe (#FFFFFF) with #EE4023 border and #EE4023 text
+     * Exit: Smooth wipe collapse to the right
+   ========================================================================== */
+
+/* Base Button */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   font-family: var(--font-heading);
-  font-size: var(--fs-btn);
+  font-size: var(--fs-btn, 14px);
   font-weight: 600;
   line-height: 1;
+  text-transform: lowercase;
+  letter-spacing: 0.01em;
   text-decoration: none;
-  padding: 14px 30px;
-  border-radius: var(--radius-pill);
+  padding: 13px 30px;
+  border-radius: var(--radius-pill, 9999px);
   border: 2px solid transparent;
   cursor: pointer;
   white-space: nowrap;
@@ -24,16 +35,19 @@
   overflow: hidden;
   isolation: isolate;
   z-index: 1;
-  transition: all var(--transition-normal);
+  box-shadow: none;
+  transition: border-color 0.35s cubic-bezier(0.25, 1, 0.4, 1),
+              color 0.3s ease,
+              box-shadow 0.3s ease;
 }
 
-.btn>* {
+.btn > * {
   position: relative;
   z-index: 2;
   transition: color 0.35s ease;
 }
 
-/* Dark Button: left-to-right wipe animation turning into red outline */
+/* Dark Button (Canonical Primary Variant across Homepage and Site) */
 .btn--dark,
 .btn-dark,
 .btn--black,
@@ -41,11 +55,23 @@
 .sinistro-form-btn,
 .seguro-form-submit-btn,
 .newsletter-form__btn,
-.news-btn {
+.news-btn,
+.section-banner-cta__btn,
+.section-qs-cta__btn,
+.ball-left-btn,
+.protocolos-cta-btn,
+.protocolos-condicoes-btn {
   background-color: var(--color-dark, #231F20);
   color: var(--color-white, #FFFFFF) !important;
   border: 2px solid var(--color-dark, #231F20);
   border-radius: var(--radius-pill, 9999px);
+  font-family: var(--font-heading);
+  font-size: var(--fs-btn, 14px);
+  font-weight: 600;
+  line-height: 1;
+  text-transform: lowercase;
+  letter-spacing: 0.01em;
+  padding: 13px 30px;
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -56,6 +82,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-shadow: none;
   transition: border-color 0.35s cubic-bezier(0.25, 1, 0.4, 1),
     color 0.3s ease,
     box-shadow 0.3s ease;
@@ -68,7 +95,12 @@
 .sinistro-form-btn::before,
 .seguro-form-submit-btn::before,
 .newsletter-form__btn::before,
-.news-btn::before {
+.news-btn::before,
+.section-banner-cta__btn::before,
+.section-qs-cta__btn::before,
+.ball-left-btn::before,
+.protocolos-cta-btn::before,
+.protocolos-condicoes-btn::before {
   content: '';
   position: absolute;
   top: 0;
@@ -90,7 +122,12 @@
 .sinistro-form-btn:hover,
 .seguro-form-submit-btn:hover,
 .newsletter-form__btn:hover,
-.news-btn:hover {
+.news-btn:hover,
+.section-banner-cta__btn:hover,
+.section-qs-cta__btn:hover,
+.ball-left-btn:hover,
+.protocolos-cta-btn:hover,
+.protocolos-condicoes-btn:hover {
   border-color: var(--color-primary, #EE4023);
   color: var(--color-primary, #EE4023) !important;
 }
@@ -102,7 +139,12 @@
 .sinistro-form-btn:hover > *,
 .seguro-form-submit-btn:hover > *,
 .newsletter-form__btn:hover > *,
-.news-btn:hover > * {
+.news-btn:hover > *,
+.section-banner-cta__btn:hover > *,
+.section-qs-cta__btn:hover > *,
+.ball-left-btn:hover > *,
+.protocolos-cta-btn:hover > *,
+.protocolos-condicoes-btn:hover > * {
   color: var(--color-primary, #EE4023) !important;
 }
 
@@ -113,7 +155,12 @@
 .sinistro-form-btn:hover svg,
 .seguro-form-submit-btn:hover svg,
 .newsletter-form__btn:hover svg,
-.news-btn:hover svg {
+.news-btn:hover svg,
+.section-banner-cta__btn:hover svg,
+.section-qs-cta__btn:hover svg,
+.ball-left-btn:hover svg,
+.protocolos-cta-btn:hover svg,
+.protocolos-condicoes-btn:hover svg {
   stroke: var(--color-primary, #EE4023);
   color: var(--color-primary, #EE4023);
 }
@@ -125,7 +172,12 @@
 .sinistro-form-btn:hover::before,
 .seguro-form-submit-btn:hover::before,
 .newsletter-form__btn:hover::before,
-.news-btn:hover::before {
+.news-btn:hover::before,
+.section-banner-cta__btn:hover::before,
+.section-qs-cta__btn:hover::before,
+.ball-left-btn:hover::before,
+.protocolos-cta-btn:hover::before,
+.protocolos-condicoes-btn:hover::before {
   transform: scaleX(1);
   transform-origin: left center;
 }
@@ -750,21 +802,7 @@
 }
 
 .newsletter-form__btn {
-  border-radius: var(--radius-pill);
-  padding: 13px 26px;
-  font-size: var(--fs-body-sm);
-  font-weight: 500;
   white-space: nowrap;
-  background-color: var(--color-dark, #1a1a1a);
-  color: var(--color-white, #ffffff);
-  border: none;
-  cursor: pointer;
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
-}
-
-.newsletter-form__btn:hover {
-  background-color: var(--color-primary);
-  transform: translateY(-1px);
 }
 
 .newsletter-form__consent {
@@ -1217,26 +1255,6 @@
   stroke-width: 2 !important;
 }
 
-/* CTA Pill Button (ver todas as notícias) */
-.news-btn {
-  background-color: #231F20;
-  color: #FFFFFF;
-  border-radius: var(--radius-pill);
-  padding: 13px 28px;
-  font-size: clamp(12.5px, 0.8vw, 14px);
-  font-weight: 600;
-  text-transform: lowercase;
-  letter-spacing: 0.02em;
-  transition: background-color 0.25s ease, transform 0.2s ease;
-  display: inline-block;
-  text-decoration: none;
-}
-
-.news-btn:hover {
-  background-color: var(--color-primary);
-  color: #FFFFFF;
-  transform: translateY(-2px);
-}
 
 /* ==========================================================================
    Reusable Banner CTA Component ("Temos uma equipa preparada...")
@@ -1294,29 +1312,6 @@
   margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
 }
 
-.section-banner-cta__btn,
-.section-qs-cta__btn {
-  background-color: #1a1a1a;
-  color: #FFFFFF !important;
-  padding: 13px 32px;
-  border-radius: 9999px;
-  font-family: var(--font-heading);
-  font-size: 13.5px;
-  font-weight: 500;
-  text-transform: lowercase;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
-}
-
-.section-banner-cta__btn:hover,
-.section-qs-cta__btn:hover {
-  background-color: #000000;
-  color: #FFFFFF !important;
-  transform: translateY(-2px);
-}
 
 /* CTA Floating Rings & Dots */
 .banner-cta-ring,

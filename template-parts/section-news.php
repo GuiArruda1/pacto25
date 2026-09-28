@@ -99,8 +99,8 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
                 <!-- CTA Button -->
                 <?php if ($btn_text && $btn_url): ?>
                     <div class="news-cta-wrap">
-                        <a href="<?php echo esc_url($btn_url); ?>" class="btn news-btn">
-                            <?php echo esc_html($btn_text); ?>
+                        <a href="<?php echo esc_url($btn_url); ?>" class="btn btn--dark news-btn">
+                            <span><?php echo esc_html($btn_text); ?></span>
                         </a>
                     </div>
                 <?php endif; ?>

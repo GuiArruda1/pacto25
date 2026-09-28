@@ -41,7 +41,7 @@ $btn_url   = pacto_get_field( 'protocolos_cta_btn_url', $page_id, '/contactos/' 
             <?php endif; ?>
             
             <?php if ( $btn_text && $btn_url ) : ?>
-                <a href="<?php echo esc_url( $btn_url ); ?>" class="protocolos-cta-btn"><?php echo esc_html( $btn_text ); ?></a>
+                <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn--dark protocolos-cta-btn"><span><?php echo esc_html( $btn_text ); ?></span></a>
             <?php endif; ?>
         </div>
     </div>

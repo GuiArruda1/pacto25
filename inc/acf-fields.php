@@ -2093,6 +2093,267 @@ function pacto_25_register_acf_fields() {
         'label_placement' => 'top',
         'instruction_placement' => 'label',
     ) );
+
+    // =========================================================================
+    // FIELD GROUP: PÁGINA PROTOCOLOS
+    // =========================================================================
+    acf_add_local_field_group( array(
+        'key' => 'group_pacto_protocolos',
+        'title' => __( 'Página Protocolos - Configuração de Secções', 'pacto-25' ),
+        'fields' => array(
+            // --- TAB: HERO ---
+            array(
+                'key' => 'field_tab_protocolos_hero',
+                'label' => __( 'Secção 1: Hero', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_protocolos_hero_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'protocolos_hero_eyebrow',
+                'type' => 'text',
+                'default_value' => 'PROTOCOLOS - PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_protocolos_hero_title',
+                'label' => __( 'Título Principal', 'pacto-25' ),
+                'name' => 'protocolos_hero_title',
+                'type' => 'text',
+                'default_value' => 'Os Protocolos da Pacto Seguro',
+            ),
+            array(
+                'key' => 'field_protocolos_hero_text',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'protocolos_hero_text',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+            ),
+            array(
+                'key' => 'field_protocolos_hero_image',
+                'label' => __( 'Foto do Hero (PNG Transparente)', 'pacto-25' ),
+                'instructions' => __( 'Foto da equipa/profissional exibida à direita no hero.', 'pacto-25' ),
+                'name' => 'protocolos_hero_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB: CONDIÇÕES ESPECIAIS ---
+            array(
+                'key' => 'field_tab_protocolos_condicoes',
+                'label' => __( 'Secção 2: Condições Especiais', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_protocolos_cond_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'protocolos_cond_eyebrow',
+                'type' => 'text',
+                'default_value' => 'PROTOCOLOS COM ORDENS PROFISSIONAIS E ASSOCIAÇÕES',
+            ),
+            array(
+                'key' => 'field_protocolos_cond_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'protocolos_cond_title',
+                'type' => 'text',
+                'default_value' => 'Condições Especiais para Membros de Ordens e Associações',
+            ),
+            array(
+                'key' => 'field_protocolos_cond_text',
+                'label' => __( 'Texto Introdutório', 'pacto-25' ),
+                'name' => 'protocolos_cond_text',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'A Pacto Seguro disponibiliza uma vasta oferta de Seguros com Protocolo a desenvolver em colaboração com as Ordens e Associações Profissionais, em particular:',
+            ),
+            array(
+                'key' => 'field_protocolos_cond_list',
+                'label' => __( 'Lista de Ordens e Associações', 'pacto-25' ),
+                'name' => 'protocolos_cond_list',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => __( 'Adicionar Ordem / Associação', 'pacto-25' ),
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_protocolos_cond_item',
+                        'label' => __( 'Item / Ordem', 'pacto-25' ),
+                        'name' => 'item',
+                        'type' => 'text',
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_protocolos_cond_btn_text',
+                'label' => __( 'Texto do Botão', 'pacto-25' ),
+                'name' => 'protocolos_cond_btn_text',
+                'type' => 'text',
+                'default_value' => 'falar com um especialista',
+            ),
+            array(
+                'key' => 'field_protocolos_cond_btn_url',
+                'label' => __( 'Link do Botão', 'pacto-25' ),
+                'name' => 'protocolos_cond_btn_url',
+                'type' => 'text',
+                'default_value' => '/contactos/',
+            ),
+            array(
+                'key' => 'field_protocolos_vantagens_title',
+                'label' => __( 'Título do Círculo de Vantagens', 'pacto-25' ),
+                'name' => 'protocolos_vantagens_title',
+                'type' => 'text',
+                'default_value' => 'Vantagens dos Protocolos',
+            ),
+            array(
+                'key' => 'field_protocolos_vantagens_list',
+                'label' => __( 'Lista de Vantagens (Círculo Vermelho)', 'pacto-25' ),
+                'name' => 'protocolos_vantagens_list',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => __( 'Adicionar Vantagem', 'pacto-25' ),
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_protocolos_vantagem_item',
+                        'label' => __( 'Vantagem', 'pacto-25' ),
+                        'name' => 'item',
+                        'type' => 'text',
+                    ),
+                ),
+            ),
+
+            // --- TAB: ACORDEÃO / FAQ ---
+            array(
+                'key' => 'field_tab_protocolos_faq',
+                'label' => __( 'Secção 3: Condições por Área', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_protocolos_faq_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'protocolos_faq_eyebrow',
+                'type' => 'text',
+                'default_value' => 'CONDIÇÕES ESPECIAIS',
+            ),
+            array(
+                'key' => 'field_protocolos_faq_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'protocolos_faq_title',
+                'type' => 'text',
+                'default_value' => 'Descubra as Condições Disponíveis para a Sua Profissão',
+            ),
+            array(
+                'key' => 'field_protocolos_faq_text',
+                'label' => __( 'Descrição', 'pacto-25' ),
+                'name' => 'protocolos_faq_text',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'As parcerias estabelecidas oferecem um leque alargado de condições exclusivas. Selecione a sua ordem ou associação para conhecer os detalhes.',
+            ),
+            array(
+                'key' => 'field_protocolos_faq_image',
+                'label' => __( 'Foto Circular (com Anel Vermelho)', 'pacto-25' ),
+                'instructions' => __( 'Foto exibida no círculo à esquerda na secção de acordeão.', 'pacto-25' ),
+                'name' => 'protocolos_faq_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+            array(
+                'key' => 'field_protocolos_faq_list',
+                'label' => __( 'Itens do Acordeão / Áreas', 'pacto-25' ),
+                'name' => 'protocolos_faq_list',
+                'type' => 'repeater',
+                'layout' => 'block',
+                'button_label' => __( 'Adicionar Área / Pergunta', 'pacto-25' ),
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_protocolos_faq_question',
+                        'label' => __( 'Título da Área / Pergunta', 'pacto-25' ),
+                        'name' => 'question',
+                        'type' => 'text',
+                    ),
+                    array(
+                        'key' => 'field_protocolos_faq_answer',
+                        'label' => __( 'Descrição / Condições', 'pacto-25' ),
+                        'name' => 'answer',
+                        'type' => 'textarea',
+                        'rows' => 3,
+                    ),
+                ),
+            ),
+
+            // --- TAB: CTA ---
+            array(
+                'key' => 'field_tab_protocolos_cta',
+                'label' => __( 'Secção 4: Banner CTA', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_protocolos_cta_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'protocolos_cta_eyebrow',
+                'type' => 'text',
+                'default_value' => 'FALE COM UM DE NÓS',
+            ),
+            array(
+                'key' => 'field_protocolos_cta_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'protocolos_cta_title',
+                'type' => 'text',
+                'default_value' => 'Temos uma equipa preparada para responder a todas as suas dúvidas.',
+            ),
+            array(
+                'key' => 'field_protocolos_cta_text',
+                'label' => __( 'Descrição', 'pacto-25' ),
+                'name' => 'protocolos_cta_text',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Com décadas de experiência, os nossos consultores garantem um acompanhamento ágil e profissional.',
+            ),
+            array(
+                'key' => 'field_protocolos_cta_btn_text',
+                'label' => __( 'Texto do Botão', 'pacto-25' ),
+                'name' => 'protocolos_cta_btn_text',
+                'type' => 'text',
+                'default_value' => 'Contacte-nos',
+            ),
+            array(
+                'key' => 'field_protocolos_cta_btn_url',
+                'label' => __( 'Link do Botão', 'pacto-25' ),
+                'name' => 'protocolos_cta_btn_url',
+                'type' => 'text',
+                'default_value' => '/contactos/',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'page-protocolos.php',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'page',
+                    'operator' => '==',
+                    'value' => '71',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'page',
+                    'operator' => '==',
+                    'value' => 'protocolos',
+                ),
+            ),
+        ),
+        'menu_order' => 1,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ) );
 }
 add_action( 'acf/init', 'pacto_25_register_acf_fields' );
 
