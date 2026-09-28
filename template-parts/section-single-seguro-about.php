@@ -13,9 +13,16 @@ $post_id     = get_the_ID();
 $post_title  = get_the_title();
 
 $eyebrow     = pacto_get_field( 'seguro_about_eyebrow', $post_id, strtoupper( $post_title ) . ' — PACTO SEGURO' );
-$title       = pacto_get_field( 'seguro_about_title', $post_id, 'O que é o Seguro?' );
-$p1          = pacto_get_field( 'seguro_about_p1', $post_id, 'Um Seguro Multirriscos para a casa é uma opção muito completa de seguro que cobre vários riscos que podem afetar o seu imóvel e o seu recheio. Inclui cobertura para incêndios, inundações, danos por água, roubo, atos de vandalismo e danos causados por tempestades entre muitas outras coberturas.' );
-$p2          = pacto_get_field( 'seguro_about_p2', $post_id, 'Além disso, também pode incluir cobertura para responsabilidade civil, o que significa que se alguém se magoar em sua propriedade, você estará protegido contra possíveis processos.' );
+$is_empresa  = 'seguro_empresa' === get_post_type( $post_id );
+$def_p1      = $is_empresa 
+    ? 'Esta solução empresarial oferece uma cobertura abrangente e customizada para proteger as instalações, mercadorias, colaboradores e operações da sua organização, minimizando perdas financeiras decorrentes de riscos fortuitos.'
+    : 'Um Seguro Multirriscos para a casa é uma opção muito completa de seguro que cobre vários riscos que podem afetar o seu imóvel e o seu recheio. Inclui cobertura para incêndios, inundações, danos por água, roubo, atos de vandalismo e danos causados por tempestades entre muitas outras coberturas.';
+$def_p2      = $is_empresa
+    ? 'Conta com apoio especializado de consultores dedicados na gestão de riscos e resposta célere em sinistros para assegurar que a sua empresa nunca para.'
+    : 'Além disso, também pode incluir cobertura para responsabilidade civil, o que significa que se alguém se magoar em sua propriedade, você estará protegido contra possíveis processos.';
+
+$p1          = pacto_get_field( 'seguro_about_p1', $post_id, $def_p1 );
+$p2          = pacto_get_field( 'seguro_about_p2', $post_id, $def_p2 );
 
 $btn_text    = pacto_get_field( 'seguro_about_btn_text', $post_id, 'pedir simulação' );
 $btn_link    = pacto_get_field( 'seguro_about_btn_link', $post_id, '#simulacao' );

@@ -446,3 +446,30 @@ function pacto_get_seguro_particular_url( $slug ) {
     return $particulares_url . '#' . $clean_slug;
 }
 
+/**
+ * Resolves a dynamic URL for a Seguro Empresa item.
+ *
+ * @param string $slug  Slug of the seguro (e.g. 'multirriscos-empresa', 'acidentes-trabalho')
+ * @return string       Resolved permalink or anchor
+ */
+function pacto_get_seguro_empresa_url( $slug ) {
+    $clean_slug = str_replace( 'seguro-', '', $slug );
+    
+    // Check if CPT post exists
+    $post = get_page_by_path( $slug, OBJECT, 'seguro_empresa' );
+    if ( ! $post ) {
+        $post = get_page_by_path( $clean_slug, OBJECT, 'seguro_empresa' );
+    }
+    if ( ! $post ) {
+        $post = get_page_by_path( 'seguro-' . $clean_slug, OBJECT, 'seguro_empresa' );
+    }
+
+    if ( $post ) {
+        return get_permalink( $post->ID );
+    }
+
+    // Check if Empresas page exists and link to anchor
+    $empresas_url = pacto_get_nav_url( 'empresas', 'page-empresas.php' );
+    return $empresas_url . '#' . $clean_slug;
+}
+

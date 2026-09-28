@@ -1,19 +1,19 @@
 /**
- * Particulares Page Styles
+ * Empresas Page Styles
  * Theme: Pacto 25
  * Strict Agency SOP: Modular Vanilla CSS, fluid clamp() sizing, responsive CSS Grid / Flexbox, zero bloat.
  */
 
-body.page-template-page-particulares,
-body.page-particulares,
-.page-template-page-particulares .site-main {
+body.page-template-page-empresas,
+body.page-empresas,
+.page-template-page-empresas .site-main {
   overflow-x: clip;
 }
 
 /* ==========================================================================
-   1. Hero Section (Seguros para Particulares)
+   1. Hero Section (Seguros para Empresas)
    ========================================================================== */
-.section-particulares-hero {
+.section-empresas-hero {
   position: relative;
   overflow: visible;
   padding-top: clamp(2.5rem, 5vw, 5rem);
@@ -21,7 +21,7 @@ body.page-particulares,
   background-color: transparent;
 }
 
-.section-particulares-hero__layout {
+.section-empresas-hero__layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(2rem, 3.5vw, 4rem);
@@ -31,19 +31,19 @@ body.page-particulares,
 }
 
 @media (min-width: 992px) {
-  .section-particulares-hero__layout {
+  .section-empresas-hero__layout {
     grid-template-columns: minmax(340px, 440px) 1fr;
     gap: clamp(2rem, 4vw, 4.5rem);
   }
 }
 
 @media (min-width: 1200px) {
-  .section-particulares-hero__layout {
+  .section-empresas-hero__layout {
     grid-template-columns: minmax(380px, 480px) 1.25fr;
   }
 }
 
-.section-particulares-hero__content {
+.section-empresas-hero__content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -52,11 +52,11 @@ body.page-particulares,
   z-index: 3;
 }
 
-.section-particulares-hero__content .eyebrow {
+.section-empresas-hero__content .eyebrow {
   margin-bottom: clamp(0.25rem, 0.5vw, 0.5rem);
 }
 
-.section-particulares-hero__title {
+.section-empresas-hero__title {
   font-family: var(--font-heading);
   font-size: clamp(2.25rem, 4vw, 3.85rem);
   font-weight: 700;
@@ -67,7 +67,7 @@ body.page-particulares,
   max-width: 480px;
 }
 
-.section-particulares-hero__lead {
+.section-empresas-hero__lead {
   font-family: var(--font-body);
   font-size: clamp(0.95rem, 1.1vw, 1.05rem);
   line-height: 1.65;
@@ -76,7 +76,7 @@ body.page-particulares,
   max-width: 480px;
 }
 
-.section-particulares-hero__visual {
+.section-empresas-hero__visual {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,12 +86,12 @@ body.page-particulares,
 }
 
 @media (min-width: 992px) {
-  .section-particulares-hero__visual {
+  .section-empresas-hero__visual {
     justify-content: flex-end;
   }
 }
 
-.particulares-hero-image-wrap {
+.empresas-hero-image-wrap {
   position: relative;
   width: 100%;
   max-width: min(100%, 540px);
@@ -101,14 +101,14 @@ body.page-particulares,
 }
 
 @media (min-width: 992px) {
-  .particulares-hero-image-wrap {
+  .empresas-hero-image-wrap {
     max-width: clamp(560px, 60vw, 1008px);
     justify-content: flex-end;
   }
 }
 
-.particulares-hero-image-wrap img,
-.particulares-hero-image-wrap .particulares-hero-img {
+.empresas-hero-image-wrap img,
+.empresas-hero-image-wrap .empresas-hero-img {
   width: 100%;
   max-width: 1008px;
   height: auto;
@@ -117,7 +117,7 @@ body.page-particulares,
 }
 
 /* Ambient Floating Red Dots */
-.particulares-dot {
+.empresas-dot {
   position: absolute;
   border-radius: 50%;
   background-color: var(--color-primary);
@@ -125,42 +125,42 @@ body.page-particulares,
   z-index: 1;
 }
 
-.particulares-dot--top-left {
+.empresas-dot--top-left {
   width: clamp(38px, 4vw, 54px);
   height: clamp(38px, 4vw, 54px);
   top: 18%;
   left: 33%;
 }
 
-.particulares-dot--mid-bottom {
+.empresas-dot--mid-bottom {
   width: clamp(38px, 4vw, 54px);
   height: clamp(38px, 4vw, 54px);
   bottom: 22%;
   left: 46%;
 }
 
-.particulares-dot--center-bottom {
+.empresas-dot--center-bottom {
   width: clamp(20px, 2vw, 26px);
   height: clamp(20px, 2vw, 26px);
   bottom: 12%;
   left: 35.5%;
 }
 
-.particulares-dot--table-bottom {
+.empresas-dot--table-bottom {
   width: clamp(16px, 1.6vw, 22px);
   height: clamp(16px, 1.6vw, 22px);
   bottom: 19%;
   left: 60%;
 }
 
-.particulares-dot--right-large {
+.empresas-dot--right-large {
   width: clamp(38px, 4vw, 54px);
   height: clamp(38px, 4vw, 54px);
   bottom: 18%;
   right: 18%;
 }
 
-.particulares-dot--right-edge {
+.empresas-dot--right-edge {
   width: clamp(16px, 1.6vw, 22px);
   height: clamp(16px, 1.6vw, 22px);
   bottom: 20%;
@@ -168,27 +168,27 @@ body.page-particulares,
 }
 
 @media (max-width: 991px) {
-  .particulares-dot--top-left,
-  .particulares-dot--mid-bottom,
-  .particulares-dot--center-bottom,
-  .particulares-dot--table-bottom,
-  .particulares-dot--right-large,
-  .particulares-dot--right-edge {
+  .empresas-dot--top-left,
+  .empresas-dot--mid-bottom,
+  .empresas-dot--center-bottom,
+  .empresas-dot--table-bottom,
+  .empresas-dot--right-large,
+  .empresas-dot--right-edge {
     display: none;
   }
 }
 
 /* ==========================================================================
-   2. Seguros Particulares List Grid Section
+   2. Seguros Empresas List Grid Section
    ========================================================================== */
-.section-particulares-seguros {
+.section-empresas-seguros {
   position: relative;
   padding-top: clamp(2rem, 4vw, 4rem);
   padding-bottom: clamp(5rem, 8vw, 8rem);
   background-color: transparent;
 }
 
-.particulares-seguros__grid {
+.empresas-seguros__grid {
   display: grid;
   grid-template-columns: 1fr;
   row-gap: clamp(3rem, 5vw, 5rem);
@@ -196,7 +196,7 @@ body.page-particulares,
 }
 
 @media (min-width: 920px) {
-  .particulares-seguros__grid {
+  .empresas-seguros__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -309,13 +309,13 @@ body.page-particulares,
 }
 
 /* Pagination */
-.particulares-pagination {
+.empresas-pagination {
   margin-top: clamp(3rem, 5.5vw, 5.5rem);
   display: flex;
   justify-content: flex-start;
 }
 
-.particulares-pagination ul.page-numbers {
+.empresas-pagination ul.page-numbers {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -324,7 +324,7 @@ body.page-particulares,
   margin: 0;
 }
 
-.particulares-pagination .page-numbers {
+.empresas-pagination .page-numbers {
   font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 500;
@@ -337,17 +337,17 @@ body.page-particulares,
   transition: color 0.2s ease;
 }
 
-.particulares-pagination a.page-numbers:hover {
+.empresas-pagination a.page-numbers:hover {
   color: var(--color-primary, #E84E38);
 }
 
-.particulares-pagination .page-numbers.current {
+.empresas-pagination .page-numbers.current {
   color: var(--color-primary, #E84E38);
   font-weight: 700;
 }
 
-.particulares-pagination .prev.page-numbers,
-.particulares-pagination .next.page-numbers {
+.empresas-pagination .prev.page-numbers,
+.empresas-pagination .next.page-numbers {
   font-size: 1.1rem;
   color: #555555;
 }

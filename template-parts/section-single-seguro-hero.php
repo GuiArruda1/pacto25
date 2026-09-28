@@ -13,11 +13,15 @@ $post_id     = get_the_ID();
 $post_title  = get_the_title();
 
 $eyebrow     = pacto_get_field( 'seguro_hero_eyebrow', $post_id, strtoupper( $post_title ) . ' — PACTO SEGURO' );
-$title       = pacto_get_field( 'seguro_hero_title', $post_id, 'Encontre o melhor ' . $post_title . ' para a sua casa.' );
+$is_empresa  = 'seguro_empresa' === get_post_type( $post_id );
+$def_title   = $is_empresa ? ( 'Encontre o melhor ' . $post_title . ' para o seu negócio.' ) : ( 'Encontre o melhor ' . $post_title . ' para a sua família.' );
+$title       = pacto_get_field( 'seguro_hero_title', $post_id, $def_title );
 $description = pacto_get_field( 'seguro_hero_description', $post_id, get_the_excerpt( $post_id ) );
 
 if ( empty( $description ) ) {
-    $description = 'Um Seguro Multirriscos para a casa é uma opção muito completa de seguro que cobre vários riscos que podem afetar o seu imóvel e o seu recheio. Inclui cobertura para incêndios, inundações, danos por água, roubo, atos de vandalismo e danos causados por tempestades entre muitas outras coberturas.';
+    $description = $is_empresa 
+        ? 'Uma solução completa desenhada para proteger o património, a equipa e a atividade contínua da sua empresa, garantindo tranquilidade operacional contra imprevistos e riscos profissionais.'
+        : 'Um Seguro Multirriscos para a casa é uma opção muito completa de seguro que cobre vários riscos que podem afetar o seu imóvel e o seu recheio. Inclui cobertura para incêndios, inundações, danos por água, roubo, atos de vandalismo e danos causados por tempestades entre muitas outras coberturas.';
 }
 
 $btn_text    = pacto_get_field( 'seguro_hero_btn_text', $post_id, 'pedir simulação' );
