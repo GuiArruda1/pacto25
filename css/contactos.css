@@ -481,6 +481,7 @@ body.page-contactos .site-header:not(.site-header--scrolled) {
   position: relative;
   overflow: visible;
   padding: clamp(6rem, 9vw, 10rem) 0 clamp(6rem, 9vw, 10rem);
+  margin-bottom: clamp(14rem, 20vw, 24rem);
   background-color: transparent;
   z-index: 2;
 }
@@ -753,6 +754,10 @@ body.page-contactos .site-header:not(.site-header--scrolled) {
     top: 50%;
     right: 50%;
     transform: translate(50%, -50%);
+  }
+
+  .section-contactos-locations {
+    margin-bottom: clamp(6rem, 12vw, 12rem);
   }
 
   .contactos-hero-bubble--center,
