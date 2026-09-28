@@ -465,14 +465,6 @@ body.page-contactos .site-header:not(.site-header--scrolled) {
   margin-top: 8px;
 }
 
-.contactos-form-btn {
-  padding: 14px 40px;
-  font-family: var(--font-heading);
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: lowercase;
-  border-radius: var(--radius-pill, 9999px);
-}
 
 /* ==========================================================================
    3. Section: Onde Estamos (Left Circular Map + Right Giant Red Ball Canopy)

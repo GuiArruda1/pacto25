@@ -47,20 +47,26 @@
   transition: color 0.35s ease;
 }
 
-/* Dark Button (Canonical Primary Variant across Homepage and Site) */
+/* Dark Button (Canonical Primary Variant across Homepage and All Site Pages) */
 .btn--dark,
 .btn-dark,
 .btn--black,
 .section-about__btn,
 .sinistro-form-btn,
 .seguro-form-submit-btn,
+.contactos-form-btn,
 .newsletter-form__btn,
 .news-btn,
 .section-banner-cta__btn,
 .section-qs-cta__btn,
 .ball-left-btn,
 .protocolos-cta-btn,
-.protocolos-condicoes-btn {
+.protocolos-condicoes-btn,
+.section-single-seguro-hero__btn,
+.section-single-seguro-about__btn,
+.section-single-seguro-features__btn,
+.site-footer__phone-btn,
+.site-header__phone-btn {
   background-color: var(--color-dark, #231F20);
   color: var(--color-white, #FFFFFF) !important;
   border: 2px solid var(--color-dark, #231F20);
@@ -94,13 +100,19 @@
 .section-about__btn::before,
 .sinistro-form-btn::before,
 .seguro-form-submit-btn::before,
+.contactos-form-btn::before,
 .newsletter-form__btn::before,
 .news-btn::before,
 .section-banner-cta__btn::before,
 .section-qs-cta__btn::before,
 .ball-left-btn::before,
 .protocolos-cta-btn::before,
-.protocolos-condicoes-btn::before {
+.protocolos-condicoes-btn::before,
+.section-single-seguro-hero__btn::before,
+.section-single-seguro-about__btn::before,
+.section-single-seguro-features__btn::before,
+.site-footer__phone-btn::before,
+.site-header__phone-btn::before {
   content: '';
   position: absolute;
   top: 0;
@@ -121,13 +133,19 @@
 .section-about__btn:hover,
 .sinistro-form-btn:hover,
 .seguro-form-submit-btn:hover,
+.contactos-form-btn:hover,
 .newsletter-form__btn:hover,
 .news-btn:hover,
 .section-banner-cta__btn:hover,
 .section-qs-cta__btn:hover,
 .ball-left-btn:hover,
 .protocolos-cta-btn:hover,
-.protocolos-condicoes-btn:hover {
+.protocolos-condicoes-btn:hover,
+.section-single-seguro-hero__btn:hover,
+.section-single-seguro-about__btn:hover,
+.section-single-seguro-features__btn:hover,
+.site-footer__phone-btn:hover,
+.site-header__phone-btn:hover {
   border-color: var(--color-primary, #EE4023);
   color: var(--color-primary, #EE4023) !important;
 }
@@ -138,13 +156,19 @@
 .section-about__btn:hover > *,
 .sinistro-form-btn:hover > *,
 .seguro-form-submit-btn:hover > *,
+.contactos-form-btn:hover > *,
 .newsletter-form__btn:hover > *,
 .news-btn:hover > *,
 .section-banner-cta__btn:hover > *,
 .section-qs-cta__btn:hover > *,
 .ball-left-btn:hover > *,
 .protocolos-cta-btn:hover > *,
-.protocolos-condicoes-btn:hover > * {
+.protocolos-condicoes-btn:hover > *,
+.section-single-seguro-hero__btn:hover > *,
+.section-single-seguro-about__btn:hover > *,
+.section-single-seguro-features__btn:hover > *,
+.site-footer__phone-btn:hover > *,
+.site-header__phone-btn:hover > * {
   color: var(--color-primary, #EE4023) !important;
 }
 
@@ -154,13 +178,19 @@
 .section-about__btn:hover svg,
 .sinistro-form-btn:hover svg,
 .seguro-form-submit-btn:hover svg,
+.contactos-form-btn:hover svg,
 .newsletter-form__btn:hover svg,
 .news-btn:hover svg,
 .section-banner-cta__btn:hover svg,
 .section-qs-cta__btn:hover svg,
 .ball-left-btn:hover svg,
 .protocolos-cta-btn:hover svg,
-.protocolos-condicoes-btn:hover svg {
+.protocolos-condicoes-btn:hover svg,
+.section-single-seguro-hero__btn:hover svg,
+.section-single-seguro-about__btn:hover svg,
+.section-single-seguro-features__btn:hover svg,
+.site-footer__phone-btn:hover svg,
+.site-header__phone-btn:hover svg {
   stroke: var(--color-primary, #EE4023);
   color: var(--color-primary, #EE4023);
 }
@@ -171,13 +201,19 @@
 .section-about__btn:hover::before,
 .sinistro-form-btn:hover::before,
 .seguro-form-submit-btn:hover::before,
+.contactos-form-btn:hover::before,
 .newsletter-form__btn:hover::before,
 .news-btn:hover::before,
 .section-banner-cta__btn:hover::before,
 .section-qs-cta__btn:hover::before,
 .ball-left-btn:hover::before,
 .protocolos-cta-btn:hover::before,
-.protocolos-condicoes-btn:hover::before {
+.protocolos-condicoes-btn:hover::before,
+.section-single-seguro-hero__btn:hover::before,
+.section-single-seguro-about__btn:hover::before,
+.section-single-seguro-features__btn:hover::before,
+.site-footer__phone-btn:hover::before,
+.site-header__phone-btn:hover::before {
   transform: scaleX(1);
   transform-origin: left center;
 }
