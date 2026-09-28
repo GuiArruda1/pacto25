@@ -12,7 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 $post_id     = get_the_ID();
 $post_title  = get_the_title();
 
-$eyebrow     = pacto_get_field( 'seguro_features_eyebrow', $post_id, strtoupper( $post_title ) . ' — PACTO SEGURO' );
+$is_page_landing = is_page_template( 'page-landing.php' ) || is_page( 'landing' ) || is_page( 'modelo-seguro' );
+$clean_name      = $post_title;
+if ( $is_page_landing && ( empty( $clean_name ) || stripos( $clean_name, 'landing' ) !== false || stripos( $clean_name, 'modelo' ) !== false ) ) {
+    $clean_name = 'Seguro Multirriscos Casa';
+}
+
+$eyebrow     = pacto_get_field( 'seguro_features_eyebrow', $post_id, strtoupper( $clean_name ) . ' — PACTO SEGURO' );
 $title       = pacto_get_field( 'seguro_features_title', $post_id, 'Vantagens, Coberturas e Serviços' );
 
 $p1          = pacto_get_field( 'seguro_features_p1', $post_id, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );

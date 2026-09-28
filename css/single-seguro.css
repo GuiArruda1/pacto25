@@ -5,7 +5,17 @@
  */
 
 body.single-seguro_particular,
-.single-seguro_particular .site-main {
+body.single-seguro_empresa,
+body.page-template-page-landing,
+body.page-template-page-landing-php,
+body.page-landing,
+body.page-modelo-seguro,
+.single-seguro_particular .site-main,
+.single-seguro_empresa .site-main,
+.page-template-page-landing .site-main,
+.page-template-page-landing-php .site-main,
+.page-landing .site-main,
+.page-modelo-seguro .site-main {
   overflow-x: clip;
 }
 

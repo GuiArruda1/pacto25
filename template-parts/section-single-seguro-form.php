@@ -12,6 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 $post_id     = get_the_ID();
 $post_title  = get_the_title();
 
+$is_page_landing = is_page_template( 'page-landing.php' ) || is_page( 'landing' ) || is_page( 'modelo-seguro' );
+$clean_name      = $post_title;
+if ( $is_page_landing && ( empty( $clean_name ) || stripos( $clean_name, 'landing' ) !== false || stripos( $clean_name, 'modelo' ) !== false ) ) {
+    $clean_name = 'Seguro Multirriscos Casa';
+}
+
 $eyebrow     = pacto_get_field( 'seguro_form_eyebrow', $post_id, 'ALIQUET EU PROIN NON NETUS' );
 $title       = pacto_get_field( 'seguro_form_title', $post_id, 'Enim amet nullam dui?' );
 $description = pacto_get_field( 'seguro_form_description', $post_id, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
@@ -40,7 +46,7 @@ $default_img = get_template_directory_uri() . '/assets/images/single-seguro/segu
                 <!-- Form -->
                 <form class="seguro-simulacao-form" method="post" action="#simulacao">
                     <?php wp_nonce_field( 'pacto_seguro_simulacao_nonce', 'seguro_simulacao_nonce_field' ); ?>
-                    <input type="hidden" name="seguro_nome" value="<?php echo esc_attr( $post_title ); ?>" />
+                    <input type="hidden" name="seguro_nome" value="<?php echo esc_attr( $clean_name ); ?>" />
 
                     <div class="seguro-form-group">
                         <label for="seguro_input_nome" class="screen-reader-text"><?php esc_html_e( 'Nome', 'pacto-25' ); ?></label>

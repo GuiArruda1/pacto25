@@ -93,8 +93,8 @@ function pacto_25_scripts() {
         wp_enqueue_style( 'pacto-empresas', $theme_uri . '/css/empresas.css', array( 'pacto-style' ), $emp_ver );
     }
 
-    // Single Seguro Particular and Empresa styles
-    if ( is_singular( 'seguro_particular' ) || is_singular( 'seguro_empresa' ) ) {
+    // Single Seguro Particular, Empresa and Landing Page styles
+    if ( is_singular( 'seguro_particular' ) || is_singular( 'seguro_empresa' ) || is_page_template( 'page-landing.php' ) || is_page( 'landing' ) || is_page( 'modelo-seguro' ) ) {
         $single_ver = file_exists( $theme_dir . '/css/single-seguro.css' ) ? filemtime( $theme_dir . '/css/single-seguro.css' ) : $theme_version;
         wp_enqueue_style( 'pacto-single-seguro', $theme_uri . '/css/single-seguro.css', array( 'pacto-style' ), $single_ver );
     }

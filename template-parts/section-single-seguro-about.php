@@ -12,7 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 $post_id     = get_the_ID();
 $post_title  = get_the_title();
 
-$eyebrow     = pacto_get_field( 'seguro_about_eyebrow', $post_id, strtoupper( $post_title ) . ' — PACTO SEGURO' );
+$is_page_landing = is_page_template( 'page-landing.php' ) || is_page( 'landing' ) || is_page( 'modelo-seguro' );
+$clean_name      = $post_title;
+if ( $is_page_landing && ( empty( $clean_name ) || stripos( $clean_name, 'landing' ) !== false || stripos( $clean_name, 'modelo' ) !== false ) ) {
+    $clean_name = 'Seguro Multirriscos Casa';
+}
+
+$eyebrow     = pacto_get_field( 'seguro_about_eyebrow', $post_id, strtoupper( $clean_name ) . ' — PACTO SEGURO' );
+$title       = pacto_get_field( 'seguro_about_title', $post_id, 'O que é o Seguro?' );
 $is_empresa  = 'seguro_empresa' === get_post_type( $post_id );
 $def_p1      = $is_empresa 
     ? 'Esta solução empresarial oferece uma cobertura abrangente e customizada para proteger as instalações, mercadorias, colaboradores e operações da sua organização, minimizando perdas financeiras decorrentes de riscos fortuitos.'

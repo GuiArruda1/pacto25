@@ -1640,6 +1640,20 @@ function pacto_25_register_acf_fields() {
                     'value' => 'seguro_particular',
                 ),
             ),
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'seguro_empresa',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'page-landing.php',
+                ),
+            ),
         ),
         'menu_order' => 1,
         'position' => 'normal',
