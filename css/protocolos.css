@@ -416,138 +416,126 @@
 
 .protocolos-faq-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.2rem, 3.2vw, 3.2rem);
+  font-size: clamp(2rem, 3vw, 2.9rem);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.15;
   color: var(--color-text, #231F20);
-  margin-bottom: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(14px, 1.8vw, 20px);
+  max-width: 520px;
 }
 
 .protocolos-faq-text {
   font-family: var(--font-body);
-  font-size: clamp(15px, 1vw, 16px);
+  font-size: clamp(14px, 1vw, 15px);
   line-height: 1.6;
-  color: var(--color-text, #231F20);
-  margin-bottom: 32px;
+  color: #555555;
+  margin-bottom: clamp(20px, 2.2vw, 28px);
+  max-width: 520px;
 }
 
-/* Accordion */
-.protocolos-accordion {
-  border-top: 1px solid var(--color-border-subtle, #F0F0F0);
-}
-
-.protocolos-accordion-item {
-  border-bottom: 1px solid var(--color-border-subtle, #F0F0F0);
-}
-
-.protocolos-accordion-btn {
+/* --- Form Styles matching Figma --- */
+.protocolos-form {
   width: 100%;
+  max-width: 520px;
   display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.protocolos-form-group {
+  width: 100%;
+}
+
+.protocolos-form-input {
+  width: 100%;
+  border: 1.5px solid #231F20;
+  border-radius: var(--radius-pill, 9999px);
+  padding: 12px 24px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  background: transparent;
+  color: #231F20;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.protocolos-form-input::placeholder,
+.protocolos-form-textarea::placeholder {
+  color: #777777;
+  text-transform: lowercase;
+  font-family: var(--font-body);
+}
+
+.protocolos-form-input:focus,
+.protocolos-form-textarea:focus {
+  border-color: var(--color-primary, #D42E12);
+  box-shadow: 0 0 0 3px rgba(212, 46, 18, 0.12);
+}
+
+.protocolos-form-textarea {
+  width: 100%;
+  border: 1.5px solid #231F20;
+  border-radius: 18px;
+  padding: 14px 24px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  background: transparent;
+  color: #231F20;
+  outline: none;
+  resize: vertical;
+  min-height: 110px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.protocolos-form-consent {
+  margin-top: 2px;
+}
+
+.protocolos-consent-label {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 24px 0;
-  background: none;
-  border: none;
-  font-family: var(--font-heading);
-  font-size: clamp(16px, 1.2vw, 18px);
-  font-weight: 600;
-  color: var(--color-text, #231F20);
-  text-align: left;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: #555555;
   cursor: pointer;
+  line-height: 1.4;
+}
+
+.protocolos-consent-label a {
+  color: #231F20;
+  text-decoration: underline;
   transition: color var(--transition-fast);
 }
 
-.protocolos-accordion-btn:hover {
+.protocolos-consent-label a:hover {
   color: var(--color-primary, #D42E12);
 }
 
-.protocolos-accordion-icon {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--color-text, #231F20);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color var(--transition-fast), transform var(--transition-fast);
-}
-
-.protocolos-accordion-btn:hover .protocolos-accordion-icon {
-  border-color: var(--color-primary, #D42E12);
-}
-
-.protocolos-accordion-icon::before,
-.protocolos-accordion-icon::after {
-  content: "";
-  position: absolute;
-  background-color: var(--color-text, #231F20);
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
-}
-
-.protocolos-accordion-icon::before {
-  width: 10px;
-  height: 2px;
-}
-
-.protocolos-accordion-icon::after {
-  width: 2px;
-  height: 10px;
-}
-
-.protocolos-accordion-btn:hover .protocolos-accordion-icon::before,
-.protocolos-accordion-btn:hover .protocolos-accordion-icon::after {
-  background-color: var(--color-primary, #D42E12);
-}
-
-.protocolos-accordion-btn[aria-expanded="true"] .protocolos-accordion-icon::after {
-  transform: rotate(90deg);
-  opacity: 0;
-}
-
-.protocolos-accordion-btn[aria-expanded="true"] .protocolos-accordion-icon {
-  border-color: var(--color-primary, #D42E12);
-}
-
-.protocolos-accordion-btn[aria-expanded="true"] .protocolos-accordion-icon::before {
-  background-color: var(--color-primary, #D42E12);
-}
-
-
-.protocolos-accordion-content {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows var(--transition-normal);
-}
-
-.protocolos-accordion-btn[aria-expanded="true"]+.protocolos-accordion-content {
-  grid-template-rows: 1fr;
-}
-
-.protocolos-accordion-content-inner {
-  overflow: hidden;
-}
-
-.protocolos-accordion-body {
-  padding-bottom: 24px;
-  font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--color-text-muted, #555555);
-}
-
-.protocolos-faq-extra-info {
-  margin-top: 32px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: var(--color-text-muted, #8E8A8B);
-}
-
-.protocolos-faq-extra-icon {
+.protocolos-consent-checkbox {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--color-primary, #D42E12);
+  cursor: pointer;
   flex-shrink: 0;
+}
+
+.protocolos-form-submit-wrap {
+  margin-top: 6px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.protocolos-form-success {
+  padding: 14px 20px;
+  background-color: #E8F8F0;
+  color: #1B7A43;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  max-width: 520px;
 }
 
 

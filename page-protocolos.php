@@ -19,7 +19,7 @@ while ( have_posts() ) :
     // 2. Condições Especiais Section
     get_template_part( 'template-parts/section', 'protocolos-condicoes' );
 
-    // 3. Descubra as Condições (Accordion/FAQ) Section
+    // 3. Descubra as Condições (Formulário) Section
     get_template_part( 'template-parts/section', 'protocolos-faq' );
 
     // 4. CTA Banner Section

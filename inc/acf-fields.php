@@ -2426,10 +2426,10 @@ function pacto_25_register_acf_fields() {
                 ),
             ),
 
-            // --- TAB: ACORDEÃO / FAQ ---
+            // --- TAB: FORMULÁRIO DE CONDIÇÕES ---
             array(
                 'key' => 'field_tab_protocolos_faq',
-                'label' => __( 'Secção 3: Condições por Área', 'pacto-25' ),
+                'label' => __( 'Secção 3: Formulário de Condições', 'pacto-25' ),
                 'type' => 'tab',
             ),
             array(
@@ -2437,7 +2437,7 @@ function pacto_25_register_acf_fields() {
                 'label' => __( 'Eyebrow', 'pacto-25' ),
                 'name' => 'protocolos_faq_eyebrow',
                 'type' => 'text',
-                'default_value' => 'CONDIÇÕES ESPECIAIS',
+                'default_value' => '• PROTOCOLOS • PACTO SEGURO',
             ),
             array(
                 'key' => 'field_protocolos_faq_title',
@@ -2452,12 +2452,12 @@ function pacto_25_register_acf_fields() {
                 'name' => 'protocolos_faq_text',
                 'type' => 'textarea',
                 'rows' => 3,
-                'default_value' => 'As parcerias estabelecidas oferecem um leque alargado de condições exclusivas. Selecione a sua ordem ou associação para conhecer os detalhes.',
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Sit tellus morbi ut auctor dui amet.',
             ),
             array(
                 'key' => 'field_protocolos_faq_image',
                 'label' => __( 'Foto Circular (com Anel Vermelho)', 'pacto-25' ),
-                'instructions' => __( 'Foto exibida no círculo à esquerda na secção de acordeão.', 'pacto-25' ),
+                'instructions' => __( 'Foto exibida no círculo à esquerda na secção de formulário.', 'pacto-25' ),
                 'name' => 'protocolos_faq_image',
                 'type' => 'image',
                 'return_format' => 'array',
