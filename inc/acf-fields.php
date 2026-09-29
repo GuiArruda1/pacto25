@@ -1088,6 +1088,33 @@ function pacto_25_register_acf_fields() {
         'instruction_placement' => 'label',
     ) );
 
+    $particulares_locations = array(
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-particulares.php',
+            ),
+        ),
+        array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => 'particulares',
+            ),
+        ),
+    );
+    $part_page = get_page_by_path( 'particulares' );
+    if ( $part_page ) {
+        $particulares_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => (string) $part_page->ID,
+            ),
+        );
+    }
+
     // =========================================================================
     // FIELD GROUP: PARTICULARES
     // =========================================================================
@@ -1187,15 +1214,193 @@ function pacto_25_register_acf_fields() {
                 'default_value' => '#contactos',
             ),
         ),
-        'location' => array(
+        'location' => $particulares_locations,
+        'menu_order' => 2,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ) );
+
+    // =========================================================================
+    // FIELD GROUP: EMPRESAS
+    // =========================================================================
+    $empresas_locations = array(
+        array(
             array(
-                array(
-                    'param' => 'page_template',
-                    'operator' => '==',
-                    'value' => 'page-particulares.php',
-                ),
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-empresas.php',
             ),
         ),
+        array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => 'empresas',
+            ),
+        ),
+        array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => 'empresas-2',
+            ),
+        ),
+    );
+
+    $emp_pages = get_posts( array(
+        'post_type'      => 'page',
+        'posts_per_page' => -1,
+        'post_status'    => 'any',
+        'meta_key'       => '_wp_page_template',
+        'meta_value'     => 'page-empresas.php',
+        'fields'         => 'ids',
+    ) );
+    if ( ! empty( $emp_pages ) ) {
+        foreach ( $emp_pages as $emp_id ) {
+            $empresas_locations[] = array(
+                array(
+                    'param'    => 'page',
+                    'operator' => '==',
+                    'value'    => (string) $emp_id,
+                ),
+            );
+        }
+    }
+
+    $emp_by_path_1 = get_page_by_path( 'empresas' );
+    if ( $emp_by_path_1 ) {
+        $empresas_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => (string) $emp_by_path_1->ID,
+            ),
+        );
+    }
+    $emp_by_path_2 = get_page_by_path( 'empresas-2' );
+    if ( $emp_by_path_2 ) {
+        $empresas_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => (string) $emp_by_path_2->ID,
+            ),
+        );
+    }
+    $emp_by_path_3 = get_page_by_path( 'seguros-empresas' );
+    if ( $emp_by_path_3 ) {
+        $empresas_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => (string) $emp_by_path_3->ID,
+            ),
+        );
+    }
+
+    acf_add_local_field_group( array(
+        'key' => 'group_pacto_empresas',
+        'title' => __( 'Empresas - Configuração de Secções', 'pacto-25' ),
+        'fields' => array(
+            // --- TAB: HERO ---
+            array(
+                'key' => 'field_tab_empresas_hero',
+                'label' => __( 'Secção 1: Hero', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_empresas_hero_eyebrow',
+                'label' => __( 'Eyebrow / Subtítulo Superior', 'pacto-25' ),
+                'name' => 'empresas_hero_eyebrow',
+                'type' => 'text',
+                'default_value' => 'EMPRESAS — PACTO SEGURO',
+            ),
+            array(
+                'key' => 'field_empresas_hero_title',
+                'label' => __( 'Título Principal (H1)', 'pacto-25' ),
+                'name' => 'empresas_hero_title',
+                'type' => 'text',
+                'default_value' => 'Seguros para Empresas',
+            ),
+            array(
+                'key' => 'field_empresas_hero_description',
+                'label' => __( 'Texto Introdutório / Descrição', 'pacto-25' ),
+                'name' => 'empresas_hero_description',
+                'type' => 'textarea',
+                'rows' => 4,
+                'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+            ),
+            array(
+                'key' => 'field_empresas_hero_image',
+                'label' => __( 'Imagem do Hero (Empresas)', 'pacto-25' ),
+                'name' => 'empresas_hero_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // --- TAB: SEGUROS ---
+            array(
+                'key' => 'field_tab_empresas_seguros',
+                'label' => __( 'Secção 2: Lista de Seguros', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_empresas_seguros_per_page',
+                'label' => __( 'Seguros por Página', 'pacto-25' ),
+                'name' => 'empresas_seguros_per_page',
+                'type' => 'number',
+                'default_value' => 8,
+                'min' => 1,
+                'max' => 40,
+            ),
+
+            // --- TAB: CTA ---
+            array(
+                'key' => 'field_tab_empresas_cta',
+                'label' => __( 'Secção 3: Banner CTA', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_empresas_cta_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'empresas_cta_eyebrow',
+                'type' => 'text',
+                'default_value' => 'EXPERIMENTE-NOS!',
+            ),
+            array(
+                'key' => 'field_empresas_cta_title',
+                'label' => __( 'Título Principal', 'pacto-25' ),
+                'name' => 'empresas_cta_title',
+                'type' => 'text',
+                'default_value' => 'Temos uma equipa preparada para responder a todas as suas dúvidas.',
+            ),
+            array(
+                'key' => 'field_empresas_cta_subtitle',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'empresas_cta_subtitle',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Convidamo-lo a partilhar as suas experiências para que possamos melhorar produtos e serviços. Faça-nos chegar a sua história.',
+            ),
+            array(
+                'key' => 'field_empresas_cta_btn_text',
+                'label' => __( 'Texto do Botão', 'pacto-25' ),
+                'name' => 'empresas_cta_btn_text',
+                'type' => 'text',
+                'default_value' => 'pedir simulação',
+            ),
+            array(
+                'key' => 'field_empresas_cta_btn_link',
+                'label' => __( 'Link do Botão', 'pacto-25' ),
+                'name' => 'empresas_cta_btn_link',
+                'type' => 'text',
+                'default_value' => '#contactos',
+            ),
+        ),
+        'location' => $empresas_locations,
         'menu_order' => 2,
         'position' => 'normal',
         'style' => 'default',
