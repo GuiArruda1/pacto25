@@ -222,7 +222,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-30%, -50%); /* Offset slightly to the right */
+  transform: translate(-30%, -50%);
+  /* Offset slightly to the right */
   width: clamp(500px, 60vw, 900px);
   height: clamp(500px, 60vw, 900px);
   border-radius: 50%;
@@ -232,7 +233,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding-left: clamp(80px, 15vw, 180px); /* Padding inside the circle to align text */
+  padding-left: clamp(80px, 15vw, 180px);
+  /* Padding inside the circle to align text */
 }
 
 .protocolos-condicoes-vantagens {
@@ -291,6 +293,7 @@
   background-color: var(--color-primary, #D42E12);
   border-radius: 50%;
 }
+
 .protocolos-cond-bubble-2 {
   position: absolute;
   top: 5%;
@@ -300,6 +303,7 @@
   background-color: var(--color-primary, #D42E12);
   border-radius: 50%;
 }
+
 .protocolos-cond-bubble-3 {
   position: absolute;
   bottom: 25%;
@@ -309,6 +313,7 @@
   background-color: var(--color-primary, #D42E12);
   border-radius: 50%;
 }
+
 .protocolos-cond-bubble-4 {
   position: absolute;
   bottom: 10%;
@@ -333,13 +338,13 @@
     text-align: center;
     height: auto;
   }
-  
+
   .protocolos-condicoes-vantagens {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
+
   .vantagens-list li {
     padding-left: 24px;
     text-align: left;
@@ -384,7 +389,7 @@
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
-  border: 12px solid var(--color-primary, #D42E12);
+  border: 30px solid var(--color-primary, #D42E12);
 }
 
 .protocolos-faq-photo {
@@ -515,7 +520,7 @@
   transition: grid-template-rows var(--transition-normal);
 }
 
-.protocolos-accordion-btn[aria-expanded="true"] + .protocolos-accordion-content {
+.protocolos-accordion-btn[aria-expanded="true"]+.protocolos-accordion-content {
   grid-template-rows: 1fr;
 }
 
