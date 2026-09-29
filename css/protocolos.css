@@ -369,7 +369,8 @@
 
 @media (min-width: 992px) {
   .protocolos-faq-grid {
-    grid-template-columns: minmax(340px, 0.8fr) 1fr;
+    grid-template-columns: minmax(360px, auto) 1fr;
+    gap: clamp(40px, 5vw, 90px);
   }
 }
 
@@ -378,18 +379,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: clamp(300px, 35vw, 500px);
+  width: 100%;
 }
 
 .protocolos-faq-photo-wrap {
   position: relative;
   z-index: 2;
-  width: clamp(280px, 32vw, 460px);
-  height: clamp(280px, 32vw, 460px);
+  width: clamp(320px, 48vw, 720px);
+  height: clamp(320px, 48vw, 720px);
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
   border: 30px solid var(--color-primary, #D42E12);
+  flex-shrink: 0;
+}
+
+@media (min-width: 1360px) {
+  .protocolos-faq-photo-wrap {
+    width: 720px;
+    height: 720px;
+  }
 }
 
 .protocolos-faq-photo {
