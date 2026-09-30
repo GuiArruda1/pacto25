@@ -1704,6 +1704,12 @@
   z-index: 6;
 }
 
+@media (max-width: 991px) {
+  .section-qs-why__visual {
+    display: none !important;
+  }
+}
+
 @media (min-width: 992px) {
   .paired-top-visual,
   .section-qs-why__visual,

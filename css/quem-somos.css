@@ -192,6 +192,12 @@ body.page-quem-somos,
   z-index: 6;
 }
 
+@media (max-width: 991px) {
+  .section-qs-why__visual {
+    display: none !important;
+  }
+}
+
 @media (min-width: 992px) {
   .section-qs-why__visual {
     justify-content: flex-start;
