@@ -554,6 +554,8 @@ body.page-sinistro,
   .section-sinistro-form {
     margin-top: 0;
     padding: clamp(2rem, 5vw, 3.5rem) 0;
+    overflow-x: clip;
+    overflow-y: visible;
   }
 
   /* Completely remove the circular ball canopy & floating bubbles on mobile */
@@ -568,18 +570,18 @@ body.page-sinistro,
   .section-sinistro-form .sinistro-form-container {
     padding: 0 16px;
     gap: clamp(36px, 6vw, 48px);
-    overflow: hidden;
+    overflow: visible;
   }
 
-  /* Organic red ball shape bleeding over the corners */
+  /* True circular ball curvature matching Figma */
   .section-sinistro-form .ball-left-content,
   .section-sinistro-form .sinistro-form-content {
     background-color: var(--color-primary, #E84E38);
-    border-radius: 50% / clamp(95px, 24vw, 135px);
-    padding: clamp(64px, 16vw, 92px) clamp(20px, 5vw, 36px) clamp(68px, 17vw, 96px);
-    width: calc(100% + 32px);
+    border-radius: 50% / clamp(130px, 34vw, 175px);
+    padding: clamp(80px, 20vw, 110px) calc(20vw + 20px) clamp(85px, 22vw, 120px) calc(20vw + 20px);
+    width: 140vw;
     max-width: none;
-    margin: 0 -16px;
+    margin: 0 calc(-20vw - 16px);
     box-shadow: 0 16px 40px rgba(232, 78, 56, 0.22);
     text-align: center;
     box-sizing: border-box;
