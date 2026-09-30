@@ -634,6 +634,13 @@
   touch-action: pan-y;
 }
 
+@media (max-width: 991px) {
+  .testimonials-arc-wrapper {
+    clip-path: url(#testimonials-arc-clip-mobile);
+    -webkit-clip-path: url(#testimonials-arc-clip-mobile);
+  }
+}
+
 .testimonials-track {
   display: flex;
   justify-content: flex-start;
