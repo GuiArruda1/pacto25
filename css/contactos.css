@@ -84,15 +84,7 @@ body.page-contactos .site-header__nav-list > li:hover > a::before {
   z-index: 1;
 }
 
-@media (max-width: 991px) {
-  .contactos-hero-canopy {
-    width: clamp(520px, 90vw, 760px);
-    height: clamp(520px, 90vw, 760px);
-    top: -200px;
-    left: auto;
-    right: -150px;
-  }
-}
+
 
 /* Content & Visual Grid */
 .contactos-hero-grid {
@@ -759,14 +751,14 @@ body.page-contactos .site-header__nav-list > li:hover > a::before {
   }
 
   .contactos-hero-title {
-    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: clamp(3.25rem, 8vw, 5.5rem);
   }
 
   .contactos-hero-blocks {
     text-align: left;
     max-width: 520px;
-    margin: clamp(2rem, 5vw, 3.5rem) auto 0 auto;
-    gap: clamp(1.75rem, 3.5vw, 2.5rem);
+    margin: clamp(2.5rem, 6vw, 4.5rem) auto 0 auto;
+    gap: clamp(2rem, 4vw, 3rem);
   }
 
   .contactos-loc-blocks-grid {
@@ -785,10 +777,10 @@ body.page-contactos .site-header__nav-list > li:hover > a::before {
   }
 
   .contactos-hero-canopy {
-    width: clamp(340px, 80vw, 560px);
-    height: clamp(340px, 80vw, 560px);
-    top: -220px;
-    right: -120px;
+    width: clamp(300px, 75vw, 480px);
+    height: clamp(300px, 75vw, 480px);
+    top: -240px;
+    right: -130px;
   }
 
   .contactos-loc-canopy {
