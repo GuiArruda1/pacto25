@@ -27,7 +27,7 @@ $slide_count = count($slides);
                 $image_id = isset($slide['image_id']) ? (int) $slide['image_id'] : 0;
                 $image_url = isset($slide['image_url']) ? trim($slide['image_url']) : '';
                 $is_first = (0 === $i);
-                $default_img = home_url('/wp-content/uploads/2026/09/Group-7-1.png');
+                $default_img = get_template_directory_uri() . '/assets/images/home-hero-doctor.png';
                 $img_source = $image_id > 0 ? $image_id : (!empty($image_url) ? $image_url : $default_img);
                 ?>
                 <div class="hero-slide <?php echo $is_first ? 'is-active' : ''; ?>"
