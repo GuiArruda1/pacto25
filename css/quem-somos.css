@@ -688,20 +688,22 @@ body.page-quem-somos,
 @media (max-width: 1199px) {
   .section-qs-reasons {
     overflow: visible;
-    padding-top: clamp(5rem, 12vw, 8rem);
-    padding-bottom: clamp(6rem, 14vw, 9.5rem);
-    margin-bottom: clamp(5rem, 10vw, 8rem);
+    padding-top: clamp(5.5rem, 12vw, 8rem);
+    padding-bottom: clamp(6.5rem, 14vw, 9.5rem);
+    margin-bottom: clamp(4rem, 8vw, 6rem);
   }
 
   .qs-reasons-canopy {
     top: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: clamp(1000px, 240vw, 1600px);
+    width: 100%;
     height: 100%;
-    border-radius: 50%;
+    border-radius: 0;
+    transform: none;
+    clip-path: ellipse(115% 50% at 50% 50%);
+    -webkit-clip-path: ellipse(115% 50% at 50% 50%);
   }
 
   .section-qs-reasons__narrative {
