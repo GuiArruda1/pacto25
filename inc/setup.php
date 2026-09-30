@@ -22,9 +22,6 @@ function pacto_25_setup() {
     // Enable support for Post Thumbnails on posts and pages.
     add_theme_support( 'post-thumbnails' );
 
-    // Custom image sizes
-    add_image_size( 'pacto-hero-slider', 1200, 1200, false );
-
     // Switch default core markup to output valid HTML5.
     add_theme_support( 'html5', array(
         'search-form',
