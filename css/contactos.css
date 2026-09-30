@@ -783,20 +783,74 @@ body.page-contactos .site-header__nav-list > li:hover > a::before {
     right: -130px;
   }
 
-  .contactos-loc-canopy {
-    width: 140vw;
-    height: 140vw;
-    top: 50%;
-    right: 50%;
-    transform: translate(50%, -50%);
-  }
-
+  /* ==========================================================================
+     Section Contactos Locations - Organic Curved Red Ball on Mobile
+     ========================================================================== */
   .section-contactos-locations {
-    margin-bottom: clamp(6rem, 12vw, 12rem);
+    margin-bottom: 0;
+    padding: clamp(2rem, 5vw, 3.5rem) 0 clamp(4rem, 8vw, 6rem);
+    overflow-x: clip;
+    overflow-y: visible;
   }
 
-  .contactos-hero-bubble--center,
-  .contactos-loc-dot {
+  .section-contactos-locations .contactos-loc-canopy,
+  .section-contactos-locations .contactos-loc-dot {
+    display: none !important;
+  }
+
+  .section-contactos-locations .contactos-loc-container {
+    padding: 0 16px;
+    gap: clamp(36px, 6vw, 48px);
+    overflow: visible;
+  }
+
+  .section-contactos-locations .contactos-loc-content {
+    background-color: var(--color-primary, #D42E12);
+    border-radius: 50% / clamp(80px, 18vw, 130px);
+    padding: clamp(65px, 16vw, 100px) calc(20vw + 20px) clamp(75px, 18vw, 115px) calc(20vw + 20px);
+    width: 140vw;
+    max-width: none;
+    margin: 0 calc(-20vw - 16px);
+    box-shadow: 0 16px 40px rgba(212, 46, 18, 0.22);
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 3;
+    color: #FFFFFF;
+  }
+
+  .section-contactos-locations .contactos-loc-title {
+    font-size: clamp(2rem, 5.5vw, 2.75rem);
+    color: #FFFFFF;
+    margin: 0 auto clamp(0.5rem, 1vw, 0.75rem) auto;
+  }
+
+  .section-contactos-locations .contactos-loc-desc {
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0 auto clamp(1.5rem, 3vw, 2.25rem) auto;
+    max-width: 460px;
+  }
+
+  .section-contactos-locations .contactos-loc-blocks-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 480px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .section-contactos-locations .contactos-loc-col {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .section-contactos-locations .contactos-loc-phone-row {
+    justify-content: center;
+  }
+
+  .contactos-hero-bubble--center {
     display: none;
   }
 }
