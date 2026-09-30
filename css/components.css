@@ -626,7 +626,7 @@
   width: 100%;
   max-width: 1920px;
   margin: 0 auto;
-  height: clamp(440px, 33.07vw, 635px);
+  height: clamp(480px, 33.07vw, 635px);
   clip-path: url(#testimonials-arc-clip);
   -webkit-clip-path: url(#testimonials-arc-clip);
   overflow: hidden;
@@ -634,10 +634,39 @@
   touch-action: pan-y;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
   .testimonials-arc-wrapper {
     clip-path: url(#testimonials-arc-clip-mobile);
     -webkit-clip-path: url(#testimonials-arc-clip-mobile);
+    height: clamp(480px, 42vw, 560px);
+  }
+
+  .testimonial-card {
+    flex: 0 0 clamp(280px, 26vw, 340px);
+    padding: clamp(45px, 4.5vw, 65px) clamp(20px, 2vw, 28px);
+  }
+
+  .testimonial-card__avatar {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 0.875rem;
+  }
+
+  .testimonial-card__quote {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 0.875rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .testimonials-arc-wrapper {
+    height: clamp(460px, 115vw, 520px);
+  }
+
+  .testimonial-card {
+    flex: 0 0 clamp(270px, 80vw, 330px);
+    padding: 50px 22px;
   }
 }
 
