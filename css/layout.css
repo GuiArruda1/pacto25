@@ -877,6 +877,12 @@
   height: clamp(14px, 1.8vw, 22px);
 }
 
+@media (max-width: 991px) {
+  .particulares-deco {
+    display: none;
+  }
+}
+
 .section-solutions-personal__content {
   position: relative;
   display: flex;
@@ -1516,7 +1522,7 @@
   }
 
   .mega-menu-trigger {
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .mega-menu-trigger::after {
@@ -1528,6 +1534,7 @@
     border-bottom: 2px solid currentColor;
     transform: rotate(45deg);
     transition: transform var(--transition-fast);
+    margin-left: auto;
     margin-right: 4px;
     flex-shrink: 0;
   }

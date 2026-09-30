@@ -80,10 +80,7 @@ body.page-sinistro,
 }
 
 .sinistro-hero-bubble--1 {
-  width: clamp(45px, 5vw, 65px);
-  aspect-ratio: 1 / 1;
-  top: 20%;
-  left: 30%;
+  display: none;
 }
 
 .sinistro-hero-bubble--2 {
@@ -252,7 +249,7 @@ body.page-sinistro,
 .sinistro-claim-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
   margin-top: clamp(0.75rem, 1.2vw, 1.25rem);
 }
@@ -265,68 +262,77 @@ body.page-sinistro,
 .sinistro-form-input,
 .sinistro-form-textarea {
   width: 100%;
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
-  background: rgba(0, 0, 0, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.15);
   color: #FFFFFF;
   border-radius: var(--radius-pill, 9999px);
-  padding: 10px 20px;
+  padding: 12px 22px;
   font-family: var(--font-body);
-  font-size: clamp(0.8rem, 0.85vw, 0.9rem);
+  font-size: clamp(0.85rem, 0.92vw, 0.95rem);
   outline: none;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
 .sinistro-form-input::placeholder,
 .sinistro-form-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.75);
+  color: #FFFFFF;
+  opacity: 0.9;
   text-transform: lowercase;
 }
 
 .sinistro-form-input:focus,
 .sinistro-form-textarea:focus {
   border-color: #FFFFFF;
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
 
 .sinistro-form-select {
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  color: #FFFFFF;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 18px center;
-  padding-right: 38px;
+  background-position: right 20px center;
+  padding-right: 44px;
   cursor: pointer;
 }
 
+.sinistro-form-select:invalid,
+.sinistro-form-select option[value=""] {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .sinistro-form-select option {
-  background-color: var(--color-primary, #E84E38);
+  background-color: #231F20;
   color: #FFFFFF;
 }
 
 .sinistro-form-textarea {
-  border-radius: 18px;
+  border-radius: 20px;
   resize: none;
-  padding: 12px 20px;
-  min-height: 80px;
+  padding: 14px 22px;
+  min-height: 90px;
 }
 
 .sinistro-form-consent {
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .sinistro-form-checkbox-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: clamp(0.72rem, 0.76vw, 0.82rem);
-  color: rgba(255, 255, 255, 0.92);
+  gap: 10px;
+  font-size: clamp(0.78rem, 0.82vw, 0.88rem);
+  color: #FFFFFF;
   cursor: pointer;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .sinistro-form-checkbox-label input[type="checkbox"] {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   accent-color: #1a1a1a;
   cursor: pointer;
   flex-shrink: 0;
@@ -334,19 +340,32 @@ body.page-sinistro,
 
 .sinistro-form-checkbox-label a {
   color: #FFFFFF;
+  font-weight: 600;
   text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .sinistro-form-submit-wrap {
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .sinistro-form-btn {
-  padding: 13px 28px;
+  padding: 13px 32px;
   font-family: var(--font-heading);
   font-size: 13.5px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: lowercase;
+  border-radius: var(--radius-pill, 9999px);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sinistro-form-btn:hover {
+  background-color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.26);
 }
 
 /* ==========================================================================
@@ -497,6 +516,13 @@ body.page-sinistro,
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 991px) {
+  .sinistro-hero-bubble--1,
+  .sinistro-hero-bubble--2,
+  .sinistro-hero-bubble--9,
+  .sinistro-hero-bubble--10 {
+    display: none;
+  }
+
   .sinistro-hero-grid,
   .sinistro-steps-grid,
   .sinistro-docs-grid {
@@ -522,12 +548,89 @@ body.page-sinistro,
     text-align: left;
   }
 
+  /* ==========================================================================
+     Section Sinistro Form - Remove Ball Canopy & Apply Card on Mobile
+     ========================================================================== */
   .section-sinistro-form {
     margin-top: 0;
+    padding: clamp(2rem, 5vw, 3.5rem) 0;
+  }
+
+  /* Completely remove the circular ball canopy & floating bubbles on mobile */
+  .section-sinistro-form .ball-left-canopy,
+  .section-sinistro-form .big-orange-ball,
+  .section-sinistro-form .circle-bg-orange,
+  .section-sinistro-form .ball-left-bubble {
+    display: none !important;
+  }
+
+  .section-sinistro-form .ball-left-container,
+  .section-sinistro-form .sinistro-form-container {
+    padding: 0 16px;
+    gap: 36px;
+  }
+
+  /* Clean, high-contrast, fully enclosed card for form content */
+  .section-sinistro-form .ball-left-content,
+  .section-sinistro-form .sinistro-form-content {
+    background-color: var(--color-primary, #E84E38);
+    border-radius: var(--radius-card, 32px);
+    padding: clamp(36px, 7vw, 52px) clamp(20px, 5vw, 36px);
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    box-shadow: 0 16px 40px rgba(232, 78, 56, 0.22);
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .section-sinistro-form .sinistro-form-title {
+    font-size: clamp(1.85rem, 5vw, 2.4rem);
+    margin: 0 auto clamp(0.75rem, 1.2vw, 1rem) auto;
+  }
+
+  .section-sinistro-form .sinistro-form-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #FFFFFF;
+    opacity: 0.95;
+    margin: 0 auto clamp(1.2rem, 2vw, 1.6rem) auto;
+  }
+
+  .section-sinistro-form .sinistro-form-input,
+  .section-sinistro-form .sinistro-form-textarea {
+    font-size: 15px;
+    padding: 13px 20px;
+    border-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .section-sinistro-form .sinistro-form-consent {
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+
+  .section-sinistro-form .sinistro-form-checkbox-label {
+    justify-content: center;
+    text-align: left;
+    font-size: 13.5px;
+  }
+
+  .section-sinistro-form .sinistro-form-submit-wrap {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .section-sinistro-form .sinistro-form-btn {
+    padding: 14px 48px;
+    font-size: 14px;
+    width: auto;
+    min-width: 180px;
   }
 
   .section-sinistro-docs {
-    margin-top: clamp(6rem, 12vw, 9rem);
+    margin-top: clamp(4rem, 8vw, 6rem);
   }
 
   .sinistro-docs-list {

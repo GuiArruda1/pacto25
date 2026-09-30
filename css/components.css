@@ -2007,4 +2007,12 @@
   .ball-left-bubble {
     display: none;
   }
+
+  /* Section Sinistro Form - Remove Ball Canopy on Mobile */
+  .section-sinistro-form .ball-left-canopy,
+  .section-sinistro-form .big-orange-ball,
+  .section-sinistro-form .circle-bg-orange,
+  .section-sinistro-form .ball-left-bubble {
+    display: none !important;
+  }
 }
