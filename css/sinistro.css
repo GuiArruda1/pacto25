@@ -523,6 +523,10 @@ body.page-sinistro,
     display: none;
   }
 
+  .sinistro-steps-visual {
+    display: none !important;
+  }
+
   .sinistro-hero-grid,
   .sinistro-steps-grid,
   .sinistro-docs-grid {

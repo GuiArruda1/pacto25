@@ -1755,7 +1755,9 @@
 }
 
 @media (max-width: 991px) {
-  .section-qs-why__visual {
+  .paired-top-visual,
+  .section-qs-why__visual,
+  .sinistro-steps-visual {
     display: none !important;
   }
 }
