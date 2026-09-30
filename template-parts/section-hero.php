@@ -27,8 +27,20 @@ $slide_count = count($slides);
                 $image_id = isset($slide['image_id']) ? (int) $slide['image_id'] : 0;
                 $image_url = isset($slide['image_url']) ? trim($slide['image_url']) : '';
                 $is_first = (0 === $i);
-                $default_img = get_template_directory_uri() . '/assets/images/home-hero-doctor.png';
-                $img_source = $image_id > 0 ? $image_id : (!empty($image_url) ? $image_url : $default_img);
+                $theme_doctor_img = get_template_directory_uri() . '/assets/images/home-hero-doctor.png';
+                $theme_doctor_path = get_template_directory() . '/assets/images/home-hero-doctor.png';
+                $fixed_doctor_img = $theme_doctor_img . ( file_exists( $theme_doctor_path ) ? '?v=' . filemtime( $theme_doctor_path ) : '' );
+
+                $is_doctor_slide = ( 0 === $i ) || ( ! empty( $image_url ) && false !== strpos( $image_url, 'Group-7-1' ) );
+                if ( ! $is_doctor_slide && $image_id > 0 ) {
+                    $att_url = wp_get_attachment_url( $image_id );
+                    if ( $att_url && false !== strpos( $att_url, 'Group-7-1' ) ) {
+                        $is_doctor_slide = true;
+                    }
+                }
+
+                $default_img = $fixed_doctor_img;
+                $img_source = $is_doctor_slide ? $fixed_doctor_img : ( $image_id > 0 ? $image_id : ( ! empty( $image_url ) ? $image_url : $default_img ) );
                 ?>
                 <div class="hero-slide <?php echo $is_first ? 'is-active' : ''; ?>"
                     data-slide-index="<?php echo esc_attr($i); ?>"

@@ -171,12 +171,20 @@
   }
 
   .section-hero__image-wrapper {
-    width: clamp(260px, 76vw, 360px);
+    width: clamp(250px, 72vw, 330px);
     max-width: 100%;
     margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
+    text-align: center;
+  }
+
+  .section-hero__image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
   }
 
   .section-hero__content {
