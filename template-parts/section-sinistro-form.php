@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$eyebrow     = pacto_get_field( 'sinistro_form_eyebrow', false, '• SINISTROS' );
+$eyebrow     = pacto_clean_eyebrow( pacto_get_field( 'sinistro_form_eyebrow', false, 'SINISTROS' ) );
 $title       = pacto_get_field( 'sinistro_form_title', false, 'Participar Sinistro' );
 $description = pacto_get_field( 'sinistro_form_description', false, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
 $image_obj   = pacto_get_field( 'sinistro_form_image', false );

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$eyebrow   = pacto_get_field( 'sinistro_steps_eyebrow', false, '• SINISTROS — PACTO SEGURO' );
+$eyebrow   = pacto_clean_eyebrow( pacto_get_field( 'sinistro_steps_eyebrow', false, 'SINISTROS — PACTO SEGURO' ) );
 $title     = pacto_get_field( 'sinistro_steps_title', false, 'Como Participar um Sinistro' );
 $image_obj = pacto_get_field( 'sinistro_steps_image', false );
 

@@ -21,7 +21,9 @@ $faqs        = ! empty( $args['faqs'] )        ? $args['faqs']        : array();
 
 // 2. Fallback to ACF fields if not passed in $args
 if ( empty( $eyebrow ) ) {
-    $eyebrow = pacto_get_field( 'seguro_faq_eyebrow', false, pacto_get_field( 'faq_eyebrow', false, '• FAQS' ) );
+    $eyebrow = pacto_clean_eyebrow( pacto_get_field( 'seguro_faq_eyebrow', false, pacto_get_field( 'faq_eyebrow', false, 'FAQS' ) ) );
+} else {
+    $eyebrow = pacto_clean_eyebrow( $eyebrow );
 }
 if ( empty( $title ) ) {
     $title = pacto_get_field( 'seguro_faq_title', false, pacto_get_field( 'faq_title', false, 'Questões Mais Frequentes' ) );

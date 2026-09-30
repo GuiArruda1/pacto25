@@ -22,16 +22,16 @@ if ( ! $page_id || is_home() || is_archive() ) {
 }
 
 // ACF Fields with Figma Fallback Defaults
-$eyebrow     = pacto_get_field( 'noticias_archive_eyebrow', $page_id, '• NOTÍCIAS — PACTO SEGURO' );
+$eyebrow     = pacto_clean_eyebrow( pacto_get_field( 'noticias_archive_eyebrow', $page_id, 'NOTÍCIAS — PACTO SEGURO' ) );
 $title       = pacto_get_field( 'noticias_archive_title', $page_id, 'Fique a par das nossas Notícias' );
 $description = pacto_get_field( 'noticias_archive_description', $page_id, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
 
 // If category/tag archive, dynamically adapt title if desired
 if ( is_category() ) {
-    $eyebrow = '• CATEGORIA — NOTÍCIAS';
+    $eyebrow = 'CATEGORIA — NOTÍCIAS';
     $title   = single_cat_title( '', false );
 } elseif ( is_tag() ) {
-    $eyebrow = '• TAG — NOTÍCIAS';
+    $eyebrow = 'TAG — NOTÍCIAS';
     $title   = single_tag_title( '', false );
 }
 ?>

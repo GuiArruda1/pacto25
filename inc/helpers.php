@@ -473,3 +473,17 @@ function pacto_get_seguro_empresa_url( $slug ) {
     return $empresas_url . '#' . $clean_slug;
 }
 
+/**
+ * Sanitizes an eyebrow string by stripping leading bullet characters
+ * since CSS .eyebrow::before already generates the red dot bullet automatically.
+ *
+ * @param mixed $text  Input eyebrow text
+ * @return string      Cleaned eyebrow text
+ */
+function pacto_clean_eyebrow( $text ) {
+    if ( ! is_string( $text ) ) {
+        return '';
+    }
+    return preg_replace( '/^[•·\s*]+/', '', trim( $text ) );
+}
+
