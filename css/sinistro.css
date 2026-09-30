@@ -575,8 +575,8 @@ body.page-sinistro,
   .section-sinistro-form .ball-left-content,
   .section-sinistro-form .sinistro-form-content {
     background-color: var(--color-primary, #E84E38);
-    border-radius: 50% / clamp(55px, 12vw, 85px);
-    padding: clamp(48px, 9vw, 68px) clamp(20px, 5vw, 36px) clamp(52px, 10vw, 72px);
+    border-radius: 50% / clamp(95px, 24vw, 135px);
+    padding: clamp(64px, 16vw, 92px) clamp(20px, 5vw, 36px) clamp(68px, 17vw, 96px);
     width: calc(100% + 32px);
     max-width: none;
     margin: 0 -16px;
