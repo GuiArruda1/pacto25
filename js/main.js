@@ -295,26 +295,9 @@ function initSliders() {
     });
   }
 
-  function goToIndex(index) {
-    if (isTransitioning) return;
-    isTransitioning = true;
-    currentIndex = index;
-    updatePosition(true);
-  }
+  let transitionSafetyTimer = null;
 
-  function nextSlide() {
-    goToIndex(currentIndex + 1);
-  }
-
-  function prevSlide() {
-    goToIndex(currentIndex - 1);
-  }
-
-  // Handle seamless infinite wrap on transition end
-  track.addEventListener('transitionend', (e) => {
-    if (e.target !== track || e.propertyName !== 'transform') return;
-    isTransitioning = false;
-
+  function checkInfiniteWrap() {
     // If we passed beyond the original set to the clones on the right:
     if (currentIndex >= originalCount * 2) {
       currentIndex = currentIndex - originalCount;
@@ -329,23 +312,79 @@ function initSliders() {
       void track.offsetHeight; // Force reflow
       track.style.transition = 'transform 0.55s cubic-bezier(0.25, 1, 0.5, 1)';
     }
+  }
+
+  function onTransitionComplete() {
+    clearTimeout(transitionSafetyTimer);
+    transitionSafetyTimer = null;
+    isTransitioning = false;
+    checkInfiniteWrap();
+  }
+
+  function goToIndex(index) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentIndex = index;
+    updatePosition(true);
+
+    clearTimeout(transitionSafetyTimer);
+    transitionSafetyTimer = setTimeout(onTransitionComplete, 650);
+  }
+
+  function nextSlide() {
+    goToIndex(currentIndex + 1);
+  }
+
+  function prevSlide() {
+    goToIndex(currentIndex - 1);
+  }
+
+  // Handle seamless infinite wrap on transition end or cancel
+  track.addEventListener('transitionend', (e) => {
+    if (e.target !== track || e.propertyName !== 'transform') return;
+    onTransitionComplete();
   });
 
-  // Navigation buttons
-  if (nextBtn) {
-    nextBtn.addEventListener('click', (e) => {
+  track.addEventListener('transitioncancel', (e) => {
+    if (e.target !== track) return;
+    onTransitionComplete();
+  });
+
+  // Navigation button handlers (supports both click and mobile touch)
+  function handleNext(e) {
+    if (e) {
       e.preventDefault();
-      resetAutoplay();
-      nextSlide();
-    });
+      e.stopPropagation();
+    }
+    isTransitioning = false;
+    clearTimeout(transitionSafetyTimer);
+    resetAutoplay();
+    nextSlide();
+  }
+
+  function handlePrev(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    isTransitioning = false;
+    clearTimeout(transitionSafetyTimer);
+    resetAutoplay();
+    prevSlide();
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', handleNext);
+    nextBtn.addEventListener('touchend', (e) => {
+      handleNext(e);
+    }, { passive: false });
   }
 
   if (prevBtn) {
-    prevBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      resetAutoplay();
-      prevSlide();
-    });
+    prevBtn.addEventListener('click', handlePrev);
+    prevBtn.addEventListener('touchend', (e) => {
+      handlePrev(e);
+    }, { passive: false });
   }
 
   // Card click to center
@@ -403,7 +442,7 @@ function initSliders() {
   let startTranslateX = 0;
   let currentTranslateX = 0;
   let startTime = 0;
-  const dragThreshold = 5;
+  const dragThreshold = 12;
 
   function getCurrentTranslateX() {
     const containerWidth = arcWrapper.offsetWidth;
@@ -416,6 +455,9 @@ function initSliders() {
 
     isPointerDown = true;
     isDragging = false;
+    isTransitioning = false;
+    clearTimeout(transitionSafetyTimer);
+
     startX = e.clientX;
     startY = e.clientY;
     startTime = Date.now();
@@ -460,7 +502,7 @@ function initSliders() {
       const timeElapsed = Date.now() - startTime;
       const velocity = Math.abs(deltaX) / (timeElapsed || 1);
 
-      if (Math.abs(deltaX) > 40 || (Math.abs(deltaX) > 15 && velocity > 0.25)) {
+      if (Math.abs(deltaX) > 35 || (Math.abs(deltaX) > 15 && velocity > 0.2)) {
         if (deltaX < 0) {
           nextSlide();
         } else {
@@ -472,7 +514,17 @@ function initSliders() {
 
       setTimeout(() => {
         isDragging = false;
-      }, 50);
+      }, 80);
+    } else {
+      // Tap / click on mobile: center clicked card
+      const card = e.target.closest('.testimonial-card');
+      if (card) {
+        const clickedIndex = allCards.indexOf(card);
+        if (clickedIndex !== -1 && clickedIndex !== currentIndex) {
+          resetAutoplay();
+          goToIndex(clickedIndex);
+        }
+      }
     }
 
     startAutoplay();
@@ -487,7 +539,7 @@ function initSliders() {
       updatePosition(true);
       setTimeout(() => {
         isDragging = false;
-      }, 50);
+      }, 80);
     }
     startAutoplay();
   }

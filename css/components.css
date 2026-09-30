@@ -631,6 +631,7 @@
   -webkit-clip-path: url(#testimonials-arc-clip);
   overflow: hidden;
   cursor: grab;
+  touch-action: pan-y;
 }
 
 .testimonials-track {
@@ -644,6 +645,7 @@
   transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
   padding: 0;
   will-change: transform;
+  touch-action: pan-y;
 }
 
 /* Individual Red Testimonial Cards */
@@ -662,6 +664,7 @@
   user-select: none;
   -webkit-user-select: none;
   cursor: grab;
+  touch-action: pan-y;
 }
 
 .testimonial-card:hover {
@@ -723,17 +726,24 @@
 
 /* Navigation Chevrons (< and >) */
 .testimonials-nav {
+  position: relative;
+  z-index: 25;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  margin-top: clamp(0.25rem, 0.8vw, 0.75rem);
+  gap: clamp(16px, 3vw, 24px);
+  margin-top: clamp(0.75rem, 1.5vw, 1.5rem);
+  pointer-events: auto;
 }
 
 .testimonials-nav__btn {
+  position: relative;
+  z-index: 26;
   background: transparent;
   border: none;
-  padding: 8px;
+  padding: 10px;
+  min-width: 48px;
+  min-height: 48px;
   cursor: pointer;
   color: #231F20;
   display: inline-flex;
@@ -741,24 +751,28 @@
   justify-content: center;
   transition: color 0.2s ease, transform 0.2s ease;
   line-height: 1;
+  touch-action: manipulation;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .testimonials-nav__btn:hover {
   color: var(--color-primary);
-  transform: scale(1.2);
+  transform: scale(1.15);
 }
 
 .testimonials-nav__btn:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
 }
 
 .testimonials-nav__btn svg {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  pointer-events: none;
 }
 
 /* ==========================================================================
