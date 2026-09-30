@@ -43,7 +43,7 @@ $testimonials = pacto_get_testimonials_list();
                 <path d="M 0,0 Q 0.5,0.3682 1,0 L 1,1 Q 0.5,0.6318 0,1 Z" />
             </clipPath>
             <clipPath id="testimonials-arc-clip-mobile" clipPathUnits="objectBoundingBox">
-                <path d="M 0,0 Q 0.5,0.2946 1,0 L 1,1 Q 0.5,0.7054 0,1 Z" />
+                <path d="M 0,0 Q 0.5,0.2577 1,0 L 1,1 Q 0.5,0.7423 0,1 Z" />
             </clipPath>
         </defs>
     </svg>
