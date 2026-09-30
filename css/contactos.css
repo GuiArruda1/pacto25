@@ -758,7 +758,17 @@ body.page-contactos .site-header__nav-list > li:hover > a::before {
     max-width: 540px;
   }
 
-  .contactos-hero-blocks,
+  .contactos-hero-title {
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .contactos-hero-blocks {
+    text-align: left;
+    max-width: 520px;
+    margin: clamp(2rem, 5vw, 3.5rem) auto 0 auto;
+    gap: clamp(1.75rem, 3.5vw, 2.5rem);
+  }
+
   .contactos-loc-blocks-grid {
     text-align: left;
     max-width: 520px;
@@ -775,10 +785,10 @@ body.page-contactos .site-header__nav-list > li:hover > a::before {
   }
 
   .contactos-hero-canopy {
-    width: 130vw;
-    height: 130vw;
-    top: -30vw;
-    right: -25vw;
+    width: clamp(340px, 80vw, 560px);
+    height: clamp(340px, 80vw, 560px);
+    top: -220px;
+    right: -120px;
   }
 
   .contactos-loc-canopy {
