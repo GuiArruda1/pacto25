@@ -112,7 +112,7 @@
 
 .section-hero__visual {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   position: relative;
   width: 100%;
@@ -120,29 +120,55 @@
 
 .section-hero__image-wrapper {
   position: relative;
-  width: min(100%, 680px);
-  margin-top: clamp(0.5rem, 1.5vw, 1.5rem);
-  margin-left: auto;
+  width: min(100%, 640px);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 @media (min-width: 992px) {
   .section-hero .split-layout {
-    grid-template-columns: 1fr 1.25fr;
+    grid-template-columns: 1fr 1.15fr;
+    gap: clamp(2rem, 4vw, 4.5rem);
+    align-items: center;
   }
 
   .section-hero__visual {
-    width: auto;
-    /* Bleeds over container padding and margin edge on desktop */
-    margin-right: calc(-1 * (var(--container-padding) + max(0px, (100vw - var(--container-max-width)) / 2)));
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0;
+    justify-content: flex-end;
   }
 
   .section-hero__image-wrapper {
-    width: clamp(580px, 48vw, 780px);
-    max-width: none;
+    width: clamp(480px, 40vw, 650px);
+    max-width: 100%;
+    max-height: min(76vh, 650px);
+    aspect-ratio: 1 / 1;
     margin-left: auto;
     margin-right: 0;
-    margin-bottom: clamp(-140px, -9vw, -60px);
+    margin-top: 0;
+    margin-bottom: 0;
   }
+}
+
+@media (min-width: 1600px) {
+  .section-hero__image-wrapper {
+    width: min(42vw, 680px);
+    max-height: 680px;
+  }
+}
+
+.section-hero__image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center center;
 }
 
 /* Mobile Hero: Break vertically, Doctor image first, Paragraph / Content second */
@@ -171,20 +197,25 @@
   }
 
   .section-hero__image-wrapper {
-    width: clamp(250px, 72vw, 330px);
+    width: clamp(260px, 75vw, 360px);
     max-width: 100%;
+    aspect-ratio: 1 / 1;
     margin: 0 auto;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
   }
 
   .section-hero__image {
     width: 100%;
+    height: 100%;
     max-width: 100%;
-    height: auto;
+    max-height: 100%;
     display: block;
     margin: 0 auto;
     object-fit: contain;
+    object-position: center center;
   }
 
   .section-hero__content {
@@ -203,13 +234,6 @@
     font-size: clamp(0.95rem, 3.2vw, 1.1rem);
     line-height: 1.5;
   }
-}
-
-.section-hero__image {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
 }
 
 /* Decorative arc peeking from below on Home */

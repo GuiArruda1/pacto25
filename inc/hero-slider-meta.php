@@ -457,7 +457,7 @@ function pacto_render_single_slide_row( $index, $slide ) {
                         </div>
                         <input type="hidden" class="pacto-image-id-input" name="pacto_hero_slides[<?php echo esc_attr( $index ); ?>][image_id]" value="<?php echo esc_attr( $image_id ); ?>" />
                         <input type="hidden" class="pacto-image-url-input" name="pacto_hero_slides[<?php echo esc_attr( $index ); ?>][image_url]" value="<?php echo esc_attr( $image_url ); ?>" />
-                        <div style="margin-top: 8px; display: flex; gap: 6px;">
+                        <div style="margin-top: 8px; display: flex; gap: 6px; justify-content: center;">
                             <button type="button" class="button button-secondary pacto-select-image-btn">
                                 <?php esc_html_e( 'Alterar Imagem', 'pacto-25' ); ?>
                             </button>
@@ -465,6 +465,9 @@ function pacto_render_single_slide_row( $index, $slide ) {
                                 <?php esc_html_e( 'Remover', 'pacto-25' ); ?>
                             </button>
                         </div>
+                        <p class="description" style="margin-top: 8px; font-size: 11px; line-height: 1.35; color: #777; text-align: center;">
+                            <?php esc_html_e( 'Recomendado: Proporção 1:1 (quadrada/circular transparente), mín. 800×800px a 1200×1200px (PNG ou WebP). O layout contém e adapta a imagem responsivamente.', 'pacto-25' ); ?>
+                        </p>
                     </div>
                 </div>
             </div>
