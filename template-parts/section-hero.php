@@ -74,13 +74,11 @@ $slide_count = count($slides);
                                 aria-label="<?php esc_attr_e('Navegação do slider hero', 'pacto-25'); ?>">
                                 <button type="button" class="slider-btn hero-slider-btn hero-slider-btn--prev"
                                     data-hero-action="prev"
-                                    onclick="window.pactoHeroSlide &amp;&amp; window.pactoHeroSlide(-1); return false;"
                                     aria-label="<?php esc_attr_e('Slide Anterior', 'pacto-25'); ?>">
                                     <?php echo pacto_get_svg('arrow-left'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 </button>
                                 <button type="button" class="slider-btn hero-slider-btn hero-slider-btn--next"
                                     data-hero-action="next"
-                                    onclick="window.pactoHeroSlide &amp;&amp; window.pactoHeroSlide(1); return false;"
                                     aria-label="<?php esc_attr_e('Slide Seguinte', 'pacto-25'); ?>">
                                     <?php echo pacto_get_svg('arrow-right'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 </button>
@@ -101,32 +99,3 @@ $slide_count = count($slides);
         </div>
     </div>
 </section>
-
-<script>
-    (function () {
-        window.pactoHeroSlide = function (step) {
-            var slides = document.querySelectorAll('.hero-slide');
-            if (!slides || slides.length <= 1) return;
-
-            var activeIndex = 0;
-            for (var i = 0; i < slides.length; i++) {
-                if (slides[i].classList.contains('is-active')) {
-                    activeIndex = i;
-                    break;
-                }
-            }
-
-            var targetIndex = (activeIndex + step + slides.length) % slides.length;
-
-            for (var j = 0; j < slides.length; j++) {
-                if (j === targetIndex) {
-                    slides[j].classList.add('is-active');
-                    slides[j].setAttribute('aria-hidden', 'false');
-                } else {
-                    slides[j].classList.remove('is-active');
-                    slides[j].setAttribute('aria-hidden', 'true');
-                }
-            }
-        };
-    })();
-</script>

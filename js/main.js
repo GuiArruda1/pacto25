@@ -139,7 +139,7 @@ function initHeroSlider() {
   if (!heroSlider) return;
 
   function goToSlide(targetIndex) {
-    const slides = document.querySelectorAll('.hero-slide');
+    const slides = heroSlider.querySelectorAll('.hero-slide');
     if (slides.length <= 1) return;
 
     let normalized = targetIndex;
@@ -160,15 +160,24 @@ function initHeroSlider() {
     });
   }
 
-  // Click delegation on document to guarantee arrow clicks are captured
-  document.addEventListener('click', (e) => {
+  // Expose globally
+  window.pactoHeroSlide = function(step) {
+    const slides = heroSlider.querySelectorAll('.hero-slide');
+    if (slides.length <= 1) return;
+    let activeIdx = Array.from(slides).findIndex((s) => s.classList.contains('is-active'));
+    if (activeIdx === -1) activeIdx = 0;
+    goToSlide(activeIdx + step);
+  };
+
+  // Scoped click handling for hero arrow buttons
+  heroSlider.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-hero-action]');
     if (!btn) return;
 
     e.preventDefault();
     e.stopPropagation();
 
-    const slides = document.querySelectorAll('.hero-slide');
+    const slides = heroSlider.querySelectorAll('.hero-slide');
     if (slides.length <= 1) return;
 
     let activeIdx = Array.from(slides).findIndex((s) => s.classList.contains('is-active'));
@@ -201,7 +210,7 @@ function initHeroSlider() {
     const diffY = touchEndY - touchStartY;
 
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
-      const slides = document.querySelectorAll('.hero-slide');
+      const slides = heroSlider.querySelectorAll('.hero-slide');
       let activeIdx = Array.from(slides).findIndex((s) => s.classList.contains('is-active'));
       if (activeIdx === -1) activeIdx = 0;
 
@@ -216,7 +225,7 @@ function initHeroSlider() {
   // Keyboard navigation when user has focus within slider
   heroSlider.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-      const slides = document.querySelectorAll('.hero-slide');
+      const slides = heroSlider.querySelectorAll('.hero-slide');
       let activeIdx = Array.from(slides).findIndex((s) => s.classList.contains('is-active'));
       if (activeIdx === -1) activeIdx = 0;
 

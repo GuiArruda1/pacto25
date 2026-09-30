@@ -64,12 +64,12 @@ add_action( 'admin_enqueue_scripts', 'pacto_hero_slider_admin_scripts' );
  */
 function pacto_get_hero_slides( $post_id = 0 ) {
     if ( ! $post_id ) {
-        $post_id = (int) get_option( 'page_on_front' );
+        $post_id = get_the_ID() ?: (int) get_option( 'page_on_front' ) ?: get_queried_object_id();
     }
 
-    $slides = get_post_meta( $post_id, 'pacto_hero_slides', true );
+    $slides = $post_id ? get_post_meta( $post_id, 'pacto_hero_slides', true ) : array();
 
-    if ( ! empty( $slides ) && is_array( $slides ) ) {
+    if ( ! empty( $slides ) && is_array( $slides ) && count( $slides ) > 0 ) {
         return $slides;
     }
 
@@ -82,7 +82,7 @@ function pacto_get_hero_slides( $post_id = 0 ) {
     $acf_image   = pacto_get_field( 'hero_image', $post_id );
 
     $image_id  = 0;
-    $image_url = home_url( '/wp-content/uploads/2026/09/Group-7-1.png' );
+    $image_url = get_template_directory_uri() . '/assets/images/home-hero-doctor.png';
 
     if ( is_array( $acf_image ) && ! empty( $acf_image['ID'] ) ) {
         $image_id  = (int) $acf_image['ID'];
@@ -104,6 +104,24 @@ function pacto_get_hero_slides( $post_id = 0 ) {
             'btn_url'     => $btn_url,
             'image_id'    => $image_id,
             'image_url'   => $image_url,
+        ),
+        array(
+            'eyebrow'     => 'PROTEÇÃO COMPLETA',
+            'title'       => 'Soluções pensadas para a sua Família',
+            'description' => 'Garantimos a segurança e o bem-estar de quem mais ama com planos flexíveis de saúde, vida e habitação adaptados ao seu dia a dia.',
+            'btn_text'    => 'ver soluções particulares',
+            'btn_url'     => home_url( '/particulares/' ),
+            'image_id'    => 0,
+            'image_url'   => get_template_directory_uri() . '/assets/images/sinistro/sinistro-hero-family.png',
+        ),
+        array(
+            'eyebrow'     => 'SEGURANÇA & CONFIANÇA',
+            'title'       => 'Protegemos o Futuro do seu Negócio',
+            'description' => 'Parcerias sólidas e consultoria especializada para salvaguardar a sua empresa, equipa e património contra qualquer imprevisto.',
+            'btn_text'    => 'ver soluções empresas',
+            'btn_url'     => home_url( '/empresas/' ),
+            'image_id'    => 0,
+            'image_url'   => get_template_directory_uri() . '/assets/images/protocolos-doctor.png',
         ),
     );
 }
