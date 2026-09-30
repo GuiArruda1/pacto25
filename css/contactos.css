@@ -697,6 +697,14 @@ body.page-contactos .site-header:not(.site-header--scrolled) {
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 991px) {
+  .contactos-help-visual {
+    display: none !important;
+  }
+
+  .section-contactos-help {
+    padding: clamp(3.5rem, 6vw, 5rem) 0 clamp(4rem, 7vw, 5.5rem);
+  }
+
   .contactos-hero-grid,
   .contactos-help-grid,
   .contactos-loc-grid {
@@ -724,7 +732,6 @@ body.page-contactos .site-header:not(.site-header--scrolled) {
   }
 
   .contactos-hero-circle-wrap,
-  .contactos-help-circle-frame,
   .contactos-map-circle-frame {
     margin: 0 auto;
     width: 100%;
