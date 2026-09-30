@@ -567,18 +567,19 @@ body.page-sinistro,
   .section-sinistro-form .ball-left-container,
   .section-sinistro-form .sinistro-form-container {
     padding: 0 16px;
-    gap: 36px;
+    gap: clamp(36px, 6vw, 48px);
+    overflow: hidden;
   }
 
-  /* Clean, high-contrast, fully enclosed card for form content */
+  /* Organic red ball shape bleeding over the corners */
   .section-sinistro-form .ball-left-content,
   .section-sinistro-form .sinistro-form-content {
     background-color: var(--color-primary, #E84E38);
-    border-radius: var(--radius-card, 32px);
-    padding: clamp(36px, 7vw, 52px) clamp(20px, 5vw, 36px);
-    width: 100%;
-    max-width: 540px;
-    margin: 0 auto;
+    border-radius: 50% / clamp(55px, 12vw, 85px);
+    padding: clamp(48px, 9vw, 68px) clamp(20px, 5vw, 36px) clamp(52px, 10vw, 72px);
+    width: calc(100% + 32px);
+    max-width: none;
+    margin: 0 -16px;
     box-shadow: 0 16px 40px rgba(232, 78, 56, 0.22);
     text-align: center;
     box-sizing: border-box;
@@ -595,6 +596,12 @@ body.page-sinistro,
     color: #FFFFFF;
     opacity: 0.95;
     margin: 0 auto clamp(1.2rem, 2vw, 1.6rem) auto;
+    max-width: 480px;
+  }
+
+  .section-sinistro-form .sinistro-claim-form {
+    max-width: 480px;
+    margin: clamp(0.75rem, 1.2vw, 1.25rem) auto 0 auto;
   }
 
   .section-sinistro-form .sinistro-form-input,
