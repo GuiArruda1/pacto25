@@ -702,8 +702,8 @@ body.page-quem-somos,
     height: 100%;
     border-radius: 0;
     transform: none;
-    clip-path: ellipse(115% 50% at 50% 50%);
-    -webkit-clip-path: ellipse(115% 50% at 50% 50%);
+    clip-path: ellipse(80% 50% at 50% 50%);
+    -webkit-clip-path: ellipse(80% 50% at 50% 50%);
   }
 
   .section-qs-reasons__narrative {
@@ -730,6 +730,13 @@ body.page-quem-somos,
 
   .qs-reasons-dot {
     display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .qs-reasons-canopy {
+    clip-path: ellipse(112% 50% at 50% 50%);
+    -webkit-clip-path: ellipse(112% 50% at 50% 50%);
   }
 }
 
