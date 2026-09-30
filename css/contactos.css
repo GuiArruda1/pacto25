@@ -25,6 +25,40 @@ body.page-contactos .site-header:not(.site-header--scrolled) {
   z-index: 100;
 }
 
+/* Disable navigation menu hover effects specifically on Contactos page */
+body.page-template-page-contactos .site-header__nav-item:not(.current-menu-item):hover > a,
+body.page-template-page-contactos .site-header__nav-item:not(.current-menu-item) > a:hover,
+body.page-template-page-contactos .site-header__nav-list > li:not(.current-menu-item):hover > a,
+body.page-template-page-contactos .site-header__nav-list > li:not(.current-menu-item) > a:hover,
+body.page-contactos .site-header__nav-item:not(.current-menu-item):hover > a,
+body.page-contactos .site-header__nav-item:not(.current-menu-item) > a:hover,
+body.page-contactos .site-header__nav-list > li:not(.current-menu-item):hover > a,
+body.page-contactos .site-header__nav-list > li:not(.current-menu-item) > a:hover {
+  color: var(--color-dark, #231F20) !important;
+}
+
+body.page-template-page-contactos .site-header__nav-item:not(.current-menu-item):hover > a::before,
+body.page-template-page-contactos .site-header__nav-item:not(.current-menu-item) > a:hover::before,
+body.page-template-page-contactos .site-header__nav-list > li:not(.current-menu-item):hover > a::before,
+body.page-template-page-contactos .site-header__nav-list > li:not(.current-menu-item) > a:hover::before,
+body.page-contactos .site-header__nav-item:not(.current-menu-item):hover > a::before,
+body.page-contactos .site-header__nav-item:not(.current-menu-item) > a:hover::before,
+body.page-contactos .site-header__nav-list > li:not(.current-menu-item):hover > a::before,
+body.page-contactos .site-header__nav-list > li:not(.current-menu-item) > a:hover::before {
+  width: 0 !important;
+  margin-right: 0 !important;
+  opacity: 0 !important;
+  transform: scale(0) !important;
+  animation: none !important;
+}
+
+body.page-template-page-contactos .site-header__nav-item:hover > a::before,
+body.page-template-page-contactos .site-header__nav-list > li:hover > a::before,
+body.page-contactos .site-header__nav-item:hover > a::before,
+body.page-contactos .site-header__nav-list > li:hover > a::before {
+  animation: none !important;
+}
+
 /* ==========================================================================
    1. Section: Contactos Hero ("Entre em Contacto com a Pacto Seguro")
    ========================================================================== */
