@@ -228,5 +228,8 @@ foreach ( $sample_particulares as $item ) {
     }
 }
 
+flush_rewrite_rules( false );
+
 echo "\nSummary: {$count_created} posts created, {$count_existing} already existed.\n";
+echo "Permalinks rewrite rules flushed successfully.\n";
 echo "Done!\n";

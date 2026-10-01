@@ -370,6 +370,7 @@ function pacto_25_seed_sample_seguros_particulares() {
         }
     }
 
+    flush_rewrite_rules( false );
     wp_safe_redirect( admin_url( 'edit.php?post_type=seguro_particular&pacto_seeded_particulares=1' ) );
     exit;
 }
