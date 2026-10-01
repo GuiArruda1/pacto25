@@ -73,57 +73,6 @@ function pacto_25_register_acf_fields() {
                 'default_value' => '',
             ),
 
-            // --- TAB: MEGA MENU PARTICULARES ---
-            array(
-                'key'   => 'field_tab_mega_menu',
-                'label' => __( 'Mega Menu Particulares', 'pacto-25' ),
-                'type'  => 'tab',
-            ),
-            array(
-                'key'           => 'field_mm_particulares_eyebrow',
-                'label'         => __( 'Eyebrow / Título da Coluna 1', 'pacto-25' ),
-                'instructions'  => __( 'Texto exibido no topo da primeira coluna (ex: PARTICULARES). O ponto vermelho é inserido automaticamente.', 'pacto-25' ),
-                'name'          => 'mm_particulares_eyebrow',
-                'type'          => 'text',
-                'default_value' => 'PARTICULARES',
-            ),
-            array(
-                'key'           => 'field_mm_col1_links',
-                'label'         => __( 'Coluna 1 - Seguros', 'pacto-25' ),
-                'instructions'  => __( 'Um seguro por linha no formato: Nome do Seguro | Link (Ex: seguro automóvel | #seguro-automovel). Se omitir o link, o URL é gerado automaticamente.', 'pacto-25' ),
-                'name'          => 'mm_col1_links',
-                'type'          => 'textarea',
-                'rows'          => 6,
-                'default_value' => "seguro automóvel | #seguro-automovel\nseguro multirriscos casa | #seguro-multirriscos-casa\nseguro multirriscos condomínio | #seguro-multirriscos-condominio\nseguro poupança reforma | #seguro-poupanca-reforma\nseguro embarcações de recreio | #seguro-embarcacoes-recreio",
-            ),
-            array(
-                'key'           => 'field_mm_col2_links',
-                'label'         => __( 'Coluna 2 - Seguros', 'pacto-25' ),
-                'instructions'  => __( 'Um seguro por linha no formato: Nome do Seguro | Link. Alinhado no topo com a primeira linha da Coluna 1.', 'pacto-25' ),
-                'name'          => 'mm_col2_links',
-                'type'          => 'textarea',
-                'rows'          => 6,
-                'default_value' => "seguro de vida | #seguro-vida\nseguro empregada doméstica | #seguro-empregada-domestica\nseguro acidentes pessoais | #seguro-acidentes-pessoais\nseguro de saúde | #seguro-saude",
-            ),
-            array(
-                'key'           => 'field_mm_col3_links',
-                'label'         => __( 'Coluna 3 - Seguros', 'pacto-25' ),
-                'instructions'  => __( 'Um seguro por linha no formato: Nome do Seguro | Link.', 'pacto-25' ),
-                'name'          => 'mm_col3_links',
-                'type'          => 'textarea',
-                'rows'          => 6,
-                'default_value' => "seguro para desporto | #seguro-desporto\nseguro de viagem | #seguro-viagem\nseguro de reposição salarial | #seguro-reposicao-salarial\nseguro erasmus | #seguro-erasmus",
-            ),
-            array(
-                'key'           => 'field_mm_col4_links',
-                'label'         => __( 'Coluna 4 - Seguros', 'pacto-25' ),
-                'instructions'  => __( 'Um seguro por linha no formato: Nome do Seguro | Link.', 'pacto-25' ),
-                'name'          => 'mm_col4_links',
-                'type'          => 'textarea',
-                'rows'          => 6,
-                'default_value' => "seguro para animais de estimação | #seguro-animais-estimacao\nseguro caçadores e porte de arma | #seguro-cacadores-porte-arma\nseguro alojamento local | #seguro-alojamento-local\nseguro senhorios | #seguro-senhorios",
-            ),
-
             // --- TAB: HERO ---
             array(
                 'key' => 'field_tab_hero',

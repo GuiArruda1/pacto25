@@ -321,53 +321,101 @@ function pacto_render_footer_logo() {
 }
 
 /**
- * Retrieves and parses mega menu column links.
- * Supports both textarea format (Title | URL) and ACF Repeater array format.
+ * Retrieves dynamic mega menu items from a Custom Post Type (seguro_particular or seguro_empresa).
  *
- * @param int   $col_num       Column number (1, 2, 3, 4)
- * @param array $default_links Fallback links array
- * @return array Array of items with 'title' and 'url'
+ * @param string $post_type Custom post type name ('seguro_particular' or 'seguro_empresa')
+ * @return array Array of items with 'id', 'title', 'url'
  */
-function pacto_get_mega_menu_column( $col_num, $default_links = array() ) {
-    $front_page_id = get_option( 'page_on_front' );
-    $field_name    = 'mm_col' . intval( $col_num ) . '_links';
-    $raw           = pacto_get_field( $field_name, $front_page_id, '' );
+function pacto_get_cpt_mega_menu_items( $post_type = 'seguro_particular' ) {
+    $posts = get_posts( array(
+        'post_type'      => $post_type,
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'orderby'        => array( 'menu_order' => 'ASC', 'date' => 'ASC' ),
+    ) );
 
-    // If already structured array (e.g. ACF Pro repeater)
-    if ( is_array( $raw ) && ! empty( $raw ) ) {
-        return $raw;
-    }
+    $items = array();
 
-    // Parse textarea format (one per line: Title | URL)
-    if ( is_string( $raw ) && '' !== trim( $raw ) ) {
-        $lines = explode( "\n", trim( $raw ) );
-        $items = array();
-        foreach ( $lines as $line ) {
-            $line = trim( $line );
-            if ( empty( $line ) ) {
-                continue;
-            }
-            if ( strpos( $line, '|' ) !== false ) {
-                $parts = explode( '|', $line, 2 );
-                $title = trim( $parts[0] );
-                $url   = trim( $parts[1] );
-            } else {
-                $title = $line;
-                $url   = '#' . sanitize_title( $line );
-            }
-            if ( ! empty( $title ) ) {
-                $items[] = array(
-                    'title' => $title,
-                    'url'   => ! empty( $url ) ? $url : pacto_get_seguro_particular_url( sanitize_title( $title ) ),
-                );
-            }
-        }
-        if ( ! empty( $items ) ) {
-            return $items;
+    if ( ! empty( $posts ) ) {
+        foreach ( $posts as $p ) {
+            $title = get_the_title( $p );
+            $items[] = array(
+                'id'    => $p->ID,
+                'title' => mb_strtolower( $title, 'UTF-8' ),
+                'url'   => get_permalink( $p->ID ),
+            );
         }
     }
 
-    return $default_links;
+    return $items;
+}
+
+/**
+ * Returns fallback items for mega menus when no posts are published yet in the database.
+ *
+ * @param string $post_type Custom post type name
+ * @return array Array of items with 'title', 'url'
+ */
+function pacto_get_cpt_mega_menu_fallback( $post_type = 'seguro_particular' ) {
+    if ( 'seguro_empresa' === $post_type ) {
+        return array(
+            array( 'title' => 'seguro multirriscos empresa', 'url' => pacto_get_seguro_empresa_url( 'multirriscos-empresa' ) ),
+            array( 'title' => 'seguro acidentes de trabalho', 'url' => pacto_get_seguro_empresa_url( 'acidentes-trabalho' ) ),
+            array( 'title' => 'seguro responsabilidade civil', 'url' => pacto_get_seguro_empresa_url( 'responsabilidade-civil' ) ),
+            array( 'title' => 'seguro frota automóvel', 'url' => pacto_get_seguro_empresa_url( 'frota-automovel' ) ),
+            array( 'title' => 'seguro saúde grupo', 'url' => pacto_get_seguro_empresa_url( 'saude-grupo' ) ),
+            array( 'title' => 'seguro d&o administradores', 'url' => pacto_get_seguro_empresa_url( 'do-administradores' ) ),
+            array( 'title' => 'seguro cyber riscos', 'url' => pacto_get_seguro_empresa_url( 'cyber-riscos' ) ),
+            array( 'title' => 'seguro mercadorias transporte', 'url' => pacto_get_seguro_empresa_url( 'mercadorias-transporte' ) ),
+        );
+    }
+
+    return array(
+        array( 'title' => 'seguro automóvel', 'url' => pacto_get_seguro_particular_url( 'automovel' ) ),
+        array( 'title' => 'seguro multirriscos casa', 'url' => pacto_get_seguro_particular_url( 'multirriscos-casa' ) ),
+        array( 'title' => 'seguro multirriscos condomínio', 'url' => pacto_get_seguro_particular_url( 'multirriscos-condominio' ) ),
+        array( 'title' => 'seguro poupança reforma', 'url' => pacto_get_seguro_particular_url( 'poupanca-reforma' ) ),
+        array( 'title' => 'seguro embarcações de recreio', 'url' => pacto_get_seguro_particular_url( 'embarcacoes-recreio' ) ),
+        array( 'title' => 'seguro de vida', 'url' => pacto_get_seguro_particular_url( 'vida' ) ),
+        array( 'title' => 'seguro empregada doméstica', 'url' => pacto_get_seguro_particular_url( 'empregada-domestica' ) ),
+        array( 'title' => 'seguro acidentes pessoais', 'url' => pacto_get_seguro_particular_url( 'acidentes-pessoais' ) ),
+        array( 'title' => 'seguro de saúde', 'url' => pacto_get_seguro_particular_url( 'saude' ) ),
+        array( 'title' => 'seguro para desporto', 'url' => pacto_get_seguro_particular_url( 'desporto' ) ),
+        array( 'title' => 'seguro de viagem', 'url' => pacto_get_seguro_particular_url( 'viagem' ) ),
+        array( 'title' => 'seguro de reposição salarial', 'url' => pacto_get_seguro_particular_url( 'reposicao-salarial' ) ),
+        array( 'title' => 'seguro erasmus', 'url' => pacto_get_seguro_particular_url( 'erasmus' ) ),
+        array( 'title' => 'seguro para animais de estimação', 'url' => pacto_get_seguro_particular_url( 'animais-estimacao' ) ),
+        array( 'title' => 'seguro caçadores e porte de arma', 'url' => pacto_get_seguro_particular_url( 'cacadores-porte-arma' ) ),
+        array( 'title' => 'seguro alojamento local', 'url' => pacto_get_seguro_particular_url( 'alojamento-local' ) ),
+        array( 'title' => 'seguro senhorios', 'url' => pacto_get_seguro_particular_url( 'senhorios' ) ),
+    );
+}
+
+/**
+ * Distribute an array of items across a given number of columns.
+ *
+ * @param array $items     Array of items
+ * @param int   $col_count Number of columns (default 4)
+ * @return array Array of columns, each containing an array of items
+ */
+function pacto_distribute_mega_menu_columns( $items, $col_count = 4 ) {
+    $columns = array_fill( 0, $col_count, array() );
+    if ( empty( $items ) || ! is_array( $items ) ) {
+        return $columns;
+    }
+
+    $total   = count( $items );
+    $per_col = (int) ceil( $total / $col_count );
+    if ( $per_col < 1 ) {
+        $per_col = 1;
+    }
+
+    $chunks = array_chunk( $items, $per_col );
+    for ( $i = 0; $i < $col_count; $i++ ) {
+        $columns[ $i ] = isset( $chunks[ $i ] ) ? $chunks[ $i ] : array();
+    }
+
+    return $columns;
 }
 
 /**

@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         $is_particulares   = is_page_template( 'page-particulares.php' ) || is_page( array( 'particulares', 'seguros-particulares' ) ) || is_singular( 'seguro_particular' );
 
                         $url_empresas      = pacto_get_nav_url( 'empresas', 'page-empresas.php', '#empresas' );
-                        $is_empresas       = is_page( 'empresas' );
+                        $is_empresas       = is_page_template( 'page-empresas.php' ) || is_page( array( 'empresas', 'seguros-empresas' ) ) || is_singular( 'seguro_empresa' );
 
                         $url_sinistros     = pacto_get_nav_url( 'sinistro', 'page-sinistro.php' );
                         $is_sinistros      = is_page_template( 'page-sinistro.php' ) || is_page( array( 'sinistro', 'sinistros', 'em-caso-de-sinistro' ) );
@@ -75,10 +75,23 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </li>
                             <li class="site-header__nav-item site-header__nav-item--mega <?php echo $is_particulares ? 'current-menu-item' : ''; ?>" data-mega-id="mega-menu-particulares">
                                 <a href="<?php echo esc_url( $url_particulares ); ?>" class="mega-menu-trigger" aria-haspopup="true" aria-expanded="false"><?php esc_html_e( 'particulares', 'pacto-25' ); ?></a>
-                                <?php get_template_part( 'template-parts/header', 'mega-menu' ); ?>
+                                <?php 
+                                get_template_part( 'template-parts/header', 'mega-menu', array(
+                                    'post_type' => 'seguro_particular',
+                                    'eyebrow'   => 'PARTICULARES',
+                                    'id'        => 'mega-menu-particulares',
+                                ) ); 
+                                ?>
                             </li>
-                            <li class="site-header__nav-item <?php echo $is_empresas ? 'current-menu-item' : ''; ?>">
-                                <a href="<?php echo esc_url( $url_empresas ); ?>"><?php esc_html_e( 'empresas', 'pacto-25' ); ?></a>
+                            <li class="site-header__nav-item site-header__nav-item--mega <?php echo $is_empresas ? 'current-menu-item' : ''; ?>" data-mega-id="mega-menu-empresas">
+                                <a href="<?php echo esc_url( $url_empresas ); ?>" class="mega-menu-trigger" aria-haspopup="true" aria-expanded="false"><?php esc_html_e( 'empresas', 'pacto-25' ); ?></a>
+                                <?php 
+                                get_template_part( 'template-parts/header', 'mega-menu', array(
+                                    'post_type' => 'seguro_empresa',
+                                    'eyebrow'   => 'EMPRESAS',
+                                    'id'        => 'mega-menu-empresas',
+                                ) ); 
+                                ?>
                             </li>
                             <li class="site-header__nav-item <?php echo $is_sinistros ? 'current-menu-item' : ''; ?>">
                                 <a href="<?php echo esc_url( $url_sinistros ); ?>"><?php esc_html_e( 'sinistros', 'pacto-25' ); ?></a>
