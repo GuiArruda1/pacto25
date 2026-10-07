@@ -112,8 +112,7 @@ $uid = 'faq-' . wp_unique_id();
                         <div class="faq-collapse" 
                              id="<?php echo esc_attr( $item_id ); ?>" 
                              role="region" 
-                             aria-labelledby="btn-<?php echo esc_attr( $item_id ); ?>" 
-                             hidden>
+                             aria-labelledby="btn-<?php echo esc_attr( $item_id ); ?>">
                             <div class="faq-content">
                                 <p><?php echo nl2br( esc_html( $a ) ); ?></p>
                             </div>

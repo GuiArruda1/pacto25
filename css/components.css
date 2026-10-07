@@ -1536,12 +1536,13 @@
 
 .faq-item {
   border: 1.5px solid #231F20;
-  border-radius: 9999px;
+  border-radius: 28px;
   background-color: #FFFFFF;
-  transition: border-radius 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+  transition: border-radius 0.45s cubic-bezier(0.22, 1, 0.36, 1),
               border-color 0.25s ease,
-              box-shadow 0.25s ease;
+              box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   overflow: hidden;
+  will-change: border-radius, box-shadow;
 }
 
 .faq-item:hover {
@@ -1549,9 +1550,9 @@
 }
 
 .faq-item.is-open {
-  border-radius: 24px;
+  border-radius: 22px;
   border-color: #231F20;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 .faq-trigger {
@@ -1567,10 +1568,10 @@
   text-align: left;
   font-family: var(--font-heading);
   font-size: clamp(0.875rem, 0.98vw, 1.05rem);
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.35;
   color: #231F20;
-  transition: color 0.2s ease;
+  transition: color 0.25s ease;
   outline: none;
 }
 
@@ -1595,7 +1596,8 @@
   height: 26px;
   flex-shrink: 0;
   color: #231F20;
-  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s ease;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
+  transform-origin: center center;
 }
 
 .faq-icon svg {
@@ -1618,27 +1620,33 @@
 .faq-collapse {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.faq-collapse[hidden] {
-  display: none;
-}
-
-.faq-collapse:not([hidden]) {
-  display: grid;
+  transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  visibility: hidden;
 }
 
 .faq-item.is-open .faq-collapse {
   grid-template-rows: 1fr;
+  visibility: visible;
 }
 
 .faq-collapse > div {
   overflow: hidden;
+  min-height: 0;
 }
 
 .faq-content {
   padding: 0 28px 22px 28px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.35s ease,
+              transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-item.is-open .faq-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.04s;
 }
 
 .faq-content p {

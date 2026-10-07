@@ -660,36 +660,29 @@ function initFaqAccordion() {
       const collapse = item.querySelector('.faq-collapse');
       if (!trigger || !collapse) return;
 
+      // Ensure hidden attribute is stripped so CSS grid/visibility transition handles smooth open & close
+      collapse.removeAttribute('hidden');
+
       trigger.addEventListener('click', (e) => {
         e.preventDefault();
         const isOpen = item.classList.contains('is-open');
 
+        // Close other open siblings
+        items.forEach((otherItem) => {
+          if (otherItem !== item && otherItem.classList.contains('is-open')) {
+            otherItem.classList.remove('is-open');
+            const otherTrigger = otherItem.querySelector('.faq-trigger');
+            if (otherTrigger) {
+              otherTrigger.setAttribute('aria-expanded', 'false');
+            }
+          }
+        });
+
+        // Toggle current item
         if (isOpen) {
           item.classList.remove('is-open');
           trigger.setAttribute('aria-expanded', 'false');
-          setTimeout(() => {
-            if (!item.classList.contains('is-open')) {
-              collapse.setAttribute('hidden', '');
-            }
-          }, 350);
         } else {
-          // Close sibling items for clean accordion UX
-          items.forEach((sibling) => {
-            if (sibling !== item && sibling.classList.contains('is-open')) {
-              sibling.classList.remove('is-open');
-              const sTrigger = sibling.querySelector('.faq-trigger');
-              const sCollapse = sibling.querySelector('.faq-collapse');
-              if (sTrigger) sTrigger.setAttribute('aria-expanded', 'false');
-              setTimeout(() => {
-                if (!sibling.classList.contains('is-open') && sCollapse) {
-                  sCollapse.setAttribute('hidden', '');
-                }
-              }, 350);
-            }
-          });
-
-          collapse.removeAttribute('hidden');
-          void collapse.offsetHeight; // Force reflow
           item.classList.add('is-open');
           trigger.setAttribute('aria-expanded', 'true');
         }
