@@ -13,48 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-/**
- * Register Meta Box strictly on the Front Page (Never on Landing Page or internal pages)
- */
-function pacto_register_hero_slider_meta() {
-    $current_id    = isset( $_GET['post'] ) ? (int) $_GET['post'] : ( isset( $_POST['post_ID'] ) ? (int) $_POST['post_ID'] : 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    $front_page_id = (int) get_option( 'page_on_front' );
-
-    // Check template if editing existing post
-    if ( $current_id ) {
-        $template = get_page_template_slug( $current_id );
-
-        // Strictly exclude Landing Page and other specific subpage templates
-        if ( 'page-landing.php' === $template || ( ! empty( $template ) && 'front-page.php' !== $template && 'default' !== $template ) ) {
-            return;
-        }
-
-        // If a static front page is designated in Settings -> Reading, only show on that specific page
-        if ( $front_page_id && $current_id !== $front_page_id ) {
-            return;
-        }
-
-        // If no static front page is designated, only allow if template is front-page.php or default home
-        if ( ! $front_page_id && 'front-page.php' !== $template && '' !== $template && 'default' !== $template ) {
-            return;
-        }
-    } else {
-        // If creating a new page and a front page already exists, do not show by default
-        if ( $front_page_id ) {
-            return;
-        }
-    }
-
-    add_meta_box(
-        'pacto_hero_slider_meta',
-        __( 'Hero Slider - Slides do Banner Principal', 'pacto-25' ),
-        'pacto_render_hero_slider_meta_box',
-        'page',
-        'normal',
-        'high'
-    );
-}
-add_action( 'add_meta_boxes', 'pacto_register_hero_slider_meta' );
+// Meta box registration is now integrated directly as an ACF Tab in group_pacto_homepage
 
 /**
  * Enqueue Media Scripts and Styles for the Meta Box
@@ -113,7 +72,7 @@ function pacto_hero_slider_admin_scripts( $hook ) {
 add_action( 'admin_enqueue_scripts', 'pacto_hero_slider_admin_scripts' );
 
 /**
- * Retrieve Slides with Graceful Fallback
+ * Retrieve Slides with Graceful Fallback (from ACF Repeater hero_slides or post meta)
  *
  * @param int $post_id
  * @return array
@@ -123,13 +82,51 @@ function pacto_get_hero_slides( $post_id = 0 ) {
         $post_id = get_the_ID() ?: (int) get_option( 'page_on_front' ) ?: get_queried_object_id();
     }
 
+    // 1. Try ACF Repeater field from the homepage ACF Tab
+    $acf_slides = pacto_get_field( 'hero_slides', $post_id );
+    if ( ! empty( $acf_slides ) && is_array( $acf_slides ) && count( $acf_slides ) > 0 ) {
+        $clean_slides = array();
+        foreach ( $acf_slides as $s ) {
+            $img     = $s['image'] ?? null;
+            $img_id  = 0;
+            $img_url = '';
+            if ( is_array( $img ) && ! empty( $img['ID'] ) ) {
+                $img_id  = (int) $img['ID'];
+                $img_url = $img['url'] ?? '';
+            } elseif ( is_numeric( $img ) && (int) $img > 0 ) {
+                $img_id  = (int) $img;
+                $url     = wp_get_attachment_url( $img_id );
+                if ( $url ) {
+                    $img_url = $url;
+                }
+            } elseif ( is_string( $img ) && ! empty( $img ) ) {
+                $img_url = $img;
+            }
+
+            $clean_slides[] = array(
+                'eyebrow'     => $s['eyebrow'] ?? '',
+                'title'       => $s['title'] ?? '',
+                'description' => $s['description'] ?? '',
+                'btn_text'    => $s['btn_text'] ?? '',
+                'btn_url'     => $s['btn_url'] ?? '#',
+                'image_id'    => $img_id,
+                'image_url'   => $img_url,
+            );
+        }
+
+        if ( ! empty( $clean_slides ) ) {
+            return $clean_slides;
+        }
+    }
+
+    // 2. Fallback to post meta if present
     $slides = $post_id ? get_post_meta( $post_id, 'pacto_hero_slides', true ) : array();
 
     if ( ! empty( $slides ) && is_array( $slides ) && count( $slides ) > 0 ) {
         return $slides;
     }
 
-    // Default fallback slides if none have been saved yet
+    // 3. Default fallback slides if none have been saved yet
     return array(
         array(
             'eyebrow'     => 'SEGURAMENTE CONSIGO',
