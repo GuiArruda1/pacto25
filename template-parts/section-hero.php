@@ -31,16 +31,29 @@ $slide_count = count($slides);
                 $theme_doctor_path = get_template_directory() . '/assets/images/home-hero-doctor.png';
                 $fixed_doctor_img = $theme_doctor_img . ( file_exists( $theme_doctor_path ) ? '?v=' . filemtime( $theme_doctor_path ) : '' );
 
-                $is_doctor_slide = ( 0 === $i ) || ( ! empty( $image_url ) && false !== strpos( $image_url, 'Group-7-1' ) );
-                if ( ! $is_doctor_slide && $image_id > 0 ) {
-                    $att_url = wp_get_attachment_url( $image_id );
-                    if ( $att_url && false !== strpos( $att_url, 'Group-7-1' ) ) {
-                        $is_doctor_slide = true;
-                    }
-                }
+                $default_fallbacks = array(
+                    0 => $fixed_doctor_img,
+                    1 => get_template_directory_uri() . '/assets/images/sinistro/sinistro-hero-family.png',
+                    2 => get_template_directory_uri() . '/assets/images/protocolos-doctor.png',
+                );
+                $default_img = isset($default_fallbacks[$i]) ? $default_fallbacks[$i] : $fixed_doctor_img;
 
-                $default_img = $fixed_doctor_img;
-                $img_source = $is_doctor_slide ? $fixed_doctor_img : ( $image_id > 0 ? $image_id : ( ! empty( $image_url ) ? $image_url : $default_img ) );
+                if ($image_id > 0) {
+                    $att_url = wp_get_attachment_url($image_id);
+                    if ($att_url && false !== strpos($att_url, 'Group-7-1')) {
+                        $img_source = $fixed_doctor_img;
+                    } else {
+                        $img_source = $image_id;
+                    }
+                } elseif (!empty($image_url)) {
+                    if (false !== strpos($image_url, 'Group-7-1')) {
+                        $img_source = $fixed_doctor_img;
+                    } else {
+                        $img_source = $image_url;
+                    }
+                } else {
+                    $img_source = $default_img;
+                }
                 ?>
                 <div class="hero-slide <?php echo $is_first ? 'is-active' : ''; ?>"
                     data-slide-index="<?php echo esc_attr($i); ?>"
