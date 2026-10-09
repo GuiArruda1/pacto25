@@ -73,59 +73,6 @@ function pacto_25_register_acf_fields() {
                 'default_value' => '',
             ),
 
-            // --- TAB: HERO ---
-            array(
-                'key' => 'field_tab_hero',
-                'label' => __( 'Hero Principal', 'pacto-25' ),
-                'type' => 'tab',
-            ),
-            array(
-                'key' => 'field_hero_eyebrow',
-                'label' => __( 'Eyebrow / Pré-título', 'pacto-25' ),
-                'name' => 'hero_eyebrow',
-                'type' => 'text',
-                'default_value' => 'SEGURAMENTE CONSIGO',
-            ),
-            array(
-                'key' => 'field_hero_title',
-                'label' => __( 'Título Principal (H1)', 'pacto-25' ),
-                'name' => 'hero_title',
-                'type' => 'text',
-                'default_value' => 'Pacto Seguro 25 anos ao seu Lado',
-            ),
-            array(
-                'key' => 'field_hero_description',
-                'label' => __( 'Texto Descritivo', 'pacto-25' ),
-                'name' => 'hero_description',
-                'type' => 'textarea',
-                'rows' => 3,
-                'default_value' => 'Construímos relações duradouras porque acreditamos que um seguro é muito mais do que uma apólice. É confiança quando mais precisa',
-            ),
-            array(
-                'key' => 'field_hero_btn_text',
-                'label' => __( 'Texto do Botão', 'pacto-25' ),
-                'instructions' => __( 'Opcional. Se deixar vazio, o botão não será exibido no banner.', 'pacto-25' ),
-                'name' => 'hero_btn_text',
-                'type' => 'text',
-                'default_value' => '',
-            ),
-            array(
-                'key' => 'field_hero_btn_url',
-                'label' => __( 'Link do Botão', 'pacto-25' ),
-                'instructions' => __( 'Link de destino do botão.', 'pacto-25' ),
-                'name' => 'hero_btn_url',
-                'type' => 'text',
-                'default_value' => '#',
-            ),
-            array(
-                'key' => 'field_hero_image',
-                'label' => __( 'Imagem do Hero (Corte Circular)', 'pacto-25' ),
-                'name' => 'hero_image',
-                'type' => 'image',
-                'return_format' => 'array',
-                'preview_size' => 'medium',
-            ),
-
             // --- TAB: SOBRE NÓS ---
             array(
                 'key' => 'field_tab_about',
