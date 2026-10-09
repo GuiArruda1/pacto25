@@ -535,3 +535,45 @@ function pacto_clean_eyebrow( $text ) {
     return preg_replace( '/^[•·\s*]+/', '', trim( $text ) );
 }
 
+/**
+ * Formats and resolves any URL, relative path, bare slug, anchor, or protocol into a valid, safe URL.
+ * Supports:
+ * - Full URLs: 'https://example.com/page', 'http://...'
+ * - Relative paths: '/particulares/', '/quem-somos/'
+ * - Bare slugs: 'particulares', 'quem-somos', 'empresas', 'contactos' -> home_url('/particulares/')
+ * - Anchors: '#sobre', '#simulacao'
+ * - Protocols: 'tel:+351212946630', 'mailto:info@pactoseguro.pt'
+ *
+ * @param string $url  Raw input URL, path, or slug
+ * @return string      Resolved, safe URL
+ */
+function pacto_format_url( $url ) {
+    $url = trim( (string) $url );
+    if ( empty( $url ) || '#' === $url ) {
+        return '#';
+    }
+
+    // 1. Anchors (#sobre, #contatos)
+    if ( 0 === strpos( $url, '#' ) ) {
+        return $url;
+    }
+
+    // 2. Protocols: tel:, mailto:, javascript:
+    if ( preg_match( '/^(tel:|mailto:|javascript:)/i', $url ) ) {
+        return $url;
+    }
+
+    // 3. Absolute URLs (http://, https://, //)
+    if ( preg_match( '#^(https?:)?//#i', $url ) ) {
+        return esc_url( $url );
+    }
+
+    // 4. Relative paths starting with '/'
+    if ( 0 === strpos( $url, '/' ) ) {
+        return esc_url( home_url( $url ) );
+    }
+
+    // 5. Bare slugs (e.g. 'particulares', 'quem-somos', 'empresas', 'modelo-seguro')
+    return esc_url( home_url( '/' . ltrim( $url, '/' ) ) );
+}
+

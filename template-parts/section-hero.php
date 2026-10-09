@@ -63,7 +63,7 @@ $slide_count = count($slides);
 
                             <?php if (!empty($btn_text)): ?>
                                 <div style="margin-top: var(--space-md);">
-                                    <a href="<?php echo esc_url($btn_url ?: '#'); ?>" class="btn btn--dark">
+                                    <a href="<?php echo esc_url(pacto_format_url($btn_url)); ?>" class="btn btn--dark">
                                         <span><?php echo esc_html($btn_text); ?></span>
                                     </a>
                                 </div>

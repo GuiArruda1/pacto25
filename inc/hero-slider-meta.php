@@ -472,8 +472,8 @@ function pacto_render_single_slide_row( $index, $slide ) {
                         <input type="text" name="pacto_hero_slides[<?php echo esc_attr( $index ); ?>][btn_text]" value="<?php echo esc_attr( $btn_text ); ?>" placeholder="conheça a nossa história" />
                     </div>
                     <div class="pacto-field-group">
-                        <label><?php esc_html_e( 'Link do Botão', 'pacto-25' ); ?></label>
-                        <input type="text" name="pacto_hero_slides[<?php echo esc_attr( $index ); ?>][btn_url]" value="<?php echo esc_attr( $btn_url ); ?>" placeholder="#sobre" />
+                        <label><?php esc_html_e( 'Link do Botão (Slug, URL Relativa ou Completa)', 'pacto-25' ); ?></label>
+                        <input type="text" name="pacto_hero_slides[<?php echo esc_attr( $index ); ?>][btn_url]" value="<?php echo esc_attr( $btn_url ); ?>" placeholder="ex: particulares ou /particulares/ ou #sobre ou https://..." />
                     </div>
                 </div>
             </div>
@@ -547,7 +547,7 @@ function pacto_save_hero_slides_meta( $post_id ) {
             'title'       => sanitize_text_field( $slide['title'] ?? '' ),
             'description' => sanitize_textarea_field( $slide['description'] ?? '' ),
             'btn_text'    => sanitize_text_field( $slide['btn_text'] ?? '' ),
-            'btn_url'     => esc_url_raw( $slide['btn_url'] ?? '#' ),
+            'btn_url'     => sanitize_text_field( trim( $slide['btn_url'] ?? '#' ) ),
             'image_id'    => isset( $slide['image_id'] ) ? (int) $slide['image_id'] : 0,
             'image_url'   => esc_url_raw( $slide['image_url'] ?? '' ),
         );
