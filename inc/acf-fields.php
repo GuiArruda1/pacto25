@@ -65,64 +65,542 @@ function pacto_25_register_acf_fields() {
                 'type' => 'text',
                 'default_value' => '',
             ),
+            array(
+                'key' => 'field_header_cta_url',
+                'label' => __( 'Link do Botão Alternativo', 'pacto-25' ),
+                'name' => 'header_cta_url',
+                'type' => 'text',
+                'default_value' => '',
+            ),
+
             // --- TAB: HERO SLIDER (BANNER PRINCIPAL) ---
             array(
                 'key' => 'field_tab_hero_slider',
                 'label' => __( 'Hero Slider (Banner Principal)', 'pacto-25' ),
                 'type' => 'tab',
             ),
+
+            // SLIDE 1
             array(
-                'key' => 'field_hero_slides',
-                'label' => __( 'Slides do Banner Principal', 'pacto-25' ),
-                'name' => 'hero_slides',
-                'type' => 'repeater',
-                'layout' => 'block',
-                'button_label' => __( 'Adicionar Novo Slide', 'pacto-25' ),
-                'sub_fields' => array(
+                'key' => 'field_hero_slide_1_heading',
+                'label' => __( '📍 Slide 1 (Destaque Principal)', 'pacto-25' ),
+                'name' => '',
+                'type' => 'message',
+                'message' => '<p style="font-weight:600; color:#D42E12; font-size:14px; margin:0 0 6px 0;">Configuração do 1º Slide (Slide Principal)</p>',
+                'new_lines' => 'wpautop',
+                'esc_html' => 0,
+            ),
+            array(
+                'key' => 'field_hero_slide_1_eyebrow',
+                'label' => __( 'Slide 1 - Eyebrow / Pré-título', 'pacto-25' ),
+                'name' => 'hero_slide_1_eyebrow',
+                'type' => 'text',
+                'default_value' => 'SEGURAMENTE CONSIGO',
+            ),
+            array(
+                'key' => 'field_hero_slide_1_title',
+                'label' => __( 'Slide 1 - Título Principal (H1)', 'pacto-25' ),
+                'name' => 'hero_slide_1_title',
+                'type' => 'text',
+                'default_value' => 'Pacto Seguro 25 anos ao seu Lado',
+            ),
+            array(
+                'key' => 'field_hero_slide_1_description',
+                'label' => __( 'Slide 1 - Texto Descritivo', 'pacto-25' ),
+                'name' => 'hero_slide_1_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Construímos relações duradouras porque acreditamos que um seguro é muito mais do que uma apólice. É confiança quando mais precisa',
+            ),
+            array(
+                'key' => 'field_hero_slide_1_btn_text',
+                'label' => __( 'Slide 1 - Texto do Botão (Opcional)', 'pacto-25' ),
+                'name' => 'hero_slide_1_btn_text',
+                'type' => 'text',
+                'default_value' => 'conheça a nossa história',
+            ),
+            array(
+                'key' => 'field_hero_slide_1_btn_url',
+                'label' => __( 'Slide 1 - Link do Botão (Slug, URL Relativa ou Completa)', 'pacto-25' ),
+                'instructions' => __( 'Ex: /particulares/ ou particulares ou #sobre ou https://...', 'pacto-25' ),
+                'name' => 'hero_slide_1_btn_url',
+                'type' => 'text',
+                'default_value' => '#sobre',
+            ),
+            array(
+                'key' => 'field_hero_slide_1_image',
+                'label' => __( 'Slide 1 - Imagem do Slide (Corte Circular)', 'pacto-25' ),
+                'instructions' => __( 'Faça upload de uma imagem personalizada para o 1º slide (ou deixe vazio para usar a ilustração padrão).', 'pacto-25' ),
+                'name' => 'hero_slide_1_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+            ),
+
+            // SLIDE 2
+            array(
+                'key' => 'field_hero_slide_2_heading',
+                'label' => __( '📍 Slide 2', 'pacto-25' ),
+                'name' => '',
+                'type' => 'message',
+                'message' => '<p style="font-weight:600; color:#1d2327; font-size:14px; margin:0 0 6px 0;">Configuração do 2º Slide</p>',
+                'new_lines' => 'wpautop',
+                'esc_html' => 0,
+            ),
+            array(
+                'key' => 'field_hero_slide_2_active',
+                'label' => __( 'Ativar Slide 2?', 'pacto-25' ),
+                'name' => 'hero_slide_2_active',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+            ),
+            array(
+                'key' => 'field_hero_slide_2_eyebrow',
+                'label' => __( 'Slide 2 - Eyebrow / Pré-título', 'pacto-25' ),
+                'name' => 'hero_slide_2_eyebrow',
+                'type' => 'text',
+                'default_value' => 'PROTEÇÃO COMPLETA',
+                'conditional_logic' => array(
                     array(
-                        'key' => 'field_hero_slide_eyebrow',
-                        'label' => __( 'Eyebrow / Pré-título', 'pacto-25' ),
-                        'name' => 'eyebrow',
-                        'type' => 'text',
-                        'default_value' => 'SEGURAMENTE CONSIGO',
+                        array(
+                            'field' => 'field_hero_slide_2_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
                     ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_2_title',
+                'label' => __( 'Slide 2 - Título Principal', 'pacto-25' ),
+                'name' => 'hero_slide_2_title',
+                'type' => 'text',
+                'default_value' => 'Soluções pensadas para a sua Família',
+                'conditional_logic' => array(
                     array(
-                        'key' => 'field_hero_slide_title',
-                        'label' => __( 'Título Principal (H1)', 'pacto-25' ),
-                        'name' => 'title',
-                        'type' => 'text',
-                        'default_value' => 'Pacto Seguro 25 anos ao seu Lado',
+                        array(
+                            'field' => 'field_hero_slide_2_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
                     ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_2_description',
+                'label' => __( 'Slide 2 - Texto Descritivo', 'pacto-25' ),
+                'name' => 'hero_slide_2_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Garantimos a segurança e o bem-estar de quem mais ama com planos flexíveis de saúde, vida e habitação adaptados ao seu dia a dia.',
+                'conditional_logic' => array(
                     array(
-                        'key' => 'field_hero_slide_description',
-                        'label' => __( 'Texto Descritivo', 'pacto-25' ),
-                        'name' => 'description',
-                        'type' => 'textarea',
-                        'rows' => 3,
-                        'default_value' => 'Construímos relações duradouras porque acreditamos que um seguro é muito mais do que uma apólice. É confiança quando mais precisa',
+                        array(
+                            'field' => 'field_hero_slide_2_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
                     ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_2_btn_text',
+                'label' => __( 'Slide 2 - Texto do Botão (Opcional)', 'pacto-25' ),
+                'name' => 'hero_slide_2_btn_text',
+                'type' => 'text',
+                'default_value' => 'ver soluções particulares',
+                'conditional_logic' => array(
                     array(
-                        'key' => 'field_hero_slide_btn_text',
-                        'label' => __( 'Texto do Botão (Opcional)', 'pacto-25' ),
-                        'name' => 'btn_text',
-                        'type' => 'text',
-                        'default_value' => 'conheça a nossa história',
+                        array(
+                            'field' => 'field_hero_slide_2_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
                     ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_2_btn_url',
+                'label' => __( 'Slide 2 - Link do Botão (Slug, URL Relativa ou Completa)', 'pacto-25' ),
+                'name' => 'hero_slide_2_btn_url',
+                'type' => 'text',
+                'default_value' => '/particulares/',
+                'conditional_logic' => array(
                     array(
-                        'key' => 'field_hero_slide_btn_url',
-                        'label' => __( 'Link do Botão (Slug, URL Relativa ou Completa)', 'pacto-25' ),
-                        'instructions' => __( 'Ex: /particulares/ ou particulares ou #sobre ou https://...', 'pacto-25' ),
-                        'name' => 'btn_url',
-                        'type' => 'text',
-                        'default_value' => '#sobre',
+                        array(
+                            'field' => 'field_hero_slide_2_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
                     ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_2_image',
+                'label' => __( 'Slide 2 - Imagem do Slide (Corte Circular)', 'pacto-25' ),
+                'name' => 'hero_slide_2_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+                'conditional_logic' => array(
                     array(
-                        'key' => 'field_hero_slide_image',
-                        'label' => __( 'Imagem do Slide (Corte Circular)', 'pacto-25' ),
-                        'name' => 'image',
-                        'type' => 'image',
-                        'return_format' => 'array',
-                        'preview_size' => 'medium',
+                        array(
+                            'field' => 'field_hero_slide_2_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+
+            // SLIDE 3
+            array(
+                'key' => 'field_hero_slide_3_heading',
+                'label' => __( '📍 Slide 3', 'pacto-25' ),
+                'name' => '',
+                'type' => 'message',
+                'message' => '<p style="font-weight:600; color:#1d2327; font-size:14px; margin:0 0 6px 0;">Configuração do 3º Slide</p>',
+                'new_lines' => 'wpautop',
+                'esc_html' => 0,
+            ),
+            array(
+                'key' => 'field_hero_slide_3_active',
+                'label' => __( 'Ativar Slide 3?', 'pacto-25' ),
+                'name' => 'hero_slide_3_active',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+            ),
+            array(
+                'key' => 'field_hero_slide_3_eyebrow',
+                'label' => __( 'Slide 3 - Eyebrow / Pré-título', 'pacto-25' ),
+                'name' => 'hero_slide_3_eyebrow',
+                'type' => 'text',
+                'default_value' => 'SEGURANÇA & CONFIANÇA',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_3_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_3_title',
+                'label' => __( 'Slide 3 - Título Principal', 'pacto-25' ),
+                'name' => 'hero_slide_3_title',
+                'type' => 'text',
+                'default_value' => 'Protegemos o Futuro do seu Negócio',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_3_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_3_description',
+                'label' => __( 'Slide 3 - Texto Descritivo', 'pacto-25' ),
+                'name' => 'hero_slide_3_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Parcerias sólidas e consultoria especializada para salvaguardar a sua empresa, equipa e património contra qualquer imprevisto.',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_3_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_3_btn_text',
+                'label' => __( 'Slide 3 - Texto do Botão (Opcional)', 'pacto-25' ),
+                'name' => 'hero_slide_3_btn_text',
+                'type' => 'text',
+                'default_value' => 'ver soluções empresas',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_3_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_3_btn_url',
+                'label' => __( 'Slide 3 - Link do Botão (Slug, URL Relativa ou Completa)', 'pacto-25' ),
+                'name' => 'hero_slide_3_btn_url',
+                'type' => 'text',
+                'default_value' => '/empresas/',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_3_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_3_image',
+                'label' => __( 'Slide 3 - Imagem do Slide (Corte Circular)', 'pacto-25' ),
+                'name' => 'hero_slide_3_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_3_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+
+            // SLIDE 4 (OPCIONAL)
+            array(
+                'key' => 'field_hero_slide_4_heading',
+                'label' => __( '📍 Slide 4 (Opcional)', 'pacto-25' ),
+                'name' => '',
+                'type' => 'message',
+                'message' => '<p style="font-weight:600; color:#1d2327; font-size:14px; margin:0 0 6px 0;">Configuração do 4º Slide (Opcional)</p>',
+                'new_lines' => 'wpautop',
+                'esc_html' => 0,
+            ),
+            array(
+                'key' => 'field_hero_slide_4_active',
+                'label' => __( 'Ativar Slide 4?', 'pacto-25' ),
+                'name' => 'hero_slide_4_active',
+                'type' => 'true_false',
+                'default_value' => 0,
+                'ui' => 1,
+            ),
+            array(
+                'key' => 'field_hero_slide_4_eyebrow',
+                'label' => __( 'Slide 4 - Eyebrow / Pré-título', 'pacto-25' ),
+                'name' => 'hero_slide_4_eyebrow',
+                'type' => 'text',
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_4_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_4_title',
+                'label' => __( 'Slide 4 - Título Principal', 'pacto-25' ),
+                'name' => 'hero_slide_4_title',
+                'type' => 'text',
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_4_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_4_description',
+                'label' => __( 'Slide 4 - Texto Descritivo', 'pacto-25' ),
+                'name' => 'hero_slide_4_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_4_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_4_btn_text',
+                'label' => __( 'Slide 4 - Texto do Botão (Opcional)', 'pacto-25' ),
+                'name' => 'hero_slide_4_btn_text',
+                'type' => 'text',
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_4_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_4_btn_url',
+                'label' => __( 'Slide 4 - Link do Botão (Slug, URL Relativa ou Completa)', 'pacto-25' ),
+                'name' => 'hero_slide_4_btn_url',
+                'type' => 'text',
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_4_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_4_image',
+                'label' => __( 'Slide 4 - Imagem do Slide (Corte Circular)', 'pacto-25' ),
+                'name' => 'hero_slide_4_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_4_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+
+            // SLIDE 5 (OPCIONAL)
+            array(
+                'key' => 'field_hero_slide_5_heading',
+                'label' => __( '📍 Slide 5 (Opcional)', 'pacto-25' ),
+                'name' => '',
+                'type' => 'message',
+                'message' => '<p style="font-weight:600; color:#1d2327; font-size:14px; margin:0 0 6px 0;">Configuração do 5º Slide (Opcional)</p>',
+                'new_lines' => 'wpautop',
+                'esc_html' => 0,
+            ),
+            array(
+                'key' => 'field_hero_slide_5_active',
+                'label' => __( 'Ativar Slide 5?', 'pacto-25' ),
+                'name' => 'hero_slide_5_active',
+                'type' => 'true_false',
+                'default_value' => 0,
+                'ui' => 1,
+            ),
+            array(
+                'key' => 'field_hero_slide_5_eyebrow',
+                'label' => __( 'Slide 5 - Eyebrow / Pré-título', 'pacto-25' ),
+                'name' => 'hero_slide_5_eyebrow',
+                'type' => 'text',
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_5_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_5_title',
+                'label' => __( 'Slide 5 - Título Principal', 'pacto-25' ),
+                'name' => 'hero_slide_5_title',
+                'type' => 'text',
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_5_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_5_description',
+                'label' => __( 'Slide 5 - Texto Descritivo', 'pacto-25' ),
+                'name' => 'hero_slide_5_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_5_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_5_btn_text',
+                'label' => __( 'Slide 5 - Texto do Botão (Opcional)', 'pacto-25' ),
+                'name' => 'hero_slide_5_btn_text',
+                'type' => 'text',
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_5_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_5_btn_url',
+                'label' => __( 'Slide 5 - Link do Botão (Slug, URL Relativa ou Completa)', 'pacto-25' ),
+                'name' => 'hero_slide_5_btn_url',
+                'type' => 'text',
+                'default_value' => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_5_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_hero_slide_5_image',
+                'label' => __( 'Slide 5 - Imagem do Slide (Corte Circular)', 'pacto-25' ),
+                'name' => 'hero_slide_5_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_hero_slide_5_active',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
                     ),
                 ),
             ),
