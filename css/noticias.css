@@ -36,10 +36,10 @@ body.archive .site-header:not(.site-header--scrolled) {
    ========================================================================== */
 .section-noticias-hero {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding-top: calc(84px + clamp(1.5rem, 3.5vw, 3.5rem));
   padding-bottom: clamp(4.5rem, 7vw, 7.5rem);
-  background-color: var(--color-white, #FFFFFF);
+  background-color: transparent;
   z-index: 2;
 }
 
@@ -48,7 +48,8 @@ body.archive .site-header:not(.site-header--scrolled) {
   position: absolute;
   width: clamp(600px, 66.67vw, 960px);
   height: clamp(600px, 66.67vw, 960px);
-  top: clamp(-240px, -24.3vw, -350px);
+  /* Posição elevada (~ -55% a -60% da altura do círculo) */
+  top: clamp(-580px, -35vw, -300px);
   left: calc(50% - clamp(60px, 9vw, 130px));
   border-radius: 50%;
   background-color: var(--color-primary, #D42E12);
@@ -125,7 +126,7 @@ body.archive .site-header:not(.site-header--scrolled) {
 .section-noticias-grid {
   position: relative;
   z-index: 3;
-  background-color: var(--color-white, #FFFFFF);
+  background-color: transparent;
   padding-bottom: clamp(4.5rem, 8vw, 7.5rem);
 }
 
@@ -512,4 +513,3 @@ body.archive .site-header:not(.site-header--scrolled) {
     height: clamp(260px, 65vw, 360px);
   }
 }
-

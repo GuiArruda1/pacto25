@@ -445,26 +445,35 @@ body.page-sinistro,
 
 .sinistro-docs-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px 24px;
+  grid-template-columns: 1fr;
+  gap: 40px 40px;
+  max-width: 492px;
+  margin-top: clamp(1.5rem, 2.5vw, 2.25rem);
+}
+
+@media (min-width: 520px) {
+  .sinistro-docs-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .sinistro-doc-item {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-heading);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: var(--font-body);
   font-size: clamp(0.85rem, 0.9vw, 0.95rem);
-  font-weight: 600;
-  line-height: 1.35;
-  color: #231F20;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-dark, #231F20);
   text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .sinistro-doc-item:hover {
   color: var(--color-primary);
-  transform: translateX(2px);
+  transform: translateY(-3px);
 }
 
 .sinistro-doc-icon {
@@ -476,8 +485,8 @@ body.page-sinistro,
 }
 
 .sinistro-doc-icon svg {
-  width: 22px;
-  height: 22px;
+  width: 32px;
+  height: 32px;
 }
 
 /* Ambient Floating Red Rings Docs */

@@ -1017,9 +1017,10 @@ body.page-modelo-seguro,
 .seguro-docs-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem 2.5rem;
+  gap: 40px 40px;
   width: 100%;
-  margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
+  max-width: 492px;
+  margin-top: clamp(1.5rem, 2.5vw, 2.25rem);
 }
 
 @media (min-width: 520px) {
@@ -1032,7 +1033,7 @@ body.page-modelo-seguro,
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 10px;
   text-decoration: none;
   transition: transform var(--transition-fast);
 }
@@ -1049,15 +1050,15 @@ body.page-modelo-seguro,
 }
 
 .seguro-doc-card__icon svg {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   color: var(--color-primary);
 }
 
 .seguro-doc-card__name {
   font-family: var(--font-body);
-  font-size: clamp(0.85rem, 0.95vw, 0.92rem);
-  font-weight: 500;
+  font-size: clamp(0.85rem, 0.9vw, 0.95rem);
+  font-weight: 400;
   color: var(--color-dark, #231F20);
   line-height: 1.4;
   transition: color var(--transition-fast);
