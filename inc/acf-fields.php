@@ -645,6 +645,11 @@ function pacto_25_register_acf_fields() {
                     'operator' => '==',
                     'value' => 'front_page',
                 ),
+                array(
+                    'param' => 'page_template',
+                    'operator' => '!=',
+                    'value' => 'page-landing.php',
+                ),
             ),
         ),
         'menu_order' => 0,

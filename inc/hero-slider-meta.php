@@ -14,15 +14,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register Meta Box on Front Page
+ * Register Meta Box strictly on the Front Page (Never on Landing Page or internal pages)
  */
 function pacto_register_hero_slider_meta() {
-    $front_page_id = (int) get_option( 'page_on_front' );
     $current_id    = isset( $_GET['post'] ) ? (int) $_GET['post'] : ( isset( $_POST['post_ID'] ) ? (int) $_POST['post_ID'] : 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    $front_page_id = (int) get_option( 'page_on_front' );
 
-    // Only register on the designated Front Page
-    if ( $front_page_id && $current_id && $current_id !== $front_page_id ) {
-        return;
+    // Check template if editing existing post
+    if ( $current_id ) {
+        $template = get_page_template_slug( $current_id );
+
+        // Strictly exclude Landing Page and other specific subpage templates
+        if ( 'page-landing.php' === $template || ( ! empty( $template ) && 'front-page.php' !== $template && 'default' !== $template ) ) {
+            return;
+        }
+
+        // If a static front page is designated in Settings -> Reading, only show on that specific page
+        if ( $front_page_id && $current_id !== $front_page_id ) {
+            return;
+        }
+
+        // If no static front page is designated, only allow if template is front-page.php or default home
+        if ( ! $front_page_id && 'front-page.php' !== $template && '' !== $template && 'default' !== $template ) {
+            return;
+        }
+    } else {
+        // If creating a new page and a front page already exists, do not show by default
+        if ( $front_page_id ) {
+            return;
+        }
     }
 
     add_meta_box(
@@ -46,13 +66,49 @@ function pacto_hero_slider_admin_scripts( $hook ) {
 
     $front_page_id = (int) get_option( 'page_on_front' );
     $current_id    = isset( $_GET['post'] ) ? (int) $_GET['post'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    $template      = $current_id ? get_page_template_slug( $current_id ) : '';
 
-    if ( $front_page_id && $current_id !== $front_page_id ) {
+    // Do not load on Landing Page template
+    if ( 'page-landing.php' === $template ) {
+        return;
+    }
+
+    if ( $front_page_id && $current_id && $current_id !== $front_page_id ) {
         return;
     }
 
     wp_enqueue_media();
     wp_enqueue_script( 'jquery-ui-sortable' );
+
+    // Inline script to dynamically hide meta box if template is switched to Landing Page in editor
+    wp_add_inline_script(
+        'jquery',
+        "(function($){
+            function handleTemplateChange(){
+                var t = $('#page_template').val();
+                if(!t && window.wp && wp.data && wp.data.select){
+                    var ed = wp.data.select('core/editor');
+                    if(ed && ed.getEditedPostAttribute){
+                        t = ed.getEditedPostAttribute('template');
+                    }
+                }
+                if(t === 'page-landing.php'){
+                    $('#pacto_hero_slider_meta').hide();
+                } else if($('#page_template').length || (window.wp && wp.data)) {
+                    $('#pacto_hero_slider_meta').show();
+                }
+            }
+            $(document).ready(function(){
+                handleTemplateChange();
+                $('#page_template').on('change', handleTemplateChange);
+                if(window.wp && wp.data && wp.data.subscribe){
+                    wp.data.subscribe(function(){
+                        handleTemplateChange();
+                    });
+                }
+            });
+        })(jQuery);"
+    );
 }
 add_action( 'admin_enqueue_scripts', 'pacto_hero_slider_admin_scripts' );
 
