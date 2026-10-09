@@ -4,9 +4,8 @@
  * Theme: Pacto 25
  * 
  * Strict Agency Standard:
- * - Seamless ACF Repeater integration in Homepage edit screen
- * - Automatic pre-population & legacy migration of hero slides
- * - Graceful fallback to default slides if empty
+ * - Native ACF Free & PRO compatible slide fields in Homepage Tab
+ * - Reads discrete slide fields (Slide 1 to 5) with full fallback support
  * - Zero static hardcoded strings, full sanitization & escaping
  */
 
@@ -52,7 +51,7 @@ function pacto_get_default_hero_slides() {
 }
 
 /**
- * Retrieve Slides with Graceful Fallback (from ACF Repeater hero_slides or post meta or defaults)
+ * Retrieve Slides with Graceful Fallback (from discrete ACF fields hero_slide_1..5, or legacy meta, or defaults)
  *
  * @param int $post_id
  * @return array
@@ -62,170 +61,79 @@ function pacto_get_hero_slides( $post_id = 0 ) {
         $post_id = get_the_ID() ?: (int) get_option( 'page_on_front' ) ?: get_queried_object_id();
     }
 
-    // 1. Try ACF Repeater field from the homepage ACF Tab
-    $acf_slides = pacto_get_field( 'hero_slides', $post_id );
-    if ( ! empty( $acf_slides ) && is_array( $acf_slides ) && count( $acf_slides ) > 0 ) {
-        $clean_slides = array();
-        foreach ( $acf_slides as $index => $s ) {
-            $eyebrow     = $s['eyebrow'] ?? $s['field_hero_slide_eyebrow'] ?? '';
-            $title       = $s['title'] ?? $s['field_hero_slide_title'] ?? '';
-            $description = $s['description'] ?? $s['field_hero_slide_description'] ?? '';
-            $btn_text    = $s['btn_text'] ?? $s['field_hero_slide_btn_text'] ?? '';
-            $btn_url     = $s['btn_url'] ?? $s['field_hero_slide_btn_url'] ?? '#';
+    $default_slides = pacto_get_default_hero_slides();
+    $collected_slides = array();
 
-            $img     = $s['image'] ?? $s['field_hero_slide_image'] ?? null;
-            $img_id  = 0;
-            $img_url = '';
-
-            if ( is_array( $img ) && ! empty( $img['ID'] ) ) {
-                $img_id  = (int) $img['ID'];
-                $img_url = $img['url'] ?? '';
-            } elseif ( is_numeric( $img ) && (int) $img > 0 ) {
-                $img_id  = (int) $img;
-                $url     = wp_get_attachment_url( $img_id );
-                if ( $url ) {
-                    $img_url = $url;
-                }
-            } elseif ( is_string( $img ) && ! empty( $img ) ) {
-                $img_url = $img;
-            }
-
-            // Fallback default image URLs per slide index if none provided
-            if ( empty( $img_id ) && empty( $img_url ) ) {
-                $defaults = pacto_get_default_hero_slides();
-                if ( isset( $defaults[ $index ]['image_url'] ) ) {
-                    $img_url = $defaults[ $index ]['image_url'];
-                }
-            }
-
-            $clean_slides[] = array(
-                'eyebrow'     => $eyebrow,
-                'title'       => $title,
-                'description' => $description,
-                'btn_text'    => $btn_text,
-                'btn_url'     => $btn_url,
-                'image_id'    => $img_id,
-                'image_url'   => $img_url,
-            );
+    // 1. Read discrete slide fields (Slide 1 to 5)
+    for ( $i = 1; $i <= 5; $i++ ) {
+        $is_active = ( 1 === $i ) ? true : (bool) pacto_get_field( "hero_slide_{$i}_active", $post_id, ( $i <= 3 ? 1 : 0 ) );
+        
+        if ( ! $is_active ) {
+            continue;
         }
 
-        if ( ! empty( $clean_slides ) ) {
-            return $clean_slides;
+        $default_idx = $i - 1;
+        $def_eyebrow = isset( $default_slides[ $default_idx ]['eyebrow'] ) ? $default_slides[ $default_idx ]['eyebrow'] : '';
+        $def_title   = isset( $default_slides[ $default_idx ]['title'] ) ? $default_slides[ $default_idx ]['title'] : '';
+        $def_desc    = isset( $default_slides[ $default_idx ]['description'] ) ? $default_slides[ $default_idx ]['description'] : '';
+        $def_btn     = isset( $default_slides[ $default_idx ]['btn_text'] ) ? $default_slides[ $default_idx ]['btn_text'] : '';
+        $def_url     = isset( $default_slides[ $default_idx ]['btn_url'] ) ? $default_slides[ $default_idx ]['btn_url'] : '#';
+        $def_img_url = isset( $default_slides[ $default_idx ]['image_url'] ) ? $default_slides[ $default_idx ]['image_url'] : '';
+
+        $title = pacto_get_field( "hero_slide_{$i}_title", $post_id, $def_title );
+        
+        // If title is empty for optional slides (4, 5), skip
+        if ( empty( $title ) && $i > 3 ) {
+            continue;
         }
+
+        $eyebrow     = pacto_get_field( "hero_slide_{$i}_eyebrow", $post_id, $def_eyebrow );
+        $description = pacto_get_field( "hero_slide_{$i}_description", $post_id, $def_desc );
+        $btn_text    = pacto_get_field( "hero_slide_{$i}_btn_text", $post_id, $def_btn );
+        $btn_url     = pacto_get_field( "hero_slide_{$i}_btn_url", $post_id, $def_url );
+        $img         = pacto_get_field( "hero_slide_{$i}_image", $post_id, null );
+
+        $img_id  = 0;
+        $img_url = '';
+
+        if ( is_array( $img ) && ! empty( $img['ID'] ) ) {
+            $img_id  = (int) $img['ID'];
+            $img_url = $img['url'] ?? '';
+        } elseif ( is_numeric( $img ) && (int) $img > 0 ) {
+            $img_id  = (int) $img;
+            $url     = wp_get_attachment_url( $img_id );
+            if ( $url ) {
+                $img_url = $url;
+            }
+        } elseif ( is_string( $img ) && ! empty( $img ) ) {
+            $img_url = $img;
+        }
+
+        if ( empty( $img_id ) && empty( $img_url ) && ! empty( $def_img_url ) ) {
+            $img_url = $def_img_url;
+        }
+
+        $collected_slides[] = array(
+            'eyebrow'     => $eyebrow,
+            'title'       => $title ?: $def_title,
+            'description' => $description,
+            'btn_text'    => $btn_text,
+            'btn_url'     => $btn_url ?: '#',
+            'image_id'    => $img_id,
+            'image_url'   => $img_url,
+        );
+    }
+
+    if ( ! empty( $collected_slides ) ) {
+        return $collected_slides;
     }
 
     // 2. Fallback to legacy post meta if present
     $slides = $post_id ? get_post_meta( $post_id, 'pacto_hero_slides', true ) : array();
-
     if ( ! empty( $slides ) && is_array( $slides ) && count( $slides ) > 0 ) {
         return $slides;
     }
 
-    // 3. Centralized default fallback slides
-    return pacto_get_default_hero_slides();
+    // 3. Fallback defaults
+    return $default_slides;
 }
-
-/**
- * Filter ACF Repeater Value to pre-populate existing or default slides when empty
- *
- * @param mixed $value
- * @param mixed $post_id
- * @param array $field
- * @return array
- */
-function pacto_acf_load_hero_slides_value( $value, $post_id, $field ) {
-    if ( ! empty( $value ) && is_array( $value ) && count( $value ) > 0 ) {
-        return $value;
-    }
-
-    // Check post meta 'pacto_hero_slides' or get default slides
-    $slides = get_post_meta( $post_id, 'pacto_hero_slides', true );
-    if ( empty( $slides ) || ! is_array( $slides ) || count( $slides ) === 0 ) {
-        $slides = pacto_get_default_hero_slides();
-    }
-
-    if ( empty( $slides ) || ! is_array( $slides ) ) {
-        return $value;
-    }
-
-    $rows = array();
-    foreach ( $slides as $s ) {
-        $img = ! empty( $s['image_id'] ) ? (int) $s['image_id'] : 0;
-        if ( ! $img && ! empty( $s['image_url'] ) ) {
-            $att_id = attachment_url_to_postid( $s['image_url'] );
-            if ( $att_id ) {
-                $img = $att_id;
-            }
-        }
-
-        $rows[] = array(
-            'field_hero_slide_eyebrow'     => isset( $s['eyebrow'] ) ? $s['eyebrow'] : '',
-            'eyebrow'                      => isset( $s['eyebrow'] ) ? $s['eyebrow'] : '',
-            'field_hero_slide_title'       => isset( $s['title'] ) ? $s['title'] : '',
-            'title'                        => isset( $s['title'] ) ? $s['title'] : '',
-            'field_hero_slide_description' => isset( $s['description'] ) ? $s['description'] : '',
-            'description'                  => isset( $s['description'] ) ? $s['description'] : '',
-            'field_hero_slide_btn_text'    => isset( $s['btn_text'] ) ? $s['btn_text'] : '',
-            'btn_text'                     => isset( $s['btn_text'] ) ? $s['btn_text'] : '',
-            'field_hero_slide_btn_url'     => isset( $s['btn_url'] ) ? $s['btn_url'] : '#',
-            'btn_url'                      => isset( $s['btn_url'] ) ? $s['btn_url'] : '#',
-            'field_hero_slide_image'       => $img ?: '',
-            'image'                        => $img ?: '',
-        );
-    }
-
-    return $rows;
-}
-add_filter( 'acf/load_value/name=hero_slides', 'pacto_acf_load_hero_slides_value', 10, 3 );
-add_filter( 'acf/load_value/key=field_hero_slides', 'pacto_acf_load_hero_slides_value', 10, 3 );
-
-/**
- * Auto-populate ACF hero_slides on the front page if not yet saved in ACF
- */
-function pacto_auto_populate_acf_hero_slides() {
-    if ( ! function_exists( 'update_field' ) || ! function_exists( 'get_field' ) ) {
-        return;
-    }
-
-    $front_id = (int) get_option( 'page_on_front' );
-    if ( ! $front_id ) {
-        return;
-    }
-
-    // Check if hero_slides already has rows saved in ACF
-    $current_meta = get_post_meta( $front_id, 'hero_slides', true );
-    if ( ! empty( $current_meta ) ) {
-        return;
-    }
-
-    // Check legacy or defaults
-    $legacy = get_post_meta( $front_id, 'pacto_hero_slides', true );
-    $source_slides = ( ! empty( $legacy ) && is_array( $legacy ) && count( $legacy ) > 0 )
-        ? $legacy
-        : pacto_get_default_hero_slides();
-
-    $rows_to_save = array();
-    foreach ( $source_slides as $s ) {
-        $img_id = ! empty( $s['image_id'] ) ? (int) $s['image_id'] : 0;
-        if ( ! $img_id && ! empty( $s['image_url'] ) ) {
-            $att_id = attachment_url_to_postid( $s['image_url'] );
-            if ( $att_id ) {
-                $img_id = $att_id;
-            }
-        }
-
-        $rows_to_save[] = array(
-            'field_hero_slide_eyebrow'     => $s['eyebrow'] ?? '',
-            'field_hero_slide_title'       => $s['title'] ?? '',
-            'field_hero_slide_description' => $s['description'] ?? '',
-            'field_hero_slide_btn_text'    => $s['btn_text'] ?? '',
-            'field_hero_slide_btn_url'     => $s['btn_url'] ?? '#',
-            'field_hero_slide_image'       => $img_id ?: '',
-        );
-    }
-
-    if ( ! empty( $rows_to_save ) ) {
-        update_field( 'field_hero_slides', $rows_to_save, $front_id );
-    }
-}
-add_action( 'admin_init', 'pacto_auto_populate_acf_hero_slides' );
