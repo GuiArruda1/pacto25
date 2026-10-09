@@ -1257,7 +1257,7 @@
 .news-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-family: var(--font-body);
   font-size: clamp(11.5px, 0.75vw, 13px);
   font-weight: 700;
@@ -1267,10 +1267,13 @@
   margin-bottom: var(--space-xs);
 }
 
-.news-eyebrow__prefix {
-  font-weight: 800;
-  font-size: 1.15em;
-  line-height: 1;
+.news-eyebrow__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary, #D42E12);
+  flex-shrink: 0;
 }
 
 .news-title {

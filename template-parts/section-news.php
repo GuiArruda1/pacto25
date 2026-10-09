@@ -65,7 +65,7 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
             <div class="news-content">
                 <?php if ($eyebrow): ?>
                     <div class="news-eyebrow">
-                        <span class="news-eyebrow__prefix" aria-hidden="true">+</span>
+                        <span class="news-eyebrow__dot" aria-hidden="true"></span>
                         <span><?php echo esc_html($eyebrow); ?></span>
                     </div>
                 <?php endif; ?>

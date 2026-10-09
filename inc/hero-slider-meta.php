@@ -113,7 +113,7 @@ function pacto_hero_slider_admin_scripts( $hook ) {
 add_action( 'admin_enqueue_scripts', 'pacto_hero_slider_admin_scripts' );
 
 /**
- * Retrieve Slides with Graceful Fallback
+ * Retrieve Slides with Graceful Fallback (Always synchronized with ACF fields)
  *
  * @param int $post_id
  * @return array
@@ -123,19 +123,53 @@ function pacto_get_hero_slides( $post_id = 0 ) {
         $post_id = get_the_ID() ?: (int) get_option( 'page_on_front' ) ?: get_queried_object_id();
     }
 
+    $acf_eyebrow     = pacto_get_field( 'hero_eyebrow', $post_id );
+    $acf_title       = pacto_get_field( 'hero_title', $post_id );
+    $acf_description = pacto_get_field( 'hero_description', $post_id );
+    $acf_btn_text    = pacto_get_field( 'hero_btn_text', $post_id );
+    $acf_btn_url     = pacto_get_field( 'hero_btn_url', $post_id );
+    $acf_image       = pacto_get_field( 'hero_image', $post_id );
+
     $slides = $post_id ? get_post_meta( $post_id, 'pacto_hero_slides', true ) : array();
 
     if ( ! empty( $slides ) && is_array( $slides ) && count( $slides ) > 0 ) {
+        // Guarantee Slide 1 always reflects ACF changes if populated
+        if ( ! empty( $acf_title ) ) {
+            $slides[0]['title'] = $acf_title;
+        }
+        if ( ! empty( $acf_eyebrow ) ) {
+            $slides[0]['eyebrow'] = $acf_eyebrow;
+        }
+        if ( ! empty( $acf_description ) ) {
+            $slides[0]['description'] = $acf_description;
+        }
+        if ( null !== $acf_btn_text && '' !== $acf_btn_text ) {
+            $slides[0]['btn_text'] = $acf_btn_text;
+        }
+        if ( ! empty( $acf_btn_url ) ) {
+            $slides[0]['btn_url'] = $acf_btn_url;
+        }
+        if ( ! empty( $acf_image ) ) {
+            if ( is_array( $acf_image ) && ! empty( $acf_image['ID'] ) ) {
+                $slides[0]['image_id']  = (int) $acf_image['ID'];
+                $slides[0]['image_url'] = $acf_image['url'];
+            } elseif ( is_numeric( $acf_image ) && (int) $acf_image > 0 ) {
+                $slides[0]['image_id']  = (int) $acf_image;
+                $url                    = wp_get_attachment_url( (int) $acf_image );
+                if ( $url ) {
+                    $slides[0]['image_url'] = $url;
+                }
+            }
+        }
         return $slides;
     }
 
     // Default seed from existing ACF fields or fallback defaults
-    $eyebrow     = pacto_get_field( 'hero_eyebrow', $post_id, 'SEGURAMENTE CONSIGO' );
-    $title       = pacto_get_field( 'hero_title', $post_id, 'Pacto Seguro 25 anos ao seu Lado' );
-    $description = pacto_get_field( 'hero_description', $post_id, 'Construímos relações duradouras porque acreditamos que um seguro é muito mais do que uma apólice. É confiança quando mais precisa' );
-    $btn_text    = pacto_get_field( 'hero_btn_text', $post_id, 'conheça a nossa história' );
-    $btn_url     = pacto_get_field( 'hero_btn_url', $post_id, '#sobre' );
-    $acf_image   = pacto_get_field( 'hero_image', $post_id );
+    $eyebrow     = ! empty( $acf_eyebrow ) ? $acf_eyebrow : 'SEGURAMENTE CONSIGO';
+    $title       = ! empty( $acf_title ) ? $acf_title : 'Pacto Seguro 25 anos ao seu Lado';
+    $description = ! empty( $acf_description ) ? $acf_description : 'Construímos relações duradouras porque acreditamos que um seguro é muito mais do que uma apólice. É confiança quando mais precisa';
+    $btn_text    = ( null !== $acf_btn_text && '' !== $acf_btn_text ) ? $acf_btn_text : 'conheça a nossa história';
+    $btn_url     = ! empty( $acf_btn_url ) ? $acf_btn_url : '#sobre';
 
     $image_id  = 0;
     $image_url = get_template_directory_uri() . '/assets/images/home-hero-doctor.png';
@@ -576,8 +610,50 @@ function pacto_save_hero_slides_meta( $post_id ) {
 
     if ( ! empty( $clean_slides ) ) {
         update_post_meta( $post_id, 'pacto_hero_slides', $clean_slides );
+        // Also update standard ACF post meta fields with slide 0 for two-way synchronization
+        if ( isset( $clean_slides[0] ) ) {
+            update_post_meta( $post_id, 'hero_title', $clean_slides[0]['title'] );
+            update_post_meta( $post_id, 'hero_eyebrow', $clean_slides[0]['eyebrow'] );
+            update_post_meta( $post_id, 'hero_description', $clean_slides[0]['description'] );
+            update_post_meta( $post_id, 'hero_btn_text', $clean_slides[0]['btn_text'] );
+            update_post_meta( $post_id, 'hero_btn_url', $clean_slides[0]['btn_url'] );
+            if ( ! empty( $clean_slides[0]['image_id'] ) ) {
+                update_post_meta( $post_id, 'hero_image', $clean_slides[0]['image_id'] );
+            }
+        }
     } else {
         delete_post_meta( $post_id, 'pacto_hero_slides' );
     }
 }
 add_action( 'save_post', 'pacto_save_hero_slides_meta' );
+
+/**
+ * Two-way sync: When ACF fields are updated in Admin, sync into Slide 1
+ */
+function pacto_sync_acf_hero_to_slides( $post_id ) {
+    $title = get_post_meta( $post_id, 'hero_title', true );
+    if ( ! empty( $title ) ) {
+        $slides = get_post_meta( $post_id, 'pacto_hero_slides', true );
+        if ( ! empty( $slides ) && is_array( $slides ) ) {
+            $slides[0]['title'] = $title;
+            $eyebrow = get_post_meta( $post_id, 'hero_eyebrow', true );
+            if ( ! empty( $eyebrow ) ) {
+                $slides[0]['eyebrow'] = $eyebrow;
+            }
+            $desc = get_post_meta( $post_id, 'hero_description', true );
+            if ( ! empty( $desc ) ) {
+                $slides[0]['description'] = $desc;
+            }
+            $btn_text = get_post_meta( $post_id, 'hero_btn_text', true );
+            if ( '' !== $btn_text ) {
+                $slides[0]['btn_text'] = $btn_text;
+            }
+            $btn_url = get_post_meta( $post_id, 'hero_btn_url', true );
+            if ( ! empty( $btn_url ) ) {
+                $slides[0]['btn_url'] = $btn_url;
+            }
+            update_post_meta( $post_id, 'pacto_hero_slides', $slides );
+        }
+    }
+}
+add_action( 'acf/save_post', 'pacto_sync_acf_hero_to_slides', 20 );
