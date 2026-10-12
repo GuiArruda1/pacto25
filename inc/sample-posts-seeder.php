@@ -13,76 +13,120 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Seed sample news posts into WordPress if requested by admin.
  */
 function pacto_25_seed_sample_posts() {
-    // Only allow administrators
-    if ( ! current_user_can( 'manage_options' ) ) {
-        return;
+    $should_seed = false;
+
+    // Trigger 1: URL param ?pacto_seed_news=1
+    if ( isset( $_GET['pacto_seed_news'] ) && '1' === $_GET['pacto_seed_news'] ) {
+        $should_seed = true;
     }
 
-    // Check for trigger via query param: /wp-admin/?pacto_seed_news=1
-    if ( ! isset( $_GET['pacto_seed_news'] ) || '1' !== $_GET['pacto_seed_news'] ) {
-        return;
-    }
-
-    $sample_posts = array(
-        array(
-            'title'   => 'Presença de Teresinha Pereira, CEO da Pacto Seguro no MAE Summit',
-            'date'    => '2026-06-25 10:00:00',
-            'excerpt' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
-            'content' => '<p>A CEO da Pacto Seguro, Teresinha Pereira, marcou presença no MAE Summit, destacando a importância da inovação e da proximidade no setor da mediação de seguros.</p><p>Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Durante o evento, foram debatidos os principais desafios da transformação digital e da personalização das soluções de proteção para famílias e empresas.</p><p>Com 25 anos de experiência no mercado segurador, a Pacto Seguro reafirma o seu compromisso contínuo em estar sempre ao lado dos seus clientes, oferecendo aconselhamento transparente e soluções à medida.</p>',
-        ),
-        array(
-            'title'   => 'Pacto Seguro Celebra 25 Anos de Confiança e Proximidade',
-            'date'    => '2026-06-25 09:30:00',
-            'excerpt' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
-            'content' => '<p>Celebrar 25 anos é celebrar milhares de histórias de confiança mútua. A Pacto Seguro agradece a todos os clientes, parceiros e colaboradores que tornaram esta caminhada possível.</p><p>Continuamos focados em oferecer o melhor atendimento personalizado e as coberturas mais completas para o seu dia a dia.</p>',
-        ),
-        array(
-            'title'   => 'Novas Soluções de Seguros para Empresas e PMEs',
-            'date'    => '2026-06-25 08:45:00',
-            'excerpt' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
-            'content' => '<p>Lançamos um conjunto reforçado de soluções de seguros empresariais, desenhadas especificamente para apoiar a continuidade e segurança das empresas portuguesas.</p><p>Consulte a nossa equipa especializada para conhecer todos os detalhes e vantagens.</p>',
-        ),
-        array(
-            'title'   => 'Dicas Essenciais para Escolher o Seguro de Habitação Ideal',
-            'date'    => '2026-06-25 08:00:00',
-            'excerpt' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
-            'content' => '<p>Proteger o seu lar é proteger o seu património mais valioso. Saiba quais as coberturas essenciais e como avaliar corretamente o valor do imóvel e recheio.</p>',
-        ),
-        array(
-            'title'   => 'Guia Rápido: O que Fazer em Caso de Sinistro Automóvel',
-            'date'    => '2026-06-24 16:20:00',
-            'excerpt' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
-            'content' => '<p>Em momentos de imprevisto, a calma e a informação certa fazem toda a diferença. Conheça o passo a passo para preencher a declaração amigável e acionar a sua assistência com rapidez.</p>',
-        ),
-        array(
-            'title'   => 'Inovação e Sustentabilidade no Setor Segurador',
-            'date'    => '2026-06-24 14:10:00',
-            'excerpt' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
-            'content' => '<p>A sustentabilidade é um pilar estratégico para o futuro. Saiba como a Pacto Seguro está a adotar práticas ecológicas e digitais em todos os processos de mediação.</p>',
-        ),
-    );
-
-    // Create posts
-    foreach ( $sample_posts as $post_data ) {
-        // Check if post already exists by title
-        $existing = get_page_by_title( $post_data['title'], OBJECT, 'post' );
-        if ( ! $existing ) {
-            $inserted_id = wp_insert_post( array(
-                'post_title'   => $post_data['title'],
-                'post_content' => $post_data['content'],
-                'post_excerpt' => $post_data['excerpt'],
-                'post_status'  => 'publish',
-                'post_type'    => 'post',
-                'post_date'    => $post_data['date'],
-            ) );
+    // Trigger 2: Auto-seed if published posts count is less than 6 and user can edit posts
+    if ( ! $should_seed && current_user_can( 'edit_posts' ) ) {
+        $counts = wp_count_posts( 'post' );
+        if ( empty( $counts->publish ) || (int) $counts->publish < 6 ) {
+            $should_seed = true;
         }
     }
 
-    // Redirect to posts list with success notice
-    wp_safe_redirect( admin_url( 'edit.php?pacto_seeded=1' ) );
-    exit;
+    if ( ! $should_seed ) {
+        return;
+    }
+
+    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+    // Ensure posts_per_page is set to 6
+    update_option( 'posts_per_page', 6 );
+
+    // 1. Upload or retrieve featured image from assets/news-teresinha-summit.png
+    $image_abs_path = get_template_directory() . '/assets/news-teresinha-summit.png';
+    $attachment_id  = 0;
+
+    if ( file_exists( $image_abs_path ) ) {
+        $filename = 'news-teresinha-summit.png';
+        global $wpdb;
+        $attachment_id = $wpdb->get_var( $wpdb->prepare(
+            "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND guid LIKE %s LIMIT 1",
+            '%' . $wpdb->esc_like( $filename ) . '%'
+        ) );
+
+        if ( ! $attachment_id ) {
+            $file_content = file_get_contents( $image_abs_path );
+            $upload_res   = wp_upload_bits( $filename, null, $file_content );
+
+            if ( empty( $upload_res['error'] ) ) {
+                $wp_filetype   = wp_check_filetype( $filename, null );
+                $attachment    = array(
+                    'post_mime_type' => $wp_filetype['type'],
+                    'post_title'     => 'Presença de Teresinha Pereira, CEO da Pacto Seguro no MAE Summit',
+                    'post_content'   => '',
+                    'post_status'    => 'inherit'
+                );
+                $attachment_id = wp_insert_attachment( $attachment, $upload_res['file'] );
+                $attach_data   = wp_generate_attachment_metadata( $attachment_id, $upload_res['file'] );
+                wp_update_attachment_metadata( $attachment_id, $attach_data );
+            }
+        }
+    }
+
+    $title   = 'Presença de Teresinha Pereira, CEO da Pacto Seguro no MAE Summit';
+    $excerpt = 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.';
+    $content = '<p>A CEO da Pacto Seguro, Teresinha Pereira, marcou presença no MAE Summit, destacando a importância da inovação e da proximidade no setor da mediação de seguros.</p><p>Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Durante o evento, foram debatidos os principais desafios da transformação digital e da personalização das soluções de proteção para famílias e empresas.</p><p>Com 25 anos de experiência no mercado segurador, a Pacto Seguro reafirma o seu compromisso contínuo em estar sempre ao lado dos seus clientes, oferecendo aconselhamento transparente e soluções à medida.</p>';
+
+    // Clean placeholder post titled "Notícias" if it was empty
+    $placeholder = get_page_by_title( 'Notícias', OBJECT, 'post' );
+    if ( $placeholder ) {
+        wp_delete_post( $placeholder->ID, true );
+    }
+
+    // Seed up to 24 posts across 4 pages
+    $existing_count = (int) wp_count_posts( 'post' )->publish;
+    $target_total   = 24;
+
+    for ( $i = $existing_count + 1; $i <= $target_total; $i++ ) {
+        $day  = 25 - floor( ( $i - 1 ) / 6 );
+        $hour = 24 - ( ( $i - 1 ) % 6 );
+        $date = sprintf( '2026-06-%02d %02d:00:00', max( 1, $day ), max( 8, $hour ) );
+
+        $inserted_id = wp_insert_post( array(
+            'post_title'   => $title,
+            'post_content' => $content,
+            'post_excerpt' => $excerpt,
+            'post_status'  => 'publish',
+            'post_type'    => 'post',
+            'post_date'    => $date,
+        ) );
+
+        if ( $inserted_id && ! is_wp_error( $inserted_id ) && $attachment_id ) {
+            set_post_thumbnail( $inserted_id, $attachment_id );
+        }
+    }
+
+    // Also attach image to any posts missing thumbnail
+    $posts_without_thumb = get_posts( array(
+        'post_type'      => 'post',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'meta_query'     => array(
+            array(
+                'key'     => '_thumbnail_id',
+                'compare' => 'NOT EXISTS',
+            ),
+        ),
+    ) );
+    if ( $attachment_id && ! empty( $posts_without_thumb ) ) {
+        foreach ( $posts_without_thumb as $p ) {
+            set_post_thumbnail( $p->ID, $attachment_id );
+        }
+    }
+
+    if ( isset( $_GET['pacto_seed_news'] ) && '1' === $_GET['pacto_seed_news'] && is_admin() ) {
+        wp_safe_redirect( admin_url( 'edit.php?pacto_seeded=1' ) );
+        exit;
+    }
 }
-add_action( 'admin_init', 'pacto_25_seed_sample_posts' );
+add_action( 'init', 'pacto_25_seed_sample_posts' );
 
 /**
  * Seed sample Seguros Empresas into WordPress if requested by admin.

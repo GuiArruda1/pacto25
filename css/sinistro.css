@@ -404,7 +404,6 @@ body.page-sinistro,
   width: clamp(340px, 38vw, 540px);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  border: clamp(16px, 1.8vw, 28px) solid var(--color-primary);
   overflow: hidden;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
   background-color: #f7f7f7;
@@ -527,6 +526,7 @@ body.page-sinistro,
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 991px) {
+
   .sinistro-hero-bubble--1,
   .sinistro-hero-bubble--2,
   .sinistro-hero-bubble--9,
