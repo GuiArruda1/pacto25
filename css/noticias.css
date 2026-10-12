@@ -126,9 +126,9 @@ body.menu-is-open.archive .site-header {
 /* Floating Ambient Red Bubble matching Figma */
 .noticias-hero-bubble {
   position: absolute;
-  top: calc(84px + clamp(18px, 2.5vw, 42px));
-  left: clamp(24%, 28vw, 33%);
-  width: clamp(34px, 3vw, 48px);
+  top: clamp(-65px, -4.5vw, -50px);
+  left: clamp(210px, 21vw, 290px);
+  width: clamp(38px, 2.8vw, 48px);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   background-color: var(--color-primary, #D42E12);
@@ -191,7 +191,7 @@ body.menu-is-open.archive .site-header {
 .noticias-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(36px, 4vw, 56px) clamp(32px, 3.5vw, 52px);
+  gap: clamp(40px, 4.5vw, 64px) clamp(32px, 3.8vw, 56px);
   margin-top: clamp(1.5rem, 3vw, 3.5rem);
 }
 
@@ -207,14 +207,14 @@ body.menu-is-open.archive .site-header {
 .noticia-card {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(18px, 2vw, 28px);
+  gap: clamp(20px, 2.2vw, 32px);
   align-items: start;
   transition: transform var(--transition-fast);
 }
 
 @media (min-width: 576px) {
   .noticia-card {
-    grid-template-columns: clamp(190px, 17vw, 240px) 1fr;
+    grid-template-columns: clamp(210px, 17.5vw, 240px) 1fr;
   }
 }
 
@@ -222,8 +222,8 @@ body.menu-is-open.archive .site-header {
 .noticia-card__media {
   position: relative;
   width: 100%;
-  height: clamp(190px, 16vw, 230px);
-  border-radius: clamp(22px, 2vw, 28px);
+  aspect-ratio: 1 / 1;
+  border-radius: 24px;
   overflow: hidden;
   background-color: var(--color-bg-light, #FBFBFC);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);

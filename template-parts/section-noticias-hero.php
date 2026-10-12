@@ -40,11 +40,11 @@ if ( is_category() ) {
     <!-- Background Top-Right Giant Organic Red Canopy -->
     <div class="noticias-hero-canopy" aria-hidden="true"></div>
 
-    <!-- Floating Ambient Solid Red Dot matching Figma -->
-    <div class="noticias-hero-bubble" aria-hidden="true"></div>
-
     <div class="site-container">
         <div class="noticias-hero-content">
+            <!-- Floating Ambient Solid Red Dot matching Figma -->
+            <div class="noticias-hero-bubble" aria-hidden="true"></div>
+
             <?php if ( $eyebrow ) : ?>
                 <span class="eyebrow noticias-hero-eyebrow"><?php echo esc_html( $eyebrow ); ?></span>
             <?php endif; ?>
