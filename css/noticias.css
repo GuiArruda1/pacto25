@@ -19,22 +19,36 @@ body.single-post,
    ========================================================================== */
 body.page-template-page-noticias .site-header,
 body.page-template-page-noticias-php .site-header,
+body.page-template-home .site-header,
+body.page-template-home-php .site-header,
 body.page-noticias .site-header,
+body[class*="noticia"] .site-header,
 body.blog .site-header,
 body.archive .site-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: none;
-  border-bottom: 1px solid transparent;
   z-index: 1000;
   transition: background-color var(--transition-normal, 0.3s ease),
     box-shadow var(--transition-normal, 0.3s ease),
     border-color var(--transition-normal, 0.3s ease);
+}
+
+/* Default state (NOT scrolled): Transparent */
+body.page-template-page-noticias .site-header:not(.is-scrolled):not(.site-header--scrolled),
+body.page-template-page-noticias-php .site-header:not(.is-scrolled):not(.site-header--scrolled),
+body.page-template-home .site-header:not(.is-scrolled):not(.site-header--scrolled),
+body.page-template-home-php .site-header:not(.is-scrolled):not(.site-header--scrolled),
+body.page-noticias .site-header:not(.is-scrolled):not(.site-header--scrolled),
+body[class*="noticia"] .site-header:not(.is-scrolled):not(.site-header--scrolled),
+body.blog .site-header:not(.is-scrolled):not(.site-header--scrolled),
+body.archive .site-header:not(.is-scrolled):not(.site-header--scrolled) {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid transparent !important;
 }
 
 /* Scrolled state: turns solid white with subtle shadow */
@@ -42,21 +56,32 @@ body.page-template-page-noticias .site-header.is-scrolled,
 body.page-template-page-noticias .site-header.site-header--scrolled,
 body.page-template-page-noticias-php .site-header.is-scrolled,
 body.page-template-page-noticias-php .site-header.site-header--scrolled,
+body.page-template-home .site-header.is-scrolled,
+body.page-template-home .site-header.site-header--scrolled,
+body.page-template-home-php .site-header.is-scrolled,
+body.page-template-home-php .site-header.site-header--scrolled,
 body.page-noticias .site-header.is-scrolled,
 body.page-noticias .site-header.site-header--scrolled,
+body[class*="noticia"] .site-header.is-scrolled,
+body[class*="noticia"] .site-header.site-header--scrolled,
 body.blog .site-header.is-scrolled,
 body.blog .site-header.site-header--scrolled,
 body.archive .site-header.is-scrolled,
 body.archive .site-header.site-header--scrolled {
   background-color: #FFFFFF !important;
-  box-shadow: var(--shadow-sm, 0 2px 10px rgba(0, 0, 0, 0.06));
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm, 0 2px 10px rgba(0, 0, 0, 0.06)) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 
 /* Maintain solid white if mobile navigation drawer is toggled open */
 body.menu-is-open.page-template-page-noticias .site-header,
 body.menu-is-open.page-template-page-noticias-php .site-header,
+body.menu-is-open.page-template-home .site-header,
+body.menu-is-open.page-template-home-php .site-header,
 body.menu-is-open.page-noticias .site-header,
+body.menu-is-open[class*="noticia"] .site-header,
 body.menu-is-open.blog .site-header,
 body.menu-is-open.archive .site-header {
   background-color: #FFFFFF !important;

@@ -124,7 +124,7 @@ function pacto_25_scripts() {
     }
 
     // Notícias archive and single post styles
-    if ( is_home() || is_archive() || is_singular( 'post' ) || is_page( 'noticias' ) || is_page_template( 'page-noticias.php' ) ) {
+    if ( is_home() || is_archive() || is_singular( 'post' ) || is_page( 'noticias' ) || is_page_template( 'page-noticias.php' ) || is_page_template( 'home.php' ) ) {
         $noticias_ver = file_exists( $theme_dir . '/css/noticias.css' ) ? filemtime( $theme_dir . '/css/noticias.css' ) : $theme_version;
         wp_enqueue_style( 'pacto-noticias', $theme_uri . '/css/noticias.css', array( 'pacto-style' ), $noticias_ver );
     }
@@ -134,6 +134,20 @@ function pacto_25_scripts() {
     wp_enqueue_script( 'pacto-main', $theme_uri . '/js/main.js', array(), $js_ver, array( 'strategy' => 'defer', 'in_footer' => true ) );
 }
 add_action( 'wp_enqueue_scripts', 'pacto_25_scripts' );
+
+/**
+ * Add page slug to body class for robust CSS targeting
+ */
+function pacto_25_body_classes( $classes ) {
+    if ( is_page() ) {
+        global $post;
+        if ( isset( $post->post_name ) ) {
+            $classes[] = 'page-' . sanitize_html_class( $post->post_name );
+        }
+    }
+    return $classes;
+}
+add_filter( 'body_class', 'pacto_25_body_classes' );
 
 /**
  * Preconnect to Google Fonts resource origins for faster font discovery

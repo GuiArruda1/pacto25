@@ -102,7 +102,8 @@ function initStickyHeader() {
   if (!header) return;
 
   const onScroll = () => {
-    if (window.scrollY > 40) {
+    const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    if (scrollPos > 25) {
       header.classList.add('is-scrolled', 'site-header--scrolled');
     } else {
       header.classList.remove('is-scrolled', 'site-header--scrolled');
@@ -110,6 +111,8 @@ function initStickyHeader() {
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  document.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
 }
 
