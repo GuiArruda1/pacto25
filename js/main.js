@@ -101,13 +101,16 @@ function initStickyHeader() {
   const header = document.querySelector('.site-header');
   if (!header) return;
 
-  window.addEventListener('scroll', () => {
+  const onScroll = () => {
     if (window.scrollY > 40) {
-      header.classList.add('is-scrolled');
+      header.classList.add('is-scrolled', 'site-header--scrolled');
     } else {
-      header.classList.remove('is-scrolled');
+      header.classList.remove('is-scrolled', 'site-header--scrolled');
     }
-  }, { passive: true });
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }
 
 function initScrollToTop() {
@@ -161,7 +164,7 @@ function initHeroSlider() {
   }
 
   // Expose globally
-  window.pactoHeroSlide = function(step) {
+  window.pactoHeroSlide = function (step) {
     const slides = heroSlider.querySelectorAll('.hero-slide');
     if (slides.length <= 1) return;
     let activeIdx = Array.from(slides).findIndex((s) => s.classList.contains('is-active'));

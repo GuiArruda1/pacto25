@@ -34,7 +34,7 @@ $image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title
         <!-- Content Column (Inside Red Ball) -->
         <div class="ball-left-content sinistro-form-content">
             <?php if ( $eyebrow ) : ?>
-                <span class="eyebrow eyebrow--light"><?php echo esc_html( $eyebrow ); ?></span>
+                <span class="eyebrow eyebrow--white"><?php echo esc_html( $eyebrow ); ?></span>
             <?php endif; ?>
 
             <?php if ( $title ) : ?>

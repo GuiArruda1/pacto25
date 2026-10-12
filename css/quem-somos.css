@@ -327,8 +327,9 @@ body.page-quem-somos,
   color: #ffffff;
 }
 
-.eyebrow--light {
-  color: rgba(255, 255, 255, 0.9) !important;
+.eyebrow--light,
+.eyebrow--white {
+  color: var(--color-white, #FFFFFF) !important;
 }
 
 .ball-left-title,

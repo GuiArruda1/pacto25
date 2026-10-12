@@ -45,11 +45,11 @@
 }
 
 .legal-page__eyebrow-text {
-  font-family: var(--font-heading, 'Sora', sans-serif);
-  font-size: clamp(11px, 0.85vw, 13px);
-  font-weight: 700;
+  font-family: var(--font-body, 'Libre Franklin', sans-serif);
+  font-size: var(--fs-eyebrow, 12px);
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
   color: var(--color-primary, #D42E12);
   line-height: 1;
 }

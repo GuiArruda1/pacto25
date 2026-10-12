@@ -30,7 +30,7 @@ body.page-sinistro,
 .sinistro-hero-eyebrow {
   margin-bottom: var(--space-xs);
   color: var(--color-primary);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
 }
 
 .sinistro-hero-title {
@@ -174,9 +174,11 @@ body.page-sinistro,
 .sinistro-steps-eyebrow {
   margin-bottom: var(--space-xs);
   color: var(--color-primary);
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow, 12px);
+  font-weight: 400;
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -422,7 +424,7 @@ body.page-sinistro,
 .sinistro-docs-eyebrow {
   margin-bottom: var(--space-xs);
   color: var(--color-primary);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
 }
 
 .sinistro-docs-title {

@@ -1259,10 +1259,11 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-body);
-  font-size: clamp(11.5px, 0.75vw, 13px);
-  font-weight: 700;
+  font-size: var(--fs-eyebrow, 12px);
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   color: var(--color-primary);
   margin-bottom: var(--space-xs);
 }
@@ -1916,8 +1917,9 @@
   color: #ffffff;
 }
 
-.eyebrow--light {
-  color: rgba(255, 255, 255, 0.9) !important;
+.eyebrow--light,
+.eyebrow--white {
+  color: var(--color-white, #FFFFFF) !important;
 }
 
 .ball-left-title,

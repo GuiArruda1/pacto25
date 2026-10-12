@@ -29,7 +29,7 @@ $default_img = get_template_directory_uri() . '/assets/images/quem-somos/qs-miss
         <!-- Content Column (Inside Red Ball) -->
         <div class="ball-left-content missao-visao-content">
             <?php if ( $eyebrow ) : ?>
-                <span class="eyebrow eyebrow--light"><?php echo esc_html( $eyebrow ); ?></span>
+                <span class="eyebrow eyebrow--white"><?php echo esc_html( $eyebrow ); ?></span>
             <?php endif; ?>
 
             <?php if ( $title ) : ?>

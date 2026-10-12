@@ -133,9 +133,11 @@ body.page-contactos .site-header__nav-list > li:hover > a::before {
 .contactos-hero-eyebrow {
   margin-bottom: var(--space-xs);
   color: var(--color-primary, #D42E12);
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow, 12px);
+  font-weight: 400;
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -361,9 +363,11 @@ body.page-contactos .site-header__nav-list > li:hover > a::before {
 .contactos-help-eyebrow {
   margin-bottom: var(--space-xs);
   color: var(--color-primary, #D42E12);
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow, 12px);
+  font-weight: 400;
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -631,13 +635,15 @@ body.page-contactos .site-header__nav-list > li:hover > a::before {
 }
 
 .contactos-loc-eyebrow {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-white, #FFFFFF);
   margin-bottom: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow, 12px);
+  font-weight: 400;
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   text-transform: uppercase;
-  display: inline-block;
+  display: inline-flex;
 }
 
 .contactos-loc-title {

@@ -33,9 +33,10 @@
   display: block;
   font-family: var(--font-body);
   color: var(--color-primary, #D42E12);
-  font-weight: 700;
-  font-size: clamp(12px, 1vw, 14px);
-  letter-spacing: 0.14em;
+  font-weight: 400;
+  font-size: var(--fs-eyebrow, 12px);
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   text-transform: uppercase;
   margin-bottom: clamp(12px, 1.5vw, 16px);
 }
@@ -161,9 +162,10 @@
   display: block;
   font-family: var(--font-body);
   color: var(--color-primary, #D42E12);
-  font-weight: 700;
-  font-size: clamp(12px, 1vw, 14px);
-  letter-spacing: 0.14em;
+  font-weight: 400;
+  font-size: var(--fs-eyebrow, 12px);
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   text-transform: uppercase;
   margin-bottom: clamp(12px, 1.5vw, 16px);
 }
@@ -417,9 +419,10 @@
   display: block;
   font-family: var(--font-body);
   color: var(--color-primary, #D42E12);
-  font-weight: 700;
-  font-size: clamp(12px, 1vw, 14px);
-  letter-spacing: 0.14em;
+  font-weight: 400;
+  font-size: var(--fs-eyebrow, 12px);
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   text-transform: uppercase;
   margin-bottom: clamp(12px, 1.5vw, 16px);
 }
@@ -569,9 +572,10 @@
   display: block;
   font-family: var(--font-body);
   color: var(--color-primary, #D42E12);
-  font-weight: 700;
-  font-size: clamp(12px, 1vw, 14px);
-  letter-spacing: 0.14em;
+  font-weight: 400;
+  font-size: var(--fs-eyebrow, 12px);
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   text-transform: uppercase;
   margin-bottom: clamp(12px, 1.5vw, 16px);
 }

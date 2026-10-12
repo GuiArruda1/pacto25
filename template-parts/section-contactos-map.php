@@ -83,7 +83,7 @@ $map_url = 'https://maps.google.com/?q=' . rawurlencode( 'Rua José Coutinho 252
             <!-- Right Column: Content & 2-Column Info inside the Red Ball Canopy -->
             <div class="contactos-loc-content">
                 <?php if ( $eyebrow ) : ?>
-                    <span class="eyebrow contactos-loc-eyebrow"><?php echo esc_html( $eyebrow ); ?></span>
+                    <span class="eyebrow eyebrow--white contactos-loc-eyebrow"><?php echo esc_html( $eyebrow ); ?></span>
                 <?php endif; ?>
 
                 <?php if ( $title ) : ?>

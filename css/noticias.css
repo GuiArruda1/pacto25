@@ -14,12 +14,15 @@ body.single-post,
   overflow-x: clip;
 }
 
-/* Transparent Header on Notícias matching Contactos */
-body.page-template-page-noticias .site-header:not(.site-header--scrolled),
-body.page-noticias .site-header:not(.site-header--scrolled),
-body.blog .site-header:not(.site-header--scrolled),
-body.archive .site-header:not(.site-header--scrolled) {
-  position: absolute;
+/* ==========================================================================
+   Header: Transparent in default state, solid white on scroll
+   ========================================================================== */
+body.page-template-page-noticias .site-header,
+body.page-template-page-noticias-php .site-header,
+body.page-noticias .site-header,
+body.blog .site-header,
+body.archive .site-header {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -27,8 +30,36 @@ body.archive .site-header:not(.site-header--scrolled) {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   box-shadow: none;
-  border-bottom: none;
-  z-index: 100;
+  border-bottom: 1px solid transparent;
+  z-index: 1000;
+  transition: background-color var(--transition-normal, 0.3s ease),
+    box-shadow var(--transition-normal, 0.3s ease),
+    border-color var(--transition-normal, 0.3s ease);
+}
+
+/* Scrolled state: turns solid white with subtle shadow */
+body.page-template-page-noticias .site-header.is-scrolled,
+body.page-template-page-noticias .site-header.site-header--scrolled,
+body.page-template-page-noticias-php .site-header.is-scrolled,
+body.page-template-page-noticias-php .site-header.site-header--scrolled,
+body.page-noticias .site-header.is-scrolled,
+body.page-noticias .site-header.site-header--scrolled,
+body.blog .site-header.is-scrolled,
+body.blog .site-header.site-header--scrolled,
+body.archive .site-header.is-scrolled,
+body.archive .site-header.site-header--scrolled {
+  background-color: #FFFFFF !important;
+  box-shadow: var(--shadow-sm, 0 2px 10px rgba(0, 0, 0, 0.06));
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Maintain solid white if mobile navigation drawer is toggled open */
+body.menu-is-open.page-template-page-noticias .site-header,
+body.menu-is-open.page-template-page-noticias-php .site-header,
+body.menu-is-open.page-noticias .site-header,
+body.menu-is-open.blog .site-header,
+body.menu-is-open.archive .site-header {
+  background-color: #FFFFFF !important;
 }
 
 /* ==========================================================================
@@ -96,9 +127,11 @@ body.archive .site-header:not(.site-header--scrolled) {
   display: inline-block;
   margin-bottom: var(--space-xs);
   color: var(--color-primary, #D42E12);
-  letter-spacing: 0.12em;
-  font-size: clamp(11px, 0.85vw, 13px);
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow, 12px);
+  font-weight: 400;
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
+  line-height: 1;
   text-transform: uppercase;
 }
 

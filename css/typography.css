@@ -61,30 +61,39 @@ h3, .h3 {
   margin-bottom: var(--space-sm);
 }
 
-/* Eyebrow / Overline */
-.eyebrow {
+/* Eyebrow / Overline / Subtitle */
+.eyebrow,
+.subtitle {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
-  font-family: var(--font-heading);
-  font-size: var(--fs-eyebrow);
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow, 12px);
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: var(--tracking-eyebrow);
+  letter-spacing: var(--tracking-eyebrow, 0.25em);
   line-height: 1;
   color: var(--color-primary);
   margin-bottom: var(--space-sm);
 }
 
-.eyebrow--white {
-  color: rgba(255, 255, 255, 0.88);
+.eyebrow--white,
+.subtitle--white {
+  color: var(--color-white, #FFFFFF);
 }
 
-.eyebrow--dark {
+.eyebrow--white::before,
+.subtitle--white::before {
+  background-color: currentColor;
+}
+
+.eyebrow--dark,
+.subtitle--dark {
   color: var(--color-dark);
 }
 
-.eyebrow::before {
+.eyebrow::before,
+.subtitle::before {
   content: '';
   display: inline-block;
   width: 6px;
