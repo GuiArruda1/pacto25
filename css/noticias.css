@@ -493,12 +493,16 @@ body.archive .site-header__nav-list > li.current-menu-item > a::before {
 
 /* ==========================================================================
    5. Single Notícia Article Page
-   Figma: Left circular photo + giant organic red circle | Right: date, title, content, share
+   Figma Visual Guide:
+   - Header is solid white
+   - Left: Circular Photo (centered/slightly right in col) with Solid Red Circle (offset to the upper-left)
+   - Right: Date with red bullet, Title, Content, Partilhar
+   - Footer: standard giant red bottom arch
    ========================================================================== */
 .single-noticia {
   position: relative;
   overflow: clip;
-  padding: clamp(3rem, 5vw, 5.5rem) 0 0;
+  padding: clamp(3.5rem, 6vw, 6.5rem) 0 clamp(4rem, 8vw, 8rem);
   background-color: var(--color-white, #FFFFFF);
 }
 
@@ -507,48 +511,52 @@ body.archive .site-header__nav-list > li.current-menu-item > a::before {
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(32px, 4vw, 56px);
-  align-items: start;
+  align-items: center;
 }
 
 @media (min-width: 992px) {
   .single-noticia-grid {
-    grid-template-columns: minmax(340px, 0.85fr) 1fr;
-    gap: clamp(48px, 5vw, 80px);
+    grid-template-columns: minmax(360px, 0.9fr) minmax(420px, 1.1fr);
+    gap: clamp(48px, 6vw, 96px);
+    align-items: center;
   }
 }
 
-/* --- Left Column: Visual (Circular Photo + Giant Red Circle) --- */
+/* --- Left Column: Visual (Circular Photo + Upper-Left Red Circle) --- */
 .single-noticia-visual {
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  min-height: clamp(380px, 35vw, 520px);
+  min-height: clamp(340px, 34vw, 480px);
 }
 
-/* Giant Organic Red Circle — extends bottom-left like Figma */
+/* Solid Red Circle — offset behind to the upper-left */
 .single-noticia-red-circle {
   position: absolute;
-  bottom: clamp(-200px, -14vw, -80px);
-  left: clamp(-220px, -16vw, -80px);
-  width: clamp(600px, 55vw, 900px);
-  height: clamp(600px, 55vw, 900px);
+  top: clamp(-20px, -2vw, 0px);
+  left: clamp(10px, 3vw, 40px);
+  width: clamp(240px, 25vw, 360px);
+  height: clamp(240px, 25vw, 360px);
   border-radius: 50%;
   background-color: var(--color-primary, #D42E12);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Circular Photo Frame */
+/* Circular Photo Frame — overlapping in foreground, shifted slightly down-right */
 .single-noticia-photo-wrap {
   position: relative;
   z-index: 2;
-  width: clamp(300px, 28vw, 420px);
-  height: clamp(300px, 28vw, 420px);
+  width: clamp(260px, 27vw, 400px);
+  height: clamp(260px, 27vw, 400px);
+  margin-top: clamp(20px, 3vw, 50px);
+  margin-left: clamp(20px, 4vw, 70px);
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
   flex-shrink: 0;
+  background-color: #FAFAFA;
 }
 
 .single-noticia-photo {
@@ -563,7 +571,7 @@ body.archive .site-header__nav-list > li.current-menu-item > a::before {
 .single-noticia-body {
   position: relative;
   z-index: 3;
-  padding-top: clamp(8px, 1.5vw, 24px);
+  max-width: 580px;
 }
 
 /* Date with red bullet */
@@ -571,7 +579,7 @@ body.archive .site-header__nav-list > li.current-menu-item > a::before {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: clamp(10px, 1.2vw, 16px);
+  margin-bottom: clamp(12px, 1.4vw, 18px);
 }
 
 .single-noticia-bullet {
@@ -584,30 +592,34 @@ body.archive .site-header__nav-list > li.current-menu-item > a::before {
 .single-noticia-date {
   color: var(--color-primary, #D42E12);
   font-weight: 700;
-  font-size: clamp(12px, 0.9vw, 14px);
-  letter-spacing: 0.06em;
+  font-size: clamp(12px, 0.9vw, 13px);
+  letter-spacing: 0.04em;
 }
 
 /* Title */
 .single-noticia-title {
   font-family: var(--font-heading);
-  font-size: clamp(1.65rem, 2.5vw, 2.5rem);
+  font-size: clamp(1.85rem, 2.7vw, 2.75rem);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.18;
   color: var(--color-text, #231F20);
-  margin-bottom: clamp(18px, 2vw, 28px);
+  margin-bottom: clamp(20px, 2.2vw, 30px);
 }
 
 /* Content */
 .single-noticia-content {
   font-family: var(--font-body);
-  font-size: clamp(14px, 1vw, 16px);
+  font-size: clamp(14px, 1vw, 15.5px);
   line-height: 1.7;
-  color: var(--color-text, #231F20);
+  color: #5A5657;
 }
 
 .single-noticia-content p {
   margin-bottom: 1.35rem;
+}
+
+.single-noticia-content p:last-child {
+  margin-bottom: 0;
 }
 
 .single-noticia-content a {
@@ -625,6 +637,11 @@ body.archive .site-header__nav-list > li.current-menu-item > a::before {
   font-style: italic;
 }
 
+.single-noticia-content strong {
+  font-weight: 700;
+  color: var(--color-text, #231F20);
+}
+
 .single-noticia-content h2,
 .single-noticia-content h3 {
   font-family: var(--font-heading);
@@ -635,7 +652,7 @@ body.archive .site-header__nav-list > li.current-menu-item > a::before {
 
 /* Share (Partilhar) */
 .single-noticia-share {
-  margin-top: clamp(24px, 3vw, 40px);
+  margin-top: clamp(24px, 3vw, 36px);
 }
 
 .single-noticia-share-link {
@@ -664,18 +681,20 @@ body.archive .site-header__nav-list > li.current-menu-item > a::before {
 @media (max-width: 991px) {
   .single-noticia-visual {
     min-height: auto;
-    margin-bottom: 0;
+    margin-bottom: var(--space-md);
   }
 
   .single-noticia-red-circle {
-    width: clamp(400px, 80vw, 600px);
-    height: clamp(400px, 80vw, 600px);
-    bottom: clamp(-150px, -20vw, -60px);
-    left: clamp(-160px, -22vw, -60px);
+    width: clamp(200px, 50vw, 280px);
+    height: clamp(200px, 50vw, 280px);
+    top: -10px;
+    left: 20px;
   }
 
   .single-noticia-photo-wrap {
-    width: clamp(260px, 65vw, 360px);
-    height: clamp(260px, 65vw, 360px);
+    width: clamp(220px, 55vw, 320px);
+    height: clamp(220px, 55vw, 320px);
+    margin-top: 25px;
+    margin-left: 35px;
   }
 }
