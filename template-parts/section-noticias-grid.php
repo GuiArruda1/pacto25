@@ -45,7 +45,7 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
                     <article id="post-<?php echo esc_attr( $post_id ); ?>" <?php post_class( 'noticia-card' ); ?>>
                         <!-- Left Thumbnail Frame -->
                         <div class="noticia-card__media">
-                            <a href="<?php echo esc_url( $permalink ); ?>" class="noticia-card__media-link" tabindex="-1" aria-hidden="true">
+                            <a href="<?php echo esc_url( $permalink ); ?>" class="noticia-card__media-link">
                                 <img src="<?php echo esc_url( $thumb_url ); ?>" 
                                      alt="<?php echo esc_attr( $thumb_alt ); ?>" 
                                      class="noticia-card__img" 
@@ -64,7 +64,7 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
                             </div>
 
                             <h2 class="noticia-card__title">
-                                <a href="<?php echo esc_url( $permalink ); ?>">
+                                <a href="<?php echo esc_url( $permalink ); ?>" class="noticia-card__title-link">
                                     <?php echo esc_html( $title ); ?>
                                 </a>
                             </h2>
@@ -73,7 +73,7 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
                                 <?php echo esc_html( wp_strip_all_tags( $excerpt ) ); ?>
                             </p>
 
-                            <a href="<?php echo esc_url( $permalink ); ?>" class="noticia-card__link">
+                            <a href="<?php echo esc_url( $permalink ); ?>" class="noticia-card__link" aria-label="<?php echo esc_attr( sprintf( __( 'Saber mais sobre %s', 'pacto-25' ), $title ) ); ?>">
                                 <?php esc_html_e( 'saber mais', 'pacto-25' ); ?>
                             </a>
                         </div>
@@ -86,13 +86,20 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
             // This guarantees the 6-card 2-column grid is ALWAYS displayed matching Figma
             $current_page = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
             if ( $current_page === 1 && $rendered_count < 6 ) :
+                // Find a real published post to link to if available
+                $fallback_post = get_posts( array(
+                    'post_type'      => 'post',
+                    'posts_per_page' => 1,
+                    'post_status'    => 'publish',
+                ) );
+                $demo_link = ! empty( $fallback_post ) ? get_permalink( $fallback_post[0]->ID ) : '#';
+
                 $needed = 6 - $rendered_count;
                 for ( $i = 0; $i < $needed; $i++ ) :
-                    $demo_link = have_posts() ? get_permalink() : '#post-demo';
             ?>
                 <article class="noticia-card noticia-card--mock">
                     <div class="noticia-card__media">
-                        <a href="<?php echo esc_url( $demo_link ); ?>" class="noticia-card__media-link" tabindex="-1" aria-hidden="true">
+                        <a href="<?php echo esc_url( $demo_link ); ?>" class="noticia-card__media-link">
                             <img src="<?php echo esc_url( $default_img ); ?>" 
                                  alt="<?php echo esc_attr( $figma_title ); ?>" 
                                  class="noticia-card__img" 
@@ -106,7 +113,7 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
                             <time class="noticia-card__date">25/06/2026</time>
                         </div>
                         <h2 class="noticia-card__title">
-                            <a href="<?php echo esc_url( $demo_link ); ?>"><?php echo esc_html( $figma_title ); ?></a>
+                            <a href="<?php echo esc_url( $demo_link ); ?>" class="noticia-card__title-link"><?php echo esc_html( $figma_title ); ?></a>
                         </h2>
                         <p class="noticia-card__excerpt"><?php echo esc_html( $figma_excerpt ); ?></p>
                         <a href="<?php echo esc_url( $demo_link ); ?>" class="noticia-card__link">
