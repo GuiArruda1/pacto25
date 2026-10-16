@@ -142,7 +142,6 @@ body.page-modelo-seguro,
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: clamp(20px, 2.8vw, 44px) solid var(--color-primary);
   overflow: hidden;
   position: relative;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
