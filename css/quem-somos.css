@@ -573,6 +573,8 @@ body.page-quem-somos,
   z-index: 3;
   padding-left: clamp(2.5rem, 5vw, 5.5rem);
   padding-right: clamp(1rem, 2vw, 2rem);
+  min-width: 0;
+  width: 100%;
 }
 
 .qs-reasons-cards-grid {

@@ -159,25 +159,55 @@ function pacto_render_quem_somos_meta_box( $post ) {
     $reasons_p3      = pacto_get_field( 'qs_reasons_p3', $post->ID, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
 
     $default_cards = array(
+        // Slide 1
         array(
             'icon'        => 'heart-check',
             'title'       => 'Simples e Fácil',
             'description' => 'Connosco pode subscrever um seguro rápido e sem complicações. Comunicamos de forma clara e objetiva.',
+            'link'        => '',
         ),
         array(
             'icon'        => 'clock-check',
             'title'       => 'Rápidos',
             'description' => 'Simulamos e emitimos um seguro em menos de 10 minutos.',
+            'link'        => '',
         ),
         array(
             'icon'        => 'heart-check',
-            'title'       => 'Simples e Fácil',
-            'description' => 'Connosco pode subscrever um seguro rápido e sem complicações. Comunicamos de forma clara e objetiva.',
+            'title'       => 'Seguro à Medida',
+            'description' => 'Adaptamos cada solução e cobertura às necessidades específicas da sua vida e da sua família.',
+            'link'        => '',
         ),
         array(
             'icon'        => 'clock-check',
-            'title'       => 'Rápidos',
-            'description' => 'Simulamos e emitimos um seguro em menos de 10 minutos.',
+            'title'       => 'Confiança & Rigor',
+            'description' => 'Mais de 25 anos de experiência e solidez no setor, com acompanhamento próximo em cada etapa.',
+            'link'        => '',
+        ),
+        // Slide 2
+        array(
+            'icon'        => 'heart-check',
+            'title'       => 'Transparência Total',
+            'description' => 'Sem letras pequenas nem surpresas. Condições transparentes e rigorosas em todas as fases.',
+            'link'        => '',
+        ),
+        array(
+            'icon'        => 'clock-check',
+            'title'       => 'Apoio Contínuo',
+            'description' => 'Linha dedicada para esclarecimento de dúvidas e resolução ágil e proativa de sinistros.',
+            'link'        => '',
+        ),
+        array(
+            'icon'        => 'heart-check',
+            'title'       => 'Soluções Integradas',
+            'description' => 'Parcerias com as maiores seguradoras do mercado para garantir as melhores condições e garantias.',
+            'link'        => '',
+        ),
+        array(
+            'icon'        => 'clock-check',
+            'title'       => 'Proximidade Humana',
+            'description' => 'Uma equipa experiente sempre acessível e disponível para lhe dar total tranquilidade no dia a dia.',
+            'link'        => '',
         ),
     );
 

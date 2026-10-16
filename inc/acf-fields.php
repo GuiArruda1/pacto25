@@ -2042,6 +2042,63 @@ function pacto_25_register_acf_fields() {
                 'type' => 'text',
                 'default_value' => '#simulacao',
             ),
+            array(
+                'key' => 'field_seguro_features_cards',
+                'label' => __( 'Cartões no Círculo Vermelho (Slider / Carrossel)', 'pacto-25' ),
+                'name' => 'seguro_features_cards',
+                'type' => 'repeater',
+                'instructions' => __( 'Os cartões são agrupados de 4 em 4 por cada slide do carrossel.', 'pacto-25' ),
+                'layout' => 'block',
+                'button_label' => __( 'Adicionar Cartão', 'pacto-25' ),
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_seguro_card_icon',
+                        'label' => __( 'Ícone Predefinido (SVG)', 'pacto-25' ),
+                        'name' => 'icon',
+                        'type' => 'select',
+                        'choices' => array(
+                            'heart-check'  => '❤️ Coração com Check (Simples e Fácil)',
+                            'clock-check'  => '⏱️ Velocímetro / Relógio (Rápidos)',
+                            'shield-check' => '🛡️ Escudo de Proteção',
+                            'users-check'  => '👥 Equipa / Pessoas',
+                        ),
+                        'default_value' => 'heart-check',
+                        'wrapper' => array( 'width' => '50' ),
+                    ),
+                    array(
+                        'key' => 'field_seguro_card_custom_icon',
+                        'label' => __( 'Ou Ícone Personalizado (Upload SVG / PNG)', 'pacto-25' ),
+                        'name' => 'custom_icon',
+                        'type' => 'image',
+                        'return_format' => 'id',
+                        'preview_size' => 'thumbnail',
+                        'instructions' => __( 'Substitui o ícone predefinido caso carregado.', 'pacto-25' ),
+                        'wrapper' => array( 'width' => '50' ),
+                    ),
+                    array(
+                        'key' => 'field_seguro_card_title',
+                        'label' => __( 'Título do Cartão', 'pacto-25' ),
+                        'name' => 'title',
+                        'type' => 'text',
+                        'default_value' => 'Simples e Fácil',
+                    ),
+                    array(
+                        'key' => 'field_seguro_card_desc',
+                        'label' => __( 'Descrição do Cartão', 'pacto-25' ),
+                        'name' => 'description',
+                        'type' => 'textarea',
+                        'rows' => 2,
+                        'default_value' => 'Connosco pode subscrever um seguro rápido e sem complicações.',
+                    ),
+                    array(
+                        'key' => 'field_seguro_card_link',
+                        'label' => __( 'Link / URL de Destino (Opcional)', 'pacto-25' ),
+                        'name' => 'link',
+                        'type' => 'text',
+                        'placeholder' => 'https://... ou # ou /contatos/',
+                    ),
+                ),
+            ),
 
             // --- TAB: SECÇÃO 4 - PASSOS PARA SUBSCRIÇÃO ---
             array(

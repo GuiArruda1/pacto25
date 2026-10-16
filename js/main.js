@@ -14,6 +14,7 @@ function initApp() {
   initHeroSlider();
   initNewsletterValidation();
   initFaqAccordion();
+  initReasonsSliders();
 }
 
 if (document.readyState === 'loading') {
@@ -241,6 +242,104 @@ function initHeroSlider() {
         goToSlide(activeIdx + 1);
       }
     }
+  });
+}
+
+/**
+ * Features / Reasons Multi-Slide Carousel Component
+ * Used in: Quem Somos, Single Seguro Particular & Empresa, Landing Page
+ * Supports: Next/Prev buttons, touch swipe, keyboard nav, accessible ARIA, multi-instance support
+ */
+function initReasonsSliders() {
+  const sliders = document.querySelectorAll('[data-reasons-slider], [data-qs-reasons-slider], [data-features-slider]');
+  if (!sliders.length) return;
+
+  sliders.forEach((slider) => {
+    const track = slider.querySelector('.pacto-reasons-slider__track, .qs-reasons-slider-track, .seguro-features-slider-track');
+    const slides = slider.querySelectorAll('.pacto-reasons-slide, .qs-reasons-slide, .seguro-features-slide');
+    if (!track || slides.length <= 1) return;
+
+    let currentIndex = 0;
+
+    function goToSlide(targetIndex) {
+      if (targetIndex >= slides.length) {
+        currentIndex = 0;
+      } else if (targetIndex < 0) {
+        currentIndex = slides.length - 1;
+      } else {
+        currentIndex = targetIndex;
+      }
+
+      // Smooth horizontal translation
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      slides.forEach((slide, idx) => {
+        if (idx === currentIndex) {
+          slide.classList.add('is-active');
+          slide.setAttribute('aria-hidden', 'false');
+        } else {
+          slide.classList.remove('is-active');
+          slide.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }
+
+    // Button navigation (scoped to container or slider)
+    const container = slider.closest('.section-reasons, .section-qs-reasons, .section-single-seguro-features') || slider.parentElement;
+    const nav = container ? container.querySelector('.pacto-reasons-nav, .qs-reasons-nav, .seguro-features-nav') : null;
+
+    if (nav) {
+      nav.addEventListener('click', (e) => {
+        const prevBtn = e.target.closest('[data-reasons-action="prev"], .pacto-reasons-nav__btn--prev, .qs-reasons-nav__btn--prev, .seguro-features-nav__btn--prev');
+        const nextBtn = e.target.closest('[data-reasons-action="next"], .pacto-reasons-nav__btn--next, .qs-reasons-nav__btn--next, .seguro-features-nav__btn--next');
+
+        if (prevBtn) {
+          e.preventDefault();
+          goToSlide(currentIndex - 1);
+        } else if (nextBtn) {
+          e.preventDefault();
+          goToSlide(currentIndex + 1);
+        }
+      });
+    }
+
+    // Touch Swipe Gesture Support
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    slider.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    slider.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+        if (diffX < 0) {
+          goToSlide(currentIndex + 1);
+        } else {
+          goToSlide(currentIndex - 1);
+        }
+      }
+    }, { passive: true });
+
+    // Keyboard Arrow navigation when focus is inside
+    slider.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goToSlide(currentIndex - 1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        goToSlide(currentIndex + 1);
+      }
+    });
   });
 }
 
