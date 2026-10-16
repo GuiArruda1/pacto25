@@ -93,17 +93,37 @@ if ( ! is_array( $cards ) || empty( $cards ) ) {
             <div class="section-qs-reasons__cards-wrap">
                 <div class="qs-reasons-cards-grid">
                     <?php foreach ( $cards as $card ) : 
-                        $card_icon  = ! empty( $card['icon'] ) ? $card['icon'] : 'heart-check';
-                        $card_title = ! empty( $card['title'] ) ? $card['title'] : '';
-                        $card_desc  = ! empty( $card['description'] ) ? $card['description'] : '';
+                        $card_icon   = ! empty( $card['icon'] ) ? $card['icon'] : 'heart-check';
+                        $card_custom = ! empty( $card['custom_icon'] ) ? $card['custom_icon'] : '';
+                        $card_title  = ! empty( $card['title'] ) ? $card['title'] : '';
+                        $card_desc   = ! empty( $card['description'] ) ? $card['description'] : '';
+                        $card_link   = ! empty( $card['link'] ) ? $card['link'] : '';
+
+                        $tag         = ! empty( $card_link ) ? 'a' : 'div';
+                        $link_attr   = ! empty( $card_link ) ? ' href="' . esc_url( $card_link ) . '"' : '';
+                        $link_class  = ! empty( $card_link ) ? ' qs-reason-card--link' : '';
                     ?>
-                        <div class="qs-reason-card">
+                        <<?php echo $tag; ?> class="qs-reason-card<?php echo esc_attr( $link_class ); ?>"<?php echo $link_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                             <div class="qs-reason-card__icon" aria-hidden="true">
-                                <?php echo pacto_get_svg( $card_icon ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                                <?php 
+                                if ( ! empty( $card_custom ) ) {
+                                    if ( is_numeric( $card_custom ) ) {
+                                        echo wp_get_attachment_image( (int) $card_custom, 'thumbnail', false, array( 'class' => 'qs-reason-card__icon-img' ) );
+                                    } else {
+                                        echo '<img src="' . esc_url( $card_custom ) . '" alt="" class="qs-reason-card__icon-img" />';
+                                    }
+                                } else {
+                                    echo pacto_get_svg( $card_icon ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                }
+                                ?>
                             </div>
-                            <h3 class="qs-reason-card__title"><?php echo esc_html( $card_title ); ?></h3>
-                            <p class="qs-reason-card__desc"><?php echo esc_html( $card_desc ); ?></p>
-                        </div>
+                            <?php if ( $card_title ) : ?>
+                                <h3 class="qs-reason-card__title"><?php echo esc_html( $card_title ); ?></h3>
+                            <?php endif; ?>
+                            <?php if ( $card_desc ) : ?>
+                                <p class="qs-reason-card__desc"><?php echo esc_html( $card_desc ); ?></p>
+                            <?php endif; ?>
+                        </<?php echo $tag; ?>>
                     <?php endforeach; ?>
                 </div>
 

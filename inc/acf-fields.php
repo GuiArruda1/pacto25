@@ -1407,7 +1407,7 @@ function pacto_25_register_acf_fields() {
                 'sub_fields' => array(
                     array(
                         'key' => 'field_qs_card_icon',
-                        'label' => __( 'Ícone', 'pacto-25' ),
+                        'label' => __( 'Ícone Predefinido (SVG)', 'pacto-25' ),
                         'name' => 'icon',
                         'type' => 'select',
                         'choices' => array(
@@ -1417,6 +1417,15 @@ function pacto_25_register_acf_fields() {
                             'users-check'  => 'Equipa / Pessoas',
                         ),
                         'default_value' => 'heart-check',
+                    ),
+                    array(
+                        'key' => 'field_qs_card_custom_icon',
+                        'label' => __( 'Ícone Personalizado (Opcional - SVG / Imagem)', 'pacto-25' ),
+                        'instructions' => __( 'Faça upload de um ícone personalizado se desejar substituir o ícone predefinido.', 'pacto-25' ),
+                        'name' => 'custom_icon',
+                        'type' => 'image',
+                        'return_format' => 'id',
+                        'preview_size' => 'thumbnail',
                     ),
                     array(
                         'key' => 'field_qs_card_title',
@@ -1432,6 +1441,14 @@ function pacto_25_register_acf_fields() {
                         'type' => 'textarea',
                         'rows' => 2,
                         'default_value' => 'Connosco pode subscrever um seguro rápido e sem complicações. Comunicamos de forma clara e objetiva.',
+                    ),
+                    array(
+                        'key' => 'field_qs_card_link',
+                        'label' => __( 'Link / URL de Destino (Opcional)', 'pacto-25' ),
+                        'instructions' => __( 'Insira um URL relativo ou completo (ex: /particulares/ ou https://...) para tornar o cartão clicável.', 'pacto-25' ),
+                        'name' => 'link',
+                        'type' => 'text',
+                        'placeholder' => '/particulares/',
                     ),
                 ),
             ),

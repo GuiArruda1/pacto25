@@ -446,9 +446,21 @@ function pacto_render_quem_somos_meta_box( $post ) {
 
                     <div class="pacto-reasons-cards-list" id="pacto-reasons-cards-wrap">
                         <?php foreach ( $saved_cards as $c_idx => $card ) : 
-                            $c_icon  = isset( $card['icon'] ) ? $card['icon'] : 'heart-check';
-                            $c_title = isset( $card['title'] ) ? $card['title'] : '';
-                            $c_desc  = isset( $card['description'] ) ? $card['description'] : '';
+                            $c_icon   = isset( $card['icon'] ) ? $card['icon'] : 'heart-check';
+                            $c_custom = isset( $card['custom_icon'] ) ? $card['custom_icon'] : '';
+                            $c_title  = isset( $card['title'] ) ? $card['title'] : '';
+                            $c_desc   = isset( $card['description'] ) ? $card['description'] : '';
+                            $c_link   = isset( $card['link'] ) ? $card['link'] : '';
+
+                            $c_custom_src = '';
+                            if ( is_numeric( $c_custom ) && (int) $c_custom > 0 ) {
+                                $src_arr = wp_get_attachment_image_src( (int) $c_custom, 'thumbnail' );
+                                if ( $src_arr ) {
+                                    $c_custom_src = $src_arr[0];
+                                }
+                            } elseif ( is_string( $c_custom ) && ! empty( $c_custom ) ) {
+                                $c_custom_src = $c_custom;
+                            }
                         ?>
                             <div class="pacto-reasons-card-item" data-index="<?php echo esc_attr( $c_idx ); ?>">
                                 <div class="pacto-reasons-card-header">
@@ -457,7 +469,7 @@ function pacto_render_quem_somos_meta_box( $post ) {
                                 </div>
 
                                 <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
-                                    <label for="qs_card_icon_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Ícone do Cartão', 'pacto-25' ); ?></label>
+                                    <label for="qs_card_icon_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Ícone Predefinido (SVG)', 'pacto-25' ); ?></label>
                                     <select id="qs_card_icon_<?php echo esc_attr( $c_idx ); ?>" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][icon]" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; font-size: 13px;">
                                         <option value="heart-check" <?php selected( $c_icon, 'heart-check' ); ?>><?php esc_html_e( '❤️ Coração com Check (Simples e Fácil)', 'pacto-25' ); ?></option>
                                         <option value="clock-check" <?php selected( $c_icon, 'clock-check' ); ?>><?php esc_html_e( '⏱️ Velocímetro / Relógio (Rápidos)', 'pacto-25' ); ?></option>
@@ -467,13 +479,36 @@ function pacto_render_quem_somos_meta_box( $post ) {
                                 </div>
 
                                 <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
+                                    <label><?php esc_html_e( 'Ou Carregar Ícone Personalizado (SVG / Imagem)', 'pacto-25' ); ?></label>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <input type="hidden" id="qs_card_custom_<?php echo esc_attr( $c_idx ); ?>" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][custom_icon]" value="<?php echo esc_attr( $c_custom ); ?>" />
+                                        <div id="qs_card_custom_preview_<?php echo esc_attr( $c_idx ); ?>" style="width: 36px; height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #f8fafc; overflow: hidden; padding: 2px;">
+                                            <?php if ( ! empty( $c_custom_src ) ) : ?>
+                                                <img src="<?php echo esc_url( $c_custom_src ); ?>" alt="" style="max-width:100%; max-height:100%; object-fit:contain;" />
+                                            <?php else : ?>
+                                                <span class="dashicons dashicons-format-image" style="color: #94a3b8; font-size: 18px; width: 18px; height: 18px;"></span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <button type="button" class="button pacto-card-upload-btn" data-target="qs_card_custom_<?php echo esc_attr( $c_idx ); ?>" data-preview="qs_card_custom_preview_<?php echo esc_attr( $c_idx ); ?>" data-remove="qs_card_custom_remove_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Carregar Ícone', 'pacto-25' ); ?></button>
+                                        <button type="button" class="button button-link-delete pacto-card-remove-btn" id="qs_card_custom_remove_<?php echo esc_attr( $c_idx ); ?>" data-target="qs_card_custom_<?php echo esc_attr( $c_idx ); ?>" data-preview="qs_card_custom_preview_<?php echo esc_attr( $c_idx ); ?>" style="<?php echo empty( $c_custom ) ? 'display:none;' : ''; ?>"><?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
+                                    </div>
+                                    <div class="pacto-qs-tip"><?php esc_html_e( 'Se carregar um ficheiro, este substitui o ícone predefinido.', 'pacto-25' ); ?></div>
+                                </div>
+
+                                <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
                                     <label for="qs_card_title_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Título do Cartão', 'pacto-25' ); ?></label>
                                     <input type="text" id="qs_card_title_<?php echo esc_attr( $c_idx ); ?>" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][title]" value="<?php echo esc_attr( $c_title ); ?>" placeholder="<?php esc_attr_e( 'Ex: Simples e Fácil', 'pacto-25' ); ?>" />
                                 </div>
 
-                                <div class="pacto-qs-field-group" style="margin-bottom: 0;">
+                                <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
                                     <label for="qs_card_desc_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Descrição do Cartão', 'pacto-25' ); ?></label>
                                     <textarea id="qs_card_desc_<?php echo esc_attr( $c_idx ); ?>" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][description]" rows="2" placeholder="<?php esc_attr_e( 'Texto descritivo do cartão...', 'pacto-25' ); ?>"><?php echo esc_textarea( $c_desc ); ?></textarea>
+                                </div>
+
+                                <div class="pacto-qs-field-group" style="margin-bottom: 0;">
+                                    <label for="qs_card_link_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Link / URL de Destino (Opcional)', 'pacto-25' ); ?></label>
+                                    <input type="text" id="qs_card_link_<?php echo esc_attr( $c_idx ); ?>" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][link]" value="<?php echo esc_attr( $c_link ); ?>" placeholder="<?php esc_attr_e( 'Ex: /particulares/ ou https://...', 'pacto-25' ); ?>" />
+                                    <div class="pacto-qs-tip"><?php esc_html_e( 'Se preenchido, torna o cartão clicável com link direto.', 'pacto-25' ); ?></div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -499,7 +534,7 @@ function pacto_render_quem_somos_meta_box( $post ) {
             </div>
 
             <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
-                <label for="qs_card_icon___INDEX__"><?php esc_html_e( 'Ícone do Cartão', 'pacto-25' ); ?></label>
+                <label for="qs_card_icon___INDEX__"><?php esc_html_e( 'Ícone Predefinido (SVG)', 'pacto-25' ); ?></label>
                 <select id="qs_card_icon___INDEX__" name="qs_reasons_cards[__INDEX__][icon]" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; font-size: 13px;">
                     <option value="heart-check"><?php esc_html_e( '❤️ Coração com Check (Simples e Fácil)', 'pacto-25' ); ?></option>
                     <option value="clock-check"><?php esc_html_e( '⏱️ Velocímetro / Relógio (Rápidos)', 'pacto-25' ); ?></option>
@@ -509,13 +544,30 @@ function pacto_render_quem_somos_meta_box( $post ) {
             </div>
 
             <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
+                <label><?php esc_html_e( 'Ou Carregar Ícone Personalizado (SVG / Imagem)', 'pacto-25' ); ?></label>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <input type="hidden" id="qs_card_custom___INDEX__" name="qs_reasons_cards[__INDEX__][custom_icon]" value="" />
+                    <div id="qs_card_custom_preview___INDEX__" style="width: 36px; height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #f8fafc; overflow: hidden; padding: 2px;">
+                        <span class="dashicons dashicons-format-image" style="color: #94a3b8; font-size: 18px; width: 18px; height: 18px;"></span>
+                    </div>
+                    <button type="button" class="button pacto-card-upload-btn" data-target="qs_card_custom___INDEX__" data-preview="qs_card_custom_preview___INDEX__" data-remove="qs_card_custom_remove___INDEX__"><?php esc_html_e( 'Carregar Ícone', 'pacto-25' ); ?></button>
+                    <button type="button" class="button button-link-delete pacto-card-remove-btn" id="qs_card_custom_remove___INDEX__" data-target="qs_card_custom___INDEX__" data-preview="qs_card_custom_preview___INDEX__" style="display:none;"><?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
+                </div>
+            </div>
+
+            <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
                 <label for="qs_card_title___INDEX__"><?php esc_html_e( 'Título do Cartão', 'pacto-25' ); ?></label>
                 <input type="text" id="qs_card_title___INDEX__" name="qs_reasons_cards[__INDEX__][title]" value="" placeholder="<?php esc_attr_e( 'Ex: Simples e Fácil', 'pacto-25' ); ?>" />
             </div>
 
-            <div class="pacto-qs-field-group" style="margin-bottom: 0;">
+            <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
                 <label for="qs_card_desc___INDEX__"><?php esc_html_e( 'Descrição do Cartão', 'pacto-25' ); ?></label>
                 <textarea id="qs_card_desc___INDEX__" name="qs_reasons_cards[__INDEX__][description]" rows="2" placeholder="<?php esc_attr_e( 'Texto descritivo do cartão...', 'pacto-25' ); ?>"></textarea>
+            </div>
+
+            <div class="pacto-qs-field-group" style="margin-bottom: 0;">
+                <label for="qs_card_link___INDEX__"><?php esc_html_e( 'Link / URL de Destino (Opcional)', 'pacto-25' ); ?></label>
+                <input type="text" id="qs_card_link___INDEX__" name="qs_reasons_cards[__INDEX__][link]" value="" placeholder="<?php esc_attr_e( 'Ex: /particulares/ ou https://...', 'pacto-25' ); ?>" />
             </div>
         </div>
     </template>
@@ -726,6 +778,43 @@ function pacto_render_quem_somos_meta_box( $post ) {
                 });
             }
         });
+        // 9. Reasons Card Custom Icon Uploader (Delegated)
+        $(document).on('click', '.pacto-card-upload-btn', function(e) {
+            e.preventDefault();
+            var btn = $(this);
+            var targetInput = $('#' + btn.data('target'));
+            var previewWrap = $('#' + btn.data('preview'));
+            var removeBtn   = $('#' + btn.data('remove'));
+
+            var uploader = wp.media({
+                title: 'Selecionar Ícone do Cartão (SVG ou Imagem)',
+                button: { text: 'Usar este ícone' },
+                multiple: false,
+                library: { type: 'image' }
+            });
+
+            uploader.on('select', function() {
+                var attachment = uploader.state().get('selection').first().toJSON();
+                targetInput.val(attachment.id);
+                var imgUrl = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+                previewWrap.html('<img src="' + imgUrl + '" alt="" style="max-width:100%;max-height:100%;object-fit:contain;" />');
+                removeBtn.show();
+            });
+
+            uploader.open();
+        });
+
+        // 10. Reasons Card Remove Custom Icon
+        $(document).on('click', '.pacto-card-remove-btn', function(e) {
+            e.preventDefault();
+            var btn = $(this);
+            var targetInput = $('#' + btn.data('target'));
+            var previewWrap = $('#' + btn.data('preview'));
+
+            targetInput.val('');
+            previewWrap.html('<span class="dashicons dashicons-format-image" style="color: #94a3b8; font-size: 18px; width: 18px; height: 18px;"></span>');
+            btn.hide();
+        });
     });
     </script>
     <?php
@@ -860,15 +949,19 @@ function pacto_save_quem_somos_meta( $post_id ) {
                 continue;
             }
 
-            $icon  = isset( $raw_card['icon'] ) ? sanitize_text_field( wp_unslash( $raw_card['icon'] ) ) : 'heart-check';
-            $title = isset( $raw_card['title'] ) ? sanitize_text_field( wp_unslash( $raw_card['title'] ) ) : '';
-            $desc  = isset( $raw_card['description'] ) ? sanitize_textarea_field( wp_unslash( $raw_card['description'] ) ) : '';
+            $icon        = isset( $raw_card['icon'] ) ? sanitize_text_field( wp_unslash( $raw_card['icon'] ) ) : 'heart-check';
+            $custom_icon = isset( $raw_card['custom_icon'] ) ? sanitize_text_field( wp_unslash( $raw_card['custom_icon'] ) ) : '';
+            $title       = isset( $raw_card['title'] ) ? sanitize_text_field( wp_unslash( $raw_card['title'] ) ) : '';
+            $desc        = isset( $raw_card['description'] ) ? sanitize_textarea_field( wp_unslash( $raw_card['description'] ) ) : '';
+            $link        = isset( $raw_card['link'] ) ? esc_url_raw( wp_unslash( $raw_card['link'] ) ) : '';
 
-            if ( '' !== $title || '' !== $desc ) {
+            if ( '' !== $title || '' !== $desc || '' !== $link || '' !== $custom_icon ) {
                 $sanitized_cards[] = array(
                     'icon'        => $icon,
+                    'custom_icon' => $custom_icon,
                     'title'       => $title,
                     'description' => $desc,
+                    'link'        => $link,
                 );
             }
         }

@@ -598,6 +598,16 @@ body.page-quem-somos,
   margin-bottom: clamp(0.5rem, 1vw, 0.85rem);
 }
 
+.qs-reason-card--link {
+  text-decoration: none;
+  transition: transform var(--transition-fast, 0.2s ease), opacity var(--transition-fast, 0.2s ease);
+}
+
+.qs-reason-card--link:hover {
+  transform: translateY(-4px);
+  opacity: 0.95;
+}
+
 .qs-reason-card__icon svg {
   width: clamp(48px, 4.8vw, 64px);
   height: auto;
@@ -605,6 +615,13 @@ body.page-quem-somos,
   max-height: 64px;
   fill: #FFFFFF;
   color: #FFFFFF;
+}
+
+.qs-reason-card__icon-img {
+  width: clamp(48px, 4.8vw, 64px);
+  height: clamp(48px, 4.8vw, 64px);
+  object-fit: contain;
+  display: block;
 }
 
 .qs-reason-card__title {
