@@ -581,14 +581,66 @@ function initSliders() {
 }
 
 /**
- * Newsletter Form Submission
+ * Newsletter Form Submission (AJAX → saved in WP database)
  */
 function initNewsletterValidation() {
   const form = document.querySelector('.newsletter-form');
-  if (!form) return;
+  if (!form || typeof window.pactoNewsletter === 'undefined') return;
 
-  form.addEventListener('submit', () => {
-    // Form can be submitted freely without blocking validation
+  const cfg = window.pactoNewsletter;
+  const msg = form.querySelector('.newsletter-form__message');
+  const btn = form.querySelector('.newsletter-form__btn');
+  const emailInput = form.querySelector('input[name="newsletter_email"]');
+  const consentInput = form.querySelector('input[name="newsletter_consent"]');
+
+  const showMessage = (text, type) => {
+    if (!msg) return;
+    msg.textContent = text;
+    msg.hidden = false;
+    msg.classList.remove('is-success', 'is-error');
+    msg.classList.add(type === 'success' ? 'is-success' : 'is-error');
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = emailInput ? emailInput.value.trim() : '';
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMessage(cfg.i18n.invalid, 'error');
+      emailInput && emailInput.focus();
+      return;
+    }
+    if (consentInput && !consentInput.checked) {
+      showMessage(cfg.i18n.consent, 'error');
+      consentInput.focus();
+      return;
+    }
+
+    const data = new FormData(form);
+    data.append('action', 'pacto_newsletter_subscribe');
+    data.append('nonce', cfg.nonce);
+    data.append('source', window.location.href);
+
+    btn && (btn.disabled = true);
+    form.classList.add('is-loading');
+
+    try {
+      const res = await fetch(cfg.ajaxUrl, { method: 'POST', body: data, credentials: 'same-origin' });
+      const json = await res.json().catch(() => ({}));
+      const code = (json && json.data && json.data.code) || (json.success ? 'success' : 'error');
+
+      if (json.success) {
+        showMessage(cfg.i18n.success, 'success');
+        form.reset();
+      } else {
+        showMessage(cfg.i18n[code] || cfg.i18n.error, 'error');
+      }
+    } catch (err) {
+      showMessage(cfg.i18n.error, 'error');
+    } finally {
+      btn && (btn.disabled = false);
+      form.classList.remove('is-loading');
+    }
   });
 }
 

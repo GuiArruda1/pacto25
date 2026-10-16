@@ -1138,58 +1138,6 @@ function pacto_25_register_acf_fields() {
         'instruction_placement' => 'label',
     ) );
 
-    // --- FIELD GROUP: QUEM SOMOS (PAGE TEMPLATE) ---
-    acf_add_local_field_group( array(
-        'key' => 'group_pacto_quem_somos',
-        'title' => __( 'Página Quem Somos - Configuração', 'pacto-25' ),
-        'fields' => array(
-            array(
-                'key' => 'field_qs_eyebrow',
-                'label' => __( 'Eyebrow / Pré-título', 'pacto-25' ),
-                'name' => 'qs_eyebrow',
-                'type' => 'text',
-                'default_value' => 'INSTITUCIONAL — PACTO SEGURO',
-            ),
-            array(
-                'key' => 'field_qs_title',
-                'label' => __( 'Título Principal (H1)', 'pacto-25' ),
-                'name' => 'qs_title',
-                'type' => 'textarea',
-                'rows' => 2,
-                'default_value' => "Quem Somos\nSeguros à Medida",
-            ),
-            array(
-                'key' => 'field_qs_description',
-                'label' => __( 'Texto Descritivo', 'pacto-25' ),
-                'name' => 'qs_description',
-                'type' => 'textarea',
-                'rows' => 3,
-                'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
-            ),
-            array(
-                'key' => 'field_qs_image',
-                'label' => __( 'Imagem da Equipa (Corte Circular)', 'pacto-25' ),
-                'name' => 'qs_image',
-                'type' => 'image',
-                'return_format' => 'array',
-                'preview_size' => 'medium',
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'page_template',
-                    'operator' => '==',
-                    'value' => 'page-quem-somos.php',
-                ),
-            ),
-        ),
-        'menu_order' => 0,
-        'position' => 'normal',
-        'style' => 'default',
-        'label_placement' => 'top',
-        'instruction_placement' => 'label',
-    ) );
     // --- FIELD GROUP: TESTEMUNHO (CUSTOM POST TYPE) ---
     acf_add_local_field_group( array(
         'key' => 'group_pacto_testemunho',
@@ -1412,10 +1360,10 @@ function pacto_25_register_acf_fields() {
             ),
             array(
                 'key' => 'field_qs_reasons_eyebrow',
-                'label' => __( 'Subtítulo', 'pacto-25' ),
+                'label' => __( 'Subtítulo (Eyebrow)', 'pacto-25' ),
                 'name' => 'qs_reasons_eyebrow',
                 'type' => 'text',
-                'default_value' => 'PORQUÊ ESCOLHER-NOS',
+                'default_value' => 'SEGURAMENTE CONSIGO',
             ),
             array(
                 'key' => 'field_qs_reasons_title',
@@ -1430,7 +1378,7 @@ function pacto_25_register_acf_fields() {
                 'name' => 'qs_reasons_p1',
                 'type' => 'textarea',
                 'rows' => 3,
-                'default_value' => 'Compreendemos que a escolha de um mediador de seguros é uma decisão de confiança. Por isso, aliamos mais de 25 anos de experiência prática a um atendimento genuinamente personalizado e humanizado.',
+                'default_value' => 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
             ),
             array(
                 'key' => 'field_qs_reasons_p2',
@@ -1438,7 +1386,7 @@ function pacto_25_register_acf_fields() {
                 'name' => 'qs_reasons_p2',
                 'type' => 'textarea',
                 'rows' => 3,
-                'default_value' => 'Analisamos minuciosamente o mercado segurador para lhe apresentar as melhores soluções, negociando coberturas robustas e condições vantajosas para que nunca pague mais do que o estritamente necessário.',
+                'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
             ),
             array(
                 'key' => 'field_qs_reasons_p3',
@@ -1446,7 +1394,46 @@ function pacto_25_register_acf_fields() {
                 'name' => 'qs_reasons_p3',
                 'type' => 'textarea',
                 'rows' => 3,
-                'default_value' => 'Em caso de sinistro ou dúvida, assumimos toda a gestão burocrática por si. A nossa equipa assegura uma resposta célere e eficaz, defendendo sempre e em primeiro lugar os seus legítimos interesses.',
+                'default_value' => 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_qs_reasons_cards',
+                'label' => __( 'Cartões de Destaque (Círculo Vermelho)', 'pacto-25' ),
+                'name' => 'qs_reasons_cards',
+                'type' => 'repeater',
+                'instructions' => __( 'Adicione ou edite os cartões de destaque exibidos dentro do círculo vermelho.', 'pacto-25' ),
+                'layout' => 'block',
+                'button_label' => __( 'Adicionar Cartão', 'pacto-25' ),
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_qs_card_icon',
+                        'label' => __( 'Ícone', 'pacto-25' ),
+                        'name' => 'icon',
+                        'type' => 'select',
+                        'choices' => array(
+                            'heart-check'  => 'Coração com Check (Simples e Fácil)',
+                            'clock-check'  => 'Velocímetro / Relógio (Rápidos)',
+                            'shield-check' => 'Escudo de Proteção',
+                            'users-check'  => 'Equipa / Pessoas',
+                        ),
+                        'default_value' => 'heart-check',
+                    ),
+                    array(
+                        'key' => 'field_qs_card_title',
+                        'label' => __( 'Título', 'pacto-25' ),
+                        'name' => 'title',
+                        'type' => 'text',
+                        'default_value' => 'Simples e Fácil',
+                    ),
+                    array(
+                        'key' => 'field_qs_card_desc',
+                        'label' => __( 'Descrição', 'pacto-25' ),
+                        'name' => 'description',
+                        'type' => 'textarea',
+                        'rows' => 2,
+                        'default_value' => 'Connosco pode subscrever um seguro rápido e sem complicações. Comunicamos de forma clara e objetiva.',
+                    ),
+                ),
             ),
 
             // --- TAB 5: A NOSSA EQUIPA ---

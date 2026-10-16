@@ -30,4 +30,5 @@ require_once PACTO_THEME_DIR . '/inc/cpt-seguros-particulares.php';
 require_once PACTO_THEME_DIR . '/inc/cpt-seguros-empresas.php';
 require_once PACTO_THEME_DIR . '/inc/quem-somos-meta.php';
 require_once PACTO_THEME_DIR . '/inc/sample-posts-seeder.php';
+require_once PACTO_THEME_DIR . '/inc/newsletter.php';
 

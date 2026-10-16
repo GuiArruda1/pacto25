@@ -64,7 +64,11 @@ $privacy_url = function_exists( 'get_privacy_policy_url' ) && get_privacy_policy
                 </p>
             <?php endif; ?>
 
-            <form class="newsletter-form" action="#" method="post">
+            <form class="newsletter-form" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post" novalidate>
+                <!-- Honeypot (hidden from humans) -->
+                <div class="newsletter-form__hp" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+                    <label>Website <input type="text" name="newsletter_website" tabindex="-1" autocomplete="off" /></label>
+                </div>
                 <div class="newsletter-form__row">
                     <input 
                         type="email" 
@@ -83,6 +87,8 @@ $privacy_url = function_exists( 'get_privacy_policy_url' ) && get_privacy_policy
                     <input type="checkbox" name="newsletter_consent" required />
                     <span>Li e aceito a <a href="<?php echo esc_url( $privacy_url ); ?>">Política de Privacidade</a>.</span>
                 </label>
+
+                <p class="newsletter-form__message" role="status" aria-live="polite" hidden></p>
             </form>
         </div>
     </div>

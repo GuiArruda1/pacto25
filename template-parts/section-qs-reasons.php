@@ -9,11 +9,19 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$eyebrow   = pacto_get_field( 'qs_reasons_eyebrow', false, 'SEGURAMENTE CONSIGO' );
-$title     = pacto_get_field( 'qs_reasons_title', false, 'Porquê escolher-nos' );
-$paragraph_1 = pacto_get_field( 'qs_reasons_p1', false, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
-$paragraph_2 = pacto_get_field( 'qs_reasons_p2', false, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
-$paragraph_3 = pacto_get_field( 'qs_reasons_p3', false, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+$page_id = get_the_ID() ?: get_queried_object_id();
+if ( ! $page_id ) {
+    $qs_page = get_page_by_path( 'quem-somos' ) ?: get_page_by_path( 'institucional' );
+    if ( $qs_page ) {
+        $page_id = $qs_page->ID;
+    }
+}
+
+$eyebrow     = pacto_clean_eyebrow( pacto_get_field( 'qs_reasons_eyebrow', $page_id, 'SEGURAMENTE CONSIGO' ) );
+$title       = pacto_get_field( 'qs_reasons_title', $page_id, 'Porquê escolher-nos' );
+$paragraph_1 = pacto_get_field( 'qs_reasons_p1', $page_id, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+$paragraph_2 = pacto_get_field( 'qs_reasons_p2', $page_id, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+$paragraph_3 = pacto_get_field( 'qs_reasons_p3', $page_id, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
 
 // Default feature cards
 $default_cards = array(
@@ -39,7 +47,7 @@ $default_cards = array(
     ),
 );
 
-$cards = pacto_get_field( 'qs_reasons_cards', false, $default_cards );
+$cards = pacto_get_field( 'qs_reasons_cards', $page_id, $default_cards );
 if ( ! is_array( $cards ) || empty( $cards ) ) {
     $cards = $default_cards;
 }

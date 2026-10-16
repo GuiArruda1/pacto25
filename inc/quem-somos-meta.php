@@ -150,12 +150,47 @@ function pacto_render_quem_somos_meta_box( $post ) {
     if ( ! is_array( $saved_team ) || empty( $saved_team ) ) {
         $saved_team = $default_team;
     }
+
+    // 3. Retrieve "Porquê escolher-nos" values
+    $reasons_eyebrow = pacto_get_field( 'qs_reasons_eyebrow', $post->ID, 'SEGURAMENTE CONSIGO' );
+    $reasons_title   = pacto_get_field( 'qs_reasons_title', $post->ID, 'Porquê escolher-nos' );
+    $reasons_p1      = pacto_get_field( 'qs_reasons_p1', $post->ID, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+    $reasons_p2      = pacto_get_field( 'qs_reasons_p2', $post->ID, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+    $reasons_p3      = pacto_get_field( 'qs_reasons_p3', $post->ID, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+
+    $default_cards = array(
+        array(
+            'icon'        => 'heart-check',
+            'title'       => 'Simples e Fácil',
+            'description' => 'Connosco pode subscrever um seguro rápido e sem complicações. Comunicamos de forma clara e objetiva.',
+        ),
+        array(
+            'icon'        => 'clock-check',
+            'title'       => 'Rápidos',
+            'description' => 'Simulamos e emitimos um seguro em menos de 10 minutos.',
+        ),
+        array(
+            'icon'        => 'heart-check',
+            'title'       => 'Simples e Fácil',
+            'description' => 'Connosco pode subscrever um seguro rápido e sem complicações. Comunicamos de forma clara e objetiva.',
+        ),
+        array(
+            'icon'        => 'clock-check',
+            'title'       => 'Rápidos',
+            'description' => 'Simulamos e emitimos um seguro em menos de 10 minutos.',
+        ),
+    );
+
+    $saved_cards = pacto_get_field( 'qs_reasons_cards', $post->ID, false );
+    if ( ! is_array( $saved_cards ) || empty( $saved_cards ) ) {
+        $saved_cards = $default_cards;
+    }
     ?>
     <style>
         .pacto-qs-wrap { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; margin: 6px 0; }
         
         /* Tabs Header */
-        .pacto-qs-tabs-nav { display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 24px; gap: 8px; }
+        .pacto-qs-tabs-nav { display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 24px; gap: 8px; flex-wrap: wrap; }
         .pacto-qs-tab-btn { background: none; border: none; padding: 12px 20px; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; }
         .pacto-qs-tab-btn:hover { color: #E84E38; }
         .pacto-qs-tab-btn.is-active { color: #E84E38; border-bottom-color: #E84E38; font-weight: 700; }
@@ -203,6 +238,18 @@ function pacto_render_quem_somos_meta_box( $post ) {
         .pacto-team-field-hint { font-size: 11px; color: #94a3b8; margin-top: 3px; }
         
         .pacto-team-bottom-bar { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px dashed #cbd5e1; }
+
+        /* Reasons Section UI */
+        .pacto-reasons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+        @media (max-width: 900px) { .pacto-reasons-grid { grid-template-columns: 1fr; } }
+        .pacto-reasons-cards-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+        @media (max-width: 600px) { .pacto-reasons-cards-list { grid-template-columns: 1fr; } }
+        .pacto-reasons-card-item { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; position: relative; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+        .pacto-reasons-card-item:hover { border-color: #cbd5e1; }
+        .pacto-reasons-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .pacto-reasons-card-badge { background: #E84E38; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
+        .pacto-reasons-card-remove { background: transparent; border: none; color: #94a3b8; cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 6px; border-radius: 4px; }
+        .pacto-reasons-card-remove:hover { color: #dc2626; background: #fee2e2; }
     </style>
 
     <div class="pacto-qs-wrap">
@@ -212,9 +259,13 @@ function pacto_render_quem_somos_meta_box( $post ) {
                 <span class="dashicons dashicons-format-image"></span>
                 <?php esc_html_e( '1. "Porque o fazemos?" (Foto e Texto)', 'pacto-25' ); ?>
             </button>
+            <button type="button" class="pacto-qs-tab-btn" data-tab="tab-reasons">
+                <span class="dashicons dashicons-star-filled"></span>
+                <?php esc_html_e( '2. "Porquê escolher-nos" (Narrativa e Cartões)', 'pacto-25' ); ?>
+            </button>
             <button type="button" class="pacto-qs-tab-btn" data-tab="tab-team">
                 <span class="dashicons dashicons-groups"></span>
-                <?php esc_html_e( '2. "A Nossa Equipa" (Membros e Funções)', 'pacto-25' ); ?>
+                <?php esc_html_e( '3. "A Nossa Equipa" (Membros e Funções)', 'pacto-25' ); ?>
             </button>
         </div>
 
@@ -344,9 +395,130 @@ function pacto_render_quem_somos_meta_box( $post ) {
                     <?php esc_html_e( 'Adicionar Outro Membro à Equipa', 'pacto-25' ); ?>
                 </button>
                 <span class="pacto-qs-tip"><?php esc_html_e( 'Lembre-se de clicar em "Actualizar" no canto superior direito para guardar as alterações.', 'pacto-25' ); ?></span>
+        <!-- ========================================== -->
+        <!-- TAB 2: PORQUÊ ESCOLHER-NOS                 -->
+        <!-- ========================================== -->
+        <div class="pacto-qs-panel" id="tab-reasons">
+            <div class="pacto-team-intro">
+                <strong><?php esc_html_e( 'Porquê escolher-nos:', 'pacto-25' ); ?></strong>
+                <?php esc_html_e( 'Edite aqui a narrativa do lado esquerdo (subtítulo, título e parágrafos) e os cartões com ícones exibidos dentro do grande círculo vermelho.', 'pacto-25' ); ?>
+            </div>
+
+            <div class="pacto-reasons-grid">
+                <!-- Coluna Esquerda: Narrativa -->
+                <div class="pacto-reasons-narrative-col">
+                    <h4 style="margin: 0 0 16px; font-size: 14px; font-weight: 700; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">
+                        <?php esc_html_e( 'Narrativa (Lado Esquerdo)', 'pacto-25' ); ?>
+                    </h4>
+
+                    <div class="pacto-qs-field-group">
+                        <label for="qs_reasons_eyebrow"><?php esc_html_e( 'Subtítulo (Eyebrow)', 'pacto-25' ); ?></label>
+                        <input type="text" id="qs_reasons_eyebrow" name="qs_reasons_eyebrow" value="<?php echo esc_attr( $reasons_eyebrow ); ?>" />
+                        <div class="pacto-qs-tip"><?php esc_html_e( 'Ex: SEGURAMENTE CONSIGO', 'pacto-25' ); ?></div>
+                    </div>
+
+                    <div class="pacto-qs-field-group">
+                        <label for="qs_reasons_title"><?php esc_html_e( 'Título Principal', 'pacto-25' ); ?></label>
+                        <input type="text" id="qs_reasons_title" name="qs_reasons_title" value="<?php echo esc_attr( $reasons_title ); ?>" />
+                    </div>
+
+                    <div class="pacto-qs-field-group">
+                        <label for="qs_reasons_p1"><?php esc_html_e( 'Parágrafo 1', 'pacto-25' ); ?></label>
+                        <textarea id="qs_reasons_p1" name="qs_reasons_p1" rows="3"><?php echo esc_textarea( $reasons_p1 ); ?></textarea>
+                    </div>
+
+                    <div class="pacto-qs-field-group">
+                        <label for="qs_reasons_p2"><?php esc_html_e( 'Parágrafo 2', 'pacto-25' ); ?></label>
+                        <textarea id="qs_reasons_p2" name="qs_reasons_p2" rows="3"><?php echo esc_textarea( $reasons_p2 ); ?></textarea>
+                    </div>
+
+                    <div class="pacto-qs-field-group">
+                        <label for="qs_reasons_p3"><?php esc_html_e( 'Parágrafo 3', 'pacto-25' ); ?></label>
+                        <textarea id="qs_reasons_p3" name="qs_reasons_p3" rows="3"><?php echo esc_textarea( $reasons_p3 ); ?></textarea>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Cartões no Círculo Vermelho -->
+                <div class="pacto-reasons-cards-col">
+                    <h4 style="margin: 0 0 16px; font-size: 14px; font-weight: 700; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">
+                        <?php esc_html_e( 'Cartões no Círculo Vermelho (Lado Direito)', 'pacto-25' ); ?>
+                    </h4>
+
+                    <div class="pacto-reasons-cards-list" id="pacto-reasons-cards-wrap">
+                        <?php foreach ( $saved_cards as $c_idx => $card ) : 
+                            $c_icon  = isset( $card['icon'] ) ? $card['icon'] : 'heart-check';
+                            $c_title = isset( $card['title'] ) ? $card['title'] : '';
+                            $c_desc  = isset( $card['description'] ) ? $card['description'] : '';
+                        ?>
+                            <div class="pacto-reasons-card-item" data-index="<?php echo esc_attr( $c_idx ); ?>">
+                                <div class="pacto-reasons-card-header">
+                                    <span class="pacto-reasons-card-badge"><?php echo esc_html( sprintf( __( 'Cartão #%d', 'pacto-25' ), $c_idx + 1 ) ); ?></span>
+                                    <button type="button" class="pacto-reasons-card-remove pacto-btn-delete-card" title="<?php esc_attr_e( 'Remover cartão', 'pacto-25' ); ?>">&times;</button>
+                                </div>
+
+                                <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
+                                    <label for="qs_card_icon_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Ícone do Cartão', 'pacto-25' ); ?></label>
+                                    <select id="qs_card_icon_<?php echo esc_attr( $c_idx ); ?>" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][icon]" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; font-size: 13px;">
+                                        <option value="heart-check" <?php selected( $c_icon, 'heart-check' ); ?>><?php esc_html_e( '❤️ Coração com Check (Simples e Fácil)', 'pacto-25' ); ?></option>
+                                        <option value="clock-check" <?php selected( $c_icon, 'clock-check' ); ?>><?php esc_html_e( '⏱️ Velocímetro / Relógio (Rápidos)', 'pacto-25' ); ?></option>
+                                        <option value="shield-check" <?php selected( $c_icon, 'shield-check' ); ?>><?php esc_html_e( '🛡️ Escudo de Proteção', 'pacto-25' ); ?></option>
+                                        <option value="users-check" <?php selected( $c_icon, 'users-check' ); ?>><?php esc_html_e( '👥 Equipa / Pessoas', 'pacto-25' ); ?></option>
+                                    </select>
+                                </div>
+
+                                <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
+                                    <label for="qs_card_title_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Título do Cartão', 'pacto-25' ); ?></label>
+                                    <input type="text" id="qs_card_title_<?php echo esc_attr( $c_idx ); ?>" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][title]" value="<?php echo esc_attr( $c_title ); ?>" placeholder="<?php esc_attr_e( 'Ex: Simples e Fácil', 'pacto-25' ); ?>" />
+                                </div>
+
+                                <div class="pacto-qs-field-group" style="margin-bottom: 0;">
+                                    <label for="qs_card_desc_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Descrição do Cartão', 'pacto-25' ); ?></label>
+                                    <textarea id="qs_card_desc_<?php echo esc_attr( $c_idx ); ?>" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][description]" rows="2" placeholder="<?php esc_attr_e( 'Texto descritivo do cartão...', 'pacto-25' ); ?>"><?php echo esc_textarea( $c_desc ); ?></textarea>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div style="padding-top: 12px; border-top: 1px dashed #cbd5e1;">
+                        <button type="button" class="button button-secondary" id="pacto-btn-add-card">
+                            <span class="dashicons dashicons-plus-alt2" style="vertical-align: middle; margin-top:-2px;"></span>
+                            <?php esc_html_e( 'Adicionar Outro Cartão', 'pacto-25' ); ?>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Hidden Template for Dynamic Reasons Card Adding -->
+    <template id="pacto-reasons-card-template">
+        <div class="pacto-reasons-card-item" data-index="__INDEX__">
+            <div class="pacto-reasons-card-header">
+                <span class="pacto-reasons-card-badge"><?php esc_html_e( 'Cartão #__NUM__', 'pacto-25' ); ?></span>
+                <button type="button" class="pacto-reasons-card-remove pacto-btn-delete-card" title="<?php esc_attr_e( 'Remover cartão', 'pacto-25' ); ?>">&times;</button>
+            </div>
+
+            <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
+                <label for="qs_card_icon___INDEX__"><?php esc_html_e( 'Ícone do Cartão', 'pacto-25' ); ?></label>
+                <select id="qs_card_icon___INDEX__" name="qs_reasons_cards[__INDEX__][icon]" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; font-size: 13px;">
+                    <option value="heart-check"><?php esc_html_e( '❤️ Coração com Check (Simples e Fácil)', 'pacto-25' ); ?></option>
+                    <option value="clock-check"><?php esc_html_e( '⏱️ Velocímetro / Relógio (Rápidos)', 'pacto-25' ); ?></option>
+                    <option value="shield-check"><?php esc_html_e( '🛡️ Escudo de Proteção', 'pacto-25' ); ?></option>
+                    <option value="users-check"><?php esc_html_e( '👥 Equipa / Pessoas', 'pacto-25' ); ?></option>
+                </select>
+            </div>
+
+            <div class="pacto-qs-field-group" style="margin-bottom: 10px;">
+                <label for="qs_card_title___INDEX__"><?php esc_html_e( 'Título do Cartão', 'pacto-25' ); ?></label>
+                <input type="text" id="qs_card_title___INDEX__" name="qs_reasons_cards[__INDEX__][title]" value="" placeholder="<?php esc_attr_e( 'Ex: Simples e Fácil', 'pacto-25' ); ?>" />
+            </div>
+
+            <div class="pacto-qs-field-group" style="margin-bottom: 0;">
+                <label for="qs_card_desc___INDEX__"><?php esc_html_e( 'Descrição do Cartão', 'pacto-25' ); ?></label>
+                <textarea id="qs_card_desc___INDEX__" name="qs_reasons_cards[__INDEX__][description]" rows="2" placeholder="<?php esc_attr_e( 'Texto descritivo do cartão...', 'pacto-25' ); ?>"></textarea>
+            </div>
+        </div>
+    </template>
 
     <!-- Hidden Template for Dynamic Member Adding -->
     <template id="pacto-team-member-template">
@@ -517,6 +689,43 @@ function pacto_render_quem_somos_meta_box( $post ) {
                 });
             }
         });
+        // 7. Add New Reasons Card
+        $('#pacto-btn-add-card').on('click', function(e) {
+            e.preventDefault();
+            var container = $('#pacto-reasons-cards-wrap');
+            var nextIndex = container.find('.pacto-reasons-card-item').length;
+            var nextNum   = nextIndex + 1;
+            
+            var templateHtml = $('#pacto-reasons-card-template').html();
+            templateHtml = templateHtml.replace(/__INDEX__/g, nextIndex);
+            templateHtml = templateHtml.replace(/__NUM__/g, nextNum);
+
+            container.append(templateHtml);
+        });
+
+        // 8. Delete Reasons Card
+        $(document).on('click', '.pacto-btn-delete-card', function(e) {
+            e.preventDefault();
+            if (confirm('Tem a certeza que pretende remover este cartão?')) {
+                $(this).closest('.pacto-reasons-card-item').fadeOut(250, function() {
+                    $(this).remove();
+                    // Re-index remaining cards
+                    $('#pacto-reasons-cards-wrap .pacto-reasons-card-item').each(function(idx) {
+                        var card = $(this);
+                        var num = idx + 1;
+                        card.attr('data-index', idx);
+                        card.find('.pacto-reasons-card-badge').text('Cartão #' + num);
+                        card.find('select, input, textarea').each(function() {
+                            var el = $(this);
+                            var name = el.attr('name');
+                            if (name) {
+                                el.attr('name', name.replace(/qs_reasons_cards\[\d+\]/, 'qs_reasons_cards[' + idx + ']'));
+                            }
+                        });
+                    });
+                });
+            }
+        });
     });
     </script>
     <?php
@@ -599,6 +808,75 @@ function pacto_save_quem_somos_meta( $post_id ) {
         delete_post_meta( $post_id, '_qs_team_members' );
         if ( function_exists( 'update_field' ) ) {
             update_field( 'qs_team_members', $sanitized_team, $post_id );
+        }
+    }
+
+    // 3. Save "Porquê escolher-nos" fields
+    if ( isset( $_POST['qs_reasons_eyebrow'] ) ) {
+        $reasons_eyebrow_val = sanitize_text_field( wp_unslash( $_POST['qs_reasons_eyebrow'] ) );
+        update_post_meta( $post_id, 'qs_reasons_eyebrow', $reasons_eyebrow_val );
+        if ( function_exists( 'update_field' ) ) {
+            update_field( 'qs_reasons_eyebrow', $reasons_eyebrow_val, $post_id );
+        }
+    }
+
+    if ( isset( $_POST['qs_reasons_title'] ) ) {
+        $reasons_title_val = sanitize_text_field( wp_unslash( $_POST['qs_reasons_title'] ) );
+        update_post_meta( $post_id, 'qs_reasons_title', $reasons_title_val );
+        if ( function_exists( 'update_field' ) ) {
+            update_field( 'qs_reasons_title', $reasons_title_val, $post_id );
+        }
+    }
+
+    if ( isset( $_POST['qs_reasons_p1'] ) ) {
+        $reasons_p1_val = sanitize_textarea_field( wp_unslash( $_POST['qs_reasons_p1'] ) );
+        update_post_meta( $post_id, 'qs_reasons_p1', $reasons_p1_val );
+        if ( function_exists( 'update_field' ) ) {
+            update_field( 'qs_reasons_p1', $reasons_p1_val, $post_id );
+        }
+    }
+
+    if ( isset( $_POST['qs_reasons_p2'] ) ) {
+        $reasons_p2_val = sanitize_textarea_field( wp_unslash( $_POST['qs_reasons_p2'] ) );
+        update_post_meta( $post_id, 'qs_reasons_p2', $reasons_p2_val );
+        if ( function_exists( 'update_field' ) ) {
+            update_field( 'qs_reasons_p2', $reasons_p2_val, $post_id );
+        }
+    }
+
+    if ( isset( $_POST['qs_reasons_p3'] ) ) {
+        $reasons_p3_val = sanitize_textarea_field( wp_unslash( $_POST['qs_reasons_p3'] ) );
+        update_post_meta( $post_id, 'qs_reasons_p3', $reasons_p3_val );
+        if ( function_exists( 'update_field' ) ) {
+            update_field( 'qs_reasons_p3', $reasons_p3_val, $post_id );
+        }
+    }
+
+    if ( isset( $_POST['qs_reasons_cards'] ) && is_array( $_POST['qs_reasons_cards'] ) ) {
+        $sanitized_cards = array();
+        
+        foreach ( $_POST['qs_reasons_cards'] as $raw_card ) {
+            if ( ! is_array( $raw_card ) ) {
+                continue;
+            }
+
+            $icon  = isset( $raw_card['icon'] ) ? sanitize_text_field( wp_unslash( $raw_card['icon'] ) ) : 'heart-check';
+            $title = isset( $raw_card['title'] ) ? sanitize_text_field( wp_unslash( $raw_card['title'] ) ) : '';
+            $desc  = isset( $raw_card['description'] ) ? sanitize_textarea_field( wp_unslash( $raw_card['description'] ) ) : '';
+
+            if ( '' !== $title || '' !== $desc ) {
+                $sanitized_cards[] = array(
+                    'icon'        => $icon,
+                    'title'       => $title,
+                    'description' => $desc,
+                );
+            }
+        }
+
+        update_post_meta( $post_id, 'qs_reasons_cards', $sanitized_cards );
+        delete_post_meta( $post_id, '_qs_reasons_cards' );
+        if ( function_exists( 'update_field' ) ) {
+            update_field( 'qs_reasons_cards', $sanitized_cards, $post_id );
         }
     }
 }

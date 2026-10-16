@@ -918,6 +918,23 @@
   color: var(--color-primary);
 }
 
+.newsletter-form { position: relative; }
+
+.newsletter-form__message {
+  margin: 12px 0 0;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.newsletter-form__message.is-success { color: #1E7B3A; }
+.newsletter-form__message.is-error { color: var(--color-primary, #D42E12); }
+
+.newsletter-form.is-loading .newsletter-form__btn {
+  opacity: 0.6;
+  cursor: progress;
+}
+
 /* --------------------------------------------------------------------------
    Floating Bubbles / Rings & Bouncing Micro-Animation
    -------------------------------------------------------------------------- */
