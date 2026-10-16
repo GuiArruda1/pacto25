@@ -317,14 +317,22 @@ body.page-modelo-seguro,
 .seguro-features-canopy {
   position: absolute;
   top: 50%;
-  left: clamp(48%, 50vw - 30px, 52%);
+  left: 48%;
   transform: translateY(-50%);
-  width: clamp(900px, 70vw, 1300px);
-  height: clamp(900px, 70vw, 1300px);
+  width: clamp(960px, 70vw, 1500px);
+  height: clamp(960px, 70vw, 1500px);
   border-radius: 50%;
   background-color: var(--color-primary);
   z-index: 1;
   pointer-events: none;
+}
+
+@media (min-width: 1920px) {
+  .seguro-features-canopy {
+    left: calc(50% - 40px);
+    width: 1400px;
+    height: 1400px;
+  }
 }
 
 .seguro-features-container {
