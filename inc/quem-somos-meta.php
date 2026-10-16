@@ -21,52 +21,76 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return bool
  */
 function pacto_is_quem_somos_admin( $post ) {
-    if ( ! $post || 'page' !== $post->post_type ) {
+    if ( ! $post ) {
         return false;
     }
 
-    $template = get_post_meta( $post->ID, '_wp_page_template', true );
-    if ( 'page-quem-somos.php' === $template ) {
+    if ( in_array( $post->post_type, array( 'seguro_particular', 'seguro_empresa' ), true ) ) {
         return true;
     }
 
-    $slug = $post->post_name;
-    if ( in_array( $slug, array( 'quem-somos', 'institucional', 'sobre' ), true ) ) {
-        return true;
-    }
+    if ( 'page' === $post->post_type ) {
+        $template = get_post_meta( $post->ID, '_wp_page_template', true );
+        if ( in_array( $template, array( 'page-quem-somos.php', 'page-landing.php' ), true ) ) {
+            return true;
+        }
 
-    $title = mb_strtolower( trim( $post->post_title ) );
-    if ( strpos( $title, 'quem somos' ) !== false || strpos( $title, 'institucional' ) !== false ) {
-        return true;
+        $slug = $post->post_name;
+        if ( in_array( $slug, array( 'quem-somos', 'institucional', 'sobre', 'landing', 'modelo-seguro' ), true ) ) {
+            return true;
+        }
+
+        $title = mb_strtolower( trim( $post->post_title ) );
+        if ( strpos( $title, 'quem somos' ) !== false || strpos( $title, 'institucional' ) !== false || strpos( $title, 'sobre' ) !== false ) {
+            return true;
+        }
     }
 
     return false;
 }
 
 /**
- * Register Quem Somos Meta Box
+ * Register Quem Somos Meta Boxes
  */
-function pacto_register_quem_somos_meta_box() {
-    $current_id = isset( $_GET['post'] ) ? (int) $_GET['post'] : ( isset( $_POST['post_ID'] ) ? (int) $_POST['post_ID'] : 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    if ( ! $current_id ) {
+function pacto_register_quem_somos_meta_box( $post_type = '', $post = null ) {
+    if ( ! $post instanceof WP_Post ) {
+        $current_id = isset( $_GET['post'] ) ? (int) $_GET['post'] : ( isset( $_POST['post_ID'] ) ? (int) $_POST['post_ID'] : 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if ( ! $current_id && isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post ) {
+            $post = $GLOBALS['post'];
+        } elseif ( $current_id ) {
+            $post = get_post( $current_id );
+        }
+    }
+
+    if ( ! $post || ! pacto_is_quem_somos_admin( $post ) ) {
         return;
     }
 
-    $post = get_post( $current_id );
-    if ( ! pacto_is_quem_somos_admin( $post ) ) {
-        return;
-    }
+    $target_type = ! empty( $post->post_type ) ? $post->post_type : 'page';
 
+    // 1. Dedicated Slider de Cartões Meta Box (Always visible at the top)
     add_meta_box(
-        'pacto_quem_somos_options_meta',
-        __( 'Quem Somos — Conteúdo & A Nossa Equipa', 'pacto-25' ),
-        'pacto_render_quem_somos_meta_box',
-        'page',
+        'pacto_reasons_slider_meta',
+        __( '⭐ Porquê Escolher-nos — Slider de Cartões (Círculo Vermelho)', 'pacto-25' ),
+        'pacto_render_reasons_standalone_meta_box',
+        $target_type,
         'normal',
         'high'
     );
+
+    // 2. Quem Somos Sections (Porque o fazemos & Equipa)
+    if ( 'page' === $target_type ) {
+        add_meta_box(
+            'pacto_quem_somos_options_meta',
+            __( 'Quem Somos — "Porque o fazemos?" & A Nossa Equipa', 'pacto-25' ),
+            'pacto_render_quem_somos_meta_box',
+            $target_type,
+            'normal',
+            'default'
+        );
+    }
 }
-add_action( 'add_meta_boxes', 'pacto_register_quem_somos_meta_box' );
+add_action( 'add_meta_boxes', 'pacto_register_quem_somos_meta_box', 10, 2 );
 
 /**
  * Enqueue Media Scripts on the Quem Somos edit screen
@@ -76,14 +100,16 @@ function pacto_quem_somos_admin_scripts( $hook ) {
         return;
     }
 
-    $current_id = isset( $_GET['post'] ) ? (int) $_GET['post'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    if ( ! $current_id ) {
-        return;
+    $current_id = isset( $_GET['post'] ) ? (int) $_GET['post'] : ( isset( $_POST['post_ID'] ) ? (int) $_POST['post_ID'] : 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    if ( ! $current_id && isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post ) {
+        $current_id = $GLOBALS['post']->ID;
     }
 
-    $post = get_post( $current_id );
-    if ( ! pacto_is_quem_somos_admin( $post ) ) {
-        return;
+    if ( $current_id ) {
+        $post = get_post( $current_id );
+        if ( $post && ! pacto_is_quem_somos_admin( $post ) ) {
+            return;
+        }
     }
 
     wp_enqueue_media();
@@ -425,6 +451,9 @@ function pacto_render_quem_somos_meta_box( $post ) {
                     <?php esc_html_e( 'Adicionar Outro Membro à Equipa', 'pacto-25' ); ?>
                 </button>
                 <span class="pacto-qs-tip"><?php esc_html_e( 'Lembre-se de clicar em "Actualizar" no canto superior direito para guardar as alterações.', 'pacto-25' ); ?></span>
+            </div>
+        </div>
+
         <!-- ========================================== -->
         <!-- TAB 2: PORQUÊ ESCOLHER-NOS                 -->
         <!-- ========================================== -->
@@ -997,10 +1026,283 @@ function pacto_save_quem_somos_meta( $post_id ) {
         }
 
         update_post_meta( $post_id, 'qs_reasons_cards', $sanitized_cards );
+        update_post_meta( $post_id, 'seguro_features_cards', $sanitized_cards );
         delete_post_meta( $post_id, '_qs_reasons_cards' );
+        delete_post_meta( $post_id, '_seguro_features_cards' );
         if ( function_exists( 'update_field' ) ) {
             update_field( 'qs_reasons_cards', $sanitized_cards, $post_id );
+            update_field( 'seguro_features_cards', $sanitized_cards, $post_id );
         }
     }
 }
-add_action( 'save_post_page', 'pacto_save_quem_somos_meta' );
+add_action( 'save_post', 'pacto_save_quem_somos_meta' );
+
+/**
+ * Render Standalone Reasons Slider Meta Box
+ */
+function pacto_render_reasons_standalone_meta_box( $post ) {
+    wp_nonce_field( 'pacto_quem_somos_meta_save', 'pacto_quem_somos_nonce' );
+
+    $is_seguro = in_array( $post->post_type, array( 'seguro_particular', 'seguro_empresa' ), true ) || 'page-landing.php' === get_post_meta( $post->ID, '_wp_page_template', true );
+
+    $eyebrow_val = pacto_get_field( $is_seguro ? 'seguro_features_eyebrow' : 'qs_reasons_eyebrow', $post->ID, '' );
+    if ( empty( $eyebrow_val ) ) {
+        $eyebrow_val = pacto_get_field( 'qs_reasons_eyebrow', $post->ID, $is_seguro ? 'VANTAGENS & COBERTURAS' : 'SEGURAMENTE CONSIGO' );
+    }
+
+    $title_val = pacto_get_field( $is_seguro ? 'seguro_features_title' : 'qs_reasons_title', $post->ID, '' );
+    if ( empty( $title_val ) ) {
+        $title_val = pacto_get_field( 'qs_reasons_title', $post->ID, $is_seguro ? 'Vantagens, Coberturas e Serviços' : 'Porquê escolher-nos' );
+    }
+
+    $p1_val = pacto_get_field( $is_seguro ? 'seguro_features_p1' : 'qs_reasons_p1', $post->ID, '' );
+    if ( empty( $p1_val ) ) {
+        $p1_val = pacto_get_field( 'qs_reasons_p1', $post->ID, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+    }
+
+    $p2_val = pacto_get_field( $is_seguro ? 'seguro_features_p2' : 'qs_reasons_p2', $post->ID, '' );
+    if ( empty( $p2_val ) ) {
+        $p2_val = pacto_get_field( 'qs_reasons_p2', $post->ID, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+    }
+
+    $p3_val = pacto_get_field( $is_seguro ? 'seguro_features_p3' : 'qs_reasons_p3', $post->ID, '' );
+    if ( empty( $p3_val ) ) {
+        $p3_val = pacto_get_field( 'qs_reasons_p3', $post->ID, 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+    }
+
+    $default_cards = array(
+        // Slide 1
+        array( 'icon' => 'heart-check', 'title' => 'Simples e Fácil', 'description' => 'Connosco pode subscrever um seguro rápido e sem complicações. Comunicamos de forma clara e objetiva.', 'link' => '' ),
+        array( 'icon' => 'clock-check', 'title' => 'Rápidos', 'description' => 'Simulamos e emitimos um seguro em menos de 10 minutos.', 'link' => '' ),
+        array( 'icon' => 'heart-check', 'title' => 'Seguro à Medida', 'description' => 'Adaptamos cada solução e cobertura às necessidades específicas da sua vida e da sua família.', 'link' => '' ),
+        array( 'icon' => 'clock-check', 'title' => 'Confiança & Rigor', 'description' => 'Mais de 25 anos de experiência e solidez no setor, com acompanhamento próximo em cada etapa.', 'link' => '' ),
+        // Slide 2
+        array( 'icon' => 'heart-check', 'title' => 'Transparência Total', 'description' => 'Sem letras pequenas nem surpresas. Condições transparentes e rigorosas em todas as fases.', 'link' => '' ),
+        array( 'icon' => 'clock-check', 'title' => 'Apoio Contínuo', 'description' => 'Linha dedicada para esclarecimento de dúvidas e resolução ágil e proativa de sinistros.', 'link' => '' ),
+        array( 'icon' => 'heart-check', 'title' => 'Soluções Integradas', 'description' => 'Parcerias com as maiores seguradoras do mercado para garantir as melhores condições e garantias.', 'link' => '' ),
+        array( 'icon' => 'clock-check', 'title' => 'Proximidade Humana', 'description' => 'Uma equipa experiente sempre acessível e disponível para lhe dar total tranquilidade no dia a dia.', 'link' => '' ),
+    );
+
+    $cards = pacto_get_field( $is_seguro ? 'seguro_features_cards' : 'qs_reasons_cards', $post->ID, false );
+    if ( ! is_array( $cards ) || empty( $cards ) ) {
+        $cards = pacto_get_field( 'qs_reasons_cards', $post->ID, $default_cards );
+    }
+    if ( ! is_array( $cards ) || empty( $cards ) ) {
+        $cards = $default_cards;
+    }
+    ?>
+    <style>
+        .pacto-reasons-standalone-wrap { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; padding: 6px 0; }
+        .pacto-reasons-info-banner { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px 16px; border-radius: 4px; margin-bottom: 20px; font-size: 13px; color: #1e3a8a; line-height: 1.5; }
+        .pacto-reasons-info-banner strong { color: #1d4ed8; }
+        .pacto-reasons-cards-grid-admin { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px; }
+        .pacto-reasons-admin-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; position: relative; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+        .pacto-reasons-admin-card:hover { border-color: #cbd5e1; }
+        .pacto-reasons-admin-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .pacto-slide-badge { background: #E84E38; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
+        .pacto-slide-badge-secondary { background: #1e293b; color: #fff; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 12px; margin-left: 6px; }
+    </style>
+
+    <div class="pacto-reasons-standalone-wrap">
+        <div class="pacto-reasons-info-banner">
+            <strong><?php esc_html_e( '💡 Carrossel / Slider Interativo:', 'pacto-25' ); ?></strong>
+            <?php esc_html_e( 'Os cartões abaixo são agrupados automaticamente de 4 em 4 em cada slide (grid 2x2 do Figma). As setas ‹ e › no site deslizam entre os slides com suporte completo a gestos de swipe no telemóvel.', 'pacto-25' ); ?>
+        </div>
+
+        <div style="background: #fafafa; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px;">
+            <h4 style="margin: 0 0 14px; font-size: 14px; font-weight: 700; color: #1e293b;">
+                <?php esc_html_e( '1. Textos da Narrativa (Lado Esquerdo)', 'pacto-25' ); ?>
+            </h4>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px;">
+                <div class="pacto-qs-field-group">
+                    <label for="standalone_reasons_eyebrow" style="display:block; font-weight:600; font-size:12px; margin-bottom:4px;"><?php esc_html_e( 'Subtítulo (Eyebrow)', 'pacto-25' ); ?></label>
+                    <input type="text" id="standalone_reasons_eyebrow" name="qs_reasons_eyebrow" value="<?php echo esc_attr( $eyebrow_val ); ?>" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px;" />
+                </div>
+                <div class="pacto-qs-field-group">
+                    <label for="standalone_reasons_title" style="display:block; font-weight:600; font-size:12px; margin-bottom:4px;"><?php esc_html_e( 'Título Principal', 'pacto-25' ); ?></label>
+                    <input type="text" id="standalone_reasons_title" name="qs_reasons_title" value="<?php echo esc_attr( $title_val ); ?>" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px;" />
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+                <div class="pacto-qs-field-group">
+                    <label for="standalone_reasons_p1" style="display:block; font-weight:600; font-size:12px; margin-bottom:4px;"><?php esc_html_e( 'Parágrafo 1', 'pacto-25' ); ?></label>
+                    <textarea id="standalone_reasons_p1" name="qs_reasons_p1" rows="3" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:12px;"><?php echo esc_textarea( $p1_val ); ?></textarea>
+                </div>
+                <div class="pacto-qs-field-group">
+                    <label for="standalone_reasons_p2" style="display:block; font-weight:600; font-size:12px; margin-bottom:4px;"><?php esc_html_e( 'Parágrafo 2', 'pacto-25' ); ?></label>
+                    <textarea id="standalone_reasons_p2" name="qs_reasons_p2" rows="3" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:12px;"><?php echo esc_textarea( $p2_val ); ?></textarea>
+                </div>
+                <div class="pacto-qs-field-group">
+                    <label for="standalone_reasons_p3" style="display:block; font-weight:600; font-size:12px; margin-bottom:4px;"><?php esc_html_e( 'Parágrafo 3', 'pacto-25' ); ?></label>
+                    <textarea id="standalone_reasons_p3" name="qs_reasons_p3" rows="3" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:12px;"><?php echo esc_textarea( $p3_val ); ?></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <h4 style="margin: 0; font-size: 14px; font-weight: 700; color: #1e293b;">
+                    <?php esc_html_e( '2. Cartões do Slider no Círculo Vermelho', 'pacto-25' ); ?>
+                </h4>
+                <span style="font-size: 12px; color: #64748b;">
+                    <?php echo esc_html( sprintf( __( 'Total: %d cartões (%d slides de 4)', 'pacto-25' ), count( $cards ), ceil( count( $cards ) / 4 ) ) ); ?>
+                </span>
+            </div>
+
+            <div class="pacto-reasons-cards-grid-admin" id="standalone-reasons-cards-wrap">
+                <?php foreach ( $cards as $c_idx => $card ) : 
+                    $c_icon   = isset( $card['icon'] ) ? $card['icon'] : 'heart-check';
+                    $c_custom = isset( $card['custom_icon'] ) ? $card['custom_icon'] : '';
+                    $c_title  = isset( $card['title'] ) ? $card['title'] : '';
+                    $c_desc   = isset( $card['description'] ) ? $card['description'] : '';
+                    $c_link   = isset( $card['link'] ) ? $card['link'] : '';
+
+                    $slide_num = floor( $c_idx / 4 ) + 1;
+                    $card_num  = ( $c_idx % 4 ) + 1;
+
+                    $c_custom_src = '';
+                    if ( is_numeric( $c_custom ) && (int) $c_custom > 0 ) {
+                        $src_arr = wp_get_attachment_image_src( (int) $c_custom, 'thumbnail' );
+                        if ( $src_arr ) {
+                            $c_custom_src = $src_arr[0];
+                        }
+                    } elseif ( is_string( $c_custom ) && ! empty( $c_custom ) ) {
+                        $c_custom_src = $c_custom;
+                    }
+                ?>
+                    <div class="pacto-reasons-admin-card" data-index="<?php echo esc_attr( $c_idx ); ?>">
+                        <div class="pacto-reasons-admin-card-header">
+                            <div>
+                                <span class="pacto-slide-badge"><?php echo esc_html( sprintf( __( 'Slide %d', 'pacto-25' ), $slide_num ) ); ?></span>
+                                <span class="pacto-slide-badge-secondary"><?php echo esc_html( sprintf( __( 'Cartão #%d', 'pacto-25' ), $card_num ) ); ?></span>
+                            </div>
+                            <?php if ( $c_idx >= 4 ) : ?>
+                                <button type="button" class="pacto-reasons-card-remove pacto-btn-delete-card" title="<?php esc_attr_e( 'Remover cartão', 'pacto-25' ); ?>">&times;</button>
+                            <?php endif; ?>
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Ícone Predefinido (SVG)', 'pacto-25' ); ?></label>
+                            <select name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][icon]" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; font-size: 13px;">
+                                <option value="heart-check" <?php selected( $c_icon, 'heart-check' ); ?>><?php esc_html_e( '❤️ Coração com Check (Simples e Fácil)', 'pacto-25' ); ?></option>
+                                <option value="clock-check" <?php selected( $c_icon, 'clock-check' ); ?>><?php esc_html_e( '⏱️ Velocímetro / Relógio (Rápidos)', 'pacto-25' ); ?></option>
+                                <option value="shield-check" <?php selected( $c_icon, 'shield-check' ); ?>><?php esc_html_e( '🛡️ Escudo de Proteção', 'pacto-25' ); ?></option>
+                                <option value="users-check" <?php selected( $c_icon, 'users-check' ); ?>><?php esc_html_e( '👥 Equipa / Pessoas', 'pacto-25' ); ?></option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Ou Ícone Personalizado (Upload)', 'pacto-25' ); ?></label>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="hidden" id="standalone_card_custom_<?php echo esc_attr( $c_idx ); ?>" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][custom_icon]" value="<?php echo esc_attr( $c_custom ); ?>" />
+                                <div id="standalone_card_custom_preview_<?php echo esc_attr( $c_idx ); ?>" style="width: 36px; height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #f8fafc; overflow: hidden; padding: 2px;">
+                                    <?php if ( ! empty( $c_custom_src ) ) : ?>
+                                        <img src="<?php echo esc_url( $c_custom_src ); ?>" alt="" style="max-width:100%; max-height:100%; object-fit:contain;" />
+                                    <?php else : ?>
+                                        <span class="dashicons dashicons-format-image" style="color: #94a3b8; font-size: 18px; width: 18px; height: 18px;"></span>
+                                    <?php endif; ?>
+                                </div>
+                                <button type="button" class="button pacto-card-upload-btn" data-target="standalone_card_custom_<?php echo esc_attr( $c_idx ); ?>" data-preview="standalone_card_custom_preview_<?php echo esc_attr( $c_idx ); ?>" data-remove="standalone_card_custom_remove_<?php echo esc_attr( $c_idx ); ?>"><?php esc_html_e( 'Carregar', 'pacto-25' ); ?></button>
+                                <button type="button" class="button button-link-delete pacto-card-remove-btn" id="standalone_card_custom_remove_<?php echo esc_attr( $c_idx ); ?>" data-target="standalone_card_custom_<?php echo esc_attr( $c_idx ); ?>" data-preview="standalone_card_custom_preview_<?php echo esc_attr( $c_idx ); ?>" style="<?php echo empty( $c_custom ) ? 'display:none;' : ''; ?>"><?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Título do Cartão', 'pacto-25' ); ?></label>
+                            <input type="text" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][title]" value="<?php echo esc_attr( $c_title ); ?>" placeholder="<?php esc_attr_e( 'Ex: Simples e Fácil', 'pacto-25' ); ?>" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:13px;" />
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Descrição do Cartão', 'pacto-25' ); ?></label>
+                            <textarea name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][description]" rows="2" placeholder="<?php esc_attr_e( 'Texto descritivo...', 'pacto-25' ); ?>" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:12px;"><?php echo esc_textarea( $c_desc ); ?></textarea>
+                        </div>
+
+                        <div style="margin-bottom: 0;">
+                            <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Link / URL (Opcional)', 'pacto-25' ); ?></label>
+                            <input type="text" name="qs_reasons_cards[<?php echo esc_attr( $c_idx ); ?>][link]" value="<?php echo esc_attr( $c_link ); ?>" placeholder="<?php esc_attr_e( 'Ex: /particulares/ ou https://...', 'pacto-25' ); ?>" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:13px;" />
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <div style="padding-top: 14px; border-top: 1px dashed #cbd5e1; display:flex; justify-content:space-between; align-items:center;">
+                <button type="button" class="button button-primary" id="pacto-btn-add-standalone-card">
+                    <span class="dashicons dashicons-plus-alt2" style="vertical-align: middle; margin-top:-2px;"></span>
+                    <?php esc_html_e( 'Adicionar Outro Cartão ao Slider', 'pacto-25' ); ?>
+                </button>
+                <span style="font-size: 12px; color: #64748b;"><?php esc_html_e( 'Clique em "Actualizar" no canto superior direito para guardar.', 'pacto-25' ); ?></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Template for Standalone Reasons Card Adding -->
+    <template id="pacto-standalone-reasons-card-template">
+        <div class="pacto-reasons-admin-card" data-index="__INDEX__">
+            <div class="pacto-reasons-admin-card-header">
+                <div>
+                    <span class="pacto-slide-badge"><?php esc_html_e( 'Novo Cartão', 'pacto-25' ); ?></span>
+                    <span class="pacto-slide-badge-secondary">#__NUM__</span>
+                </div>
+                <button type="button" class="pacto-reasons-card-remove pacto-btn-delete-card" title="<?php esc_attr_e( 'Remover cartão', 'pacto-25' ); ?>">&times;</button>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Ícone Predefinido (SVG)', 'pacto-25' ); ?></label>
+                <select name="qs_reasons_cards[__INDEX__][icon]" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; font-size: 13px;">
+                    <option value="heart-check"><?php esc_html_e( '❤️ Coração com Check (Simples e Fácil)', 'pacto-25' ); ?></option>
+                    <option value="clock-check"><?php esc_html_e( '⏱️ Velocímetro / Relógio (Rápidos)', 'pacto-25' ); ?></option>
+                    <option value="shield-check"><?php esc_html_e( '🛡️ Escudo de Proteção', 'pacto-25' ); ?></option>
+                    <option value="users-check"><?php esc_html_e( '👥 Equipa / Pessoas', 'pacto-25' ); ?></option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Ou Ícone Personalizado (Upload)', 'pacto-25' ); ?></label>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <input type="hidden" id="standalone_card_custom___INDEX__" name="qs_reasons_cards[__INDEX__][custom_icon]" value="" />
+                    <div id="standalone_card_custom_preview___INDEX__" style="width: 36px; height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #f8fafc; overflow: hidden; padding: 2px;">
+                        <span class="dashicons dashicons-format-image" style="color: #94a3b8; font-size: 18px; width: 18px; height: 18px;"></span>
+                    </div>
+                    <button type="button" class="button pacto-card-upload-btn" data-target="standalone_card_custom___INDEX__" data-preview="standalone_card_custom_preview___INDEX__" data-remove="standalone_card_custom_remove___INDEX__"><?php esc_html_e( 'Carregar', 'pacto-25' ); ?></button>
+                    <button type="button" class="button button-link-delete pacto-card-remove-btn" id="standalone_card_custom_remove___INDEX__" data-target="standalone_card_custom___INDEX__" data-preview="standalone_card_custom_preview___INDEX__" style="display:none;"><?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Título do Cartão', 'pacto-25' ); ?></label>
+                <input type="text" name="qs_reasons_cards[__INDEX__][title]" value="" placeholder="<?php esc_attr_e( 'Ex: Simples e Fácil', 'pacto-25' ); ?>" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:13px;" />
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Descrição do Cartão', 'pacto-25' ); ?></label>
+                <textarea name="qs_reasons_cards[__INDEX__][description]" rows="2" placeholder="<?php esc_attr_e( 'Texto descritivo...', 'pacto-25' ); ?>" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:12px;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 0;">
+                <label style="display:block; font-size:12px; font-weight:600; color:#475569; margin-bottom:4px;"><?php esc_html_e( 'Link / URL (Opcional)', 'pacto-25' ); ?></label>
+                <input type="text" name="qs_reasons_cards[__INDEX__][link]" value="" placeholder="<?php esc_attr_e( 'Ex: /particulares/ ou https://...', 'pacto-25' ); ?>" style="width:100%; border:1px solid #cbd5e1; border-radius:6px; padding:6px 10px; font-size:13px;" />
+            </div>
+        </div>
+    </template>
+
+    <script>
+    jQuery(document).ready(function($) {
+        // Add card in standalone box
+        $('#pacto-btn-add-standalone-card').on('click', function(e) {
+            e.preventDefault();
+            var container = $('#standalone-reasons-cards-wrap');
+            var template = $('#pacto-standalone-reasons-card-template').html();
+            var currentCards = container.find('.pacto-reasons-admin-card');
+            var nextIndex = currentCards.length;
+            var nextNum = nextIndex + 1;
+
+            var html = template.replace(/__INDEX__/g, nextIndex).replace(/__NUM__/g, nextNum);
+            container.append(html);
+        });
+    });
+    </script>
+    <?php
+}
+

@@ -140,7 +140,30 @@ if ( 'single-seguro' === $context || 'landing' === $context ) {
     $btn_text = isset( $args['btn_text'] ) ? $args['btn_text'] : pacto_get_field( 'qs_reasons_btn_text', $post_id, '' );
     $btn_link = isset( $args['btn_link'] ) ? $args['btn_link'] : pacto_get_field( 'qs_reasons_btn_link', $post_id, '' );
 
-    $cards    = isset( $args['cards'] ) ? $args['cards'] : pacto_get_field( 'qs_reasons_cards', $post_id, $default_cards );
+    $cards = isset( $args['cards'] ) ? $args['cards'] : pacto_get_field( 'qs_reasons_cards', $post_id, null );
+}
+
+if ( ! is_array( $cards ) || empty( $cards ) ) {
+    // Check if individual card fields exist (from standard ACF without PRO)
+    $indiv = array();
+    for ( $i = 1; $i <= 8; $i++ ) {
+        $c_title = pacto_get_field( "qs_card_{$i}_title", $post_id, '' );
+        if ( empty( $c_title ) ) {
+            $c_title = pacto_get_field( "seguro_card_{$i}_title", $post_id, '' );
+        }
+        if ( ! empty( $c_title ) ) {
+            $indiv[] = array(
+                'icon'        => pacto_get_field( "qs_card_{$i}_icon", $post_id, 'heart-check' ),
+                'custom_icon' => pacto_get_field( "qs_card_{$i}_custom_icon", $post_id, '' ),
+                'title'       => $c_title,
+                'description' => pacto_get_field( "qs_card_{$i}_desc", $post_id, '' ),
+                'link'        => pacto_get_field( "qs_card_{$i}_link", $post_id, '' ),
+            );
+        }
+    }
+    if ( ! empty( $indiv ) ) {
+        $cards = $indiv;
+    }
 }
 
 if ( ! is_array( $cards ) || empty( $cards ) ) {

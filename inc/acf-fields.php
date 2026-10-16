@@ -1525,6 +1525,259 @@ function pacto_25_register_acf_fields() {
         'instruction_placement' => 'label',
     ) );
 
+    // =========================================================================
+    // FIELD GROUP: STANDALONE REASONS / FEATURES SLIDER
+    // Visible directly as its own dedicated unmissable section for Quem Somos, Single Seguro and Landing
+    // =========================================================================
+    $reasons_slider_locations = array(
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-quem-somos.php',
+            ),
+        ),
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-landing.php',
+            ),
+        ),
+        array(
+            array(
+                'param'    => 'post_type',
+                'operator' => '==',
+                'value'    => 'seguro_particular',
+            ),
+        ),
+        array(
+            array(
+                'param'    => 'post_type',
+                'operator' => '==',
+                'value'    => 'seguro_empresa',
+            ),
+        ),
+    );
+    if ( $qs_page ) {
+        $reasons_slider_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => $qs_page->ID,
+            ),
+        );
+    }
+
+    $reasons_standalone_fields = array(
+        // Narrative Fields
+        array(
+            'key' => 'field_standalone_qs_reasons_eyebrow',
+            'label' => __( 'Subtítulo (Eyebrow)', 'pacto-25' ),
+            'name' => 'qs_reasons_eyebrow',
+            'type' => 'text',
+            'default_value' => 'SEGURAMENTE CONSIGO',
+        ),
+        array(
+            'key' => 'field_standalone_qs_reasons_title',
+            'label' => __( 'Título Principal (H2)', 'pacto-25' ),
+            'name' => 'qs_reasons_title',
+            'type' => 'text',
+            'default_value' => 'Porquê escolher-nos',
+        ),
+        array(
+            'key' => 'field_standalone_qs_reasons_p1',
+            'label' => __( 'Parágrafo 1', 'pacto-25' ),
+            'name' => 'qs_reasons_p1',
+            'type' => 'textarea',
+            'rows' => 3,
+            'default_value' => 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+        ),
+        array(
+            'key' => 'field_standalone_qs_reasons_p2',
+            'label' => __( 'Parágrafo 2', 'pacto-25' ),
+            'name' => 'qs_reasons_p2',
+            'type' => 'textarea',
+            'rows' => 3,
+            'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+        ),
+        array(
+            'key' => 'field_standalone_qs_reasons_p3',
+            'label' => __( 'Parágrafo 3', 'pacto-25' ),
+            'name' => 'qs_reasons_p3',
+            'type' => 'textarea',
+            'rows' => 3,
+            'default_value' => 'Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+        ),
+    );
+
+    // Tab for Slide 1
+    $reasons_standalone_fields[] = array(
+        'key' => 'field_tab_slide_1_cards',
+        'label' => __( 'Slide 1 — Cartões 1 a 4', 'pacto-25' ),
+        'type' => 'tab',
+    );
+
+    $default_card_titles = array(
+        1 => array( 'Simples e Fácil', 'heart-check', 'Connosco pode subscrever um seguro rápido e sem complicações. Comunicamos de forma clara e objetiva.' ),
+        2 => array( 'Rápidos', 'clock-check', 'Simulamos e emitimos um seguro em menos de 10 minutos.' ),
+        3 => array( 'Seguro à Medida', 'heart-check', 'Adaptamos cada solução e cobertura às necessidades específicas da sua vida e da sua família.' ),
+        4 => array( 'Confiança & Rigor', 'clock-check', 'Mais de 25 anos de experiência e solidez no setor, com acompanhamento próximo em cada etapa.' ),
+        5 => array( 'Transparência Total', 'heart-check', 'Sem letras pequenas nem surpresas. Condições transparentes e rigorosas em todas as fases.' ),
+        6 => array( 'Apoio Contínuo', 'clock-check', 'Linha dedicada para esclarecimento de dúvidas e resolução ágil e proativa de sinistros.' ),
+        7 => array( 'Soluções Integradas', 'heart-check', 'Parcerias com as maiores seguradoras do mercado para garantir as melhores condições e garantias.' ),
+        8 => array( 'Proximidade Humana', 'clock-check', 'Uma equipa experiente sempre acessível e disponível para lhe dar total tranquilidade no dia a dia.' ),
+    );
+
+    for ( $i = 1; $i <= 8; $i++ ) {
+        if ( 5 === $i ) {
+            $reasons_standalone_fields[] = array(
+                'key' => 'field_tab_slide_2_cards',
+                'label' => __( 'Slide 2 — Cartões 5 a 8', 'pacto-25' ),
+                'type' => 'tab',
+            );
+        }
+
+        $c_defaults = isset( $default_card_titles[ $i ] ) ? $default_card_titles[ $i ] : array( 'Cartão ' . $i, 'heart-check', '' );
+
+        $reasons_standalone_fields[] = array(
+            'key' => "field_qs_card_{$i}_accordion",
+            'label' => sprintf( __( 'Cartão #%d — %s', 'pacto-25' ), $i, $c_defaults[0] ),
+            'type' => 'accordion',
+            'open' => ( $i <= 2 ) ? 1 : 0,
+            'multi_expand' => 1,
+        );
+
+        $reasons_standalone_fields[] = array(
+            'key' => "field_qs_card_{$i}_title",
+            'label' => sprintf( __( 'Título do Cartão #%d', 'pacto-25' ), $i ),
+            'name' => "qs_card_{$i}_title",
+            'type' => 'text',
+            'default_value' => $c_defaults[0],
+            'wrapper' => array( 'width' => '50' ),
+        );
+
+        $reasons_standalone_fields[] = array(
+            'key' => "field_qs_card_{$i}_icon",
+            'label' => sprintf( __( 'Ícone Predefinido (SVG) #%d', 'pacto-25' ), $i ),
+            'name' => "qs_card_{$i}_icon",
+            'type' => 'select',
+            'choices' => array(
+                'heart-check'  => '❤️ Coração com Check (Simples e Fácil)',
+                'clock-check'  => '⏱️ Velocímetro / Relógio (Rápidos)',
+                'shield-check' => '🛡️ Escudo de Proteção',
+                'users-check'  => '👥 Equipa / Pessoas',
+            ),
+            'default_value' => $c_defaults[1],
+            'wrapper' => array( 'width' => '50' ),
+        );
+
+        $reasons_standalone_fields[] = array(
+            'key' => "field_qs_card_{$i}_custom_icon",
+            'label' => sprintf( __( 'Ou Ícone Personalizado (Upload) #%d', 'pacto-25' ), $i ),
+            'name' => "qs_card_{$i}_custom_icon",
+            'type' => 'image',
+            'return_format' => 'id',
+            'preview_size' => 'thumbnail',
+            'instructions' => __( 'Substitui o ícone predefinido.', 'pacto-25' ),
+            'wrapper' => array( 'width' => '50' ),
+        );
+
+        $reasons_standalone_fields[] = array(
+            'key' => "field_qs_card_{$i}_link",
+            'label' => sprintf( __( 'Link / URL (Opcional) #%d', 'pacto-25' ), $i ),
+            'name' => "qs_card_{$i}_link",
+            'type' => 'text',
+            'placeholder' => '/particulares/ ou https://...',
+            'wrapper' => array( 'width' => '50' ),
+        );
+
+        $reasons_standalone_fields[] = array(
+            'key' => "field_qs_card_{$i}_desc",
+            'label' => sprintf( __( 'Descrição do Cartão #%d', 'pacto-25' ), $i ),
+            'name' => "qs_card_{$i}_desc",
+            'type' => 'textarea',
+            'rows' => 2,
+            'default_value' => $c_defaults[2],
+        );
+    }
+
+    // Tab for Repeater (ACF Pro)
+    $reasons_standalone_fields[] = array(
+        'key' => 'field_tab_reasons_repeater',
+        'label' => __( 'Mais Cartões (Repetidor)', 'pacto-25' ),
+        'type' => 'tab',
+    );
+
+    $reasons_standalone_fields[] = array(
+        'key' => 'field_standalone_qs_reasons_cards',
+        'label' => __( 'Cartões Adicionais (Repetidor)', 'pacto-25' ),
+        'name' => 'qs_reasons_cards',
+        'type' => 'repeater',
+        'instructions' => __( 'Se desejar adicionar mais cartões ao carrossel além dos 8 cartões principais.', 'pacto-25' ),
+        'layout' => 'block',
+        'button_label' => __( 'Adicionar Mais Cartões', 'pacto-25' ),
+        'sub_fields' => array(
+            array(
+                'key' => 'field_standalone_sub_icon',
+                'label' => __( 'Ícone Predefinido (SVG)', 'pacto-25' ),
+                'name' => 'icon',
+                'type' => 'select',
+                'choices' => array(
+                    'heart-check'  => '❤️ Coração com Check (Simples e Fácil)',
+                    'clock-check'  => '⏱️ Velocímetro / Relógio (Rápidos)',
+                    'shield-check' => '🛡️ Escudo de Proteção',
+                    'users-check'  => '👥 Equipa / Pessoas',
+                ),
+                'default_value' => 'heart-check',
+                'wrapper' => array( 'width' => '50' ),
+            ),
+            array(
+                'key' => 'field_standalone_sub_custom_icon',
+                'label' => __( 'Ou Ícone Personalizado (Upload)', 'pacto-25' ),
+                'name' => 'custom_icon',
+                'type' => 'image',
+                'return_format' => 'id',
+                'preview_size' => 'thumbnail',
+                'wrapper' => array( 'width' => '50' ),
+            ),
+            array(
+                'key' => 'field_standalone_sub_title',
+                'label' => __( 'Título', 'pacto-25' ),
+                'name' => 'title',
+                'type' => 'text',
+                'default_value' => 'Simples e Fácil',
+            ),
+            array(
+                'key' => 'field_standalone_sub_desc',
+                'label' => __( 'Descrição', 'pacto-25' ),
+                'name' => 'description',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Connosco pode subscrever um seguro rápido e sem complicações.',
+            ),
+            array(
+                'key' => 'field_standalone_sub_link',
+                'label' => __( 'Link / URL (Opcional)', 'pacto-25' ),
+                'name' => 'link',
+                'type' => 'text',
+                'placeholder' => '/particulares/',
+            ),
+        ),
+    );
+
+    acf_add_local_field_group( array(
+        'key' => 'group_pacto_reasons_slider_standalone',
+        'title' => __( '⭐ Porquê Escolher-nos — Slider de Cartões (Círculo Vermelho)', 'pacto-25' ),
+        'fields' => $reasons_standalone_fields,
+        'location' => $reasons_slider_locations,
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ) );
+
     $particulares_locations = array(
         array(
             array(
