@@ -68,17 +68,7 @@ function pacto_register_quem_somos_meta_box( $post_type = '', $post = null ) {
 
     $target_type = ! empty( $post->post_type ) ? $post->post_type : 'page';
 
-    // 1. Dedicated Slider de Cartões Meta Box (Always visible at the top)
-    add_meta_box(
-        'pacto_reasons_slider_meta',
-        __( '⭐ Porquê Escolher-nos — Slider de Cartões (Círculo Vermelho)', 'pacto-25' ),
-        'pacto_render_reasons_standalone_meta_box',
-        $target_type,
-        'normal',
-        'high'
-    );
-
-    // 2. Quem Somos Sections (Porque o fazemos & Equipa)
+    // Quem Somos Sections (Porque o fazemos & Equipa)
     if ( 'page' === $target_type ) {
         add_meta_box(
             'pacto_quem_somos_options_meta',
