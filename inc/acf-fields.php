@@ -1656,7 +1656,42 @@ function pacto_25_register_acf_fields() {
                 'key' => 'field_sinistro_docs_native_notice',
                 'label' => __( 'Lista de Documentos PDF (Lista Dinâmica)', 'pacto-25' ),
                 'type' => 'message',
-                'message' => __( '💡 <strong>Nota:</strong> Os ficheiros PDF são geridos na caixa <strong>"📋 Em Caso de Sinistro — Passos & Documentos Necessários PDF (Arrastar, Adicionar e Remover)"</strong> mais abaixo nesta página.', 'pacto-25' ),
+                'message' => __( '💡 <strong>Nota:</strong> Os ficheiros PDF são geridos abaixo.', 'pacto-25' ),
+            ),
+
+            // --- TAB: FAQS ---
+            array(
+                'key' => 'field_tab_sinistro_faq',
+                'label' => __( 'Secção 5: Questões Frequentes (FAQs)', 'pacto-25' ),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_sinistro_faq_eyebrow',
+                'label' => __( 'Eyebrow', 'pacto-25' ),
+                'name' => 'seguro_faq_eyebrow',
+                'type' => 'text',
+                'default_value' => '• FAQS',
+            ),
+            array(
+                'key' => 'field_sinistro_faq_title',
+                'label' => __( 'Título Principal (H2)', 'pacto-25' ),
+                'name' => 'seguro_faq_title',
+                'type' => 'text',
+                'default_value' => 'Questões Mais Frequentes',
+            ),
+            array(
+                'key' => 'field_sinistro_faq_description',
+                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'name' => 'seguro_faq_description',
+                'type' => 'textarea',
+                'rows' => 3,
+                'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
+            ),
+            array(
+                'key' => 'field_sinistro_faq_native_notice',
+                'label' => __( 'Lista de Questões e Respostas (Lista Dinâmica)', 'pacto-25' ),
+                'type' => 'message',
+                'message' => __( '💡 <strong>Nota:</strong> As perguntas e respostas (FAQs) são geridas abaixo.', 'pacto-25' ),
             ),
         ),
         'location' => array(
@@ -1665,6 +1700,20 @@ function pacto_25_register_acf_fields() {
                     'param' => 'page_template',
                     'operator' => '==',
                     'value' => 'page-sinistro.php',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'page',
+                    'operator' => '==',
+                    'value' => '54',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'page',
+                    'operator' => '==',
+                    'value' => 'sinistro',
                 ),
             ),
         ),

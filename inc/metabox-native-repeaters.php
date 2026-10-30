@@ -46,7 +46,13 @@ function pacto_is_sinistro_repeater_screen( $post ) {
 		return false;
 	}
 	$tpl = get_post_meta( $post->ID, '_wp_page_template', true );
-	if ( 'page-sinistro.php' === $tpl || in_array( $post->post_name, array( 'sinistro', 'sinistros', 'em-caso-de-sinistro' ), true ) ) {
+	if (
+		'page-sinistro.php' === $tpl ||
+		54 === (int) $post->ID ||
+		in_array( $post->post_name, array( 'sinistro', 'sinistros', 'em-caso-de-sinistro' ), true ) ||
+		false !== stripos( $post->post_name, 'sinistr' ) ||
+		false !== stripos( $post->post_title, 'sinistr' )
+	) {
 		return true;
 	}
 	return false;
@@ -63,7 +69,13 @@ function pacto_is_protocolos_repeater_screen( $post ) {
 		return false;
 	}
 	$tpl = get_post_meta( $post->ID, '_wp_page_template', true );
-	if ( 'page-protocolos.php' === $tpl || in_array( $post->post_name, array( 'protocolos', 'protocolo' ), true ) ) {
+	if (
+		'page-protocolos.php' === $tpl ||
+		71 === (int) $post->ID ||
+		in_array( $post->post_name, array( 'protocolos', 'protocolo' ), true ) ||
+		false !== stripos( $post->post_name, 'protocol' ) ||
+		false !== stripos( $post->post_title, 'protocol' )
+	) {
 		return true;
 	}
 	return false;
@@ -212,20 +224,65 @@ function pacto_render_native_repeaters_shared_assets() {
 			});
 		}
 
-		if ($.fn.sortable) {
-			$('.pacto-nr-list').each(function() {
-				var $list = $(this);
-				$list.sortable({
-					handle: '.pacto-nr-header',
-					cursor: 'grabbing',
-					opacity: 0.85,
-					tolerance: 'pointer',
-					update: function() {
-						reindexNrList($list);
+		function initNrSortable() {
+			if ($.fn.sortable) {
+				$('.pacto-nr-list').each(function() {
+					var $list = $(this);
+					if ($list.hasClass('ui-sortable')) {
+						$list.sortable('refresh');
+						return;
 					}
+					$list.sortable({
+						handle: '.pacto-nr-header',
+						cursor: 'grabbing',
+						opacity: 0.85,
+						tolerance: 'pointer',
+						update: function() {
+							reindexNrList($list);
+						}
+					});
 				});
-			});
+			}
 		}
+
+		// Dock Native Repeaters directly inside their corresponding ACF Tabs when ACF is active
+		function dockNativeRepeatersIntoAcfTabs() {
+			var dockMap = [
+				{ source: '#pacto-dock-sinistro-steps', target: '#acf-field_sinistro_steps_native_notice .acf-input', metabox: '#pacto_sinistro_repeaters_metabox' },
+				{ source: '#pacto-dock-sinistro-docs', target: '#acf-field_sinistro_docs_native_notice .acf-input', metabox: '#pacto_sinistro_repeaters_metabox' },
+				{ source: '#pacto-dock-seguro-steps', target: '#acf-field_seguro_steps_native_notice .acf-input', metabox: '#pacto_seguro_steps_repeater_metabox' },
+				{ source: '#pacto-dock-seguro-docs', target: '#acf-field_seguro_docs_native_notice .acf-input', metabox: '#pacto_seguro_docs_repeater_metabox' },
+				{ source: '#pacto-dock-seguro-faq', target: '#acf-field_seguro_faq_native_notice .acf-input, #acf-field_sinistro_faq_native_notice .acf-input', metabox: '#pacto_seguro_faq_repeater_metabox' },
+				{ source: '#pacto-dock-protocolos-cond', target: '#acf-field_protocolos_cond_native_notice .acf-input', metabox: '#pacto_protocolos_repeaters_metabox' },
+				{ source: '#pacto-dock-protocolos-vantagens', target: '#acf-field_protocolos_vantagens_native_notice .acf-input', metabox: '#pacto_protocolos_repeaters_metabox' },
+				{ source: '#pacto_hero_slider_repeater_metabox .inside > *', target: '#acf-field_hero_slides_native_notice .acf-input', metabox: '#pacto_hero_slider_repeater_metabox' },
+				{ source: '#pacto_testimonials_repeater_metabox .inside > *', target: '#acf-field_testimonials_native_notice .acf-input', metabox: '#pacto_testimonials_repeater_metabox' },
+				{ source: '#pacto_quem_somos_reasons_meta .inside > *', target: '#acf-field_qs_reasons_native_notice .acf-input', metabox: '#pacto_quem_somos_reasons_meta' },
+				{ source: '#pacto_quem_somos_team_meta .inside > *', target: '#acf-field_qs_team_native_notice .acf-input', metabox: '#pacto_quem_somos_team_meta' },
+				{ source: '#pacto_reasons_slider_meta .inside > *', target: '#acf-field_seguro_features_cards_native_notice .acf-input', metabox: '#pacto_reasons_slider_meta' }
+			];
+
+			$.each(dockMap, function(_, item) {
+				var $target = $(item.target).first();
+				var $source = $(item.source);
+				if ($target.length && $source.length) {
+					$target.empty().append($source);
+					var $mb = $(item.metabox);
+					if ($mb.length && $mb.find('.pacto-nr-list, .pacto-repeater-wrap, #pacto-hero-slides-list, #pacto-testimonials-repeater-list').length === 0) {
+						$mb.hide();
+					}
+				}
+			});
+
+			initNrSortable();
+		}
+
+		dockNativeRepeatersIntoAcfTabs();
+		setTimeout(dockNativeRepeatersIntoAcfTabs, 250);
+
+		$(document).on('click', '.acf-tab-button', function() {
+			setTimeout(initNrSortable, 50);
+		});
 
 		// Add item
 		$(document).on('click', '.pacto-nr-add-btn', function(e) {
@@ -294,6 +351,8 @@ function pacto_render_native_repeaters_shared_assets() {
 	</script>
 	<?php
 }
+add_action( 'admin_footer-post.php', 'pacto_render_native_repeaters_shared_assets' );
+add_action( 'admin_footer-post-new.php', 'pacto_render_native_repeaters_shared_assets' );
 
 /**
  * 1. Render Single Seguro Steps Repeater (`seguro_steps_list`)
@@ -321,7 +380,8 @@ function pacto_render_seguro_steps_repeater_metabox( $post ) {
 		}
 	}
 	?>
-	<div class="pacto-nr-box">
+	<div class="pacto-nr-box" id="pacto-dock-seguro-steps">
+		<?php wp_nonce_field( 'pacto_native_repeaters_save', 'pacto_native_repeaters_nonce' ); ?>
 		<div class="pacto-nr-banner">
 			<strong><?php esc_html_e( '👣 Passos para Subscrição:', 'pacto-25' ); ?></strong>
 			<?php esc_html_e( 'Arraste os passos para reordenar, altere as fotos circulares ou adicione/remova passos.', 'pacto-25' ); ?>
@@ -420,7 +480,8 @@ function pacto_render_seguro_docs_repeater_metabox( $post ) {
 		);
 	}
 	?>
-	<div class="pacto-nr-box">
+	<div class="pacto-nr-box" id="pacto-dock-seguro-docs">
+		<?php wp_nonce_field( 'pacto_native_repeaters_save', 'pacto_native_repeaters_nonce' ); ?>
 		<div class="pacto-nr-banner">
 			<strong><?php esc_html_e( '📄 Documentos Legais (PDF):', 'pacto-25' ); ?></strong>
 			<?php esc_html_e( 'Adicione, remova ou reordene os documentos para download na secção Documentos Legais.', 'pacto-25' ); ?>
@@ -515,7 +576,8 @@ function pacto_render_seguro_faq_repeater_metabox( $post ) {
 		);
 	}
 	?>
-	<div class="pacto-nr-box">
+	<div class="pacto-nr-box" id="pacto-dock-seguro-faq">
+		<?php wp_nonce_field( 'pacto_native_repeaters_save', 'pacto_native_repeaters_nonce' ); ?>
 		<div class="pacto-nr-banner">
 			<strong><?php esc_html_e( '❓ Questões Mais Frequentes (FAQs):', 'pacto-25' ); ?></strong>
 			<?php esc_html_e( 'Adicione, remova ou arraste as perguntas e respostas para reordenar o acordeão de FAQs.', 'pacto-25' ); ?>
@@ -600,98 +662,106 @@ function pacto_render_sinistro_repeaters_metabox( $post ) {
 	}
 	?>
 	<div class="pacto-nr-box">
-		<h4 style="margin: 0 0 10px; font-size: 14px; font-weight: 700; color: #1e293b;">
-			<?php esc_html_e( '1. Passos "Como Participar um Sinistro"', 'pacto-25' ); ?>
-		</h4>
-		<div class="pacto-nr-list" id="pacto-sinistro-steps-list" data-prefix="pacto_sinistro_steps" data-label="Passo">
-			<?php foreach ( array_values( $steps ) as $idx => $s ) :
-				$txt = isset( $s['text'] ) ? $s['text'] : '';
-			?>
+		<div id="pacto-dock-sinistro-steps">
+			<?php wp_nonce_field( 'pacto_native_repeaters_save', 'pacto_native_repeaters_nonce' ); ?>
+			<div class="pacto-nr-banner">
+				<strong><?php esc_html_e( '📋 Passos "Como Participar um Sinistro" (1, 2, 3...):', 'pacto-25' ); ?></strong>
+				<?php esc_html_e( 'Adicione, remova, edite ou arraste os passos numerados para reordenar.', 'pacto-25' ); ?>
+			</div>
+			<div class="pacto-nr-list" id="pacto-sinistro-steps-list" data-prefix="pacto_sinistro_steps" data-label="Passo">
+				<?php foreach ( array_values( $steps ) as $idx => $s ) :
+					$txt = isset( $s['text'] ) ? $s['text'] : '';
+				?>
+					<div class="pacto-nr-item">
+						<div class="pacto-nr-header">
+							<span class="pacto-nr-badge">☰ <?php echo esc_html( sprintf( __( 'Passo #%d', 'pacto-25' ), $idx + 1 ) ); ?></span>
+							<button type="button" class="pacto-nr-remove">✕ <?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
+						</div>
+						<div class="pacto-nr-field" style="margin-bottom:0;">
+							<input type="text" name="pacto_sinistro_steps[<?php echo esc_attr( $idx ); ?>][text]" value="<?php echo esc_attr( $txt ); ?>" />
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<div class="pacto-nr-actions" style="margin-bottom:16px;">
+				<button type="button" class="button button-primary pacto-nr-add-btn" data-list="pacto-sinistro-steps-list" data-template="pacto-sinistro-step-tpl">
+					+ <?php esc_html_e( 'Adicionar Passo de Sinistro', 'pacto-25' ); ?>
+				</button>
+			</div>
+
+			<script type="text/html" id="pacto-sinistro-step-tpl">
 				<div class="pacto-nr-item">
 					<div class="pacto-nr-header">
-						<span class="pacto-nr-badge">☰ <?php echo esc_html( sprintf( __( 'Passo #%d', 'pacto-25' ), $idx + 1 ) ); ?></span>
+						<span class="pacto-nr-badge">☰ Passo #__NUM__</span>
 						<button type="button" class="pacto-nr-remove">✕ <?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
 					</div>
 					<div class="pacto-nr-field" style="margin-bottom:0;">
-						<input type="text" name="pacto_sinistro_steps[<?php echo esc_attr( $idx ); ?>][text]" value="<?php echo esc_attr( $txt ); ?>" />
+						<input type="text" name="pacto_sinistro_steps[__INDEX__][text]" value="" placeholder="Descrição do passo..." />
 					</div>
 				</div>
-			<?php endforeach; ?>
-		</div>
-		<div class="pacto-nr-actions" style="margin-bottom:24px;">
-			<button type="button" class="button button-secondary pacto-nr-add-btn" data-list="pacto-sinistro-steps-list" data-template="pacto-sinistro-step-tpl">
-				+ <?php esc_html_e( 'Adicionar Passo de Sinistro', 'pacto-25' ); ?>
-			</button>
+			</script>
 		</div>
 
-		<h4 style="margin: 0 0 10px; font-size: 14px; font-weight: 700; color: #1e293b;">
-			<?php esc_html_e( '2. Documentos Necessários (PDF)', 'pacto-25' ); ?>
-		</h4>
-		<div class="pacto-nr-list" id="pacto-sinistro-docs-list" data-prefix="pacto_sinistro_docs" data-label="Documento">
-			<?php foreach ( array_values( $docs ) as $idx => $doc ) :
-				$d_name = isset( $doc['name'] ) ? $doc['name'] : '';
-				$d_file = isset( $doc['file'] ) ? ( is_array( $doc['file'] ) && isset( $doc['file']['url'] ) ? $doc['file']['url'] : $doc['file'] ) : '';
-			?>
+		<div id="pacto-dock-sinistro-docs">
+			<?php wp_nonce_field( 'pacto_native_repeaters_save', 'pacto_native_repeaters_nonce' ); ?>
+			<div class="pacto-nr-banner">
+				<strong><?php esc_html_e( '📄 Documentos Necessários (PDF):', 'pacto-25' ); ?></strong>
+				<?php esc_html_e( 'Adicione, remova ou arraste os documentos PDF.', 'pacto-25' ); ?>
+			</div>
+			<div class="pacto-nr-list" id="pacto-sinistro-docs-list" data-prefix="pacto_sinistro_docs" data-label="Documento">
+				<?php foreach ( array_values( $docs ) as $idx => $doc ) :
+					$d_name = isset( $doc['name'] ) ? $doc['name'] : '';
+					$d_file = isset( $doc['file'] ) ? ( is_array( $doc['file'] ) && isset( $doc['file']['url'] ) ? $doc['file']['url'] : $doc['file'] ) : '';
+				?>
+					<div class="pacto-nr-item">
+						<div class="pacto-nr-header">
+							<span class="pacto-nr-badge">☰ <?php echo esc_html( sprintf( __( 'Documento #%d', 'pacto-25' ), $idx + 1 ) ); ?></span>
+							<button type="button" class="pacto-nr-remove">✕ <?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
+						</div>
+						<div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+							<div class="pacto-nr-field" style="margin-bottom:0;">
+								<label><?php esc_html_e( 'Nome do Documento', 'pacto-25' ); ?></label>
+								<input type="text" name="pacto_sinistro_docs[<?php echo esc_attr( $idx ); ?>][name]" value="<?php echo esc_attr( $d_name ); ?>" />
+							</div>
+							<div class="pacto-nr-field" style="margin-bottom:0;">
+								<label><?php esc_html_e( 'Ficheiro PDF / URL', 'pacto-25' ); ?></label>
+								<div class="pacto-nr-file-row">
+									<input type="text" class="pacto-nr-file-input" name="pacto_sinistro_docs[<?php echo esc_attr( $idx ); ?>][file]" value="<?php echo esc_attr( $d_file ); ?>" />
+									<button type="button" class="button pacto-nr-file-btn"><?php esc_html_e( 'Escolher PDF', 'pacto-25' ); ?></button>
+								</div>
+							</div>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<div class="pacto-nr-actions">
+				<button type="button" class="button button-primary pacto-nr-add-btn" data-list="pacto-sinistro-docs-list" data-template="pacto-sinistro-doc-tpl">
+					+ <?php esc_html_e( 'Adicionar Documento PDF', 'pacto-25' ); ?>
+				</button>
+			</div>
+
+			<script type="text/html" id="pacto-sinistro-doc-tpl">
 				<div class="pacto-nr-item">
 					<div class="pacto-nr-header">
-						<span class="pacto-nr-badge">☰ <?php echo esc_html( sprintf( __( 'Documento #%d', 'pacto-25' ), $idx + 1 ) ); ?></span>
+						<span class="pacto-nr-badge">☰ Documento #__NUM__</span>
 						<button type="button" class="pacto-nr-remove">✕ <?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
 					</div>
 					<div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
 						<div class="pacto-nr-field" style="margin-bottom:0;">
 							<label><?php esc_html_e( 'Nome do Documento', 'pacto-25' ); ?></label>
-							<input type="text" name="pacto_sinistro_docs[<?php echo esc_attr( $idx ); ?>][name]" value="<?php echo esc_attr( $d_name ); ?>" />
+							<input type="text" name="pacto_sinistro_docs[__INDEX__][name]" value="" placeholder="Ex: Declaração Amigável (PDF)" />
 						</div>
 						<div class="pacto-nr-field" style="margin-bottom:0;">
 							<label><?php esc_html_e( 'Ficheiro PDF / URL', 'pacto-25' ); ?></label>
 							<div class="pacto-nr-file-row">
-								<input type="text" class="pacto-nr-file-input" name="pacto_sinistro_docs[<?php echo esc_attr( $idx ); ?>][file]" value="<?php echo esc_attr( $d_file ); ?>" />
+								<input type="text" class="pacto-nr-file-input" name="pacto_sinistro_docs[__INDEX__][file]" value="" placeholder="https://..." />
 								<button type="button" class="button pacto-nr-file-btn"><?php esc_html_e( 'Escolher PDF', 'pacto-25' ); ?></button>
 							</div>
 						</div>
 					</div>
 				</div>
-			<?php endforeach; ?>
+			</script>
 		</div>
-		<div class="pacto-nr-actions">
-			<button type="button" class="button button-primary pacto-nr-add-btn" data-list="pacto-sinistro-docs-list" data-template="pacto-sinistro-doc-tpl">
-				+ <?php esc_html_e( 'Adicionar Documento PDF', 'pacto-25' ); ?>
-			</button>
-		</div>
-
-		<script type="text/html" id="pacto-sinistro-step-tpl">
-			<div class="pacto-nr-item">
-				<div class="pacto-nr-header">
-					<span class="pacto-nr-badge">☰ Passo #__NUM__</span>
-					<button type="button" class="pacto-nr-remove">✕ <?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
-				</div>
-				<div class="pacto-nr-field" style="margin-bottom:0;">
-					<input type="text" name="pacto_sinistro_steps[__INDEX__][text]" value="" placeholder="Descrição do passo..." />
-				</div>
-			</div>
-		</script>
-
-		<script type="text/html" id="pacto-sinistro-doc-tpl">
-			<div class="pacto-nr-item">
-				<div class="pacto-nr-header">
-					<span class="pacto-nr-badge">☰ Documento #__NUM__</span>
-					<button type="button" class="pacto-nr-remove">✕ <?php esc_html_e( 'Remover', 'pacto-25' ); ?></button>
-				</div>
-				<div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-					<div class="pacto-nr-field" style="margin-bottom:0;">
-						<label><?php esc_html_e( 'Nome do Documento', 'pacto-25' ); ?></label>
-						<input type="text" name="pacto_sinistro_docs[__INDEX__][name]" value="" placeholder="Ex: Declaração Amigável (PDF)" />
-					</div>
-					<div class="pacto-nr-field" style="margin-bottom:0;">
-						<label><?php esc_html_e( 'Ficheiro PDF / URL', 'pacto-25' ); ?></label>
-						<div class="pacto-nr-file-row">
-							<input type="text" class="pacto-nr-file-input" name="pacto_sinistro_docs[__INDEX__][file]" value="" placeholder="https://..." />
-							<button type="button" class="button pacto-nr-file-btn"><?php esc_html_e( 'Escolher PDF', 'pacto-25' ); ?></button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</script>
 	</div>
 	<?php
 }
@@ -734,10 +804,8 @@ function pacto_render_protocolos_repeaters_metabox( $post ) {
 	?>
 	<div class="pacto-nr-box">
 		<div style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-			<div>
-				<h4 style="margin: 0 0 10px; font-size: 14px; font-weight: 700; color: #1e293b;">
-					<?php esc_html_e( '1. Lista de Ordens e Associações', 'pacto-25' ); ?>
-				</h4>
+			<div id="pacto-dock-protocolos-cond">
+				<?php wp_nonce_field( 'pacto_native_repeaters_save', 'pacto_native_repeaters_nonce' ); ?>
 				<div class="pacto-nr-list" id="pacto-protocolos-cond-list" data-prefix="pacto_protocolos_cond" data-label="Entidade">
 					<?php foreach ( array_values( $cond_list ) as $idx => $row ) :
 						$val = isset( $row['item'] ) ? $row['item'] : '';
@@ -758,12 +826,22 @@ function pacto_render_protocolos_repeaters_metabox( $post ) {
 						+ <?php esc_html_e( 'Adicionar Ordem / Associação', 'pacto-25' ); ?>
 					</button>
 				</div>
+
+				<script type="text/html" id="pacto-protocolos-cond-tpl">
+					<div class="pacto-nr-item">
+						<div class="pacto-nr-header">
+							<span class="pacto-nr-badge">☰ Entidade #__NUM__</span>
+							<button type="button" class="pacto-nr-remove">✕</button>
+						</div>
+						<div class="pacto-nr-field" style="margin-bottom:0;">
+							<input type="text" name="pacto_protocolos_cond[__INDEX__][item]" value="" placeholder="Nome da Ordem ou Associação..." />
+						</div>
+					</div>
+				</script>
 			</div>
 
-			<div>
-				<h4 style="margin: 0 0 10px; font-size: 14px; font-weight: 700; color: #1e293b;">
-					<?php esc_html_e( '2. Vantagens dos Protocolos (Círculo Vermelho)', 'pacto-25' ); ?>
-				</h4>
+			<div id="pacto-dock-protocolos-vantagens">
+				<?php wp_nonce_field( 'pacto_native_repeaters_save', 'pacto_native_repeaters_nonce' ); ?>
 				<div class="pacto-nr-list" id="pacto-protocolos-vant-list" data-prefix="pacto_protocolos_vant" data-label="Vantagem">
 					<?php foreach ( array_values( $vantagens_list ) as $idx => $row ) :
 						$val = isset( $row['item'] ) ? $row['item'] : '';
@@ -784,32 +862,20 @@ function pacto_render_protocolos_repeaters_metabox( $post ) {
 						+ <?php esc_html_e( 'Adicionar Vantagem', 'pacto-25' ); ?>
 					</button>
 				</div>
+
+				<script type="text/html" id="pacto-protocolos-vant-tpl">
+					<div class="pacto-nr-item">
+						<div class="pacto-nr-header">
+							<span class="pacto-nr-badge">☰ Vantagem #__NUM__</span>
+							<button type="button" class="pacto-nr-remove">✕</button>
+						</div>
+						<div class="pacto-nr-field" style="margin-bottom:0;">
+							<input type="text" name="pacto_protocolos_vant[__INDEX__][item]" value="" placeholder="Descrição da vantagem..." />
+						</div>
+					</div>
+				</script>
 			</div>
 		</div>
-
-		<script type="text/html" id="pacto-protocolos-cond-tpl">
-			<div class="pacto-nr-item">
-				<div class="pacto-nr-header">
-					<span class="pacto-nr-badge">☰ Entidade #__NUM__</span>
-					<button type="button" class="pacto-nr-remove">✕</button>
-				</div>
-				<div class="pacto-nr-field" style="margin-bottom:0;">
-					<input type="text" name="pacto_protocolos_cond[__INDEX__][item]" value="" placeholder="Nome da Ordem ou Associação..." />
-				</div>
-			</div>
-		</script>
-
-		<script type="text/html" id="pacto-protocolos-vant-tpl">
-			<div class="pacto-nr-item">
-				<div class="pacto-nr-header">
-					<span class="pacto-nr-badge">☰ Vantagem #__NUM__</span>
-					<button type="button" class="pacto-nr-remove">✕</button>
-				</div>
-				<div class="pacto-nr-field" style="margin-bottom:0;">
-					<input type="text" name="pacto_protocolos_vant[__INDEX__][item]" value="" placeholder="Descrição da vantagem..." />
-				</div>
-			</div>
-		</script>
 	</div>
 	<?php
 }
