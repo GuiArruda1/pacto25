@@ -778,7 +778,7 @@ function pacto_25_register_acf_fields() {
                 'label' => __( 'Subtítulo', 'pacto-25' ),
                 'name' => 'qs_cta_eyebrow',
                 'type' => 'text',
-                'default_value' => 'FALE CONNOSCO',
+                'default_value' => 'EXPERIMENTE-NOS!',
             ),
             array(
                 'key' => 'field_qs_cta_title',
@@ -793,14 +793,14 @@ function pacto_25_register_acf_fields() {
                 'name' => 'qs_cta_subtitle',
                 'type' => 'textarea',
                 'rows' => 2,
-                'default_value' => 'Descubra a solução ideal para si ou para a sua empresa. Estamos disponíveis para o apoiar em todas as etapas.',
+                'default_value' => 'Convidamo-lo a partilhar as suas experiências para que possamos melhorar produtos e serviços. Faça-nos chegar a sua história.',
             ),
             array(
                 'key' => 'field_qs_cta_btn_text',
                 'label' => __( 'Texto do Botão', 'pacto-25' ),
                 'name' => 'qs_cta_btn_text',
                 'type' => 'text',
-                'default_value' => 'CONTACTE-NOS',
+                'default_value' => 'pedir simulação',
             ),
             array(
                 'key' => 'field_qs_cta_btn_link',

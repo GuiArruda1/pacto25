@@ -1432,65 +1432,53 @@
 
 .banner-cta-ring--bleed-left,
 .qs-cta-ring--bleed-left {
-  width: clamp(75px, 8vw, 105px);
-  height: clamp(75px, 8vw, 105px);
+  width: clamp(80px, 9vw, 120px);
+  height: clamp(80px, 9vw, 120px);
   left: 0;
   transform: translateX(-50%);
-  bottom: 12%;
-  border: clamp(8px, 1vw, 12px) solid var(--color-primary);
+  top: 22%;
+  border: clamp(10px, 1.2vw, 14px) solid var(--color-primary);
 }
 
 .banner-cta-ring--left-mid,
 .qs-cta-ring--left-mid {
-  width: clamp(55px, 6vw, 75px);
-  height: clamp(55px, 6vw, 75px);
-  left: 12%;
-  bottom: 8%;
-  border: clamp(6px, 0.8vw, 9px) solid var(--color-primary);
+  width: clamp(65px, 7vw, 90px);
+  height: clamp(65px, 7vw, 90px);
+  left: 13%;
+  top: 50%;
+  border: clamp(8px, 1vw, 11px) solid var(--color-primary);
 }
 
 .banner-cta-ring--right-large,
 .qs-cta-ring--right-large {
-  width: clamp(70px, 7vw, 95px);
-  height: clamp(70px, 7vw, 95px);
-  right: 14%;
-  bottom: 8%;
-  border: clamp(8px, 1vw, 11px) solid var(--color-primary);
+  width: clamp(75px, 8vw, 105px);
+  height: clamp(75px, 8vw, 105px);
+  right: 7%;
+  top: 52%;
+  border: clamp(9px, 1.1vw, 13px) solid var(--color-primary);
 }
 
 .banner-cta-ring--right-small,
 .qs-cta-ring--right-small {
-  width: clamp(18px, 2vw, 24px);
-  height: clamp(18px, 2vw, 24px);
-  right: 24%;
-  bottom: 4%;
-  border: 3px solid var(--color-primary);
+  width: clamp(20px, 2vw, 26px);
+  height: clamp(20px, 2vw, 26px);
+  right: 22%;
+  top: 70%;
+  border: clamp(3px, 0.4vw, 5px) solid var(--color-primary);
 }
 
 .banner-cta-ring--top-right,
 .qs-cta-ring--top-right {
-  width: clamp(20px, 2vw, 26px);
-  height: clamp(20px, 2vw, 26px);
-  right: 18%;
-  top: 10%;
-  border: 3px solid var(--color-primary);
+  width: clamp(22px, 2.2vw, 30px);
+  height: clamp(22px, 2.2vw, 30px);
+  right: 14%;
+  top: 24%;
+  border: clamp(3px, 0.4vw, 5px) solid var(--color-primary);
 }
 
 .banner-cta-dot,
 .qs-cta-dot {
-  position: absolute;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.banner-cta-dot--center-left,
-.qs-cta-dot--center-left {
-  width: clamp(14px, 1.8vw, 22px);
-  height: clamp(14px, 1.8vw, 22px);
-  left: 20%;
-  bottom: 24%;
+  display: none;
 }
 
 /* ==========================================================================

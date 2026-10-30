@@ -21,20 +21,30 @@ $btn_text = ! empty( $args['btn_text'] ) ? $args['btn_text'] : '';
 $btn_link = ! empty( $args['btn_link'] ) ? $args['btn_link'] : '';
 
 // 2. Fallback to ACF fields if not passed in $args
-if ( empty( $eyebrow ) ) {
-    $eyebrow = pacto_get_field( 'empresas_cta_eyebrow', false, pacto_get_field( 'cta_eyebrow', false, pacto_get_field( 'qs_cta_eyebrow', false, pacto_get_field( 'particulares_cta_eyebrow', false, 'EXPERIMENTE-NOS!' ) ) ) );
-}
-if ( empty( $title ) ) {
-    $title = pacto_get_field( 'empresas_cta_title', false, pacto_get_field( 'cta_title', false, pacto_get_field( 'qs_cta_title', false, pacto_get_field( 'particulares_cta_title', false, 'Temos uma equipa preparada para responder a todas as suas dúvidas.' ) ) ) );
-}
-if ( empty( $subtitle ) ) {
-    $subtitle = pacto_get_field( 'empresas_cta_subtitle', false, pacto_get_field( 'cta_subtitle', false, pacto_get_field( 'qs_cta_subtitle', false, pacto_get_field( 'particulares_cta_subtitle', false, 'Convidamo-lo a partilhar as suas experiências para que possamos melhorar produtos e serviços. Faça-nos chegar a sua história.' ) ) ) );
-}
-if ( empty( $btn_text ) ) {
-    $btn_text = pacto_get_field( 'empresas_cta_btn_text', false, pacto_get_field( 'cta_btn_text', false, pacto_get_field( 'qs_cta_btn_text', false, pacto_get_field( 'particulares_cta_btn_text', false, 'pedir simulação' ) ) ) );
-}
-if ( empty( $btn_link ) ) {
-    $btn_link = pacto_get_field( 'empresas_cta_btn_link', false, pacto_get_field( 'cta_btn_link', false, pacto_get_field( 'qs_cta_btn_link', false, pacto_get_field( 'particulares_cta_btn_link', false, '#contactos' ) ) ) );
+if ( is_page_template( 'page-quem-somos.php' ) ) {
+    if ( empty( $eyebrow ) )  $eyebrow  = pacto_get_field( 'qs_cta_eyebrow', false, 'EXPERIMENTE-NOS!' );
+    if ( empty( $title ) )    $title    = pacto_get_field( 'qs_cta_title', false, 'Temos uma equipa preparada para responder a todas as suas dúvidas.' );
+    if ( empty( $subtitle ) ) $subtitle = pacto_get_field( 'qs_cta_subtitle', false, 'Convidamo-lo a partilhar as suas experiências para que possamos melhorar produtos e serviços. Faça-nos chegar a sua história.' );
+    if ( empty( $btn_text ) ) $btn_text = pacto_get_field( 'qs_cta_btn_text', false, 'pedir simulação' );
+    if ( empty( $btn_link ) ) $btn_link = pacto_get_field( 'qs_cta_btn_link', false, '#contactos' );
+} elseif ( is_page_template( 'page-empresas.php' ) ) {
+    if ( empty( $eyebrow ) )  $eyebrow  = pacto_get_field( 'empresas_cta_eyebrow', false, 'EXPERIMENTE-NOS!' );
+    if ( empty( $title ) )    $title    = pacto_get_field( 'empresas_cta_title', false, 'Temos uma equipa preparada para responder a todas as suas dúvidas.' );
+    if ( empty( $subtitle ) ) $subtitle = pacto_get_field( 'empresas_cta_subtitle', false, 'Convidamo-lo a partilhar as suas experiências para que possamos melhorar produtos e serviços. Faça-nos chegar a sua história.' );
+    if ( empty( $btn_text ) ) $btn_text = pacto_get_field( 'empresas_cta_btn_text', false, 'pedir simulação' );
+    if ( empty( $btn_link ) ) $btn_link = pacto_get_field( 'empresas_cta_btn_link', false, '#contactos' );
+} elseif ( is_page_template( 'page-particulares.php' ) ) {
+    if ( empty( $eyebrow ) )  $eyebrow  = pacto_get_field( 'particulares_cta_eyebrow', false, 'EXPERIMENTE-NOS!' );
+    if ( empty( $title ) )    $title    = pacto_get_field( 'particulares_cta_title', false, 'Temos uma equipa preparada para responder a todas as suas dúvidas.' );
+    if ( empty( $subtitle ) ) $subtitle = pacto_get_field( 'particulares_cta_subtitle', false, 'Convidamo-lo a partilhar as suas experiências para que possamos melhorar produtos e serviços. Faça-nos chegar a sua história.' );
+    if ( empty( $btn_text ) ) $btn_text = pacto_get_field( 'particulares_cta_btn_text', false, 'pedir simulação' );
+    if ( empty( $btn_link ) ) $btn_link = pacto_get_field( 'particulares_cta_btn_link', false, '#contactos' );
+} else {
+    if ( empty( $eyebrow ) )  $eyebrow  = pacto_get_field( 'cta_eyebrow', false, pacto_get_field( 'qs_cta_eyebrow', false, pacto_get_field( 'empresas_cta_eyebrow', false, pacto_get_field( 'particulares_cta_eyebrow', false, 'EXPERIMENTE-NOS!' ) ) ) );
+    if ( empty( $title ) )    $title    = pacto_get_field( 'cta_title', false, pacto_get_field( 'qs_cta_title', false, pacto_get_field( 'empresas_cta_title', false, pacto_get_field( 'particulares_cta_title', false, 'Temos uma equipa preparada para responder a todas as suas dúvidas.' ) ) ) );
+    if ( empty( $subtitle ) ) $subtitle = pacto_get_field( 'cta_subtitle', false, pacto_get_field( 'qs_cta_subtitle', false, pacto_get_field( 'empresas_cta_subtitle', false, pacto_get_field( 'particulares_cta_subtitle', false, 'Convidamo-lo a partilhar as suas experiências para que possamos melhorar produtos e serviços. Faça-nos chegar a sua história.' ) ) ) );
+    if ( empty( $btn_text ) ) $btn_text = pacto_get_field( 'cta_btn_text', false, pacto_get_field( 'qs_cta_btn_text', false, pacto_get_field( 'empresas_cta_btn_text', false, pacto_get_field( 'particulares_cta_btn_text', false, 'pedir simulação' ) ) ) );
+    if ( empty( $btn_link ) ) $btn_link = pacto_get_field( 'cta_btn_link', false, pacto_get_field( 'qs_cta_btn_link', false, pacto_get_field( 'empresas_cta_btn_link', false, pacto_get_field( 'particulares_cta_btn_link', false, '#contactos' ) ) ) );
 }
 ?>
 
