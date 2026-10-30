@@ -33,41 +33,59 @@ $default_steps = array(
     ),
 );
 
-$step_1_title = pacto_get_field( 'seguro_step_1_title', $post_id, '1º Passo' );
-$step_1_desc  = pacto_get_field( 'seguro_step_1_desc', $post_id, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
-$step_1_img   = pacto_get_field( 'seguro_step_1_image', $post_id );
+$saved_steps = pacto_get_field( 'seguro_steps_list', $post_id, null );
+$steps_data  = array();
+$accent_positions = array( 'top-left', 'top-right', 'bottom-left' );
 
-$step_2_title = pacto_get_field( 'seguro_step_2_title', $post_id, '2º Passo' );
-$step_2_desc  = pacto_get_field( 'seguro_step_2_desc', $post_id, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
-$step_2_img   = pacto_get_field( 'seguro_step_2_image', $post_id );
+if ( is_array( $saved_steps ) && ! empty( $saved_steps ) ) {
+    foreach ( array_values( $saved_steps ) as $idx => $s_item ) {
+        $def_idx = $idx % 3;
+        $img_val = ! empty( $s_item['image_id'] ) ? (int) $s_item['image_id'] : ( ! empty( $s_item['image'] ) ? $s_item['image'] : '' );
+        $steps_data[] = array(
+            'title'       => ! empty( $s_item['title'] ) ? $s_item['title'] : sprintf( '%dº Passo', $idx + 1 ),
+            'description' => ! empty( $s_item['description'] ) ? $s_item['description'] : '',
+            'image'       => $img_val,
+            'default_img' => get_template_directory_uri() . '/assets/images/single-seguro/passos/passo-' . ( $def_idx + 1 ) . '.png',
+            'accent_pos'  => $accent_positions[ $def_idx ],
+        );
+    }
+} else {
+    $step_1_title = pacto_get_field( 'seguro_step_1_title', $post_id, '1º Passo' );
+    $step_1_desc  = pacto_get_field( 'seguro_step_1_desc', $post_id, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
+    $step_1_img   = pacto_get_field( 'seguro_step_1_image', $post_id );
 
-$step_3_title = pacto_get_field( 'seguro_step_3_title', $post_id, '3º Passo' );
-$step_3_desc  = pacto_get_field( 'seguro_step_3_desc', $post_id, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
-$step_3_img   = pacto_get_field( 'seguro_step_3_image', $post_id );
+    $step_2_title = pacto_get_field( 'seguro_step_2_title', $post_id, '2º Passo' );
+    $step_2_desc  = pacto_get_field( 'seguro_step_2_desc', $post_id, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
+    $step_2_img   = pacto_get_field( 'seguro_step_2_image', $post_id );
 
-$steps_data = array(
-    array(
-        'title'       => $step_1_title,
-        'description' => $step_1_desc,
-        'image'       => $step_1_img,
-        'default_img' => get_template_directory_uri() . '/assets/images/single-seguro/passos/passo-1.png',
-        'accent_pos'  => 'top-left',
-    ),
-    array(
-        'title'       => $step_2_title,
-        'description' => $step_2_desc,
-        'image'       => $step_2_img,
-        'default_img' => get_template_directory_uri() . '/assets/images/single-seguro/passos/passo-2.png',
-        'accent_pos'  => 'top-right',
-    ),
-    array(
-        'title'       => $step_3_title,
-        'description' => $step_3_desc,
-        'image'       => $step_3_img,
-        'default_img' => get_template_directory_uri() . '/assets/images/single-seguro/passos/passo-3.png',
-        'accent_pos'  => 'bottom-left',
-    ),
-);
+    $step_3_title = pacto_get_field( 'seguro_step_3_title', $post_id, '3º Passo' );
+    $step_3_desc  = pacto_get_field( 'seguro_step_3_desc', $post_id, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.' );
+    $step_3_img   = pacto_get_field( 'seguro_step_3_image', $post_id );
+
+    $steps_data = array(
+        array(
+            'title'       => $step_1_title,
+            'description' => $step_1_desc,
+            'image'       => $step_1_img,
+            'default_img' => get_template_directory_uri() . '/assets/images/single-seguro/passos/passo-1.png',
+            'accent_pos'  => 'top-left',
+        ),
+        array(
+            'title'       => $step_2_title,
+            'description' => $step_2_desc,
+            'image'       => $step_2_img,
+            'default_img' => get_template_directory_uri() . '/assets/images/single-seguro/passos/passo-2.png',
+            'accent_pos'  => 'top-right',
+        ),
+        array(
+            'title'       => $step_3_title,
+            'description' => $step_3_desc,
+            'image'       => $step_3_img,
+            'default_img' => get_template_directory_uri() . '/assets/images/single-seguro/passos/passo-3.png',
+            'accent_pos'  => 'bottom-left',
+        ),
+    );
+}
 ?>
 
 <section class="section section-single-seguro-steps" aria-label="<?php esc_attr_e( 'Passos para subscrição', 'pacto-25' ); ?>">

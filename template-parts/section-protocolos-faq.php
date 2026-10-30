@@ -16,8 +16,8 @@ $title   = pacto_get_field( 'protocolos_faq_title', $page_id, 'Descubra as Condi
 $text    = pacto_get_field( 'protocolos_faq_text', $page_id, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Sit tellus morbi ut auctor dui amet.' );
 
 $image_obj = pacto_get_field( 'protocolos_faq_image', $page_id );
-$image_url = ! empty( $image_obj['url'] ) ? $image_obj['url'] : get_template_directory_uri() . '/assets/images/protocolos-doctor.png';
-$image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
+$image_url = pacto_get_image_url( $image_obj, 'large', get_template_directory_uri() . '/assets/images/protocolos-doctor.png' );
+$image_alt = is_array( $image_obj ) && ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
 
 // Handle submission feedback
 $form_submitted = false;

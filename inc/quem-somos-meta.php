@@ -70,13 +70,34 @@ function pacto_register_quem_somos_meta_box( $post_type = '', $post = null ) {
 
     // Quem Somos Sections (Porque o fazemos & Equipa)
     if ( 'page' === $target_type ) {
+        $template = get_post_meta( $post->ID, '_wp_page_template', true );
+        if ( 'page-landing.php' === $template || in_array( $post->post_name, array( 'landing', 'modelo-seguro' ), true ) ) {
+            add_meta_box(
+                'pacto_reasons_slider_meta',
+                __( '⭐ Vantagens, Coberturas e Serviços (Carrossel no Círculo Vermelho — Arrastar, Adicionar e Remover)', 'pacto-25' ),
+                'pacto_render_reasons_standalone_meta_box',
+                $target_type,
+                'normal',
+                'high'
+            );
+        } else {
+            add_meta_box(
+                'pacto_quem_somos_options_meta',
+                __( 'Quem Somos — "Porque o fazemos?", "Porquê escolher-nos" & "A Nossa Equipa" (Arrastar, Adicionar e Remover)', 'pacto-25' ),
+                'pacto_render_quem_somos_meta_box',
+                $target_type,
+                'normal',
+                'high'
+            );
+        }
+    } elseif ( in_array( $target_type, array( 'seguro_particular', 'seguro_empresa' ), true ) ) {
         add_meta_box(
-            'pacto_quem_somos_options_meta',
-            __( 'Quem Somos — "Porque o fazemos?" & A Nossa Equipa', 'pacto-25' ),
-            'pacto_render_quem_somos_meta_box',
+            'pacto_reasons_slider_meta',
+            __( '⭐ Vantagens, Coberturas e Serviços (Carrossel no Círculo Vermelho — Arrastar, Adicionar e Remover)', 'pacto-25' ),
+            'pacto_render_reasons_standalone_meta_box',
             $target_type,
             'normal',
-            'default'
+            'high'
         );
     }
 }
@@ -103,6 +124,7 @@ function pacto_quem_somos_admin_scripts( $hook ) {
     }
 
     wp_enqueue_media();
+    wp_enqueue_script( 'jquery-ui-sortable' );
 }
 add_action( 'admin_enqueue_scripts', 'pacto_quem_somos_admin_scripts' );
 
@@ -229,7 +251,27 @@ function pacto_render_quem_somos_meta_box( $post ) {
 
     $saved_cards = pacto_get_field( 'qs_reasons_cards', $post->ID, false );
     if ( ! is_array( $saved_cards ) || empty( $saved_cards ) ) {
-        $saved_cards = $default_cards;
+        $legacy_cards = array();
+        $has_legacy   = false;
+        for ( $i = 1; $i <= 8; $i++ ) {
+            $c_title  = get_post_meta( $post->ID, "qs_card_{$i}_title", true );
+            $c_desc   = get_post_meta( $post->ID, "qs_card_{$i}_desc", true );
+            $c_icon   = get_post_meta( $post->ID, "qs_card_{$i}_icon", true );
+            $c_custom = get_post_meta( $post->ID, "qs_card_{$i}_custom_icon", true );
+            $c_link   = get_post_meta( $post->ID, "qs_card_{$i}_link", true );
+            if ( ! empty( $c_title ) || ! empty( $c_desc ) ) {
+                $has_legacy = true;
+            }
+            $def = isset( $default_cards[ $i - 1 ] ) ? $default_cards[ $i - 1 ] : array();
+            $legacy_cards[] = array(
+                'icon'        => ! empty( $c_icon ) ? $c_icon : ( isset( $def['icon'] ) ? $def['icon'] : 'heart-check' ),
+                'custom_icon' => $c_custom,
+                'title'       => ! empty( $c_title ) ? $c_title : ( isset( $def['title'] ) ? $def['title'] : "Cartão $i" ),
+                'description' => ! empty( $c_desc ) ? $c_desc : ( isset( $def['description'] ) ? $def['description'] : '' ),
+                'link'        => ! empty( $c_link ) ? $c_link : ( isset( $def['link'] ) ? $def['link'] : '' ),
+            );
+        }
+        $saved_cards = $has_legacy ? $legacy_cards : $default_cards;
     }
     ?>
     <style>
@@ -394,13 +436,11 @@ function pacto_render_quem_somos_meta_box( $post ) {
                     $has_custom_img = ! empty( $m_img );
                 ?>
                     <div class="pacto-team-card" data-index="<?php echo esc_attr( $i ); ?>">
-                        <span class="pacto-team-card__badge"><?php echo esc_html( sprintf( __( 'Membro #%d', 'pacto-25' ), $i + 1 ) ); ?></span>
+                        <span class="pacto-team-card__badge" style="cursor:grab;" title="<?php esc_attr_e( 'Arrastar para reordenar', 'pacto-25' ); ?>">☰ <?php echo esc_html( sprintf( __( 'Membro #%d', 'pacto-25' ), $i + 1 ) ); ?></span>
                         
-                        <?php if ( $i >= 4 ) : ?>
-                            <button type="button" class="pacto-team-card__remove pacto-btn-delete-member" title="<?php esc_attr_e( 'Remover membro', 'pacto-25' ); ?>">
-                                &times;
-                            </button>
-                        <?php endif; ?>
+                        <button type="button" class="pacto-team-card__remove pacto-btn-delete-member" title="<?php esc_attr_e( 'Remover membro', 'pacto-25' ); ?>">
+                            &times;
+                        </button>
 
                         <!-- Member Photo Preview -->
                         <div class="pacto-team-photo-wrap" id="qs-team-preview-<?php echo esc_attr( $i ); ?>">
@@ -760,6 +800,60 @@ function pacto_render_quem_somos_meta_box( $post ) {
             btn.hide();
         });
 
+        function reindexTeamCards() {
+            $('#pacto-team-items-wrap .pacto-team-card').each(function(idx) {
+                var card = $(this);
+                var num = idx + 1;
+                card.attr('data-index', idx);
+                card.find('.pacto-team-card__badge').text('☰ Membro #' + num);
+                card.find('input').each(function() {
+                    var el = $(this);
+                    var name = el.attr('name');
+                    if (name) {
+                        el.attr('name', name.replace(/qs_team_members\[\d+\]/, 'qs_team_members[' + idx + ']'));
+                    }
+                });
+            });
+        }
+
+        function reindexReasonCards() {
+            $('#pacto-reasons-cards-wrap .pacto-reasons-card-item').each(function(idx) {
+                var card = $(this);
+                var num = idx + 1;
+                card.attr('data-index', idx);
+                card.find('.pacto-reasons-card-badge').text('☰ Cartão #' + num);
+                card.find('select, input, textarea').each(function() {
+                    var el = $(this);
+                    var name = el.attr('name');
+                    if (name) {
+                        el.attr('name', name.replace(/qs_reasons_cards\[\d+\]/, 'qs_reasons_cards[' + idx + ']'));
+                    }
+                });
+            });
+        }
+
+        if ($.fn.sortable) {
+            $('#pacto-team-items-wrap').sortable({
+                items: '.pacto-team-card',
+                cursor: 'grabbing',
+                opacity: 0.85,
+                tolerance: 'pointer',
+                update: function() {
+                    reindexTeamCards();
+                }
+            });
+
+            $('#pacto-reasons-cards-wrap').sortable({
+                items: '.pacto-reasons-card-item',
+                cursor: 'grabbing',
+                opacity: 0.85,
+                tolerance: 'pointer',
+                update: function() {
+                    reindexReasonCards();
+                }
+            });
+        }
+
         // 5. Add New Team Member
         $('#pacto-btn-add-member').on('click', function(e) {
             e.preventDefault();
@@ -772,21 +866,20 @@ function pacto_render_quem_somos_meta_box( $post ) {
             templateHtml = templateHtml.replace(/__NUM__/g, nextNum);
 
             container.append(templateHtml);
+            reindexTeamCards();
         });
 
         // 6. Delete Team Member
         $(document).on('click', '.pacto-btn-delete-member', function(e) {
             e.preventDefault();
+            if ($('#pacto-team-items-wrap .pacto-team-card').length <= 1) {
+                alert('Deve manter pelo menos 1 membro na equipa.');
+                return;
+            }
             if (confirm('Tem a certeza que pretende remover este membro da equipa?')) {
                 $(this).closest('.pacto-team-card').fadeOut(250, function() {
                     $(this).remove();
-                    // Re-index remaining cards
-                    $('#pacto-team-items-wrap .pacto-team-card').each(function(idx) {
-                        var card = $(this);
-                        var num = idx + 1;
-                        card.attr('data-index', idx);
-                        card.find('.pacto-team-card__badge').text('Membro #' + num);
-                    });
+                    reindexTeamCards();
                 });
             }
         });
@@ -802,28 +895,20 @@ function pacto_render_quem_somos_meta_box( $post ) {
             templateHtml = templateHtml.replace(/__NUM__/g, nextNum);
 
             container.append(templateHtml);
+            reindexReasonCards();
         });
 
         // 8. Delete Reasons Card
-        $(document).on('click', '.pacto-btn-delete-card', function(e) {
+        $(document).on('click', '#pacto-reasons-cards-wrap .pacto-btn-delete-card', function(e) {
             e.preventDefault();
+            if ($('#pacto-reasons-cards-wrap .pacto-reasons-card-item').length <= 1) {
+                alert('Deve manter pelo menos 1 cartão.');
+                return;
+            }
             if (confirm('Tem a certeza que pretende remover este cartão?')) {
                 $(this).closest('.pacto-reasons-card-item').fadeOut(250, function() {
                     $(this).remove();
-                    // Re-index remaining cards
-                    $('#pacto-reasons-cards-wrap .pacto-reasons-card-item').each(function(idx) {
-                        var card = $(this);
-                        var num = idx + 1;
-                        card.attr('data-index', idx);
-                        card.find('.pacto-reasons-card-badge').text('Cartão #' + num);
-                        card.find('select, input, textarea').each(function() {
-                            var el = $(this);
-                            var name = el.attr('name');
-                            if (name) {
-                                el.attr('name', name.replace(/qs_reasons_cards\[\d+\]/, 'qs_reasons_cards[' + idx + ']'));
-                            }
-                        });
-                    });
+                    reindexReasonCards();
                 });
             }
         });
@@ -944,50 +1029,37 @@ function pacto_save_quem_somos_meta( $post_id ) {
 
         update_post_meta( $post_id, 'qs_team_members', $sanitized_team );
         delete_post_meta( $post_id, '_qs_team_members' );
-        if ( function_exists( 'update_field' ) ) {
-            update_field( 'qs_team_members', $sanitized_team, $post_id );
-        }
     }
 
-    // 3. Save "Porquê escolher-nos" fields
+    // 3. Save "Porquê escolher-nos" / "Vantagens, Coberturas e Serviços" fields
     if ( isset( $_POST['qs_reasons_eyebrow'] ) ) {
         $reasons_eyebrow_val = sanitize_text_field( wp_unslash( $_POST['qs_reasons_eyebrow'] ) );
         update_post_meta( $post_id, 'qs_reasons_eyebrow', $reasons_eyebrow_val );
-        if ( function_exists( 'update_field' ) ) {
-            update_field( 'qs_reasons_eyebrow', $reasons_eyebrow_val, $post_id );
-        }
+        update_post_meta( $post_id, 'seguro_features_eyebrow', $reasons_eyebrow_val );
     }
 
     if ( isset( $_POST['qs_reasons_title'] ) ) {
         $reasons_title_val = sanitize_text_field( wp_unslash( $_POST['qs_reasons_title'] ) );
         update_post_meta( $post_id, 'qs_reasons_title', $reasons_title_val );
-        if ( function_exists( 'update_field' ) ) {
-            update_field( 'qs_reasons_title', $reasons_title_val, $post_id );
-        }
+        update_post_meta( $post_id, 'seguro_features_title', $reasons_title_val );
     }
 
     if ( isset( $_POST['qs_reasons_p1'] ) ) {
         $reasons_p1_val = sanitize_textarea_field( wp_unslash( $_POST['qs_reasons_p1'] ) );
         update_post_meta( $post_id, 'qs_reasons_p1', $reasons_p1_val );
-        if ( function_exists( 'update_field' ) ) {
-            update_field( 'qs_reasons_p1', $reasons_p1_val, $post_id );
-        }
+        update_post_meta( $post_id, 'seguro_features_p1', $reasons_p1_val );
     }
 
     if ( isset( $_POST['qs_reasons_p2'] ) ) {
         $reasons_p2_val = sanitize_textarea_field( wp_unslash( $_POST['qs_reasons_p2'] ) );
         update_post_meta( $post_id, 'qs_reasons_p2', $reasons_p2_val );
-        if ( function_exists( 'update_field' ) ) {
-            update_field( 'qs_reasons_p2', $reasons_p2_val, $post_id );
-        }
+        update_post_meta( $post_id, 'seguro_features_p2', $reasons_p2_val );
     }
 
     if ( isset( $_POST['qs_reasons_p3'] ) ) {
         $reasons_p3_val = sanitize_textarea_field( wp_unslash( $_POST['qs_reasons_p3'] ) );
         update_post_meta( $post_id, 'qs_reasons_p3', $reasons_p3_val );
-        if ( function_exists( 'update_field' ) ) {
-            update_field( 'qs_reasons_p3', $reasons_p3_val, $post_id );
-        }
+        update_post_meta( $post_id, 'seguro_features_p3', $reasons_p3_val );
     }
 
     if ( isset( $_POST['qs_reasons_cards'] ) && is_array( $_POST['qs_reasons_cards'] ) ) {
@@ -1019,10 +1091,6 @@ function pacto_save_quem_somos_meta( $post_id ) {
         update_post_meta( $post_id, 'seguro_features_cards', $sanitized_cards );
         delete_post_meta( $post_id, '_qs_reasons_cards' );
         delete_post_meta( $post_id, '_seguro_features_cards' );
-        if ( function_exists( 'update_field' ) ) {
-            update_field( 'qs_reasons_cards', $sanitized_cards, $post_id );
-            update_field( 'seguro_features_cards', $sanitized_cards, $post_id );
-        }
     }
 }
 add_action( 'save_post', 'pacto_save_quem_somos_meta' );
@@ -1075,10 +1143,30 @@ function pacto_render_reasons_standalone_meta_box( $post ) {
 
     $cards = pacto_get_field( $is_seguro ? 'seguro_features_cards' : 'qs_reasons_cards', $post->ID, false );
     if ( ! is_array( $cards ) || empty( $cards ) ) {
-        $cards = pacto_get_field( 'qs_reasons_cards', $post->ID, $default_cards );
+        $cards = pacto_get_field( 'qs_reasons_cards', $post->ID, false );
     }
     if ( ! is_array( $cards ) || empty( $cards ) ) {
-        $cards = $default_cards;
+        $legacy_cards = array();
+        $has_legacy   = false;
+        for ( $i = 1; $i <= 8; $i++ ) {
+            $c_title  = get_post_meta( $post->ID, "qs_card_{$i}_title", true ) ?: get_post_meta( $post->ID, "seguro_card_{$i}_title", true );
+            $c_desc   = get_post_meta( $post->ID, "qs_card_{$i}_desc", true ) ?: get_post_meta( $post->ID, "seguro_card_{$i}_desc", true );
+            $c_icon   = get_post_meta( $post->ID, "qs_card_{$i}_icon", true ) ?: get_post_meta( $post->ID, "seguro_card_{$i}_icon", true );
+            $c_custom = get_post_meta( $post->ID, "qs_card_{$i}_custom_icon", true ) ?: get_post_meta( $post->ID, "seguro_card_{$i}_custom_icon", true );
+            $c_link   = get_post_meta( $post->ID, "qs_card_{$i}_link", true ) ?: get_post_meta( $post->ID, "seguro_card_{$i}_link", true );
+            if ( ! empty( $c_title ) || ! empty( $c_desc ) ) {
+                $has_legacy = true;
+            }
+            $def = isset( $default_cards[ $i - 1 ] ) ? $default_cards[ $i - 1 ] : array();
+            $legacy_cards[] = array(
+                'icon'        => ! empty( $c_icon ) ? $c_icon : ( isset( $def['icon'] ) ? $def['icon'] : 'heart-check' ),
+                'custom_icon' => $c_custom,
+                'title'       => ! empty( $c_title ) ? $c_title : ( isset( $def['title'] ) ? $def['title'] : "Cartão $i" ),
+                'description' => ! empty( $c_desc ) ? $c_desc : ( isset( $def['description'] ) ? $def['description'] : '' ),
+                'link'        => ! empty( $c_link ) ? $c_link : ( isset( $def['link'] ) ? $def['link'] : '' ),
+            );
+        }
+        $cards = $has_legacy ? $legacy_cards : $default_cards;
     }
     ?>
     <style>
@@ -1088,15 +1176,17 @@ function pacto_render_reasons_standalone_meta_box( $post ) {
         .pacto-reasons-cards-grid-admin { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px; }
         .pacto-reasons-admin-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; position: relative; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
         .pacto-reasons-admin-card:hover { border-color: #cbd5e1; }
-        .pacto-reasons-admin-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .pacto-reasons-admin-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; cursor: grab; }
         .pacto-slide-badge { background: #E84E38; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
         .pacto-slide-badge-secondary { background: #1e293b; color: #fff; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 12px; margin-left: 6px; }
+        .pacto-reasons-card-remove { background: transparent; border: none; color: #94a3b8; cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 6px; border-radius: 4px; }
+        .pacto-reasons-card-remove:hover { color: #dc2626; background: #fee2e2; }
     </style>
 
     <div class="pacto-reasons-standalone-wrap">
         <div class="pacto-reasons-info-banner">
-            <strong><?php esc_html_e( '💡 Carrossel / Slider Interativo:', 'pacto-25' ); ?></strong>
-            <?php esc_html_e( 'Os cartões abaixo são agrupados automaticamente de 4 em 4 em cada slide (grid 2x2 do Figma). As setas ‹ e › no site deslizam entre os slides com suporte completo a gestos de swipe no telemóvel.', 'pacto-25' ); ?>
+            <strong><?php esc_html_e( '💡 Carrossel / Slider Interativo (Arrastar, Adicionar e Remover):', 'pacto-25' ); ?></strong>
+            <?php esc_html_e( 'Os cartões abaixo são agrupados automaticamente de 4 em 4 em cada slide (grid 2x2 do Figma). Pode arrastar qualquer cartão para reordenar, adicionar novos cartões ou remover existentes.', 'pacto-25' ); ?>
         </div>
 
         <div style="background: #fafafa; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px;">
@@ -1163,14 +1253,12 @@ function pacto_render_reasons_standalone_meta_box( $post ) {
                     }
                 ?>
                     <div class="pacto-reasons-admin-card" data-index="<?php echo esc_attr( $c_idx ); ?>">
-                        <div class="pacto-reasons-admin-card-header">
+                        <div class="pacto-reasons-admin-card-header" title="<?php esc_attr_e( 'Arrastar para reordenar', 'pacto-25' ); ?>">
                             <div>
-                                <span class="pacto-slide-badge"><?php echo esc_html( sprintf( __( 'Slide %d', 'pacto-25' ), $slide_num ) ); ?></span>
+                                <span class="pacto-slide-badge">☰ <?php echo esc_html( sprintf( __( 'Slide %d', 'pacto-25' ), $slide_num ) ); ?></span>
                                 <span class="pacto-slide-badge-secondary"><?php echo esc_html( sprintf( __( 'Cartão #%d', 'pacto-25' ), $card_num ) ); ?></span>
                             </div>
-                            <?php if ( $c_idx >= 4 ) : ?>
-                                <button type="button" class="pacto-reasons-card-remove pacto-btn-delete-card" title="<?php esc_attr_e( 'Remover cartão', 'pacto-25' ); ?>">&times;</button>
-                            <?php endif; ?>
+                            <button type="button" class="pacto-reasons-card-remove pacto-btn-delete-standalone-card" title="<?php esc_attr_e( 'Remover cartão', 'pacto-25' ); ?>">&times;</button>
                         </div>
 
                         <div style="margin-bottom: 10px;">
@@ -1230,12 +1318,12 @@ function pacto_render_reasons_standalone_meta_box( $post ) {
     <!-- Hidden Template for Standalone Reasons Card Adding -->
     <template id="pacto-standalone-reasons-card-template">
         <div class="pacto-reasons-admin-card" data-index="__INDEX__">
-            <div class="pacto-reasons-admin-card-header">
+            <div class="pacto-reasons-admin-card-header" title="<?php esc_attr_e( 'Arrastar para reordenar', 'pacto-25' ); ?>">
                 <div>
-                    <span class="pacto-slide-badge"><?php esc_html_e( 'Novo Cartão', 'pacto-25' ); ?></span>
+                    <span class="pacto-slide-badge">☰ <?php esc_html_e( 'Novo Cartão', 'pacto-25' ); ?></span>
                     <span class="pacto-slide-badge-secondary">#__NUM__</span>
                 </div>
-                <button type="button" class="pacto-reasons-card-remove pacto-btn-delete-card" title="<?php esc_attr_e( 'Remover cartão', 'pacto-25' ); ?>">&times;</button>
+                <button type="button" class="pacto-reasons-card-remove pacto-btn-delete-standalone-card" title="<?php esc_attr_e( 'Remover cartão', 'pacto-25' ); ?>">&times;</button>
             </div>
 
             <div style="margin-bottom: 10px;">
@@ -1279,6 +1367,37 @@ function pacto_render_reasons_standalone_meta_box( $post ) {
 
     <script>
     jQuery(document).ready(function($) {
+        function reindexStandaloneCards() {
+            $('#standalone-reasons-cards-wrap .pacto-reasons-admin-card').each(function(idx) {
+                var card = $(this);
+                var slideNum = Math.floor(idx / 4) + 1;
+                var cardNum  = (idx % 4) + 1;
+                card.attr('data-index', idx);
+                card.find('.pacto-slide-badge').text('☰ Slide ' + slideNum);
+                card.find('.pacto-slide-badge-secondary').text('Cartão #' + cardNum);
+                card.find('select, input, textarea').each(function() {
+                    var el = $(this);
+                    var name = el.attr('name');
+                    if (name) {
+                        el.attr('name', name.replace(/qs_reasons_cards\[\d+\]/, 'qs_reasons_cards[' + idx + ']'));
+                    }
+                });
+            });
+        }
+
+        if ($.fn.sortable) {
+            $('#standalone-reasons-cards-wrap').sortable({
+                items: '.pacto-reasons-admin-card',
+                handle: '.pacto-reasons-admin-card-header',
+                cursor: 'grabbing',
+                opacity: 0.85,
+                tolerance: 'pointer',
+                update: function() {
+                    reindexStandaloneCards();
+                }
+            });
+        }
+
         // Add card in standalone box
         $('#pacto-btn-add-standalone-card').on('click', function(e) {
             e.preventDefault();
@@ -1290,6 +1409,59 @@ function pacto_render_reasons_standalone_meta_box( $post ) {
 
             var html = template.replace(/__INDEX__/g, nextIndex).replace(/__NUM__/g, nextNum);
             container.append(html);
+            reindexStandaloneCards();
+        });
+
+        // Delete card in standalone box
+        $(document).on('click', '.pacto-btn-delete-standalone-card', function(e) {
+            e.preventDefault();
+            if ($('#standalone-reasons-cards-wrap .pacto-reasons-admin-card').length <= 1) {
+                alert('Deve manter pelo menos 1 cartão no slider.');
+                return;
+            }
+            if (confirm('Tem a certeza que pretende remover este cartão?')) {
+                $(this).closest('.pacto-reasons-admin-card').fadeOut(200, function() {
+                    $(this).remove();
+                    reindexStandaloneCards();
+                });
+            }
+        });
+
+        // Upload & Remove Custom Icon in standalone box
+        $(document).on('click', '#standalone-reasons-cards-wrap .pacto-card-upload-btn', function(e) {
+            e.preventDefault();
+            var btn = $(this);
+            var targetInput = $('#' + btn.data('target'));
+            var previewWrap = $('#' + btn.data('preview'));
+            var removeBtn   = $('#' + btn.data('remove'));
+
+            var uploader = wp.media({
+                title: 'Selecionar Ícone do Cartão (SVG ou Imagem)',
+                button: { text: 'Usar este ícone' },
+                multiple: false,
+                library: { type: 'image' }
+            });
+
+            uploader.on('select', function() {
+                var attachment = uploader.state().get('selection').first().toJSON();
+                targetInput.val(attachment.id);
+                var imgUrl = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+                previewWrap.html('<img src="' + imgUrl + '" alt="" style="max-width:100%;max-height:100%;object-fit:contain;" />');
+                removeBtn.show();
+            });
+
+            uploader.open();
+        });
+
+        $(document).on('click', '#standalone-reasons-cards-wrap .pacto-card-remove-btn', function(e) {
+            e.preventDefault();
+            var btn = $(this);
+            var targetInput = $('#' + btn.data('target'));
+            var previewWrap = $('#' + btn.data('preview'));
+
+            targetInput.val('');
+            previewWrap.html('<span class="dashicons dashicons-format-image" style="color: #94a3b8; font-size: 18px; width: 18px; height: 18px;"></span>');
+            btn.hide();
         });
     });
     </script>

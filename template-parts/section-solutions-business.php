@@ -17,7 +17,7 @@ $btn_url     = pacto_get_field( 'solutions_biz_btn_url', false, '#empresas' );
 
 $default_hands = get_template_directory_uri() . '/assets/solutions-business-hands.png';
 $hands_field   = pacto_get_field( 'solutions_biz_image' );
-$hands_src     = $hands_field ? ( is_array( $hands_field ) ? $hands_field['url'] : $hands_field ) : $default_hands;
+$hands_src     = pacto_get_image_url( $hands_field, $default_hands, 'large' );
 ?>
 
 <div class="section-solutions-business" id="empresas">

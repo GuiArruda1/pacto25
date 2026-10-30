@@ -127,8 +127,7 @@ if ( 'single-seguro' === $context || 'landing' === $context ) {
 
     $cards    = isset( $args['cards'] ) ? $args['cards'] : pacto_get_field( 'seguro_features_cards', $post_id, null );
     if ( ! is_array( $cards ) || empty( $cards ) ) {
-        // Fallback to qs_reasons_cards if set, or default cards
-        $cards = pacto_get_field( 'qs_reasons_cards', $post_id, $default_cards );
+        $cards = pacto_get_field( 'qs_reasons_cards', $post_id, null );
     }
 } else {
     // Quem Somos / Generic Context
@@ -140,7 +139,7 @@ if ( 'single-seguro' === $context || 'landing' === $context ) {
     $btn_text = isset( $args['btn_text'] ) ? $args['btn_text'] : pacto_get_field( 'qs_reasons_btn_text', $post_id, '' );
     $btn_link = isset( $args['btn_link'] ) ? $args['btn_link'] : pacto_get_field( 'qs_reasons_btn_link', $post_id, '' );
 
-    $cards = isset( $args['cards'] ) ? $args['cards'] : null;
+    $cards = isset( $args['cards'] ) ? $args['cards'] : pacto_get_field( 'qs_reasons_cards', $post_id, null );
 }
 
 // 4. Always build the exact 8 slots (4 on Slide 1, 4 on Slide 2)

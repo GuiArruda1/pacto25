@@ -17,8 +17,8 @@ $title       = pacto_get_field( 'sinistro_docs_title', false, 'Documentos Necess
 $description = pacto_get_field( 'sinistro_docs_description', false, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
 $image_obj   = pacto_get_field( 'sinistro_docs_image', false );
 
-$image_url = ! empty( $image_obj['url'] ) ? $image_obj['url'] : get_template_directory_uri() . '/assets/images/single-seguro/seguro-docs-couple.png';
-$image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
+$image_url = pacto_get_image_url( $image_obj, 'large', get_template_directory_uri() . '/assets/images/single-seguro/seguro-docs-couple.png' );
+$image_alt = is_array( $image_obj ) && ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
 
 $docs_list = pacto_get_field( 'sinistro_docs_list', false );
 if ( empty( $docs_list ) || ! is_array( $docs_list ) ) {
@@ -66,7 +66,10 @@ if ( empty( $docs_list ) || ! is_array( $docs_list ) ) {
                     <div class="sinistro-docs-list">
                         <?php foreach ( $docs_list as $doc ) : 
                             $doc_name = ! empty( $doc['name'] ) ? $doc['name'] : 'Documento';
-                            $file_url = ! empty( $doc['file']['url'] ) ? $doc['file']['url'] : '#';
+                            $file_url = '#';
+                            if ( ! empty( $doc['file'] ) ) {
+                                $file_url = is_array( $doc['file'] ) && ! empty( $doc['file']['url'] ) ? $doc['file']['url'] : ( is_string( $doc['file'] ) ? $doc['file'] : '#' );
+                            }
                         ?>
                             <a href="<?php echo esc_url( $file_url ); ?>" class="sinistro-doc-item" target="_blank" rel="noopener noreferrer">
                                 <span class="sinistro-doc-icon" aria-hidden="true">

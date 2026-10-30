@@ -16,8 +16,8 @@ $eyebrow   = pacto_clean_eyebrow( pacto_get_field( 'sinistro_steps_eyebrow', fal
 $title     = pacto_get_field( 'sinistro_steps_title', false, 'Como Participar um Sinistro' );
 $image_obj = pacto_get_field( 'sinistro_steps_image', false );
 
-$image_url = ! empty( $image_obj['url'] ) ? $image_obj['url'] : get_template_directory_uri() . '/assets/images/sinistro/sinistro-steps-couple.png';
-$image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
+$image_url = pacto_get_image_url( $image_obj, 'large', get_template_directory_uri() . '/assets/images/sinistro/sinistro-steps-couple.png' );
+$image_alt = is_array( $image_obj ) && ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
 
 $steps = pacto_get_field( 'sinistro_steps_list', false );
 if ( empty( $steps ) || ! is_array( $steps ) ) {
