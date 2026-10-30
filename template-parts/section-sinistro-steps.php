@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$eyebrow   = pacto_clean_eyebrow( pacto_get_field( 'sinistro_steps_eyebrow', false, 'SINISTROS — PACTO SEGURO' ) );
-$title     = pacto_get_field( 'sinistro_steps_title', false, 'Como Participar um Sinistro' );
+$eyebrow   = pacto_clean_eyebrow( pacto_get_field( 'sinistro_steps_eyebrow', false, 'ESTAMOS CONSIGO' ) );
+$title     = pacto_get_field( 'sinistro_steps_title', false, 'Participar um Sinistro' );
 $image_obj = pacto_get_field( 'sinistro_steps_image', false );
 
 $image_url = pacto_get_image_url( $image_obj, 'large', get_template_directory_uri() . '/assets/images/sinistro/sinistro-steps-couple.png' );

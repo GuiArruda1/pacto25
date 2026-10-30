@@ -1555,14 +1555,14 @@ function pacto_25_register_acf_fields() {
                 'label' => __( 'Eyebrow', 'pacto-25' ),
                 'name' => 'sinistro_steps_eyebrow',
                 'type' => 'text',
-                'default_value' => 'PARTICULARES — PACTO SEGURO',
+                'default_value' => 'ESTAMOS CONSIGO',
             ),
             array(
                 'key' => 'field_sinistro_steps_title',
                 'label' => __( 'Título (H2)', 'pacto-25' ),
                 'name' => 'sinistro_steps_title',
                 'type' => 'text',
-                'default_value' => 'Como Participar um Sinistro',
+                'default_value' => 'Participar um Sinistro',
             ),
             array(
                 'key' => 'field_sinistro_steps_image',
