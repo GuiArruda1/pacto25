@@ -458,3 +458,4 @@ function pacto_test_form_email( $form_type = 'sinistro', $to = '' ) {
 		'timestamp' => current_time( 'mysql' ),
 	);
 }
+

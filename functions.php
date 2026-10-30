@@ -33,4 +33,5 @@ require_once PACTO_THEME_DIR . '/inc/metabox-native-repeaters.php';
 require_once PACTO_THEME_DIR . '/inc/sample-posts-seeder.php';
 require_once PACTO_THEME_DIR . '/inc/newsletter.php';
 require_once PACTO_THEME_DIR . '/inc/forms-handler.php';
+require_once PACTO_THEME_DIR . '/inc/admin-forms-tester.php';
 
