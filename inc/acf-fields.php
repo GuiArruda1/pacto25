@@ -1608,6 +1608,23 @@ function pacto_25_register_acf_fields() {
                 'default_value' => 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.',
             ),
             array(
+                'key' => 'field_sinistro_form_recipient',
+                'label' => __( 'Email de Destino das Participações', 'pacto-25' ),
+                'instructions' => __( 'Email para onde as participações deste formulário são enviadas (predefinição: teresa.sousa@pactoseguro.com).', 'pacto-25' ),
+                'name' => 'sinistro_form_recipient',
+                'type' => 'email',
+                'default_value' => 'teresa.sousa@pactoseguro.com',
+            ),
+            array(
+                'key' => 'field_sinistro_form_success_message',
+                'label' => __( 'Mensagem de Sucesso (Após Envio)', 'pacto-25' ),
+                'instructions' => __( 'Texto apresentado ao utilizador quando o formulário é submetido com sucesso.', 'pacto-25' ),
+                'name' => 'sinistro_form_success_message',
+                'type' => 'textarea',
+                'rows' => 2,
+                'default_value' => 'Obrigado! A sua participação de sinistro foi enviada com sucesso para a nossa equipa. Entraremos em contacto consigo com a máxima brevidade.',
+            ),
+            array(
                 'key' => 'field_sinistro_form_image',
                 'label' => __( 'Foto Circular Direita', 'pacto-25' ),
                 'name' => 'sinistro_form_image',

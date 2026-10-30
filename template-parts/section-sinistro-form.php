@@ -12,13 +12,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$eyebrow     = pacto_clean_eyebrow( pacto_get_field( 'sinistro_form_eyebrow', false, 'SINISTROS' ) );
+$eyebrow     = pacto_clean_eyebrow( pacto_get_field( 'sinistro_form_eyebrow', false, 'PARTICIPAR' ) );
 $title       = pacto_get_field( 'sinistro_form_title', false, 'Participar Sinistro' );
-$description = pacto_get_field( 'sinistro_form_description', false, 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
+$description = pacto_get_field( 'sinistro_form_description', false, 'Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur. Enim amet nullam dictumst dui amet.' );
 $image_obj   = pacto_get_field( 'sinistro_form_image', false );
 
-$image_url = ! empty( $image_obj['url'] ) ? $image_obj['url'] : get_template_directory_uri() . '/assets/images/sinistro/sinistro-form-couple.png';
-$image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
+$image_url = pacto_get_image_url( $image_obj, 'large', get_template_directory_uri() . '/assets/images/sinistro/sinistro-form-couple.png' );
+$image_alt = is_array( $image_obj ) && ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
+
+$status_code = isset( $_GET['sinistro_status'] ) ? sanitize_key( $_GET['sinistro_status'] ) : '';
 ?>
 
 <section class="section section-ball-left section-sinistro-form" id="participar" aria-label="<?php echo esc_attr( $title ); ?>">
@@ -45,8 +47,28 @@ $image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title
                 <p class="ball-left-text sinistro-form-desc"><?php echo nl2br( esc_html( $description ) ); ?></p>
             <?php endif; ?>
 
+            <!-- Feedback Container (AJAX and Post-Redirect) -->
+            <?php if ( 'success' === $status_code ) : ?>
+                <div class="sinistro-form-feedback sinistro-form-feedback--success" role="alert" style="display:block;">
+                    <p><?php echo esc_html( pacto_get_field( 'sinistro_form_success_message', false, __( 'Obrigado! A sua participação de sinistro foi enviada com sucesso para a nossa equipa. Entraremos em contacto consigo com a máxima brevidade.', 'pacto-25' ) ) ); ?></p>
+                </div>
+            <?php elseif ( ! empty( $status_code ) && 'success' !== $status_code ) : ?>
+                <div class="sinistro-form-feedback sinistro-form-feedback--error" role="alert" style="display:block;">
+                    <p><?php esc_html_e( 'Por favor verifique os campos obrigatórios e aceite a Política de Privacidade antes de submeter.', 'pacto-25' ); ?></p>
+                </div>
+            <?php else : ?>
+                <div class="sinistro-form-feedback" role="alert" style="display:none;"></div>
+            <?php endif; ?>
+
             <!-- Participation Form -->
-            <form class="sinistro-claim-form" method="post" action="#participar">
+            <form class="sinistro-claim-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+                <?php wp_nonce_field( 'pacto_sinistro_form_action', 'sinistro_form_nonce' ); ?>
+                <input type="hidden" name="action" value="pacto_submit_sinistro" />
+                <input type="hidden" name="page_id" value="<?php echo esc_attr( get_the_ID() ); ?>" />
+                
+                <!-- Anti-spam Honeypot -->
+                <input type="text" name="sinistro_website" style="display:none !important; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" />
+
                 <div class="sinistro-form-group">
                     <label for="sinistro-nome" class="sr-only"><?php esc_html_e( 'Nome', 'pacto-25' ); ?></label>
                     <input type="text" id="sinistro-nome" name="nome" class="sinistro-form-input" placeholder="nome" required />
