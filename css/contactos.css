@@ -609,7 +609,7 @@ body.page-contactos .site-header__nav-list > li.current-menu-item > a::before {
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
+  box-shadow: none;
   background-color: #e5e3df;
   z-index: 3;
 }
