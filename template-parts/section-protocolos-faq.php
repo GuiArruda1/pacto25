@@ -19,13 +19,7 @@ $image_obj = pacto_get_field( 'protocolos_faq_image', $page_id );
 $image_url = pacto_get_image_url( $image_obj, 'large', get_template_directory_uri() . '/assets/images/protocolos-doctor.png' );
 $image_alt = is_array( $image_obj ) && ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
 
-// Handle submission feedback
-$form_submitted = false;
-if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['protocolos_form_nonce_field'] ) ) {
-    if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['protocolos_form_nonce_field'] ) ), 'pacto_protocolos_form_nonce' ) ) {
-        $form_submitted = true;
-    }
-}
+$status_code = isset( $_GET['protocolos_status'] ) ? sanitize_key( $_GET['protocolos_status'] ) : '';
 ?>
 
 <section class="section section-protocolos-faq" aria-label="<?php echo esc_attr( $title ); ?>">
@@ -52,14 +46,26 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['protocolos_form_non
                     </div>
                 <?php endif; ?>
 
-                <?php if ( $form_submitted ) : ?>
-                    <div class="protocolos-form-success" role="alert">
-                        <?php esc_html_e( 'O seu pedido foi enviado com sucesso. Entraremos em contacto brevemente.', 'pacto-25' ); ?>
+                <!-- Feedback Container (AJAX and Post-Redirect) -->
+                <?php if ( 'success' === $status_code ) : ?>
+                    <div class="protocolos-form-feedback pacto-form-feedback--success" role="alert" style="display:block;">
+                        <p><?php echo esc_html( pacto_get_field( 'protocolos_form_success_message', get_the_ID(), __( 'Obrigado! O seu pedido de informação sobre protocolos foi enviado com sucesso. Entraremos em contacto brevemente.', 'pacto-25' ) ) ); ?></p>
                     </div>
+                <?php elseif ( ! empty( $status_code ) && 'success' !== $status_code ) : ?>
+                    <div class="protocolos-form-feedback pacto-form-feedback--error" role="alert" style="display:block;">
+                        <p><?php esc_html_e( 'Por favor verifique os campos obrigatórios e aceite a Política de Privacidade antes de submeter.', 'pacto-25' ); ?></p>
+                    </div>
+                <?php else : ?>
+                    <div class="protocolos-form-feedback" role="alert" style="display:none;"></div>
                 <?php endif; ?>
 
-                <form class="protocolos-form" method="post" action="#formulario-protocolos" id="formulario-protocolos">
-                    <?php wp_nonce_field( 'pacto_protocolos_form_nonce', 'protocolos_form_nonce_field' ); ?>
+                <form class="protocolos-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" id="formulario-protocolos">
+                    <?php wp_nonce_field( 'pacto_protocolos_form_action', 'protocolos_form_nonce_field' ); ?>
+                    <input type="hidden" name="action" value="pacto_submit_protocolos" />
+                    <input type="hidden" name="page_id" value="<?php echo esc_attr( get_the_ID() ); ?>" />
+                    
+                    <!-- Anti-spam Honeypot -->
+                    <input type="text" name="protocolos_website" style="display:none !important; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" />
 
                     <div class="protocolos-form-group">
                         <label for="protocolos_input_nome" class="screen-reader-text"><?php esc_html_e( 'Nome', 'pacto-25' ); ?></label>

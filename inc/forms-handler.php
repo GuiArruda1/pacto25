@@ -32,7 +32,10 @@ function pacto_get_form_recipient( $form_type = 'sinistro', $post_id = null ) {
 			$recipient = pacto_get_field( 'sinistro_form_recipient', $target_id, $default );
 			break;
 		case 'contactos':
-			$recipient = pacto_get_field( 'contactos_hero_email', $target_id, $default );
+			$recipient = pacto_get_field( 'contactos_form_recipient', $target_id );
+			if ( empty( $recipient ) ) {
+				$recipient = pacto_get_field( 'contactos_hero_email', $target_id, $default );
+			}
 			break;
 		case 'simulacao':
 			$recipient = pacto_get_field( 'seguro_form_recipient', $target_id, $default );
@@ -68,44 +71,45 @@ function pacto_get_form_recipient( $form_type = 'sinistro', $post_id = null ) {
 }
 
 /**
- * Log a form submission into the database as a safety net
+ * Persist lead / submission into database options audit log
  *
- * @param string $form_type Form identifier.
- * @param array  $data      Sanitized payload.
- * @param string $recipient Target recipient.
- * @param bool   $sent      Whether wp_mail() succeeded.
- * @param string $error     Error message if any.
- * @return void
+ * @param string $form_type  Form type (sinistro, contactos, simulacao, protocolos).
+ * @param array  $fields     Submission data.
+ * @param string $recipient  Target email.
+ * @param bool   $sent       Whether wp_mail succeeded.
+ * @param string $mail_error Any error message from PHPMailer.
  */
-function pacto_log_form_submission( $form_type, $data, $recipient, $sent = true, $error = '' ) {
-	$log = get_option( 'pacto_form_submissions_log', array() );
-	if ( ! is_array( $log ) ) {
-		$log = array();
-	}
-
-	$entry = array(
-		'id'         => uniqid( 'pacto_' . $form_type . '_', true ),
+function pacto_log_form_submission( $form_type, $fields, $recipient, $sent = false, $mail_error = '' ) {
+	$log_entry = array(
+		'id'         => uniqid( 'pacto_' . sanitize_key( $form_type ) . '_', true ),
 		'timestamp'  => current_time( 'mysql' ),
-		'form_type'  => $form_type,
-		'recipient'  => $recipient,
-		'data'       => $data,
+		'form_type'  => sanitize_key( $form_type ),
+		'recipient'  => sanitize_email( $recipient ),
+		'data'       => array_map( 'sanitize_text_field', $fields ),
 		'mail_sent'  => (bool) $sent,
-		'mail_error' => $error,
-		'ip'         => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '',
-		'user_agent' => isset( $_SERVER['HTTP_USER_AGENT'] ) ? substr( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 0, 255 ) : '',
+		'mail_error' => sanitize_text_field( $mail_error ),
+		'ip'         => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '127.0.0.1',
+		'user_agent' => isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : 'Unknown',
 	);
 
-	// Prepend and keep latest 250 submissions
-	array_unshift( $log, $entry );
-	if ( count( $log ) > 250 ) {
-		$log = array_slice( $log, 0, 250 );
+	$existing_logs = get_option( 'pacto_form_submissions_log', array() );
+	if ( ! is_array( $existing_logs ) ) {
+		$existing_logs = array();
 	}
 
-	update_option( 'pacto_form_submissions_log', $log, false );
+	// Prepend new submission
+	array_unshift( $existing_logs, $log_entry );
+
+	// Keep last 250 entries to prevent option bloat
+	if ( count( $existing_logs ) > 250 ) {
+		$existing_logs = array_slice( $existing_logs, 0, 250 );
+	}
+
+	update_option( 'pacto_form_submissions_log', $existing_logs, false );
 }
 
 /**
- * Build a clean, responsive HTML email template for form notifications
+ * Generate branded responsive HTML email template
  *
  * @param string $title  Form / notification title.
  * @param array  $fields Associative array of [ 'Label' => 'Value' ].
@@ -161,21 +165,17 @@ function pacto_build_html_email( $title, $fields ) {
 									<?php endforeach; ?>
 								</table>
 
-								<?php if ( ! empty( $fields['E-mail'] ) ) : ?>
-									<div style="text-align:center; margin-top:28px;">
-										<a href="mailto:<?php echo esc_attr( $fields['E-mail'] ); ?>" style="display:inline-block; background-color:#231F20; color:#ffffff; text-decoration:none; padding:12px 28px; border-radius:9999px; font-size:14px; font-weight:600;">
-											Responder a <?php echo esc_html( $fields['Nome'] ?? $fields['E-mail'] ); ?>
-										</a>
-									</div>
-								<?php endif; ?>
+								<div style="background-color:#f8fafc; border-left:4px solid #E84E38; padding:16px 20px; border-radius:4px; font-size:13px; color:#64748b; line-height:1.6;">
+									<strong>Nota de Segurança:</strong> Esta mensagem foi gerada automaticamente pelo formulário oficial em <a href="<?php echo esc_url( $site_url ); ?>" style="color:#E84E38; text-decoration:none;"><?php echo esc_html( $site_url ); ?></a>. Pode responder diretamente a este email para contactar o cliente.
+								</div>
 							</td>
 						</tr>
 
 						<!-- Footer -->
 						<tr>
-							<td style="background-color:#f8fafc; padding:20px 40px; text-align:center; border-top:1px solid #e2e8f0; font-size:12px; color:#94a3b8;">
+							<td style="background-color:#0f172a; padding:24px 40px; text-align:center; font-size:12px; color:#94a3b8; line-height:1.6;">
 								<p style="margin:0 0 4px;">
-									Mensagem gerada automaticamente pelo website <a href="<?php echo esc_url( $site_url ); ?>" style="color:#E84E38; text-decoration:none;"><?php echo esc_html( $site_url ); ?></a>.
+									© <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( $site_title ); ?>. Todos os direitos reservados.
 								</p>
 								<p style="margin:0;">
 									Pacto Seguro — 25 Anos ao seu lado.
@@ -193,7 +193,9 @@ function pacto_build_html_email( $title, $fields ) {
 }
 
 /**
- * Handle "Participar Sinistro" Form Submission (AJAX and Standard POST)
+ * --------------------------------------------------------------------------
+ * 1. FORM HANDLER: Participar Sinistro
+ * --------------------------------------------------------------------------
  */
 function pacto_handle_sinistro_submission() {
 	// 1. Verify Nonce
@@ -205,7 +207,7 @@ function pacto_handle_sinistro_submission() {
 		wp_die( esc_html__( 'Sessão expirada. Por favor recarregue a página.', 'pacto-25' ) );
 	}
 
-	// 2. Honeypot check (Bots fill this, humans cannot see it)
+	// 2. Honeypot check
 	if ( ! empty( $_POST['sinistro_website'] ) ) {
 		if ( wp_doing_ajax() ) {
 			wp_send_json_success( array( 'message' => __( 'Participação enviada com sucesso.', 'pacto-25' ) ) );
@@ -222,7 +224,6 @@ function pacto_handle_sinistro_submission() {
 	$mensagem  = isset( $_POST['mensagem'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mensagem'] ) ) : '';
 	$consent   = ! empty( $_POST['consent'] );
 
-	// 4. Validate required fields
 	if ( empty( $nome ) || empty( $email ) || ! is_email( $email ) || empty( $telefone ) ) {
 		$error_msg = __( 'Por favor preencha todos os campos obrigatórios (nome, email e telemóvel).', 'pacto-25' );
 		if ( wp_doing_ajax() ) {
@@ -241,7 +242,6 @@ function pacto_handle_sinistro_submission() {
 		exit;
 	}
 
-	// Friendly label for claim type
 	$tipos_map = array(
 		'automovel'    => 'Automóvel',
 		'saude'        => 'Saúde',
@@ -251,11 +251,9 @@ function pacto_handle_sinistro_submission() {
 	);
 	$tipo_label = $tipos_map[ $tipo_raw ] ?? ( ! empty( $tipo_raw ) ? ucfirst( $tipo_raw ) : 'Não especificado' );
 
-	// 5. Determine Recipient (ACF override with fallback to teresa.sousa@pactoseguro.com)
 	$page_id   = isset( $_POST['page_id'] ) ? absint( $_POST['page_id'] ) : get_queried_object_id();
 	$recipient = pacto_get_form_recipient( 'sinistro', $page_id );
 
-	// 6. Build and Send Email
 	$subject = sprintf( '[Pacto Seguro] Nova Participação de Sinistro — %s (%s)', $nome, $tipo_label );
 	$fields  = array(
 		'Nome'             => $nome,
@@ -267,14 +265,12 @@ function pacto_handle_sinistro_submission() {
 	);
 
 	$html_body = pacto_build_html_email( 'Participação de Sinistro', $fields );
-
-	$headers = array(
+	$headers   = array(
 		'Content-Type: text/html; charset=UTF-8',
 		sprintf( 'From: Pacto Seguro <%s>', 'no-reply@pactoseguro.com' ),
 		sprintf( 'Reply-To: %s <%s>', $nome, $email ),
 	);
 
-	// Capture errors if wp_mail fails
 	$mail_error = '';
 	add_action( 'wp_mail_failed', function( $wp_error ) use ( &$mail_error ) {
 		if ( is_wp_error( $wp_error ) ) {
@@ -283,11 +279,8 @@ function pacto_handle_sinistro_submission() {
 	} );
 
 	$sent = wp_mail( $recipient, $subject, $html_body, $headers );
-
-	// 7. Safety Net Audit Log in Database
 	pacto_log_form_submission( 'sinistro', $fields, $recipient, $sent, $mail_error );
 
-	// 8. Custom success message from ACF
 	$success_msg = pacto_get_field(
 		'sinistro_form_success_message',
 		$page_id,
@@ -311,98 +304,429 @@ add_action( 'admin_post_pacto_submit_sinistro', 'pacto_handle_sinistro_submissio
 add_action( 'admin_post_nopriv_pacto_submit_sinistro', 'pacto_handle_sinistro_submission' );
 
 /**
- * Enqueue Frontend Script for Form Submissions (AJAX enhancement)
+ * --------------------------------------------------------------------------
+ * 2. FORM HANDLER: Contactos Gerais
+ * --------------------------------------------------------------------------
+ */
+function pacto_handle_contactos_submission() {
+	// 1. Verify Nonce
+	$nonce = isset( $_POST['contactos_form_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['contactos_form_nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'pacto_contactos_form_action' ) ) {
+		if ( wp_doing_ajax() ) {
+			wp_send_json_error( array( 'message' => __( 'Sessão expirada. Por favor recarregue a página.', 'pacto-25' ) ), 403 );
+		}
+		wp_die( esc_html__( 'Sessão expirada. Por favor recarregue a página.', 'pacto-25' ) );
+	}
+
+	// 2. Honeypot check
+	if ( ! empty( $_POST['contactos_website'] ) ) {
+		if ( wp_doing_ajax() ) {
+			wp_send_json_success( array( 'message' => __( 'Mensagem enviada com sucesso.', 'pacto-25' ) ) );
+		}
+		wp_safe_redirect( add_query_arg( 'contactos_status', 'success', wp_get_referer() ?: home_url( '/contactos/#formulario' ) ) );
+		exit;
+	}
+
+	// 3. Sanitize inputs
+	$nome      = isset( $_POST['nome'] ) ? sanitize_text_field( wp_unslash( $_POST['nome'] ) ) : '';
+	$email     = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+	$telefone  = isset( $_POST['telemovel'] ) ? sanitize_text_field( wp_unslash( $_POST['telemovel'] ) ) : '';
+	$assunto   = isset( $_POST['assunto'] ) ? sanitize_text_field( wp_unslash( $_POST['assunto'] ) ) : '';
+	$mensagem  = isset( $_POST['mensagem'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mensagem'] ) ) : '';
+	$consent   = ! empty( $_POST['consent'] );
+
+	if ( empty( $nome ) || empty( $email ) || ! is_email( $email ) || empty( $telefone ) ) {
+		$error_msg = __( 'Por favor preencha todos os campos obrigatórios (nome, email e telemóvel).', 'pacto-25' );
+		if ( wp_doing_ajax() ) {
+			wp_send_json_error( array( 'message' => $error_msg ), 422 );
+		}
+		wp_safe_redirect( add_query_arg( 'contactos_status', 'error_fields', wp_get_referer() ?: home_url( '/contactos/#formulario' ) ) );
+		exit;
+	}
+
+	if ( ! $consent ) {
+		$error_msg = __( 'Deve aceitar a Política de Privacidade para enviar a mensagem.', 'pacto-25' );
+		if ( wp_doing_ajax() ) {
+			wp_send_json_error( array( 'message' => $error_msg ), 422 );
+		}
+		wp_safe_redirect( add_query_arg( 'contactos_status', 'error_consent', wp_get_referer() ?: home_url( '/contactos/#formulario' ) ) );
+		exit;
+	}
+
+	$assuntos_map = array(
+		'geral'        => 'Informações Gerais',
+		'particulares' => 'Seguros Particulares',
+		'empresas'     => 'Seguros Empresas',
+		'sinistros'    => 'Sinistros',
+		'protocolos'   => 'Protocolos',
+		'outro'        => 'Outro',
+	);
+	$assunto_label = $assuntos_map[ $assunto ] ?? ( ! empty( $assunto ) ? ucfirst( $assunto ) : 'Geral' );
+
+	$page_id   = isset( $_POST['page_id'] ) ? absint( $_POST['page_id'] ) : get_queried_object_id();
+	$recipient = pacto_get_form_recipient( 'contactos', $page_id );
+
+	$subject = sprintf( '[Pacto Seguro] Novo Contacto Geral — %s (%s)', $nome, $assunto_label );
+	$fields  = array(
+		'Nome'        => $nome,
+		'E-mail'      => $email,
+		'Telemóvel'   => $telefone,
+		'Assunto'     => $assunto_label,
+		'Mensagem'    => ! empty( $mensagem ) ? $mensagem : '(Sem mensagem adicional)',
+		'Data e Hora' => current_time( 'd/m/Y H:i' ),
+	);
+
+	$html_body = pacto_build_html_email( 'Contacto Geral do Website', $fields );
+	$headers   = array(
+		'Content-Type: text/html; charset=UTF-8',
+		'From: Pacto Seguro <no-reply@pactoseguro.com>',
+		sprintf( 'Reply-To: %s <%s>', $nome, $email ),
+	);
+
+	$mail_error = '';
+	add_action( 'wp_mail_failed', function( $wp_error ) use ( &$mail_error ) {
+		if ( is_wp_error( $wp_error ) ) {
+			$mail_error = $wp_error->get_error_message();
+		}
+	} );
+
+	$sent = wp_mail( $recipient, $subject, $html_body, $headers );
+	pacto_log_form_submission( 'contactos', $fields, $recipient, $sent, $mail_error );
+
+	$success_msg = pacto_get_field(
+		'contactos_form_success_message',
+		$page_id,
+		__( 'Obrigado pelo seu contacto! A sua mensagem foi enviada com sucesso para a nossa equipa. Entraremos em contacto consigo com a máxima brevidade.', 'pacto-25' )
+	);
+
+	if ( wp_doing_ajax() ) {
+		wp_send_json_success( array(
+			'message'   => $success_msg,
+			'recipient' => $recipient,
+		) );
+	}
+
+	$redirect_url = add_query_arg( 'contactos_status', 'success', wp_get_referer() ?: home_url( '/contactos/#formulario' ) );
+	wp_safe_redirect( $redirect_url );
+	exit;
+}
+add_action( 'wp_ajax_pacto_submit_contactos', 'pacto_handle_contactos_submission' );
+add_action( 'wp_ajax_nopriv_pacto_submit_contactos', 'pacto_handle_contactos_submission' );
+add_action( 'admin_post_pacto_submit_contactos', 'pacto_handle_contactos_submission' );
+add_action( 'admin_post_nopriv_pacto_submit_contactos', 'pacto_handle_contactos_submission' );
+
+/**
+ * --------------------------------------------------------------------------
+ * 3. FORM HANDLER: Pedido de Simulação de Seguros
+ * --------------------------------------------------------------------------
+ */
+function pacto_handle_simulacao_submission() {
+	// 1. Verify Nonce
+	$nonce = isset( $_POST['seguro_simulacao_nonce_field'] ) ? sanitize_text_field( wp_unslash( $_POST['seguro_simulacao_nonce_field'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'pacto_simulacao_form_action' ) ) {
+		if ( wp_doing_ajax() ) {
+			wp_send_json_error( array( 'message' => __( 'Sessão expirada. Por favor recarregue a página.', 'pacto-25' ) ), 403 );
+		}
+		wp_die( esc_html__( 'Sessão expirada. Por favor recarregue a página.', 'pacto-25' ) );
+	}
+
+	// 2. Honeypot check
+	if ( ! empty( $_POST['simulacao_website'] ) ) {
+		if ( wp_doing_ajax() ) {
+			wp_send_json_success( array( 'message' => __( 'Pedido de simulação enviado com sucesso.', 'pacto-25' ) ) );
+		}
+		wp_safe_redirect( add_query_arg( 'simulacao_status', 'success', wp_get_referer() ?: home_url( '#simulacao' ) ) );
+		exit;
+	}
+
+	// 3. Sanitize inputs
+	$nome         = isset( $_POST['nome'] ) ? sanitize_text_field( wp_unslash( $_POST['nome'] ) ) : '';
+	$email        = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+	$telefone     = isset( $_POST['telemovel'] ) ? sanitize_text_field( wp_unslash( $_POST['telemovel'] ) ) : '';
+	$seguro_nome  = isset( $_POST['seguro_nome'] ) ? sanitize_text_field( wp_unslash( $_POST['seguro_nome'] ) ) : 'Seguro';
+	$mensagem     = isset( $_POST['mensagem'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mensagem'] ) ) : '';
+	$consent      = ! empty( $_POST['privacy_consent'] );
+
+	if ( empty( $nome ) || empty( $email ) || ! is_email( $email ) || empty( $telefone ) ) {
+		$error_msg = __( 'Por favor preencha todos os campos obrigatórios (nome, email e telemóvel).', 'pacto-25' );
+		if ( wp_doing_ajax() ) {
+			wp_send_json_error( array( 'message' => $error_msg ), 422 );
+		}
+		wp_safe_redirect( add_query_arg( 'simulacao_status', 'error_fields', wp_get_referer() ?: home_url( '#simulacao' ) ) );
+		exit;
+	}
+
+	if ( ! $consent ) {
+		$error_msg = __( 'Deve aceitar a Política de Privacidade para submeter a simulação.', 'pacto-25' );
+		if ( wp_doing_ajax() ) {
+			wp_send_json_error( array( 'message' => $error_msg ), 422 );
+		}
+		wp_safe_redirect( add_query_arg( 'simulacao_status', 'error_consent', wp_get_referer() ?: home_url( '#simulacao' ) ) );
+		exit;
+	}
+
+	$post_id   = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : get_queried_object_id();
+	$recipient = pacto_get_form_recipient( 'simulacao', $post_id );
+
+	$subject = sprintf( '[Pacto Seguro] Novo Pedido de Simulação — %s (%s)', $seguro_nome, $nome );
+	$fields  = array(
+		'Seguro Pretendido' => $seguro_nome,
+		'Nome'              => $nome,
+		'E-mail'            => $email,
+		'Telemóvel'         => $telefone,
+		'Mensagem'          => ! empty( $mensagem ) ? $mensagem : '(Sem mensagem adicional)',
+		'Data e Hora'       => current_time( 'd/m/Y H:i' ),
+	);
+
+	$html_body = pacto_build_html_email( 'Pedido de Simulação de Seguro', $fields );
+	$headers   = array(
+		'Content-Type: text/html; charset=UTF-8',
+		'From: Pacto Seguro <no-reply@pactoseguro.com>',
+		sprintf( 'Reply-To: %s <%s>', $nome, $email ),
+	);
+
+	$mail_error = '';
+	add_action( 'wp_mail_failed', function( $wp_error ) use ( &$mail_error ) {
+		if ( is_wp_error( $wp_error ) ) {
+			$mail_error = $wp_error->get_error_message();
+		}
+	} );
+
+	$sent = wp_mail( $recipient, $subject, $html_body, $headers );
+	pacto_log_form_submission( 'simulacao', $fields, $recipient, $sent, $mail_error );
+
+	$success_msg = pacto_get_field(
+		'seguro_form_success_message',
+		$post_id,
+		__( 'Obrigado! O seu pedido de simulação foi enviado com sucesso. Entraremos em contacto consigo com a máxima brevidade.', 'pacto-25' )
+	);
+
+	if ( wp_doing_ajax() ) {
+		wp_send_json_success( array(
+			'message'   => $success_msg,
+			'recipient' => $recipient,
+		) );
+	}
+
+	$redirect_url = add_query_arg( 'simulacao_status', 'success', wp_get_referer() ?: home_url( '#simulacao' ) );
+	wp_safe_redirect( $redirect_url );
+	exit;
+}
+add_action( 'wp_ajax_pacto_submit_simulacao', 'pacto_handle_simulacao_submission' );
+add_action( 'wp_ajax_nopriv_pacto_submit_simulacao', 'pacto_handle_simulacao_submission' );
+add_action( 'admin_post_pacto_submit_simulacao', 'pacto_handle_simulacao_submission' );
+add_action( 'admin_post_nopriv_pacto_submit_simulacao', 'pacto_handle_simulacao_submission' );
+
+/**
+ * --------------------------------------------------------------------------
+ * 4. FORM HANDLER: Protocolos e Parcerias
+ * --------------------------------------------------------------------------
+ */
+function pacto_handle_protocolos_submission() {
+	// 1. Verify Nonce
+	$nonce = isset( $_POST['protocolos_form_nonce_field'] ) ? sanitize_text_field( wp_unslash( $_POST['protocolos_form_nonce_field'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'pacto_protocolos_form_action' ) ) {
+		if ( wp_doing_ajax() ) {
+			wp_send_json_error( array( 'message' => __( 'Sessão expirada. Por favor recarregue a página.', 'pacto-25' ) ), 403 );
+		}
+		wp_die( esc_html__( 'Sessão expirada. Por favor recarregue a página.', 'pacto-25' ) );
+	}
+
+	// 2. Honeypot check
+	if ( ! empty( $_POST['protocolos_website'] ) ) {
+		if ( wp_doing_ajax() ) {
+			wp_send_json_success( array( 'message' => __( 'Pedido enviado com sucesso.', 'pacto-25' ) ) );
+		}
+		wp_safe_redirect( add_query_arg( 'protocolos_status', 'success', wp_get_referer() ?: home_url( '/protocolos/#formulario-protocolos' ) ) );
+		exit;
+	}
+
+	// 3. Sanitize inputs
+	$nome      = isset( $_POST['nome'] ) ? sanitize_text_field( wp_unslash( $_POST['nome'] ) ) : '';
+	$email     = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+	$telefone  = isset( $_POST['telemovel'] ) ? sanitize_text_field( wp_unslash( $_POST['telemovel'] ) ) : '';
+	$mensagem  = isset( $_POST['mensagem'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mensagem'] ) ) : '';
+	$consent   = ! empty( $_POST['privacy_consent'] );
+
+	if ( empty( $nome ) || empty( $email ) || ! is_email( $email ) || empty( $telefone ) ) {
+		$error_msg = __( 'Por favor preencha todos os campos obrigatórios (nome, email e telemóvel).', 'pacto-25' );
+		if ( wp_doing_ajax() ) {
+			wp_send_json_error( array( 'message' => $error_msg ), 422 );
+		}
+		wp_safe_redirect( add_query_arg( 'protocolos_status', 'error_fields', wp_get_referer() ?: home_url( '/protocolos/#formulario-protocolos' ) ) );
+		exit;
+	}
+
+	if ( ! $consent ) {
+		$error_msg = __( 'Deve aceitar a Política de Privacidade para submeter o pedido.', 'pacto-25' );
+		if ( wp_doing_ajax() ) {
+			wp_send_json_error( array( 'message' => $error_msg ), 422 );
+		}
+		wp_safe_redirect( add_query_arg( 'protocolos_status', 'error_consent', wp_get_referer() ?: home_url( '/protocolos/#formulario-protocolos' ) ) );
+		exit;
+	}
+
+	$page_id   = isset( $_POST['page_id'] ) ? absint( $_POST['page_id'] ) : get_queried_object_id();
+	$recipient = pacto_get_form_recipient( 'protocolos', $page_id );
+
+	$subject = sprintf( '[Pacto Seguro] Pedido de Protocolo / Parceria — %s', $nome );
+	$fields  = array(
+		'Nome'        => $nome,
+		'E-mail'      => $email,
+		'Telemóvel'   => $telefone,
+		'Mensagem'    => ! empty( $mensagem ) ? $mensagem : '(Sem mensagem adicional)',
+		'Data e Hora' => current_time( 'd/m/Y H:i' ),
+	);
+
+	$html_body = pacto_build_html_email( 'Pedido de Protocolo & Parceria', $fields );
+	$headers   = array(
+		'Content-Type: text/html; charset=UTF-8',
+		'From: Pacto Seguro <no-reply@pactoseguro.com>',
+		sprintf( 'Reply-To: %s <%s>', $nome, $email ),
+	);
+
+	$mail_error = '';
+	add_action( 'wp_mail_failed', function( $wp_error ) use ( &$mail_error ) {
+		if ( is_wp_error( $wp_error ) ) {
+			$mail_error = $wp_error->get_error_message();
+		}
+	} );
+
+	$sent = wp_mail( $recipient, $subject, $html_body, $headers );
+	pacto_log_form_submission( 'protocolos', $fields, $recipient, $sent, $mail_error );
+
+	$success_msg = pacto_get_field(
+		'protocolos_form_success_message',
+		$page_id,
+		__( 'Obrigado! O seu pedido de informação sobre protocolos foi enviado com sucesso. Entraremos em contacto brevemente.', 'pacto-25' )
+	);
+
+	if ( wp_doing_ajax() ) {
+		wp_send_json_success( array(
+			'message'   => $success_msg,
+			'recipient' => $recipient,
+		) );
+	}
+
+	$redirect_url = add_query_arg( 'protocolos_status', 'success', wp_get_referer() ?: home_url( '/protocolos/#formulario-protocolos' ) );
+	wp_safe_redirect( $redirect_url );
+	exit;
+}
+add_action( 'wp_ajax_pacto_submit_protocolos', 'pacto_handle_protocolos_submission' );
+add_action( 'wp_ajax_nopriv_pacto_submit_protocolos', 'pacto_handle_protocolos_submission' );
+add_action( 'admin_post_pacto_submit_protocolos', 'pacto_handle_protocolos_submission' );
+add_action( 'admin_post_nopriv_pacto_submit_protocolos', 'pacto_handle_protocolos_submission' );
+
+/**
+ * --------------------------------------------------------------------------
+ * Universal Frontend Script for All Forms (AJAX enhancements + Fallbacks)
+ * --------------------------------------------------------------------------
  */
 function pacto_enqueue_forms_client_script() {
-	if ( ! is_page_template( 'page-sinistro.php' ) && ! is_page( 'sinistro' ) && ! is_page( 'contactos' ) && ! is_page_template( 'page-contactos.php' ) ) {
-		return;
-	}
 	?>
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
-		var form = document.querySelector('.sinistro-claim-form');
-		if (!form) return;
+		var formsConfig = [
+			{ selector: '.sinistro-claim-form', action: 'pacto_submit_sinistro', feedbackSel: '.sinistro-form-feedback', btnSel: '.sinistro-form-btn' },
+			{ selector: '.contactos-inquiry-form', action: 'pacto_submit_contactos', feedbackSel: '.contactos-form-feedback', btnSel: '.contactos-form-btn' },
+			{ selector: '.seguro-simulacao-form', action: 'pacto_submit_simulacao', feedbackSel: '.seguro-form-feedback', btnSel: '.seguro-form-submit-btn' },
+			{ selector: '.protocolos-form', action: 'pacto_submit_protocolos', feedbackSel: '.protocolos-form-feedback', btnSel: '.protocolos-form-btn' }
+		];
 
-		var feedback = document.querySelector('.sinistro-form-feedback');
-		var btn = form.querySelector('.sinistro-form-btn');
-		var originalBtnText = btn ? btn.innerHTML : 'submeter';
+		formsConfig.forEach(function(cfg) {
+			var formEl = document.querySelector(cfg.selector);
+			if (!formEl) return;
 
-		form.addEventListener('submit', function(e) {
-			if (!window.fetch) return; // Fallback to normal POST
+			var feedbackEl = document.querySelector(cfg.feedbackSel);
+			var btnEl = formEl.querySelector(cfg.btnSel);
+			var originalBtnText = btnEl ? btnEl.innerHTML : 'submeter';
 
-			e.preventDefault();
+			formEl.addEventListener('submit', function(e) {
+				if (!window.fetch) return; // Fallback to normal POST
 
-			if (feedback) {
-				feedback.style.display = 'none';
-				feedback.className = 'sinistro-form-feedback';
-				feedback.innerHTML = '';
-			}
+				e.preventDefault();
 
-			if (btn) {
-				btn.disabled = true;
-				btn.innerHTML = '<span>a enviar...</span>';
-			}
-
-			var formData = new FormData(form);
-			formData.append('action', 'pacto_submit_sinistro');
-
-			fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', {
-				method: 'POST',
-				body: formData
-			})
-			.then(function(res) { return res.json(); })
-			.then(function(data) {
-				if (btn) {
-					btn.disabled = false;
-					btn.innerHTML = originalBtnText;
+				if (feedbackEl) {
+					feedbackEl.style.display = 'none';
+					feedbackEl.className = 'pacto-form-feedback ' + cfg.feedbackSel.replace('.', '');
+					feedbackEl.innerHTML = '';
 				}
-				if (feedback) {
-					feedback.style.display = 'block';
-					if (data.success) {
-						feedback.className = 'sinistro-form-feedback sinistro-form-feedback--success';
-						feedback.innerHTML = '<p>' + (data.data && data.data.message ? data.data.message : 'Participação enviada com sucesso!') + '</p>';
-						form.reset();
-					} else {
-						feedback.className = 'sinistro-form-feedback sinistro-form-feedback--error';
-						feedback.innerHTML = '<p>' + (data.data && data.data.message ? data.data.message : 'Ocorreu um erro ao enviar. Por favor tente novamente.') + '</p>';
+
+				if (btnEl) {
+					btnEl.disabled = true;
+					btnEl.innerHTML = '<span>a enviar...</span>';
+				}
+
+				var formData = new FormData(formEl);
+				formData.append('action', cfg.action);
+
+				fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', {
+					method: 'POST',
+					body: formData
+				})
+				.then(function(res) { return res.json(); })
+				.then(function(data) {
+					if (btnEl) {
+						btnEl.disabled = false;
+						btnEl.innerHTML = originalBtnText;
 					}
-					feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-				}
-			})
-			.catch(function(err) {
-				if (btn) {
-					btn.disabled = false;
-					btn.innerHTML = originalBtnText;
-				}
-				if (feedback) {
-					feedback.style.display = 'block';
-					feedback.className = 'sinistro-form-feedback sinistro-form-feedback--error';
-					feedback.innerHTML = '<p>Ocorreu um erro de ligação. Por favor tente novamente.</p>';
-				}
+					if (feedbackEl) {
+						feedbackEl.style.display = 'block';
+						if (data.success) {
+							feedbackEl.className = 'pacto-form-feedback pacto-form-feedback--success ' + cfg.feedbackSel.replace('.', '');
+							feedbackEl.innerHTML = '<p>' + (data.data && data.data.message ? data.data.message : 'Mensagem enviada com sucesso!') + '</p>';
+							formEl.reset();
+						} else {
+							feedbackEl.className = 'pacto-form-feedback pacto-form-feedback--error ' + cfg.feedbackSel.replace('.', '');
+							feedbackEl.innerHTML = '<p>' + (data.data && data.data.message ? data.data.message : 'Ocorreu um erro ao enviar. Por favor tente novamente.') + '</p>';
+						}
+						feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+					}
+				})
+				.catch(function(err) {
+					if (btnEl) {
+						btnEl.disabled = false;
+						btnEl.innerHTML = originalBtnText;
+					}
+					if (feedbackEl) {
+						feedbackEl.style.display = 'block';
+						feedbackEl.className = 'pacto-form-feedback pacto-form-feedback--error ' + cfg.feedbackSel.replace('.', '');
+						feedbackEl.innerHTML = '<p>Ocorreu um erro de ligação. Por favor tente novamente.</p>';
+					}
+				});
 			});
 		});
 	});
 	</script>
 	<style>
-		.sinistro-form-feedback {
+		.pacto-form-feedback,
+		.sinistro-form-feedback,
+		.contactos-form-feedback,
+		.seguro-form-feedback,
+		.protocolos-form-feedback {
 			border-radius: 12px;
 			padding: 14px 18px;
-			margin-bottom: 16px;
+			margin-bottom: 18px;
 			font-size: 14px;
 			line-height: 1.5;
 			display: none;
 		}
-		.sinistro-form-feedback p { margin: 0; }
-		.sinistro-form-feedback--success {
+		.pacto-form-feedback p,
+		.sinistro-form-feedback p,
+		.contactos-form-feedback p,
+		.seguro-form-feedback p,
+		.protocolos-form-feedback p { margin: 0; }
+		.pacto-form-feedback--success {
 			background-color: rgba(255, 255, 255, 0.95);
 			color: #15803d;
 			border: 2px solid #86efac;
-			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 		}
-		.sinistro-form-feedback--error {
+		.pacto-form-feedback--error {
 			background-color: rgba(255, 255, 255, 0.95);
 			color: #b91c1c;
 			border: 2px solid #fca5a5;
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 		}
 	</style>
 	<?php
@@ -410,29 +734,77 @@ function pacto_enqueue_forms_client_script() {
 add_action( 'wp_footer', 'pacto_enqueue_forms_client_script', 30 );
 
 /**
- * Diagnostic & Testing helper function
- *
+ * --------------------------------------------------------------------------
+ * Diagnostic & Testing Helper (WP-CLI & Admin Tester)
+ * --------------------------------------------------------------------------
  * Can be run via WP-CLI:
- * wp eval "pacto_test_form_email('sinistro', 'teresa.sousa@pactoseguro.com');"
+ * wp eval "pacto_test_form_email('contactos', 'teresa.sousa@pactoseguro.com');"
  *
- * @param string $form_type Form identifier.
+ * @param string $form_type Form identifier (sinistro, contactos, simulacao, protocolos).
  * @param string $to        Target test recipient.
  * @return array Test results with status, recipient and log.
  */
 function pacto_test_form_email( $form_type = 'sinistro', $to = '' ) {
 	$recipient = ! empty( $to ) ? sanitize_email( $to ) : pacto_get_form_recipient( $form_type );
 
-	$test_payload = array(
-		'Nome'             => 'Teste Diagnóstico Antigravity',
-		'E-mail'           => 'teste@pactoseguro.com',
-		'Telemóvel'        => '912 345 678',
-		'Tipo de Sinistro' => 'Automóvel (Teste)',
-		'Mensagem'         => 'Este é um teste automático de verificação de entrega de emails para ' . $recipient . '.',
-		'Data e Hora'      => current_time( 'd/m/Y H:i:s' ),
-	);
+	switch ( $form_type ) {
+		case 'sinistro':
+			$title        = 'Participação de Sinistro (Diagnóstico)';
+			$test_payload = array(
+				'Nome'             => 'Teste Diagnóstico Antigravity',
+				'E-mail'           => 'teste@pactoseguro.com',
+				'Telemóvel'        => '912 345 678',
+				'Tipo de Sinistro' => 'Automóvel (Teste)',
+				'Mensagem'         => 'Este é um teste automático de verificação de entrega de emails para ' . $recipient . '.',
+				'Data e Hora'      => current_time( 'd/m/Y H:i:s' ),
+			);
+			break;
+		case 'contactos':
+			$title        = 'Contacto Geral (Diagnóstico)';
+			$test_payload = array(
+				'Nome'        => 'Teste Diagnóstico Antigravity',
+				'E-mail'      => 'teste@pactoseguro.com',
+				'Telemóvel'   => '912 345 678',
+				'Assunto'     => 'Informações Gerais (Teste)',
+				'Mensagem'    => 'Este é um teste automático de formulário de contacto para ' . $recipient . '.',
+				'Data e Hora' => current_time( 'd/m/Y H:i:s' ),
+			);
+			break;
+		case 'simulacao':
+			$title        = 'Pedido de Simulação (Diagnóstico)';
+			$test_payload = array(
+				'Seguro Pretendido' => 'Multirriscos Habitação (Teste)',
+				'Nome'              => 'Teste Diagnóstico Antigravity',
+				'E-mail'            => 'teste@pactoseguro.com',
+				'Telemóvel'         => '912 345 678',
+				'Mensagem'          => 'Este é um teste automático de pedido de simulação para ' . $recipient . '.',
+				'Data e Hora'       => current_time( 'd/m/Y H:i:s' ),
+			);
+			break;
+		case 'protocolos':
+			$title        = 'Pedido de Protocolos (Diagnóstico)';
+			$test_payload = array(
+				'Nome'        => 'Teste Diagnóstico Antigravity',
+				'E-mail'      => 'teste@pactoseguro.com',
+				'Telemóvel'   => '912 345 678',
+				'Mensagem'    => 'Este é um teste automático de pedido de protocolos para ' . $recipient . '.',
+				'Data e Hora' => current_time( 'd/m/Y H:i:s' ),
+			);
+			break;
+		default:
+			$title        = 'Teste de Formulário (Diagnóstico)';
+			$test_payload = array(
+				'Nome'        => 'Teste Diagnóstico Antigravity',
+				'E-mail'      => 'teste@pactoseguro.com',
+				'Telemóvel'   => '912 345 678',
+				'Mensagem'    => 'Este é um teste automático para ' . $recipient . '.',
+				'Data e Hora' => current_time( 'd/m/Y H:i:s' ),
+			);
+			break;
+	}
 
 	$subject   = sprintf( '[TESTE] Diagnóstico de Envio — Formulário %s', strtoupper( $form_type ) );
-	$html_body = pacto_build_html_email( 'Teste de Diagnóstico de Formulário', $test_payload );
+	$html_body = pacto_build_html_email( $title, $test_payload );
 
 	$headers = array(
 		'Content-Type: text/html; charset=UTF-8',
@@ -458,4 +830,3 @@ function pacto_test_form_email( $form_type = 'sinistro', $to = '' ) {
 		'timestamp' => current_time( 'mysql' ),
 	);
 }
-

@@ -24,6 +24,8 @@ $description = pacto_get_field( 'seguro_form_description', $post_id, 'Aliquet eu
 
 $image       = pacto_get_field( 'seguro_form_image', $post_id );
 $default_img = get_template_directory_uri() . '/assets/images/single-seguro/seguro-form-couple.png';
+
+$status_code = isset( $_GET['simulacao_status'] ) ? sanitize_key( $_GET['simulacao_status'] ) : '';
 ?>
 
 <section class="section section-single-seguro-form" id="simulacao" aria-label="<?php echo esc_attr( $title ); ?>">
@@ -43,10 +45,28 @@ $default_img = get_template_directory_uri() . '/assets/images/single-seguro/segu
                     <p class="section-single-seguro-form__desc"><?php echo esc_html( $description ); ?></p>
                 <?php endif; ?>
 
+                <!-- Feedback Container (AJAX and Post-Redirect) -->
+                <?php if ( 'success' === $status_code ) : ?>
+                    <div class="seguro-form-feedback pacto-form-feedback--success" role="alert" style="display:block;">
+                        <p><?php echo esc_html( pacto_get_field( 'seguro_form_success_message', $post_id, __( 'Obrigado! O seu pedido de simulação foi enviado com sucesso. Entraremos em contacto consigo com a máxima brevidade.', 'pacto-25' ) ) ); ?></p>
+                    </div>
+                <?php elseif ( ! empty( $status_code ) && 'success' !== $status_code ) : ?>
+                    <div class="seguro-form-feedback pacto-form-feedback--error" role="alert" style="display:block;">
+                        <p><?php esc_html_e( 'Por favor verifique os campos obrigatórios e aceite a Política de Privacidade antes de submeter.', 'pacto-25' ); ?></p>
+                    </div>
+                <?php else : ?>
+                    <div class="seguro-form-feedback" role="alert" style="display:none;"></div>
+                <?php endif; ?>
+
                 <!-- Form -->
-                <form class="seguro-simulacao-form" method="post" action="#simulacao">
-                    <?php wp_nonce_field( 'pacto_seguro_simulacao_nonce', 'seguro_simulacao_nonce_field' ); ?>
+                <form class="seguro-simulacao-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+                    <?php wp_nonce_field( 'pacto_simulacao_form_action', 'seguro_simulacao_nonce_field' ); ?>
+                    <input type="hidden" name="action" value="pacto_submit_simulacao" />
+                    <input type="hidden" name="post_id" value="<?php echo esc_attr( $post_id ); ?>" />
                     <input type="hidden" name="seguro_nome" value="<?php echo esc_attr( $clean_name ); ?>" />
+                    
+                    <!-- Anti-spam Honeypot -->
+                    <input type="text" name="simulacao_website" style="display:none !important; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" />
 
                     <div class="seguro-form-group">
                         <label for="seguro_input_nome" class="screen-reader-text"><?php esc_html_e( 'Nome', 'pacto-25' ); ?></label>

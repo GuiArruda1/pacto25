@@ -28,6 +28,8 @@ $image_obj   = pacto_get_field( 'contactos_form_image', $page_id );
 
 $image_url = ! empty( $image_obj['url'] ) ? $image_obj['url'] : get_template_directory_uri() . '/assets/images/contactos/contactos-help-couple.png';
 $image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title );
+
+$status_code = isset( $_GET['contactos_status'] ) ? sanitize_key( $_GET['contactos_status'] ) : '';
 ?>
 
 <section class="section section-contactos-help" id="formulario" aria-label="<?php echo esc_attr( $title ); ?>">
@@ -61,8 +63,27 @@ $image_alt = ! empty( $image_obj['alt'] ) ? $image_obj['alt'] : esc_attr( $title
                     <p class="contactos-help-desc"><?php echo esc_html( $description ); ?></p>
                 <?php endif; ?>
 
+                <!-- Feedback Container (AJAX and Post-Redirect) -->
+                <?php if ( 'success' === $status_code ) : ?>
+                    <div class="contactos-form-feedback pacto-form-feedback--success" role="alert" style="display:block;">
+                        <p><?php echo esc_html( pacto_get_field( 'contactos_form_success_message', false, __( 'Obrigado pelo seu contacto! A sua mensagem foi enviada com sucesso para a nossa equipa. Entraremos em contacto consigo com a máxima brevidade.', 'pacto-25' ) ) ); ?></p>
+                    </div>
+                <?php elseif ( ! empty( $status_code ) && 'success' !== $status_code ) : ?>
+                    <div class="contactos-form-feedback pacto-form-feedback--error" role="alert" style="display:block;">
+                        <p><?php esc_html_e( 'Por favor verifique os campos obrigatórios e aceite a Política de Privacidade antes de submeter.', 'pacto-25' ); ?></p>
+                    </div>
+                <?php else : ?>
+                    <div class="contactos-form-feedback" role="alert" style="display:none;"></div>
+                <?php endif; ?>
+
                 <!-- Contact Form -->
-                <form class="contactos-inquiry-form" method="post" action="#formulario">
+                <form class="contactos-inquiry-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+                    <?php wp_nonce_field( 'pacto_contactos_form_action', 'contactos_form_nonce' ); ?>
+                    <input type="hidden" name="action" value="pacto_submit_contactos" />
+                    <input type="hidden" name="page_id" value="<?php echo esc_attr( get_the_ID() ); ?>" />
+                    
+                    <!-- Anti-spam Honeypot -->
+                    <input type="text" name="contactos_website" style="display:none !important; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" />
                     <div class="contactos-form-row">
                         <div class="contactos-form-group">
                             <label for="contactos-nome" class="sr-only"><?php esc_html_e( 'Nome', 'pacto-25' ); ?></label>
