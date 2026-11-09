@@ -13,11 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$page_id = get_the_ID() ?: get_queried_object_id();
+$page_id = get_queried_object_id();
 if ( ! $page_id || is_home() || is_archive() ) {
-    $news_page = get_page_by_path( 'noticias' );
-    if ( $news_page ) {
-        $page_id = $news_page->ID;
+    $posts_page_id = (int) get_option( 'page_for_posts' );
+    if ( $posts_page_id ) {
+        $page_id = $posts_page_id;
+    } else {
+        $news_page = get_page_by_path( 'noticias' );
+        if ( $news_page ) {
+            $page_id = $news_page->ID;
+        }
     }
 }
 

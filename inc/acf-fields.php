@@ -1761,9 +1761,61 @@ function pacto_25_register_acf_fields() {
     // =========================================================================
     // FIELD GROUP: ARQUIVO DE NOTÍCIAS (PAGE TEMPLATE & BLOG ARCHIVE)
     // =========================================================================
+    $noticias_page_id = 0;
+    $noticias_page = get_page_by_path( 'noticias' );
+    if ( $noticias_page ) {
+        $noticias_page_id = (int) $noticias_page->ID;
+    } else {
+        $posts_page_id = (int) get_option( 'page_for_posts' );
+        if ( $posts_page_id ) {
+            $noticias_page_id = $posts_page_id;
+        }
+    }
+
+    $noticias_locations = array(
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-noticias.php',
+            ),
+        ),
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'home.php',
+            ),
+        ),
+        array(
+            array(
+                'param'    => 'page_type',
+                'operator' => '==',
+                'value'    => 'posts_page',
+            ),
+        ),
+        array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => 'noticias',
+            ),
+        ),
+    );
+
+    if ( $noticias_page_id > 0 ) {
+        $noticias_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => (string) $noticias_page_id,
+            ),
+        );
+    }
+
     acf_add_local_field_group( array(
         'key' => 'group_pacto_noticias_archive',
-        'title' => __( 'Arquivo de Notícias - Configuração', 'pacto-25' ),
+        'title' => __( 'Página de Notícias - Cabeçalho / Hero', 'pacto-25' ),
         'fields' => array(
             array(
                 'key' => 'field_noticias_archive_eyebrow',
@@ -1771,6 +1823,7 @@ function pacto_25_register_acf_fields() {
                 'name' => 'noticias_archive_eyebrow',
                 'type' => 'text',
                 'default_value' => '• NOTÍCIAS — PACTO SEGURO',
+                'instructions' => __( 'Pré-título exibido com o ponto vermelho (ex: NOTÍCIAS — PACTO SEGURO).', 'pacto-25' ),
             ),
             array(
                 'key' => 'field_noticias_archive_title',
@@ -1778,33 +1831,20 @@ function pacto_25_register_acf_fields() {
                 'name' => 'noticias_archive_title',
                 'type' => 'text',
                 'default_value' => 'Fique a par das nossas Notícias',
+                'instructions' => __( 'Título de destaque da página de notícias.', 'pacto-25' ),
             ),
             array(
                 'key' => 'field_noticias_archive_description',
-                'label' => __( 'Texto Descritivo', 'pacto-25' ),
+                'label' => __( 'Texto Descritivo / Subtítulo', 'pacto-25' ),
                 'name' => 'noticias_archive_description',
                 'type' => 'textarea',
                 'rows' => 3,
                 'default_value' => 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.',
+                'instructions' => __( 'Texto descritivo introdutório abaixo do título.', 'pacto-25' ),
             ),
         ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'page_template',
-                    'operator' => '==',
-                    'value' => 'page-noticias.php',
-                ),
-            ),
-            array(
-                array(
-                    'param' => 'page_type',
-                    'operator' => '==',
-                    'value' => 'posts_page',
-                ),
-            ),
-        ),
-        'menu_order' => 3,
+        'location' => $noticias_locations,
+        'menu_order' => 1,
         'position' => 'normal',
         'style' => 'default',
         'label_placement' => 'top',
@@ -2245,4 +2285,18 @@ add_action( 'acf/init', 'pacto_25_register_acf_fields' );
  * Remove strict validation from all ACF fields so changes can always be saved freely.
  */
 add_filter( 'acf/validate_value', '__return_true', 99, 4 );
+
+/**
+ * Allow ACF location rule 'page' to match by page slug in addition to page ID.
+ */
+add_filter( 'acf/location/rule_match/page', function( $match, $rule, $options ) {
+    if ( ! empty( $options['post_id'] ) && is_string( $rule['value'] ) && ! is_numeric( $rule['value'] ) ) {
+        $post = get_post( $options['post_id'] );
+        if ( $post && $post->post_name === $rule['value'] ) {
+            return ( '==' === $rule['operator'] );
+        }
+    }
+    return $match;
+}, 10, 3 );
+
 
