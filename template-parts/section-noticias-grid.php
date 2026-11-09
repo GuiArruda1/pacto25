@@ -16,17 +16,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png';
 
+$current_page = max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) );
+
+// Setup posts query:
+// When viewing a static page (e.g. /noticias/ rendered via page-noticias.php or home.php),
+// the main query contains the page object instead of posts. We run an explicit WP_Query for 'post'.
 global $wp_query;
-$max_pages    = isset( $wp_query->max_num_pages ) ? (int) $wp_query->max_num_pages : 1;
-$current_page = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
+$needs_custom_query = is_page() || ! isset( $wp_query ) || ! $wp_query->is_main_query() || ( isset( $wp_query->query_vars['post_type'] ) && 'post' !== $wp_query->query_vars['post_type'] && ! is_home() && ! is_archive() );
+
+if ( $needs_custom_query ) {
+    $news_query = new WP_Query( array(
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => 6,
+        'paged'          => $current_page,
+    ) );
+} else {
+    $news_query = $wp_query;
+}
+
+$max_pages = isset( $news_query->max_num_pages ) ? (int) $news_query->max_num_pages : 1;
 ?>
 
 <section class="section section-noticias-grid" aria-label="<?php esc_attr_e( 'Lista de Notícias', 'pacto-25' ); ?>">
     <div class="site-container">
         <div class="noticias-grid">
             <?php 
-            if ( have_posts() ) : 
-                while ( have_posts() ) : the_post(); 
+            if ( $news_query->have_posts() ) : 
+                while ( $news_query->have_posts() ) : $news_query->the_post(); 
                     $post_id    = get_the_ID();
                     $permalink  = get_permalink();
                     $title      = get_the_title() ?: __( '(Sem título)', 'pacto-25' );
@@ -76,6 +93,7 @@ $current_page = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
                         </div>
                     </article>
                 <?php endwhile; ?>
+                <?php if ( $needs_custom_query ) { wp_reset_postdata(); } ?>
             <?php else : ?>
                 <div class="noticias-empty" style="grid-column: 1 / -1; padding: 48px 0; text-align: center; color: var(--color-text-muted, #8E8A8B);">
                     <p style="font-size: 1.1rem; margin: 0;"><?php esc_html_e( 'Não foram encontradas notícias publicadas.', 'pacto-25' ); ?></p>
