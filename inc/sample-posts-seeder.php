@@ -11,24 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Seed sample news posts into WordPress if requested by admin.
+ * Explicit trigger via URL param ?pacto_seed_news=1
  */
 function pacto_25_seed_sample_posts() {
-    $should_seed = false;
-
-    // Trigger 1: URL param ?pacto_seed_news=1
-    if ( isset( $_GET['pacto_seed_news'] ) && '1' === $_GET['pacto_seed_news'] ) {
-        $should_seed = true;
-    }
-
-    // Trigger 2: Auto-seed if published posts count is less than 6 and user can edit posts
-    if ( ! $should_seed && current_user_can( 'edit_posts' ) ) {
-        $counts = wp_count_posts( 'post' );
-        if ( empty( $counts->publish ) || (int) $counts->publish < 6 ) {
-            $should_seed = true;
-        }
-    }
-
-    if ( ! $should_seed ) {
+    // Only seed on explicit admin request with URL param ?pacto_seed_news=1
+    if ( ! is_admin() || ! current_user_can( 'manage_options' ) || ! isset( $_GET['pacto_seed_news'] ) || '1' !== $_GET['pacto_seed_news'] ) {
         return;
     }
 
@@ -126,7 +113,34 @@ function pacto_25_seed_sample_posts() {
         exit;
     }
 }
-add_action( 'init', 'pacto_25_seed_sample_posts' );
+add_action( 'admin_init', 'pacto_25_seed_sample_posts' );
+
+/**
+ * Clean all duplicate sample posts if requested by admin.
+ * Trigger via /wp-admin/edit.php?pacto_clean_sample_news=1
+ */
+function pacto_25_clean_sample_posts() {
+    if ( ! is_admin() || ! current_user_can( 'manage_options' ) || ! isset( $_GET['pacto_clean_sample_news'] ) || '1' !== $_GET['pacto_clean_sample_news'] ) {
+        return;
+    }
+
+    $demo_posts = get_posts( array(
+        'post_type'      => 'post',
+        'post_status'    => array( 'publish', 'trash', 'draft', 'pending' ),
+        'posts_per_page' => -1,
+        'title'          => 'Presença de Teresinha Pereira, CEO da Pacto Seguro no MAE Summit',
+    ) );
+
+    if ( ! empty( $demo_posts ) ) {
+        foreach ( $demo_posts as $p ) {
+            wp_delete_post( $p->ID, true ); // Permanently delete
+        }
+    }
+
+    wp_safe_redirect( admin_url( 'edit.php?pacto_cleaned_news=1' ) );
+    exit;
+}
+add_action( 'admin_init', 'pacto_25_clean_sample_posts' );
 
 /**
  * Seed sample Seguros Empresas into WordPress if requested by admin.
@@ -522,7 +536,10 @@ add_action( 'admin_init', 'pacto_25_seed_sample_seguros_particulares' );
  */
 function pacto_25_seeder_admin_notice() {
     if ( isset( $_GET['pacto_seeded'] ) && '1' === $_GET['pacto_seeded'] ) {
-        echo '<div class="notice notice-success is-dismissible"><p><strong>Pacto 25:</strong> 6 Notícias de demonstração foram criadas com sucesso!</p></div>';
+        echo '<div class="notice notice-success is-dismissible"><p><strong>Pacto 25:</strong> 24 Notícias de demonstração foram criadas com sucesso!</p></div>';
+    }
+    if ( isset( $_GET['pacto_cleaned_news'] ) && '1' === $_GET['pacto_cleaned_news'] ) {
+        echo '<div class="notice notice-success is-dismissible"><p><strong>Pacto 25:</strong> Todos os posts de demonstração duplicados foram eliminados com sucesso!</p></div>';
     }
     if ( isset( $_GET['pacto_seeded_empresas'] ) && '1' === $_GET['pacto_seeded_empresas'] ) {
         echo '<div class="notice notice-success is-dismissible"><p><strong>Pacto 25:</strong> 8 Seguros para Empresas de demonstração foram criados com sucesso!</p></div>';
