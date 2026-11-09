@@ -577,3 +577,18 @@ function pacto_format_url( $url ) {
     return esc_url( home_url( '/' . ltrim( $url, '/' ) ) );
 }
 
+/**
+ * Enforce exactly 6 posts per page on main news / blog archives.
+ *
+ * @param WP_Query $query
+ */
+function pacto_modify_news_posts_per_page( $query ) {
+    if ( ! is_admin() && $query->is_main_query() ) {
+        if ( $query->is_home() || $query->is_post_type_archive( 'post' ) || $query->is_category() || $query->is_tag() ) {
+            $query->set( 'posts_per_page', 6 );
+        }
+    }
+}
+add_action( 'pre_get_posts', 'pacto_modify_news_posts_per_page' );
+
+

@@ -1,12 +1,13 @@
 <?php
 /**
- * Template Part: Section Notícias Grid (2-Column Cards + Left-Aligned Pagination)
+ * Template Part: Section Notícias Grid (2-Column Cards + Dynamic Pagination)
  * Theme: Pacto 25
  * 
  * Strict Agency SOP:
- * - Dynamic WordPress loop with high-fidelity fallback demo cards
- * - 2-column responsive layout with smooth rounded image frames
- * - Left-aligned pagination matching Figma design (< 1 2 3 4 >)
+ * - Dynamic WordPress loop listing real published posts (no hardcoded/mock posts)
+ * - Exactly 6 posts per page with responsive 2-column layout
+ * - Dynamic pagination (< 1 2 3 >) only displayed when total posts > 6
+ * - Accessible markup and clean semantic structure
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,33 +15,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png';
+
+global $wp_query;
+$max_pages    = isset( $wp_query->max_num_pages ) ? (int) $wp_query->max_num_pages : 1;
+$current_page = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
 ?>
 
 <section class="section section-noticias-grid" aria-label="<?php esc_attr_e( 'Lista de Notícias', 'pacto-25' ); ?>">
     <div class="site-container">
         <div class="noticias-grid">
             <?php 
-            $rendered_count = 0;
-            $figma_title    = 'Presença de Teresinha Pereira, CEO da Pacto Seguro no MAE Summit';
-            $figma_excerpt  = 'Enim amet nullam dictumst dui amet. Sit tellus morbi ut auctor. Aliquet eu proin non netus nisl nascetur sed duis in, lorem ipsum dolor sit amet consectetur.';
-
             if ( have_posts() ) : 
                 while ( have_posts() ) : the_post(); 
-                    $rendered_count++;
                     $post_id    = get_the_ID();
                     $permalink  = get_permalink();
-                    $raw_title  = get_the_title();
-                    // If single placeholder post titled "Notícias", use visual guide title
-                    $title      = ( strtolower( trim( $raw_title ) ) === 'notícias' || empty( $raw_title ) ) ? $figma_title : $raw_title;
+                    $title      = get_the_title() ?: __( '(Sem título)', 'pacto-25' );
                     $date       = get_the_date( 'd/m/Y' );
                     $has_thumb  = has_post_thumbnail( $post_id );
                     $thumb_id   = get_post_thumbnail_id( $post_id );
                     $thumb_alt  = $has_thumb ? ( get_post_meta( $thumb_id, '_wp_attachment_image_alt', true ) ?: $title ) : $title;
                     $thumb_url  = $has_thumb ? get_the_post_thumbnail_url( $post_id, 'large' ) : $default_img;
                     $excerpt    = get_the_excerpt();
-                    if ( empty( $excerpt ) ) {
-                        $excerpt = $figma_excerpt;
-                    }
                 ?>
                     <article id="post-<?php echo esc_attr( $post_id ); ?>" <?php post_class( 'noticia-card' ); ?>>
                         <!-- Left Thumbnail Frame -->
@@ -69,9 +64,11 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
                                 </a>
                             </h2>
 
-                            <p class="noticia-card__excerpt">
-                                <?php echo esc_html( wp_strip_all_tags( $excerpt ) ); ?>
-                            </p>
+                            <?php if ( ! empty( $excerpt ) ) : ?>
+                                <p class="noticia-card__excerpt">
+                                    <?php echo esc_html( wp_strip_all_tags( $excerpt ) ); ?>
+                                </p>
+                            <?php endif; ?>
 
                             <a href="<?php echo esc_url( $permalink ); ?>" class="noticia-card__link" aria-label="<?php echo esc_attr( sprintf( __( 'Saber mais sobre %s', 'pacto-25' ), $title ) ); ?>">
                                 <?php esc_html_e( 'saber mais', 'pacto-25' ); ?>
@@ -79,64 +76,26 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
                         </div>
                     </article>
                 <?php endwhile; ?>
+            <?php else : ?>
+                <div class="noticias-empty" style="grid-column: 1 / -1; padding: 48px 0; text-align: center; color: var(--color-text-muted, #8E8A8B);">
+                    <p style="font-size: 1.1rem; margin: 0;"><?php esc_html_e( 'Não foram encontradas notícias publicadas.', 'pacto-25' ); ?></p>
+                </div>
             <?php endif; ?>
-
-            <?php 
-            // If fewer than 6 posts exist on page 1, pad remaining slots with visual guide cards
-            // This guarantees the 6-card 2-column grid is ALWAYS displayed matching Figma
-            $current_page = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
-            if ( $current_page === 1 && $rendered_count < 6 ) :
-                // Find a real published post to link to if available
-                $fallback_post = get_posts( array(
-                    'post_type'      => 'post',
-                    'posts_per_page' => 1,
-                    'post_status'    => 'publish',
-                ) );
-                $demo_link = ! empty( $fallback_post ) ? get_permalink( $fallback_post[0]->ID ) : '#';
-
-                $needed = 6 - $rendered_count;
-                for ( $i = 0; $i < $needed; $i++ ) :
-            ?>
-                <article class="noticia-card noticia-card--mock">
-                    <div class="noticia-card__media">
-                        <a href="<?php echo esc_url( $demo_link ); ?>" class="noticia-card__media-link">
-                            <img src="<?php echo esc_url( $default_img ); ?>" 
-                                 alt="<?php echo esc_attr( $figma_title ); ?>" 
-                                 class="noticia-card__img" 
-                                 loading="lazy" 
-                                 decoding="async" />
-                        </a>
-                    </div>
-                    <div class="noticia-card__body">
-                        <div class="noticia-card__date-wrap">
-                            <span class="noticia-card__bullet" aria-hidden="true">•</span>
-                            <time class="noticia-card__date">25/06/2026</time>
-                        </div>
-                        <h2 class="noticia-card__title">
-                            <a href="<?php echo esc_url( $demo_link ); ?>" class="noticia-card__title-link"><?php echo esc_html( $figma_title ); ?></a>
-                        </h2>
-                        <p class="noticia-card__excerpt"><?php echo esc_html( $figma_excerpt ); ?></p>
-                        <a href="<?php echo esc_url( $demo_link ); ?>" class="noticia-card__link">
-                            <?php esc_html_e( 'saber mais', 'pacto-25' ); ?>
-                        </a>
-                    </div>
-                </article>
-            <?php 
-                endfor;
-            endif; 
-            ?>
         </div>
 
-        <!-- Left-Aligned Pagination (< 1 2 3 4 >) -->
-        <nav class="noticias-pagination" aria-label="<?php esc_attr_e( 'Navegação de páginas de notícias', 'pacto-25' ); ?>">
-            <?php
-            global $wp_query;
-            $max_pages = $wp_query->max_num_pages;
-
-            if ( $max_pages > 1 ) :
-                $current_page = max( 1, get_query_var( 'paged' ) );
+        <?php if ( $max_pages > 1 ) : 
+            $big = 999999999;
+            if ( is_page() ) {
+                $base = trailingslashit( get_permalink() ) . ( get_option( 'permalink_structure' ) ? 'page/%#%/' : '?paged=%#%' );
+            } else {
+                $base = str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
+            }
+        ?>
+            <!-- Left-Aligned Pagination (< 1 2 3 >) -->
+            <nav class="noticias-pagination" aria-label="<?php esc_attr_e( 'Navegação de páginas de notícias', 'pacto-25' ); ?>">
+                <?php
                 echo paginate_links( array(
-                    'base'      => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
+                    'base'      => $base,
                     'format'    => '?paged=%#%',
                     'current'   => $current_page,
                     'total'     => $max_pages,
@@ -146,18 +105,8 @@ $default_img = get_template_directory_uri() . '/assets/news-teresinha-summit.png
                     'end_size'  => 1,
                     'mid_size'  => 2,
                 ) );
-            else :
-            ?>
-                <!-- Static Fallback Pagination matching Figma design (< 1 2 3 4 >) -->
-                <ul class="page-numbers">
-                    <li><span class="prev page-numbers disabled" aria-hidden="true">&lsaquo;</span></li>
-                    <li><span aria-current="page" class="page-numbers current">1</span></li>
-                    <li><a class="page-numbers" href="#page-2">2</a></li>
-                    <li><a class="page-numbers" href="#page-3">3</a></li>
-                    <li><a class="page-numbers" href="#page-4">4</a></li>
-                    <li><a class="next page-numbers" href="#page-2" aria-hidden="true">&rsaquo;</a></li>
-                </ul>
-            <?php endif; ?>
-        </nav>
+                ?>
+            </nav>
+        <?php endif; ?>
     </div>
 </section>
